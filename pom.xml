@@ -21,7 +21,6 @@
 
     <modules>
         <module>best-cloud-common</module>
-        <module>best-cloud-discovery</module>
         <module>best-cloud-config</module>
         <module>best-cloud-gateway</module>
     </modules>

@@ -1,9 +1,9 @@
 package org.shanzhaozhen.bestcloudconfig;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.cloud.client.SpringCloudApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringCloudApplication
+@SpringBootApplication
 public class BestCloudConfigApplication {
 
     public static void main(String[] args) {
