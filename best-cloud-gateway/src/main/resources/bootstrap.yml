@@ -1,18 +1,19 @@
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8000/eureka/
 spring:
-  cloud:
-    config:
-      discovery:
-        enabled: true
-        service-id: config-server
-      profile: test
-    stream:
-      bindings:
-        myMessage:
-          group: client
-          content-type: application/json
   application:
-    name: eureka-client
+    name: best-cloud-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.123.76:8848
+      config:
+        server-addr: 192.168.123.76:8848
+        file-extension: yaml
+    sentinel:
+      transport:
+        dashboard: 192.168.123.76:8858
+        port: 8719
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

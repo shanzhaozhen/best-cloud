@@ -15,24 +15,24 @@
     <version>0.0.1</version>
     <packaging>pom</packaging>
 
-    <name>best-server</name>
-    <url>https://github.com/shanzhaozhen/best-server</url>
-    <description>The best project about java</description>
+    <name>best-cloud-basic</name>
+    <url>https://github.com/shanzhaozhen/best-cloud</url>
+    <description>The best project about Spring Cloud</description>
 
     <modules>
         <module>best-cloud-common</module>
-        <module>best-cloud-config</module>
         <module>best-cloud-gateway</module>
+        <module>best-cloud-basic</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <spring-cloud.version>Hoxton.SR3</spring-cloud.version>
+        <spring-cloud.version>Hoxton.SR5</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.0.RELEASE</spring-cloud-alibaba.version>
         <spring.security.oauth2.version>2.4.0.RELEASE</spring.security.oauth2.version>
-        <mybatisplus.version>3.3.1</mybatisplus.version>
+        <mybatisplus.version>3.3.2</mybatisplus.version>
         <p6spy.version>3.8.2</p6spy.version>
         <velocity.version>2.1</velocity.version>
         <ibeetl.version>3.0.10.RELEASE</ibeetl.version>
@@ -62,15 +62,15 @@
             </dependency>
 
 
-<!--            <dependency>-->
-<!--                <groupId>org.shanzhaozhen</groupId>-->
-<!--                <artifactId>best-api</artifactId>-->
-<!--                <version>${project.version}</version>-->
-<!--            </dependency>-->
+            <dependency>
+                <groupId>org.shanzhaozhen</groupId>
+                <artifactId>best-cloud-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
 <!--            <dependency>-->
 <!--                <groupId>org.shanzhaozhen</groupId>-->
-<!--                <artifactId>best-generator</artifactId>-->
+<!--                <artifactId>basic-generator</artifactId>-->
 <!--                <version>${project.version}</version>-->
 <!--                <scope>runtime</scope>-->
 <!--            </dependency>-->
@@ -79,6 +79,11 @@
     </dependencyManagement>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.shanzhaozhen</groupId>
+        <artifactId>best-cloud-basic</artifactId>
+        <version>0.0.1</version>
+    </parent>
+
+    <artifactId>basic-service</artifactId>
+    <version>0.0.1</version>
+    <packaging>jar</packaging>
+
+    <name>basic-service</name>
+    <description>Demo project for Spring Boot</description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.shanzhaozhen</groupId>
+            <artifactId>basic-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.shanzhaozhen</groupId>
+            <artifactId>basic-repo</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.shanzhaozhen.basicrepo.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.basiccommon.domain.sys.UserDO">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="account_non_expired" property="accountNonExpired" />
+        <result column="account_non_locked" property="accountNonLocked" />
+        <result column="credentials_non_expired" property="credentialsNonExpired" />
+        <result column="enabled" property="enabled" />
+        <result column="name" property="name" />
+        <result column="nickname" property="nickname" />
+        <result column="sex" property="sex" />
+        <result column="birthday" property="birthday" />
+        <result column="avatar" property="avatar" />
+        <result column="email" property="email" />
+        <result column="phone_number" property="phoneNumber" />
+        <result column="address_code" property="addressCode" />
+        <result column="detailed_address" property="detailedAddress" />
+        <result column="introduction" property="introduction" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+
+    <resultMap autoMapping="true" type="org.shanzhaozhen.basiccommon.dto.UserDTO" id="UserRoleMap">
+        <id property="id" column="id"></id>
+        <collection property="roles" column="id" select="org.shanzhaozhen.basicrepo.mapper.RoleMapper.getRoleListByUserId">
+        </collection>
+    </resultMap>
+
+    <resultMap autoMapping="true" type="org.shanzhaozhen.basiccommon.dto.JWTUser" id="JWTUserMap">
+        <id property="id" column="id"></id>
+        <collection property="authorities" column="id" select="org.shanzhaozhen.basicrepo.mapper.RoleMapper.getAuthoritiesByUserId">
+        </collection>
+    </resultMap>
+
+    <select id="getUserAndRolesByUserId" resultMap="UserRoleMap">
+        select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
+        name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction
+        from sys_user where id = #{id}
+    </select>
+
+    <select id="getJWTUserByUserId" resultMap="JWTUserMap">
+        select id, username from sys_user where id = #{id}
+    </select>
+
+</mapper>

@@ -13,7 +13,7 @@
     <version>0.0.1</version>
     <packaging>jar</packaging>
 
-    <name>best-cloud-common</name>
+    <name>basic-cloud-common</name>
     <description>Demo project for Spring Boot</description>
 
     <dependencies>
