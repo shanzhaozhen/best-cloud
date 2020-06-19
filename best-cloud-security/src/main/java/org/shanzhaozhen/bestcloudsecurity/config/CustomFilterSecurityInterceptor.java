@@ -1,4 +1,4 @@
-package org.shanzhaozhen.basicapi.config.security;
+package org.shanzhaozhen.bestcloudsecurity.config;
 
 import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;

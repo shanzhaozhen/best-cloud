@@ -1,4 +1,4 @@
-package org.shanzhaozhen.basicapi.config.security;
+package org.shanzhaozhen.bestcloudsecurity.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

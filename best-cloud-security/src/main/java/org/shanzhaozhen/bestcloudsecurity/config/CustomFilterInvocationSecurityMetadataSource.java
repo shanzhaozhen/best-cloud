@@ -1,4 +1,4 @@
-package org.shanzhaozhen.basicapi.config.security;
+package org.shanzhaozhen.bestcloudsecurity.config;
 
 import org.shanzhaozhen.basiccommon.enums.sys.ResourceType;
 import org.shanzhaozhen.basiccommon.dto.ResourceDTO;

@@ -1,4 +1,4 @@
-package org.shanzhaozhen.basicapi.config.security;
+package org.shanzhaozhen.bestcloudsecurity.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.shanzhaozhen.basiccommon.enums.sys.JwtErrorConst;

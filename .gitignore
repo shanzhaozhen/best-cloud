@@ -37,3 +37,7 @@ target/
 
 ### VS Code ###
 .vscode/
+
+### Custom ###
+**/log/
+**/logs/

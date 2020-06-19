@@ -1,4 +1,4 @@
-package org.shanzhaozhen.basicapi.config.security;
+package org.shanzhaozhen.bestcloudsecurity.config;
 
 import org.shanzhaozhen.basiccommon.dto.RoleDTO;
 import org.shanzhaozhen.basiccommon.dto.UserDTO;

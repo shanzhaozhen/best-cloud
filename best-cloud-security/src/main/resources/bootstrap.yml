@@ -1,6 +1,6 @@
 spring:
   application:
-    name: best-cloud-basic
+    name: best-cloud-security
   cloud:
     nacos:
       discovery:
