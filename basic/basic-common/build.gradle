@@ -1,0 +1,9 @@
+description = 'basic-common'
+
+subprojects {
+
+    dependencies {
+
+    }
+
+}

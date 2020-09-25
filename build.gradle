@@ -1,0 +1,92 @@
+buildscript {
+    ext {
+        set('springBootVersion', '2.2.10.RELEASE')
+        set('springCloudAlibabaVersion', '2.2.1.RELEASE')
+        set('springCloudVersion', 'Hoxton.SR8')
+
+        set('mysqlDriverVersion', '8.0.21')
+        set('mybatisPlusVersion', '3.4.0')
+        set('jjwtVersion', '0.9.1')
+        set('druidVersion', '1.1.24')
+        set('swaggerVersion', '3.0.0')
+    }
+
+    // gradle仓库的依赖源
+    repositories {
+        // 默认maven官方源
+        // mavenCentral()
+        maven{ url 'https://maven.aliyun.com/repository/central' }
+        maven{ url 'https://maven.aliyun.com/repository/public' }
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'idea'
+
+    group = 'org.shanzhaozhen'
+    version = '0.0.1-SNAPSHOT'
+
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+
+    // gradle仓库的依赖源
+    repositories {
+        // 默认maven官方源
+        // mavenCentral()
+        maven{ url 'https://maven.aliyun.com/repository/central' }
+        maven{ url 'https://maven.aliyun.com/repository/public' }
+    }
+}
+
+subprojects {
+    // java编译的时候缺省状态下会因为中文字符而失败，所以这儿需要改为utf8
+    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+    configurations {
+        developmentOnly
+        runtimeClasspath {
+            extendsFrom developmentOnly
+        }
+        compileOnly {
+            // lombok 配置
+            extendsFrom annotationProcessor
+        }
+    }
+
+    // gradle仓库的依赖源
+    repositories {
+        // 默认maven官方源
+        // mavenCentral()
+        maven{ url 'https://maven.aliyun.com/repository/central' }
+        maven{ url 'https://maven.aliyun.com/repository/public' }
+    }
+
+    dependencies {
+//        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation "io.springfox:springfox-boot-starter:${swaggerVersion}"
+//        implementation "com.alibaba:fastjson:1.2.73"
+
+        compileOnly 'org.projectlombok:lombok'
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+        annotationProcessor 'org.projectlombok:lombok'
+        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+        testImplementation('org.springframework.boot:spring-boot-starter-test') {
+            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        }
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+}

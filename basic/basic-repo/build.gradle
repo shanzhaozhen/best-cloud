@@ -1,0 +1,9 @@
+description = 'basic-repo'
+
+subprojects {
+
+    dependencies {
+
+    }
+
+}

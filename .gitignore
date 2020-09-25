@@ -1,8 +1,8 @@
-HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**
-!**/src/test/**
+.gradle
+build/
+**/gradle/wrapper/gradle-wrapper.jar
+**/src/main/**/build/
+**/src/test/**/build/
 
 ### STS ###
 .apt_generated
@@ -18,26 +18,16 @@ target/
 *.iws
 *.iml
 *.ipr
+out/
+**/src/main/**/out/
+**/src/test/**/out/
 
 ### NetBeans ###
-#/nbproject/private/
-#/nbbuild/
-#/dist/
-#/nbdist/
-#/.nb-gradle/
-#build/
-
-**/nbproject/private/
-**/nbbuild/
-**/dist/
-**/nbdist/
-**/.nb-gradle/
-**/build/
-
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
 
 ### VS Code ###
 .vscode/
-
-### Custom ###
-**/log/
-**/logs/

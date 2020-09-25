@@ -1,0 +1,9 @@
+description = 'basic-service'
+
+subprojects {
+
+    dependencies {
+
+    }
+
+}

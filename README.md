@@ -55,9 +55,11 @@ Swagger2-api文档查看、导出 | √
 
 ```shell script
 docker run --name nacos-standalone -e MODE=standalone -p 8848:8848 -d nacos/nacos-server:latest
+# 默认用户名/密码为：nacos/nacos
+# 运行成功后打开http://(docker主机ip:端口号)/nacos
 ```
 
 2. Sentinel
 ```shell script
-docker run --name sentinel  -d -p 8858:8858 -d  bladex/sentinel-dashboard
+docker run --name sentinel -p 8858:8858 -d bladex/sentinel-dashboard
 ```
