@@ -1,0 +1,116 @@
+server:
+  servlet:
+    context-path: /best-api
+
+# 打包命令 mvn clean package -Dmaven.test.skip=true
+spring:
+  profiles:
+    active: pro
+
+  servlet:
+    multipart:
+      max-request-size: 20MB
+      max-file-size: 20MB
+
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+  datasource:
+    druid:
+      #初始化时建立物理连接的个数
+      initial-size: 5
+      #最小连接池数量
+      min-idle: 5
+      #最大连接池数量 maxIdle已经不再使用
+      max-active: 20
+      #获取连接时最大等待时间，单位毫秒
+      max-wait: 60000
+      #申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-while-idle: true
+      #既作为检测的间隔时间又作为testWhileIdel执行的依据
+      time-between-eviction-runs-millis: 60000
+      #销毁线程时检测当前连接的最后活动时间和当前时间差大于该值时，关闭当前连接
+      min-evictable-idle-time-millis: 30000
+      #用来检测连接是否有效的sql 必须是一个查询语句
+      #mysql中为 select 'x'
+      #oracle中为 select 1 from dual
+      validation-query: select 'x'
+      #申请连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      test-on-borrow: false
+      #归还连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      test-on-return: false
+      #当数据库抛出不可恢复的异常时,抛弃该连接
+      init-exception-throw: true
+      #是否缓存preparedStatement,mysql5.5+建议开启
+      pool-prepared-statements: true
+      #当值大于0时poolPreparedStatements会自动修改为true
+      max-pool-prepared-statement-per-connection-size: 20
+      #配置扩展插件
+      filter:
+        stat:
+          enabled: true
+          merge-sql: true
+          slow-sql-millis: 5000
+        wall:
+          enabled: true
+        slf4j:
+          enabled: true
+      #合并多个DruidDataSource的监控数据
+      use-global-data-source-stat: true
+      # 配置DruidStatFilter
+      web-stat-filter:
+        enabled: true
+        url-pattern: "/*"
+        exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+      # 配置DruidStatViewServlet
+      stat-view-servlet:
+        enabled: true
+        url-pattern: "/druid/*"
+        # IP白名单(没有配置或者为空，则允许所有访问)
+        # allow: 127.0.0.1,192.168.46.120
+        # IP黑名单 (存在共同时，deny优先于allow)
+        # deny: 192.168.46.121
+        #  禁用HTML页面上的“Reset All”功能
+        reset-enable: false
+        # 登录名
+        login-username: admin
+        # 登录密码
+        login-password: 123456
+  redis:
+    jedis:
+      pool:
+        ## 连接池最大连接数（使用负值表示没有限制）
+        #spring.redis.pool.max-active=8
+        max-active: 8
+        ## 连接池最大阻塞等待时间（使用负值表示没有限制）
+        #spring.redis.pool.max-wait=-1
+        max-wait: -1
+        ## 连接池中的最大空闲连接
+        #spring.redis.pool.max-idle=8
+        max-idle: 8
+        ## 连接池中的最小空闲连接
+        #spring.redis.pool.min-idle=0
+        min-idle: 0
+    ## 连接超时时间（毫秒）
+    timeout: 1200
+
+jwt:
+  issuer: oldgod
+  secret: mySecret
+  #  header: Authorization
+  header: Best-Token
+  expiration: 3600
+  rememberExpiration: 604800
+
+swagger2:
+  enabled: true
+  title: 动态权限管理后台接口文档
+  description: 动态权限管理后台相关接口的文档
+  termsOfServiceUrl: http://localhost:8080/best/swagger2
+  contact-name: 神大人
+  contact-url: https://github.com/shanzhaozhen
+  contact-email: 204447118@qq.com
+  license: Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.0.1

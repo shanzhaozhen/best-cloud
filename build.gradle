@@ -15,6 +15,7 @@ buildscript {
     repositories {
         // 默认maven官方源
         // mavenCentral()
+//        mavenLocal()
         maven{ url 'https://maven.aliyun.com/repository/central' }
         maven{ url 'https://maven.aliyun.com/repository/public' }
     }
@@ -40,6 +41,7 @@ allprojects {
     repositories {
         // 默认maven官方源
         // mavenCentral()
+        mavenLocal()
         maven{ url 'https://maven.aliyun.com/repository/central' }
         maven{ url 'https://maven.aliyun.com/repository/public' }
     }
@@ -64,6 +66,7 @@ subprojects {
     repositories {
         // 默认maven官方源
         // mavenCentral()
+        mavenLocal()
         maven{ url 'https://maven.aliyun.com/repository/central' }
         maven{ url 'https://maven.aliyun.com/repository/public' }
     }

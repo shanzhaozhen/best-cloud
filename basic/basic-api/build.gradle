@@ -1,9 +1,15 @@
 description = 'basic-api'
 
-subprojects {
+dependencies {
+    implementation project(':basic:basic-common')
+    implementation project(':basic:basic-service')
 
-    dependencies {
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel'
 
-    }
+//    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
 
 }

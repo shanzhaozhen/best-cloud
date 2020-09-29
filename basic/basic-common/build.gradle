@@ -1,9 +1,11 @@
 description = 'basic-common'
 
-subprojects {
 
-    dependencies {
+dependencies {
+    implementation 'org.springframework.security:spring-security-core'
 
-    }
+    implementation "com.baomidou:mybatis-plus-extension:${mybatisPlusVersion}"
+    implementation "com.alibaba:fastjson:1.2.73"
 
 }
+
