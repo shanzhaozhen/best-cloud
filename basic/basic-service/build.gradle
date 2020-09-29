@@ -1,10 +1,11 @@
 description = 'basic-service'
 
 dependencies {
-    implementation project(':basic:basic-common')
-    implementation project(':basic:basic-repo')
+    compile(project(':basic:basic-repo'))
 
-    implementation "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}"
-    implementation "com.alibaba:fastjson:1.2.73"
+    compile(
+            "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}",
+            "com.alibaba:fastjson:1.2.73"
+    )
 
 }

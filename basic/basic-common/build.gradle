@@ -2,7 +2,9 @@ description = 'basic-common'
 
 
 dependencies {
-    implementation 'org.springframework.security:spring-security-core'
+// https://mvnrepository.com/artifact/org.springframework.security/spring-security-core
+    compile group: 'org.springframework.security', name: 'spring-security-core', version: '5.3.3.RELEASE'
+
 
     implementation "com.baomidou:mybatis-plus-extension:${mybatisPlusVersion}"
     implementation "com.alibaba:fastjson:1.2.73"

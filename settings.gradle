@@ -1,14 +1,10 @@
 rootProject.name = 'best-cloud'
 
-include 'common'
-include 'gateway'
-include 'security'
-//include 'basic',
-include 'basic:basic-api',
-        'basic:basic-common',
-        'basic:basic-generator',
-        'basic:basic-repo',
-        'basic:basic-service'
+//include 'basic:basic-api',
+//        'basic:basic-common',
+//        'basic:basic-generator',
+//        'basic:basic-repo',
+//        'basic:basic-service'
 
 
 //include 'basic'
@@ -18,3 +14,10 @@ include 'basic:basic-api',
 //include 'basic:basic-repo'
 //include 'basic:basic-service'
 
+include(
+		'basic:basic-api',
+        'basic:basic-common',
+        'basic:basic-generator',
+        'basic:basic-repo',
+        'basic:basic-service'
+)
