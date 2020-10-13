@@ -2,28 +2,28 @@ package org.shanzhaozhen.basicapi.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.basiccommon.dto.BeanInfo;
 import org.shanzhaozhen.basiccommon.vo.DynamicScheduledTaskVO;
 import org.shanzhaozhen.basiccommon.vo.ResultObject;
 import org.shanzhaozhen.basicservice.service.BeanService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @Api(value = "Bean接口")
 @RestController
+@RequiredArgsConstructor
 public class BeanController {
 
     private static final String GET_BEAN_LIST = "/bean/list";
     private static final String GET_BEAN_BY_NAME = "/bean/{beanName}";
     private static final String GET_BEAN_METHOD = "/bean/method";
 
-
     private final BeanService beanService;
-
-    public BeanController(BeanService beanService) {
-        this.beanService = beanService;
-    }
 
     @GetMapping(GET_BEAN_LIST)
     @ApiOperation("获取Bean列表")

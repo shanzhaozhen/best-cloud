@@ -6,4 +6,4 @@ spring:
       config:
         server-addr: 127.0.0.1:8848
 server:
-  port: 8001
+  port: 8080

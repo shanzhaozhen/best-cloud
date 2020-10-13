@@ -2,19 +2,20 @@ package org.shanzhaozhen.basicservice.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.shanzhaozhen.basiccommon.converter.DynamicScheduledTaskConverter;
 import org.shanzhaozhen.basiccommon.domain.sys.DynamicScheduledTaskDO;
-import org.shanzhaozhen.basiccommon.form.BaseSearchForm;
 import org.shanzhaozhen.basiccommon.dto.DynamicScheduledTaskDTO;
 import org.shanzhaozhen.basiccommon.dto.MethodInfo;
+import org.shanzhaozhen.basiccommon.form.BaseSearchForm;
+import org.shanzhaozhen.basiccommon.utils.CustomBeanUtils;
+import org.shanzhaozhen.basiccommon.utils.CustomClassUtils;
+import org.shanzhaozhen.basiccommon.utils.SpringContextUtils;
 import org.shanzhaozhen.basicrepo.mapper.DynamicScheduledTaskMapper;
 import org.shanzhaozhen.basicservice.schedule.CronTaskRegistrar;
 import org.shanzhaozhen.basicservice.schedule.SchedulingRunnable;
 import org.shanzhaozhen.basicservice.service.TaskService;
-import org.shanzhaozhen.basiccommon.utils.CustomClassUtils;
-import org.shanzhaozhen.basiccommon.utils.CustomBeanUtils;
-import org.shanzhaozhen.basiccommon.utils.SpringContextUtils;
 import org.springframework.scheduling.support.CronSequenceGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,17 +26,13 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class TaskServiceImpl implements TaskService {
 
     private final CronTaskRegistrar cronTaskRegistrar;
 
     private final DynamicScheduledTaskMapper dynamicScheduledTaskMapper;
-
-    public TaskServiceImpl(CronTaskRegistrar cronTaskRegistrar, DynamicScheduledTaskMapper dynamicScheduledTaskMapper) {
-        this.cronTaskRegistrar = cronTaskRegistrar;
-        this.dynamicScheduledTaskMapper = dynamicScheduledTaskMapper;
-    }
 
     @Override
     public Page<DynamicScheduledTaskDTO> getTaskPage(BaseSearchForm<DynamicScheduledTaskDTO> baseSearchForm) {

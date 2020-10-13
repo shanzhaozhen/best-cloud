@@ -3,8 +3,9 @@ package org.shanzhaozhen.basicapi.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.shanzhaozhen.basiccommon.enums.sys.ResourceType;
+import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.basiccommon.converter.ResourceConverter;
+import org.shanzhaozhen.basiccommon.enums.sys.ResourceType;
 import org.shanzhaozhen.basiccommon.form.ResourceForm;
 import org.shanzhaozhen.basiccommon.vo.ResourceVO;
 import org.shanzhaozhen.basiccommon.vo.ResultObject;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Api("后台资源接口")
 @RestController
+@RequiredArgsConstructor
 public class ResourceController {
 
     private static final String GET_ALL_RESOURCE_TREE = "/resource/tree";
@@ -26,10 +28,6 @@ public class ResourceController {
     private static final String DELETE_RESOURCE = "/resource/{resourceId}";
 
     private final ResourceService resourceService;
-
-    public ResourceController(ResourceService resourceService) {
-        this.resourceService = resourceService;
-    }
 
     @GetMapping(GET_ALL_RESOURCE_TREE)
     @ApiOperation("获取所有资源（树状结构）")

@@ -1,11 +1,12 @@
 package org.shanzhaozhen.basicservice.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.basiccommon.converter.ResourceConverter;
 import org.shanzhaozhen.basiccommon.domain.sys.ResourceDO;
 import org.shanzhaozhen.basiccommon.dto.ResourceDTO;
+import org.shanzhaozhen.basiccommon.utils.CustomBeanUtils;
 import org.shanzhaozhen.basicrepo.mapper.ResourceMapper;
 import org.shanzhaozhen.basicservice.service.ResourceService;
-import org.shanzhaozhen.basiccommon.utils.CustomBeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -13,13 +14,10 @@ import org.springframework.util.Assert;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ResourceServiceImpl implements ResourceService {
 
     private final ResourceMapper resourceMapper;
-
-    public ResourceServiceImpl(ResourceMapper resourceMapper) {
-        this.resourceMapper = resourceMapper;
-    }
 
     @Override
     public List<ResourceDTO> getResourceRoleListByType(Integer type) {

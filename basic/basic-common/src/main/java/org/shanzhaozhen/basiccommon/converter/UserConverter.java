@@ -2,11 +2,10 @@ package org.shanzhaozhen.basiccommon.converter;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.basiccommon.domain.sys.UserDO;
-import org.shanzhaozhen.basiccommon.dto.ResourceDTO;
 import org.shanzhaozhen.basiccommon.dto.RoleDTO;
+import org.shanzhaozhen.basiccommon.dto.UserDTO;
 import org.shanzhaozhen.basiccommon.form.UserForm;
 import org.shanzhaozhen.basiccommon.form.UserLoginForm;
-import org.shanzhaozhen.basiccommon.dto.UserDTO;
 import org.shanzhaozhen.basiccommon.vo.UserVO;
 import org.springframework.beans.BeanUtils;
 

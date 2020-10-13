@@ -1,20 +1,21 @@
 package org.shanzhaozhen.basicservice.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.basiccommon.converter.RoleConverter;
 import org.shanzhaozhen.basiccommon.domain.sys.UserDO;
 import org.shanzhaozhen.basiccommon.domain.sys.UserRoleDO;
 import org.shanzhaozhen.basiccommon.dto.JWTUser;
+import org.shanzhaozhen.basiccommon.dto.UserDTO;
 import org.shanzhaozhen.basiccommon.form.BaseSearchForm;
 import org.shanzhaozhen.basiccommon.utils.CustomBeanUtils;
+import org.shanzhaozhen.basiccommon.utils.PasswordUtils;
+import org.shanzhaozhen.basiccommon.utils.UserDetailsUtils;
 import org.shanzhaozhen.basiccommon.vo.UserInfo;
-import org.shanzhaozhen.basiccommon.dto.UserDTO;
 import org.shanzhaozhen.basicrepo.mapper.UserMapper;
 import org.shanzhaozhen.basicrepo.mapper.UserRoleMapper;
 import org.shanzhaozhen.basicservice.service.RouteService;
 import org.shanzhaozhen.basicservice.service.UserService;
-import org.shanzhaozhen.basiccommon.utils.PasswordUtils;
-import org.shanzhaozhen.basiccommon.utils.UserDetailsUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -26,6 +27,7 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 @CacheConfig(cacheNames = "user")
 public class UserServiceImpl implements UserService {
 
@@ -34,12 +36,6 @@ public class UserServiceImpl implements UserService {
     private final RouteService routeService;
 
     private final UserRoleMapper userRoleMapper;
-
-    public UserServiceImpl(RouteService routeService, UserMapper userMapper, UserRoleMapper userRoleMapper) {
-        this.routeService = routeService;
-        this.userMapper = userMapper;
-        this.userRoleMapper = userRoleMapper;
-    }
 
     @Override
     public UserDTO getUserById(Long userId) {

@@ -1,11 +1,15 @@
 description = 'basic-repo'
 
 dependencies {
-    implementation project(':basic:basic-common')
 
-    implementation 'org.springframework.security:spring-security-core'
+    api(
+            project(':basic:basic-common'),
+            "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}",
+    )
 
-    implementation "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}"
+    implementation(
+            'mysql:mysql-connector-java',
+    )
 
-    runtimeOnly 'mysql:mysql-connector-java'
+
 }

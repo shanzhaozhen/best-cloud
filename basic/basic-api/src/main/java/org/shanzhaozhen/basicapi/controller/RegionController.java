@@ -4,14 +4,15 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 import org.shanzhaozhen.basiccommon.converter.RegionConverter;
 import org.shanzhaozhen.basiccommon.dto.RegionDTO;
 import org.shanzhaozhen.basiccommon.form.BaseSearchForm;
 import org.shanzhaozhen.basiccommon.form.RegionForm;
-import org.shanzhaozhen.basiccommon.vo.ResultObject;
 import org.shanzhaozhen.basiccommon.vo.RegionVO;
+import org.shanzhaozhen.basiccommon.vo.ResultObject;
 import org.shanzhaozhen.basicservice.service.RegionService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Api("区域信息接口")
 @RestController
+@RequiredArgsConstructor
 public class RegionController {
 
     private static final String GET_REGION_PAGE = "/region/page";
@@ -31,10 +33,6 @@ public class RegionController {
     private static final String DELETE_REGION = "/region/{regionId}";
 
     private final RegionService regionService;
-
-    public RegionController(RegionService regionService) {
-        this.regionService = regionService;
-    }
 
     @PostMapping(GET_REGION_PAGE)
     @ApiOperation("获取区域信息信息（分页）")

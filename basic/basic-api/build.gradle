@@ -1,15 +1,19 @@
 description = 'basic-api'
 
 dependencies {
-    implementation project(':basic:basic-common')
-    implementation project(':basic:basic-service')
 
-    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
-    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
-    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel'
+    api(
+            project(':basic:basic-service')
+    )
 
-//    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation(
+            'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery',
+            'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config',
+            'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel',
 
+            'org.springframework.boot:spring-boot-starter-web',
+            'org.springframework.boot:spring-boot-starter-actuator',
+    )
 
 }
+

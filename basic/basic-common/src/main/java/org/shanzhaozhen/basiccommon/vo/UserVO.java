@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.shanzhaozhen.basiccommon.dto.RoleDTO;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;

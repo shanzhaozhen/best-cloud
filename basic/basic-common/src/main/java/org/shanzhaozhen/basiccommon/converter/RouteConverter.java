@@ -1,12 +1,12 @@
 package org.shanzhaozhen.basiccommon.converter;
 
 import org.shanzhaozhen.basiccommon.domain.sys.RouteDO;
+import org.shanzhaozhen.basiccommon.dto.RoleDTO;
+import org.shanzhaozhen.basiccommon.dto.RouteDTO;
 import org.shanzhaozhen.basiccommon.form.RouteForm;
 import org.shanzhaozhen.basiccommon.vo.AsyncRoute;
 import org.shanzhaozhen.basiccommon.vo.Meta;
 import org.shanzhaozhen.basiccommon.vo.RouteVO;
-import org.shanzhaozhen.basiccommon.dto.RoleDTO;
-import org.shanzhaozhen.basiccommon.dto.RouteDTO;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;

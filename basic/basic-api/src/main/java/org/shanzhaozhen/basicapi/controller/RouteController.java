@@ -3,6 +3,7 @@ package org.shanzhaozhen.basicapi.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.basiccommon.converter.RouteConverter;
 import org.shanzhaozhen.basiccommon.form.RouteForm;
 import org.shanzhaozhen.basiccommon.vo.ResultObject;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Api("用户路由接口")
 @RestController
+@RequiredArgsConstructor
 public class RouteController {
 
     private static final String GET_ALL_ROUTE_TREE = "/route/tree";
@@ -24,10 +26,6 @@ public class RouteController {
     private static final String DELETE_ROUTE = "/route/{routeId}";
 
     private final RouteService routeService;
-
-    public RouteController(RouteService routeService) {
-        this.routeService = routeService;
-    }
 
     @GetMapping(GET_ALL_ROUTE_TREE)
     @ApiOperation("获取所有路由信息（树状结构）")

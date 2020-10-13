@@ -3,13 +3,11 @@ package org.shanzhaozhen.basiccommon.converter;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.basiccommon.domain.sys.RegionDO;
 import org.shanzhaozhen.basiccommon.dto.RegionDTO;
-import org.shanzhaozhen.basiccommon.dto.ResourceDTO;
 import org.shanzhaozhen.basiccommon.form.RegionForm;
-import org.shanzhaozhen.basiccommon.vo.*;
+import org.shanzhaozhen.basiccommon.vo.RegionVO;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class RegionConverter {

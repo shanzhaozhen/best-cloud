@@ -3,6 +3,7 @@ package org.shanzhaozhen.basicapi.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.basiccommon.converter.UserConverter;
 import org.shanzhaozhen.basiccommon.form.UserLoginForm;
 import org.shanzhaozhen.basiccommon.vo.ResultObject;
@@ -12,16 +13,13 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(value = "用户注册接口")
 @RestController
+@RequiredArgsConstructor
 public class RegisterController {
 
     private static final String REGISTER = "/register";
     private static final String CHECK_USERNAME = "/register/{username}";
 
     private final UserService sysUserService;
-
-    public RegisterController(UserService sysUserService) {
-        this.sysUserService = sysUserService;
-    }
 
     @PostMapping(REGISTER)
     @ApiOperation("用户注册接口")

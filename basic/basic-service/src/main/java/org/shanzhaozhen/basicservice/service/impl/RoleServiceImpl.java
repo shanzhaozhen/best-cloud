@@ -1,18 +1,18 @@
 package org.shanzhaozhen.basicservice.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.basiccommon.converter.RoleConverter;
 import org.shanzhaozhen.basiccommon.domain.sys.RoleDO;
 import org.shanzhaozhen.basiccommon.domain.sys.RoleResourceDO;
 import org.shanzhaozhen.basiccommon.domain.sys.RoleRouteDO;
 import org.shanzhaozhen.basiccommon.dto.RoleDTO;
 import org.shanzhaozhen.basiccommon.form.BaseSearchForm;
+import org.shanzhaozhen.basiccommon.utils.CustomBeanUtils;
 import org.shanzhaozhen.basicrepo.mapper.RoleMapper;
 import org.shanzhaozhen.basicrepo.mapper.RoleResourceMapper;
 import org.shanzhaozhen.basicrepo.mapper.RoleRouteMapper;
 import org.shanzhaozhen.basicservice.service.RoleService;
-import org.shanzhaozhen.basiccommon.utils.CustomBeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -21,6 +21,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService {
 
     private final RoleMapper roleMapper;
@@ -28,12 +29,6 @@ public class RoleServiceImpl implements RoleService {
     private final RoleRouteMapper roleRouteMapper;
 
     private final RoleResourceMapper roleResourceMapper;
-
-    public RoleServiceImpl(RoleMapper roleMapper, RoleRouteMapper roleRouteMapper, RoleResourceMapper roleResourceMapper) {
-        this.roleMapper = roleMapper;
-        this.roleRouteMapper = roleRouteMapper;
-        this.roleResourceMapper = roleResourceMapper;
-    }
 
     @Override
     public List<RoleDTO> getRolesByUserId(Long userId) {

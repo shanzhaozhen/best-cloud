@@ -1,6 +1,7 @@
 package org.shanzhaozhen.basicservice.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.basiccommon.converter.RegionConverter;
 import org.shanzhaozhen.basiccommon.domain.sys.RegionDO;
 import org.shanzhaozhen.basiccommon.dto.RegionDTO;
@@ -15,13 +16,10 @@ import org.springframework.util.Assert;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RegionServiceImpl implements RegionService {
 
     private final RegionMapper regionMapper;
-
-    public RegionServiceImpl(RegionMapper regionMapper) {
-        this.regionMapper = regionMapper;
-    }
 
     @Override
     public Page<RegionDTO> getRegionPage(BaseSearchForm<RegionDTO> baseSearchForm) {

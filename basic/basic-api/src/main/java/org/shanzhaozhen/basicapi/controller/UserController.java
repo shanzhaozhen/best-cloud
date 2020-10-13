@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 import org.shanzhaozhen.basiccommon.converter.UserConverter;
@@ -11,14 +12,15 @@ import org.shanzhaozhen.basiccommon.dto.UserDTO;
 import org.shanzhaozhen.basiccommon.form.BaseSearchForm;
 import org.shanzhaozhen.basiccommon.form.UserForm;
 import org.shanzhaozhen.basiccommon.vo.ResultObject;
-import org.shanzhaozhen.basiccommon.vo.UserVO;
 import org.shanzhaozhen.basiccommon.vo.UserInfo;
+import org.shanzhaozhen.basiccommon.vo.UserVO;
 import org.shanzhaozhen.basicservice.service.UserService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Api("用户信息接口")
 @RestController
+@RequiredArgsConstructor
 public class UserController {
 
     private static final String GET_USER_INFO = "/user/info";
@@ -29,12 +31,7 @@ public class UserController {
     private static final String UPDATE_USER = "/user";
     private static final String DELETE_USER = "/user/{userId}";
 
-
     private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping(GET_USER_INFO)
     @ApiOperation("获取当前登录用户信息接口")

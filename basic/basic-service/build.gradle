@@ -1,10 +1,12 @@
 description = 'basic-service'
 
 dependencies {
-    implementation project(':basic:basic-common')
-    implementation project(':basic:basic-repo')
 
-    implementation "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}"
-    implementation "com.alibaba:fastjson:1.2.73"
+    api project(':basic:basic-repo')
+
+    implementation(
+            'org.springframework:spring-tx',
+            "com.google.code.findbugs:annotations:${annotationsVersion}"
+    )
 
 }

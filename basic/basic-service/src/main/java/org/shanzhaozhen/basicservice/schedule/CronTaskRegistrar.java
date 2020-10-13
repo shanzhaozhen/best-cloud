@@ -1,5 +1,6 @@
 package org.shanzhaozhen.basicservice.schedule;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.config.CronTask;
@@ -12,15 +13,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
+@RequiredArgsConstructor
 public class CronTaskRegistrar implements DisposableBean {
 
     private final Map<Long, CustomScheduledTask> customScheduledTasks = new ConcurrentHashMap<>();
 
     private final TaskScheduler taskScheduler;
-
-    public CronTaskRegistrar(TaskScheduler taskScheduler) {
-        this.taskScheduler = taskScheduler;
-    }
 
     /**
      * 新增定时任务

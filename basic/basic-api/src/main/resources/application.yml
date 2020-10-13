@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: /best-api
+    context-path: /basic-api
 
 # 打包命令 mvn clean package -Dmaven.test.skip=true
 spring:
@@ -107,7 +107,7 @@ swagger2:
   enabled: true
   title: 动态权限管理后台接口文档
   description: 动态权限管理后台相关接口的文档
-  termsOfServiceUrl: http://localhost:8080/best/swagger2
+  termsOfServiceUrl: http://localhost:8080/best-cloud/swagger2
   contact-name: 神大人
   contact-url: https://github.com/shanzhaozhen
   contact-email: 204447118@qq.com

@@ -1,14 +1,16 @@
 buildscript {
     ext {
-        set('springBootVersion', '2.2.10.RELEASE')
-        set('springCloudAlibabaVersion', '2.2.1.RELEASE')
+        set('springBootVersion', '2.3.2.RELEASE')
+        set('springCloudAlibabaVersion', '2.2.3.RELEASE')
         set('springCloudVersion', 'Hoxton.SR8')
+        set('springBootManagementVersion', '1.0.10.RELEASE')
 
         set('mysqlDriverVersion', '8.0.21')
         set('mybatisPlusVersion', '3.4.0')
         set('jjwtVersion', '0.9.1')
         set('druidVersion', '1.1.24')
         set('swaggerVersion', '3.0.0')
+        set('annotationsVersion', '3.0.1')
     }
 
     // gradle仓库的依赖源
@@ -22,13 +24,15 @@ buildscript {
 
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("io.spring.gradle:dependency-management-plugin:${springBootManagementVersion}")
     }
 }
 
+
 allprojects {
-    apply plugin: 'java'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java'
     apply plugin: 'idea'
 
     group = 'org.shanzhaozhen'
@@ -41,13 +45,15 @@ allprojects {
     repositories {
         // 默认maven官方源
         // mavenCentral()
-        mavenLocal()
+//        mavenLocal()
         maven{ url 'https://maven.aliyun.com/repository/central' }
         maven{ url 'https://maven.aliyun.com/repository/public' }
     }
 }
 
+
 subprojects {
+
     // java编译的时候缺省状态下会因为中文字符而失败，所以这儿需要改为utf8
     [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
@@ -66,20 +72,26 @@ subprojects {
     repositories {
         // 默认maven官方源
         // mavenCentral()
-        mavenLocal()
+//        mavenLocal()
         maven{ url 'https://maven.aliyun.com/repository/central' }
         maven{ url 'https://maven.aliyun.com/repository/public' }
     }
 
     dependencies {
-//        implementation 'org.springframework.boot:spring-boot-starter-web'
-        implementation "io.springfox:springfox-boot-starter:${swaggerVersion}"
-//        implementation "com.alibaba:fastjson:1.2.73"
+        implementation(
+//                'org.springframework.boot:spring-boot-starter-web',
+                "io.springfox:springfox-boot-starter:${swaggerVersion}",
+                'com.alibaba:fastjson:1.2.73'
+        )
 
         compileOnly 'org.projectlombok:lombok'
+
         developmentOnly 'org.springframework.boot:spring-boot-devtools'
-        annotationProcessor 'org.projectlombok:lombok'
-        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+        annotationProcessor(
+                'org.projectlombok:lombok',
+                'org.springframework.boot:spring-boot-configuration-processor'
+        )
 
         testImplementation('org.springframework.boot:spring-boot-starter-test') {
             exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
@@ -88,8 +100,9 @@ subprojects {
 
     dependencyManagement {
         imports {
-            mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
             mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+            mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"
         }
     }
 }

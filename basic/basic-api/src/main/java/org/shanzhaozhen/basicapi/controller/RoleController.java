@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 import org.shanzhaozhen.basiccommon.converter.RoleConverter;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Api("用户角色接口")
 @RestController
+@RequiredArgsConstructor
 public class RoleController {
 
     private static final String GET_ROLE_PAGE = "/role/page";
@@ -30,10 +32,6 @@ public class RoleController {
     private static final String DELETE_ROLE = "/role/{roleId}";
 
     private final RoleService roleService;
-
-    public RoleController(RoleService roleService) {
-        this.roleService = roleService;
-    }
 
     @PostMapping(GET_ROLE_PAGE)
     @ApiOperation("获取角色信息（分页）")

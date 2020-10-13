@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 import org.shanzhaozhen.basiccommon.converter.DynamicScheduledTaskConverter;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(value = "用户注册接口")
 @RestController
+@RequiredArgsConstructor
 public class TaskController {
 
     private static final String GET_TASK_PAGE = "/task/page";
@@ -30,10 +32,6 @@ public class TaskController {
     private static final String STOP_TASK = "/task/{taskId}/stop";
 
     private final TaskService taskService;
-
-    public TaskController(TaskService taskService) {
-        this.taskService = taskService;
-    }
 
     @PostMapping(GET_TASK_PAGE)
     @ApiOperation("获取任务信息（分页）")

@@ -1,14 +1,14 @@
 package org.shanzhaozhen.basicservice.service.impl;
 
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.basiccommon.converter.RouteConverter;
 import org.shanzhaozhen.basiccommon.domain.sys.RouteDO;
-import org.shanzhaozhen.basiccommon.vo.AsyncRoute;
 import org.shanzhaozhen.basiccommon.dto.RouteDTO;
-import org.shanzhaozhen.basicrepo.mapper.RouteMapper;
-import org.shanzhaozhen.basicservice.service.RouteService;
 import org.shanzhaozhen.basiccommon.utils.CustomBeanUtils;
 import org.shanzhaozhen.basiccommon.utils.UserDetailsUtils;
+import org.shanzhaozhen.basiccommon.vo.AsyncRoute;
+import org.shanzhaozhen.basicrepo.mapper.RouteMapper;
+import org.shanzhaozhen.basicservice.service.RouteService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -16,13 +16,10 @@ import org.springframework.util.Assert;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RouteServiceImpl implements RouteService {
 
     private final RouteMapper routeMapper;
-
-    public RouteServiceImpl(RouteMapper routeMapper) {
-        this.routeMapper = routeMapper;
-    }
 
     @Override
     public List<RouteDTO> getRouteRoleListByType(Integer type) {
