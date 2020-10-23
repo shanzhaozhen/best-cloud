@@ -1,11 +1,11 @@
-server:
-  servlet:
-    context-path: /basic-api
+#server:
+#  servlet:
+#    context-path: /basic-api
 
 # 打包命令 mvn clean package -Dmaven.test.skip=true
 spring:
   profiles:
-    active: pro
+    active: dev
 
   servlet:
     multipart:
@@ -114,3 +114,4 @@ swagger2:
   license: Apache License, Version 2.0
   licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.html
   version: 0.0.1
+

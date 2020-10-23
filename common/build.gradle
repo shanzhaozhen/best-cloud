@@ -1,0 +1,12 @@
+description = 'common'
+
+apply plugin: 'java-library'
+
+dependencies {
+
+    implementation(
+            "com.baomidou:mybatis-plus-extension:${mybatisPlusVersion}",
+
+    )
+
+}

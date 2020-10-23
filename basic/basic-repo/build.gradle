@@ -9,6 +9,8 @@ dependencies {
 
     implementation(
             'mysql:mysql-connector-java',
+            "com.alibaba:druid-spring-boot-starter:${druidVersion}",
+
     )
 
 

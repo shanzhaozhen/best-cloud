@@ -1,0 +1,32 @@
+description = 'authorize'
+
+apply plugin: 'java-library'
+
+dependencies {
+
+    api(
+            project(':basic:basic-common')
+    )
+
+    implementation(
+            'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery',
+            'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config',
+            'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel',
+
+            'org.springframework.boot:spring-boot-starter-web',
+//            'org.springframework.boot:spring-boot-starter-security',
+            'org.springframework.cloud:spring-cloud-starter-oauth2',
+//            'org.springframework.cloud:spring-cloud-starter-security',
+
+//            "org.bitbucket.b_c:jose4j:${jose4jVersion}",
+            "io.jsonwebtoken:jjwt:${jjwtVersion}",
+
+            'org.springframework.boot:spring-boot-starter-actuator',
+
+            'mysql:mysql-connector-java',
+            "com.alibaba:druid-spring-boot-starter:${druidVersion}",
+            "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}",
+            'org.springframework.boot:spring-boot-starter-data-redis',
+    )
+
+}

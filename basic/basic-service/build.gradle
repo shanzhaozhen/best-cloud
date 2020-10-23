@@ -5,8 +5,9 @@ dependencies {
     api project(':basic:basic-repo')
 
     implementation(
-            'org.springframework:spring-tx',
-            "com.google.code.findbugs:annotations:${annotationsVersion}"
+//            'org.springframework:spring-tx',
+            "com.google.code.findbugs:annotations:${annotationsVersion}",
+            'org.springframework.cloud:spring-cloud-starter-openfeign'
     )
 
 }

@@ -1,6 +1,10 @@
 rootProject.name = 'best-cloud'
 
+include 'common'
 include 'gateway'
+include 'authorize'
+
+include 'client'
 
 include 'basic:basic-api'
 include 'basic:basic-common'

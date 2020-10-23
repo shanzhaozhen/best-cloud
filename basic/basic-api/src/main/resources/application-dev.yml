@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8080
 
 spring:
   datasource:
@@ -13,11 +13,11 @@ spring:
     ## Redis数据库索引（默认为0）
     database: 0
     ## Redis服务器地址
-    host: 192.168.1.1
+    host: 127.0.0.1
     ## Redis服务器连接端口
     port: 6379
     ## Redis服务器连接密码（默认为空）
-    password: startlink
+    password: 123456
 
 upload:
   relativePath: /files/
