@@ -10,3 +10,12 @@ spring:
           uri: lb://basic
           predicates:
             - Path=/**
+        - id: authorize
+          uri: lb://authorize
+          predicates:
+            - Path=/**
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: /authorize/rsa/publicKey

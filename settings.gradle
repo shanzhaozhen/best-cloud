@@ -1,6 +1,9 @@
 rootProject.name = 'best-cloud'
 
-include 'common'
+include 'common:common-core'
+include 'common:common-mybatis'
+include 'common:common-redis'
+
 include 'gateway'
 include 'authorize'
 

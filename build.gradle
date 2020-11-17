@@ -9,7 +9,7 @@ buildscript {
         set('mybatisPlusVersion', '3.4.0')
         set('jjwtVersion', '0.9.1')
         set('jose4jVersion', '0.7.2')
-        set('druidVersion', '1.1.24')
+        set('druidVersion', '1.2.1')
         set('swaggerVersion', '3.0.0')
         set('annotationsVersion', '3.0.1')
     }
@@ -27,6 +27,7 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("io.spring.gradle:dependency-management-plugin:${springBootManagementVersion}")
     }
+
 }
 
 
@@ -50,6 +51,15 @@ allprojects {
         maven{ url 'https://maven.aliyun.com/repository/central' }
         maven{ url 'https://maven.aliyun.com/repository/public' }
     }
+
+//    task copyTestResources(type: Copy) {
+//        from "${projectDir}/src/test/resources"
+//        into "${buildDir}/classes/test"
+//    }
+//    processTestResources.dependsOn copyTestResources
+//
+
+
 }
 
 
@@ -106,4 +116,10 @@ subprojects {
             mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"
         }
     }
+
+    test {
+        useJUnitPlatform()
+    }
+
 }
+

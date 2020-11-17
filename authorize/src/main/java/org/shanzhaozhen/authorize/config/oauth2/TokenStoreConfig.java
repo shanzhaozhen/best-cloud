@@ -13,17 +13,17 @@ import javax.sql.DataSource;
 @Configuration
 public class TokenStoreConfig {
 
-//    @Autowired
-//    private RedisConnectionFactory redisConnectionFactory;
-//
+    @Autowired
+    private RedisConnectionFactory redisConnectionFactory;
+
 //    @Autowired
 //    private DataSource dataSource;
-//
-//    @Bean
-//    public TokenStore redisTokenStore () {
-//        return new RedisTokenStore(redisConnectionFactory);
-//    }
-//
+
+    @Bean
+    public TokenStore redisTokenStore () {
+        return new RedisTokenStore(redisConnectionFactory);
+    }
+
 //    @Bean
 //    public TokenStore jdbcTokenStore () {
 //        return new JdbcTokenStore(dataSource);

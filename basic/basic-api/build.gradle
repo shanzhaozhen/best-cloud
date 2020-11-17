@@ -16,8 +16,10 @@ dependencies {
 
             'org.springframework.cloud:spring-cloud-starter-openfeign',
 
-
+            'org.springframework.boot:spring-boot-starter-data-redis'
     )
 
 }
+
+
 

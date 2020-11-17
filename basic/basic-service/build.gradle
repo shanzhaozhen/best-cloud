@@ -2,12 +2,15 @@ description = 'basic-service'
 
 dependencies {
 
-    api project(':basic:basic-repo')
+    api (
+            project(':basic:basic-repo'),
+            project(':common:common-core')
+    )
 
     implementation(
 //            'org.springframework:spring-tx',
             "com.google.code.findbugs:annotations:${annotationsVersion}",
-            'org.springframework.cloud:spring-cloud-starter-openfeign'
+            'org.springframework.cloud:spring-cloud-starter-openfeign',
     )
 
 }

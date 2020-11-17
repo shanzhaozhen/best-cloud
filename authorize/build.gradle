@@ -5,7 +5,8 @@ apply plugin: 'java-library'
 dependencies {
 
     api(
-            project(':basic:basic-common')
+            project(':basic:basic-common'),
+            project(':common:common-core')
     )
 
     implementation(
@@ -17,16 +18,18 @@ dependencies {
 //            'org.springframework.boot:spring-boot-starter-security',
             'org.springframework.cloud:spring-cloud-starter-oauth2',
 //            'org.springframework.cloud:spring-cloud-starter-security',
-
-//            "org.bitbucket.b_c:jose4j:${jose4jVersion}",
-            "io.jsonwebtoken:jjwt:${jjwtVersion}",
+            "org.springframework.security:spring-security-oauth2-jose",
 
             'org.springframework.boot:spring-boot-starter-actuator',
 
             'mysql:mysql-connector-java',
             "com.alibaba:druid-spring-boot-starter:${druidVersion}",
             "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}",
-            'org.springframework.boot:spring-boot-starter-data-redis',
+            'org.springframework.boot:spring-boot-starter-data-redis'
+
     )
 
 }
+
+
+

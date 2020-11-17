@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.shanzhaozhen.bestrepo.mapper.RouteMapper">
+<mapper namespace="org.shanzhaozhen.authorize.mapper.RouteMapper">
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="org.shanzhaozhen.basiccommon.domain.sys.RouteDO">
@@ -27,7 +27,7 @@
 
     <resultMap autoMapping="true" type="org.shanzhaozhen.basiccommon.dto.RouteDTO" id="RouteRoleMap">
         <id property="id" column="id"></id>
-        <collection property="roles" column="id" select="org.shanzhaozhen.bestrepo.mapper.RoleMapper.getRoleByRouteId">
+        <collection property="roles" column="id" select="org.shanzhaozhen.authorize.mapper.RoleMapper.getRoleByRouteId">
         </collection>
     </resultMap>
 

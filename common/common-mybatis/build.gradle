@@ -1,0 +1,9 @@
+description = 'common-mybais'
+
+dependencies {
+
+    implementation(
+            "com.baomidou:mybatis-plus-extension:${mybatisPlusVersion}",
+    )
+
+}

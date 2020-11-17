@@ -43,7 +43,7 @@ public class CustomUserDetailsService implements UserDetailsService {
              */
             throw new UsernameNotFoundException("用户不存在!");
         } else {
-            //将数据库保存的权限存至登陆的账号里面
+            //将数据库保存的角色存至登陆的账号里面
             List<RoleDTO> roleDTOList = roleService.getRolesByUserId(userDTO.getId());
             if (roleDTOList != null && roleDTOList.size() > 0) {
                 Set<GrantedAuthority> grantedAuthorities = new HashSet<>();

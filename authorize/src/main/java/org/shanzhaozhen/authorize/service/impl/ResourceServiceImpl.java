@@ -6,18 +6,26 @@ import org.shanzhaozhen.authorize.service.ResourceService;
 import org.shanzhaozhen.basiccommon.converter.ResourceConverter;
 import org.shanzhaozhen.basiccommon.domain.sys.ResourceDO;
 import org.shanzhaozhen.basiccommon.dto.ResourceDTO;
+import org.shanzhaozhen.basiccommon.dto.RoleDTO;
+import org.shanzhaozhen.basiccommon.enums.sys.ResourceType;
 import org.shanzhaozhen.basiccommon.utils.CustomBeanUtils;
+import org.shanzhaozhen.common.enums.AuthConstants;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.access.SecurityConfig;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class ResourceServiceImpl implements ResourceService {
 
     private final ResourceMapper resourceMapper;
+
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public List<ResourceDTO> getResourceRoleListByType(Integer type) {
@@ -72,6 +80,29 @@ public class ResourceServiceImpl implements ResourceService {
     public Long deleteResource(Long resourceId) {
         resourceMapper.deleteById(resourceId);
         return resourceId;
+    }
+
+    @Override
+    public Map<String, Collection<ConfigAttribute>> initResourceInfo() {
+        Map<String, Collection<ConfigAttribute>> resourceMap = new HashMap<>();
+
+        List<ResourceDTO> resourceDTOList = this.getResourceRoleListByType(ResourceType.API.getValue());
+        for (ResourceDTO resourceDTO : resourceDTOList) {
+            Collection<ConfigAttribute> configAttributes = new ArrayList<>();
+            // 此处只添加了用户的名字，其实还可以添加更多权限的信息，例如请求方法到ConfigAttribute的集合中去。
+            // 此处添加的信息将会作为MyAccessDecisionManager类的decide的第三个参数
+            List<RoleDTO> roles = resourceDTO.getRoles();
+            if (roles != null && roles.size() > 0) {
+                for (RoleDTO roleDTO : roles) {
+                    configAttributes.add(new SecurityConfig(roleDTO.getIdentification()));
+                }
+                resourceMap.put(resourceDTO.getPath(), configAttributes);
+            }
+        }
+
+        redisTemplate.opsForHash().putAll(AuthConstants.RESOURCE_ROLES_KEY, resourceMap);
+
+        return resourceMap;
     }
 
 }

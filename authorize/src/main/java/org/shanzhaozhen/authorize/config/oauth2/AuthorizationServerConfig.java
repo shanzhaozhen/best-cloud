@@ -2,28 +2,31 @@ package org.shanzhaozhen.authorize.config.oauth2;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 import javax.sql.DataSource;
 
 @Configuration
+@EnableAuthorizationServer
 @RequiredArgsConstructor
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     private final DataSource dataSource;
 
-    private final PasswordEncoder passwordEncoder;
+    private final TokenStore tokenStore;
 
-//    private final DruidDataSourceAutoConfigure druidDataSourceAutoConfigure;
-
-//    private final AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
     private final CustomUserDetailsService customUserDetailsService;
+
+    private final JwtAccessTokenConverter jwtAccessTokenConverter;
 
     /**
      * 定义令牌端点上的安全约束
@@ -32,9 +35,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.allowFormAuthenticationForClients()
-                .checkTokenAccess("isAuthenticated()")
-                .tokenKeyAccess("isAuthenticated()");
+        security
+                .allowFormAuthenticationForClients()        //如果使用表单认证则需要加上
+                .checkTokenAccess("isAuthenticated()")      // oauth/check_token    公开(permitAll)/拦截(isAuthenticated)
+                .tokenKeyAccess("isAuthenticated()");       // oauth/token_key  公开(permitAll)/拦截(isAuthenticated)
     }
 
     /**
@@ -44,8 +48,21 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+
+        /**
+         * client模式，没有用户的概念，直接与认证服务器交互，用配置中的客户端信息去申请accessToken，
+         * 客户端有自己的client_id,client_secret对应于用户的username,password，而客户端也拥有自己的authorities，
+         * 当采取client模式认证时，对应的权限也就是客户端自己的authorities
+         */
+
+        /**
+         * password模式，自己本身有一套用户体系，在认证时需要带上自己的用户名和密码，以及客户端的client_id,client_secret
+         * 此时，accessToken所包含的权限是用户本身的权限，而不是客户端的权限
+         */
+
+
         clients.jdbc(dataSource)
-                .passwordEncoder(passwordEncoder)
+//                .passwordEncoder(passwordEncoder)
         ;
     }
 
@@ -60,15 +77,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
-//                .authenticationManager(authenticationManager)
-//                .tokenStore(jdbcTokenStore())
+                .authenticationManager(authenticationManager)
+                .accessTokenConverter(jwtAccessTokenConverter)
+                .tokenStore(tokenStore)
                 .userDetailsService(customUserDetailsService);
     }
-
-
-//    @Bean
-//    public TokenStore jdbcTokenStore () {
-//        return new JdbcTokenStore(druidDataSource);
-//    }
 
 }

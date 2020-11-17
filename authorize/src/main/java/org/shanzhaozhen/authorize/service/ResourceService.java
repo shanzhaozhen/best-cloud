@@ -1,8 +1,11 @@
 package org.shanzhaozhen.authorize.service;
 
 import org.shanzhaozhen.basiccommon.dto.ResourceDTO;
+import org.springframework.security.access.ConfigAttribute;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public interface ResourceService {
 
@@ -46,5 +49,10 @@ public interface ResourceService {
      * @return
      */
     Long deleteResource(Long resourceId);
+
+    /**
+     * 加载资源信息
+     */
+    Map<String, Collection<ConfigAttribute>> initResourceInfo();
 
 }

@@ -1,12 +1,13 @@
 description = 'common'
 
-apply plugin: 'java-library'
+subprojects {
 
-dependencies {
+    apply plugin: 'java-library'
 
-    implementation(
-            "com.baomidou:mybatis-plus-extension:${mybatisPlusVersion}",
+    jar.enabled = true
 
-    )
+    dependencies {
+//        implementation 'org.springframework.boot:spring-boot-starter-web'
+    }
 
 }

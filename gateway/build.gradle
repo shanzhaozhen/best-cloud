@@ -1,6 +1,13 @@
 description = 'gateway'
 
+apply plugin: 'java-library'
+
 dependencies {
+
+    api(
+            project(':basic:basic-common'),
+            project(':common:common-core')
+    )
 
     implementation(
             'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery',
@@ -11,7 +18,11 @@ dependencies {
             'org.springframework.boot:spring-boot-starter-actuator',
             'org.springframework.cloud:spring-cloud-starter-gateway',
 
-            'org.springframework.security:spring-security-oauth2-resource-server'
+            'org.springframework.cloud:spring-cloud-starter-oauth2',
+            'org.springframework.security:spring-security-oauth2-resource-server',
+            'org.springframework.security:spring-security-oauth2-jose',
+
+            'org.springframework.boot:spring-boot-starter-data-redis',
     )
 
 }

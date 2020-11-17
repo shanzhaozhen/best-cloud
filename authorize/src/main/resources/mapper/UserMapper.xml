@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.shanzhaozhen.bestrepo.mapper.UserMapper">
+<mapper namespace="org.shanzhaozhen.authorize.mapper.UserMapper">
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="org.shanzhaozhen.basiccommon.domain.sys.UserDO">
@@ -29,13 +29,13 @@
 
     <resultMap autoMapping="true" type="org.shanzhaozhen.basiccommon.dto.UserDTO" id="UserRoleMap">
         <id property="id" column="id"></id>
-        <collection property="roles" column="id" select="org.shanzhaozhen.bestrepo.mapper.RoleMapper.getRoleListByUserId">
+        <collection property="roles" column="id" select="org.shanzhaozhen.authorize.mapper.RoleMapper.getRoleListByUserId">
         </collection>
     </resultMap>
 
     <resultMap autoMapping="true" type="org.shanzhaozhen.basiccommon.dto.JWTUser" id="JWTUserMap">
         <id property="id" column="id"></id>
-        <collection property="authorities" column="id" select="org.shanzhaozhen.bestrepo.mapper.RoleMapper.getAuthoritiesByUserId">
+        <collection property="authorities" column="id" select="org.shanzhaozhen.authorize.mapper.RoleMapper.getAuthoritiesByUserId">
         </collection>
     </resultMap>
 

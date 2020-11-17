@@ -2,12 +2,12 @@ package org.shanzhaozhen.authorize.config.oauth2;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
@@ -18,7 +18,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
      * 需要放行的URL
      */
     private static final String[] AUTH_WHITELIST = {
-            "/", "/oauth/**", "/login/**", "/logout/**", "/register/**",
+            "/", "/login/**", "/logout/**", "/register/**",
+            "/rsa/publicKey","/oauth/logout", "/oauth/**",
             "/swagger-resources/**", "/v2/api-docs/**", "/swagger2", "/swagger2/**", "/swagger-ui.html",
             "/druid/**",
             "/webjars/**",
@@ -29,9 +30,6 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
 
     private final CustomUserDetailsService customUserDetailsService;
-
-    private final CustomJwtTokenProvider customJwtTokenProvider;
-
 
     /**
      * 定义授权规则
@@ -59,19 +57,22 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 //                .and()
                 .authorizeRequests()
 //                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .headers()
                 .frameOptions().disable()       //允许iframe
                 .and()
-                .formLogin().disable()
+//                .formLogin().disable()
 //                .logout().disable()
 //            .exceptionHandling()
 //                .authenticationEntryPoint(customAuthenticationEntryPoint)
 //                .and()
 //                .addFilterBefore(customJwtAuthenticationFilter, BasicAuthenticationFilter.class)
-//                .addFilterBefore(CustomUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(customUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(new LogoutWebFilter(), LogoutWebFilter.class)
+//                .logout().init(http);
 //                .addFilterAfter(CustomFilterSecurityInterceptor(), FilterSecurityInterceptor.class)
         ;
     }
@@ -82,11 +83,19 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
      * @return
      * @throws Exception
      */
+//    @Bean
+//    public CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter() throws Exception {
+//        CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter = new CustomUsernamePasswordAuthenticationFilter(customJwtTokenProvider);
+//        customUsernamePasswordAuthenticationFilter.setAuthenticationManager(authenticationManager());
+//        return customUsernamePasswordAuthenticationFilter;
+//    }
+
+    /**
+     *  如果不配置SpringBoot会自动配置一个AuthenticationManager,覆盖掉内存中的用户，而且也注入不了
+     */
     @Bean
-    public CustomUsernamePasswordAuthenticationFilter CustomUsernamePasswordAuthenticationFilter() throws Exception {
-        CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter = new CustomUsernamePasswordAuthenticationFilter(customJwtTokenProvider);
-        customUsernamePasswordAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
-        return customUsernamePasswordAuthenticationFilter;
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
 }

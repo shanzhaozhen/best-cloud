@@ -1,0 +1,10 @@
+description = 'common-core'
+
+dependencies {
+
+    implementation(
+            "com.baomidou:mybatis-plus-extension:${mybatisPlusVersion}",
+
+    )
+
+}

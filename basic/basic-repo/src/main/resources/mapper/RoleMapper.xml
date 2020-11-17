@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.shanzhaozhen.bestrepo.mapper.RoleMapper">
+<mapper namespace="org.shanzhaozhen.basicrepo.mapper.RoleMapper">
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="org.shanzhaozhen.basiccommon.domain.sys.RoleDO">
@@ -16,9 +16,9 @@
 
     <resultMap autoMapping="true" type="org.shanzhaozhen.basiccommon.dto.RoleDTO" id="RoleResourceMap">
         <id property="id" column="id"></id>
-        <collection property="routes" column="id" select="org.shanzhaozhen.bestrepo.mapper.RouteMapper.getRouteByRoleId">
+        <collection property="routes" column="id" select="org.shanzhaozhen.basicrepo.mapper.RouteMapper.getRouteByRoleId">
         </collection>
-        <collection property="resources" column="id" select="org.shanzhaozhen.bestrepo.mapper.ResourceMapper.getResourceByRoleId">
+        <collection property="resources" column="id" select="org.shanzhaozhen.basicrepo.mapper.ResourceMapper.getResourceByRoleId">
         </collection>
     </resultMap>
 

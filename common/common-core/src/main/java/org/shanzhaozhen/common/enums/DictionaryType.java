@@ -2,7 +2,7 @@ package org.shanzhaozhen.common.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.shanzhaozhen.basiccommon.param.EnumParam;
+import org.shanzhaozhen.common.entity.EnumParam;
 
 import java.util.ArrayList;
 import java.util.List;
