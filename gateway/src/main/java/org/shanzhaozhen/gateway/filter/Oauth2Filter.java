@@ -28,4 +28,5 @@ public class Oauth2Filter implements GatewayFilter {
     public String shortcutFieldPrefix() {
         return null;
     }
+
 }

@@ -5,7 +5,7 @@ apply plugin: 'java-library'
 dependencies {
 
     api(
-            project(':basic:basic-common'),
+//            project(':basic:basic-common'),
             project(':common:common-core')
     )
 
@@ -17,6 +17,8 @@ dependencies {
 
             'org.springframework.boot:spring-boot-starter-actuator',
             'org.springframework.cloud:spring-cloud-starter-gateway',
+
+            'org.springframework.boot:spring-boot-starter-webflux',
 
             'org.springframework.cloud:spring-cloud-starter-oauth2',
             'org.springframework.security:spring-security-oauth2-resource-server',

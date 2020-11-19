@@ -1,4 +1,4 @@
-package org.shanzhaozhen.basiccommon.dto;
+package org.shanzhaozhen.common.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

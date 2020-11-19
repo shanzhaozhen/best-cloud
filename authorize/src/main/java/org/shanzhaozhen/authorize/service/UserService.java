@@ -1,7 +1,7 @@
 package org.shanzhaozhen.authorize.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.shanzhaozhen.basiccommon.dto.JWTUser;
+import org.shanzhaozhen.common.entity.JWTUser;
 import org.shanzhaozhen.basiccommon.dto.UserDTO;
 import org.shanzhaozhen.basiccommon.form.BaseSearchForm;
 import org.shanzhaozhen.basiccommon.vo.UserInfo;

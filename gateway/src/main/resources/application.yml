@@ -18,4 +18,15 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: /authorize/rsa/publicKey
+          jwk-set-uri: http://localhost:${server.port}/authorize/rsa/publicKey
+
+  ## Redis 配置
+  redis:
+    ## Redis数据库索引（默认为0）
+    database: 0
+    ## Redis服务器地址
+    host: 127.0.0.1
+    ## Redis服务器连接端口
+    port: 6379
+    ## Redis服务器连接密码（默认为空）
+    password: 123456

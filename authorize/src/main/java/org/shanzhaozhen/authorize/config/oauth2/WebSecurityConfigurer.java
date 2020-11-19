@@ -19,7 +19,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
      */
     private static final String[] AUTH_WHITELIST = {
             "/", "/login/**", "/logout/**", "/register/**",
-            "/rsa/publicKey","/oauth/logout", "/oauth/**",
+            "/rsa/publicKey", "/oauth/logout", "/oauth/**",
             "/swagger-resources/**", "/v2/api-docs/**", "/swagger2", "/swagger2/**", "/swagger-ui.html",
             "/druid/**",
             "/webjars/**",

@@ -25,9 +25,9 @@ import java.util.*;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class AuthorizationManager implements ReactiveAuthorizationManager<AuthorizationContext> {
+public class CustomAuthorizationManager implements ReactiveAuthorizationManager<AuthorizationContext> {
 
-    private final RedisTemplate<String, Collection<ConfigAttribute>> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> authentication, AuthorizationContext authorizationContext) {

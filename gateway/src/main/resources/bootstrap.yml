@@ -23,3 +23,10 @@ management:
       exposure:
         include: '*'
 
+# 白名单
+whitelist:
+  urls:
+    - "/oauth/token"
+    - "/rsa/publicKey"
+    - "/authorize/oauth/token"
+    - "/authorize/rsa/publicKey"

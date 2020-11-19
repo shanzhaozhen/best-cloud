@@ -3,8 +3,7 @@ description = 'basic-service'
 dependencies {
 
     api (
-            project(':basic:basic-repo'),
-            project(':common:common-core')
+            project(':basic:basic-repo')
     )
 
     implementation(

@@ -3,6 +3,8 @@ description = 'basic-common'
 dependencies {
 
     api(
+            project(':common:common-core'),
+
             "com.baomidou:mybatis-plus-extension:${mybatisPlusVersion}",
             'org.springframework.security:spring-security-core',
             'org.springframework.boot:spring-boot-starter-validation',

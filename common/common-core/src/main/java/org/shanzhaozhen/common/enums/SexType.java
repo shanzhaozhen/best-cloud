@@ -2,9 +2,11 @@ package org.shanzhaozhen.common.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public enum SexType {
 
     SECRECY("保密" ,0),

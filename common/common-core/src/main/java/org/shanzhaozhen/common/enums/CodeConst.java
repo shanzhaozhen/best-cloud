@@ -2,10 +2,12 @@ package org.shanzhaozhen.common.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
-public enum CodeConst {
+@NoArgsConstructor
+public enum CodeConst implements IResultCode {
 
     /**
      * 1001: 无权限访问
@@ -21,28 +23,28 @@ public enum CodeConst {
      * 3002: 业务1XXX
      */
 
-    LOGIN_SUCCESS(2000, "登陆成功"),
+    LOGIN_SUCCESS("200", "登陆成功"),
 
-    LOGIN_ERROR(4010, "登陆异常"),
+    LOGIN_ERROR("410", "登陆异常"),
 
-    JWT_SIGNATURE(4011, "token签名异常"),
+    JWT_SIGNATURE("411", "token签名异常"),
 
-    JWT_MALFORMED(4012, "token格式不正确"),
+    JWT_MALFORMED("412", "token格式不正确"),
 
-    JWT_EXPIRED(4013, "token已过期"),
+    JWT_EXPIRED("413", "token已过期"),
 
-    JWT_UNSUPPORTED(4014, "不支持该token"),
+    JWT_UNSUPPORTED("414", "不支持该token"),
 
-    JWT_ILLEGALARGUMENT(4015, "token参数异常"),
+    JWT_ILLEGALARGUMENT("415", "token参数异常"),
 
-    JWT_ERROR(4016, "token错误"),
+    JWT_ERROR("416", "token错误"),
 
-
+    UNKNOWN_ERROR("500", "未知错误"),
 
 
     ;
 
-    private int code;
-    private String reason;
+    private String code;
+    private String message;
 
 }

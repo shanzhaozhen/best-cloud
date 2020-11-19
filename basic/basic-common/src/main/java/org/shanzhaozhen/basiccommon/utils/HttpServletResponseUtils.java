@@ -1,6 +1,7 @@
 package org.shanzhaozhen.basiccommon.utils;
 
-import org.shanzhaozhen.basiccommon.vo.ResultObject;
+import org.shanzhaozhen.common.entity.ResultObject;
+import org.shanzhaozhen.common.utils.JacksonUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

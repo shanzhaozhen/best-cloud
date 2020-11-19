@@ -10,6 +10,7 @@ import org.shanzhaozhen.basiccommon.form.ResourceForm;
 import org.shanzhaozhen.basiccommon.vo.ResourceVO;
 import org.shanzhaozhen.basiccommon.vo.ResultObject;
 import org.shanzhaozhen.basicservice.service.ResourceService;
+import org.shanzhaozhen.common.enums.ResourceType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

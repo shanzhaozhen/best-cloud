@@ -1,9 +1,9 @@
-package org.shanzhaozhen.basiccommon.utils;
+package org.shanzhaozhen.common.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import lombok.extern.slf4j.Slf4j;
-import org.shanzhaozhen.basiccommon.dto.MethodParamInfo;
+import org.shanzhaozhen.common.entity.MethodParamInfo;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 

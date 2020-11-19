@@ -2,8 +2,15 @@ description = 'common-core'
 
 dependencies {
 
+    api (
+            'org.springframework.security:spring-security-core',
+    )
+
+
     implementation(
+            'org.springframework.boot:spring-boot-starter-json',
             "com.baomidou:mybatis-plus-extension:${mybatisPlusVersion}",
+//            'org.apache.tomcat.embed:tomcat-embed-core',
 
     )
 

@@ -1,4 +1,4 @@
-package org.shanzhaozhen.basiccommon.utils;
+package org.shanzhaozhen.common.utils;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

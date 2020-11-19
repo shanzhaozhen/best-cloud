@@ -1,4 +1,4 @@
-package org.shanzhaozhen.basiccommon.dto;
+package org.shanzhaozhen.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;

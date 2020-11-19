@@ -1,4 +1,4 @@
-package org.shanzhaozhen.basiccommon.utils;
+package org.shanzhaozhen.common.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;

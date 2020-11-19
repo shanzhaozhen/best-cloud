@@ -33,7 +33,7 @@
         </collection>
     </resultMap>
 
-    <resultMap autoMapping="true" type="org.shanzhaozhen.basiccommon.dto.JWTUser" id="JWTUserMap">
+    <resultMap autoMapping="true" type="org.shanzhaozhen.common.entity.JWTUser" id="JWTUserMap">
         <id property="id" column="id"></id>
         <collection property="authorities" column="id" select="org.shanzhaozhen.authorize.mapper.RoleMapper.getAuthoritiesByUserId">
         </collection>

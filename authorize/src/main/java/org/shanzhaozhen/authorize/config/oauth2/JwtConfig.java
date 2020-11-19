@@ -11,9 +11,9 @@ import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFacto
 import java.security.KeyPair;
 
 @Configuration
-@Setter
 @ConfigurationProperties(prefix = "jks")
-public class CustomJwtAccessTokenConverter {
+@Setter
+public class JwtConfig {
 
     private String path;
 

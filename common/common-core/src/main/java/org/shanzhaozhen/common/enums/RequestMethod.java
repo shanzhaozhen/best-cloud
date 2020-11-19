@@ -2,9 +2,11 @@ package org.shanzhaozhen.common.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public enum RequestMethod {
 
     GET("查看", "GET"),
@@ -14,6 +16,7 @@ public enum RequestMethod {
     PATCH("更新", "PATCH");
 
     private String name;
+
     private String value;
 
 }

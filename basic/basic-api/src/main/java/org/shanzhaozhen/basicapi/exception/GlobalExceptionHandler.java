@@ -2,8 +2,9 @@ package org.shanzhaozhen.basicapi.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.MyBatisSystemException;
-import org.shanzhaozhen.basiccommon.enums.sys.ResultType;
-import org.shanzhaozhen.basiccommon.vo.ResultObject;
+import org.shanzhaozhen.common.entity.ResultObject;
+import org.shanzhaozhen.common.enums.CodeConst;
+import org.shanzhaozhen.common.enums.ResultType;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,8 +25,8 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResultObject<?> handleIllegalArgumentException(Exception e) {
-        return new ResultObject<>().setCode(ResultType.FAILURE).setMessage("未知异常错误").setData(e.getMessage());
+    public ResultObject<String> handleIllegalArgumentException(Exception e) {
+        return ResultObject.build(CodeConst.UNKNOWN_ERROR, e);
     }
 
     /**
@@ -46,7 +47,8 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResultObject<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        return new ResultObject<>().setCode(ResultType.FAILURE).setMessage(Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage());
+        return ResultObject.build(ResultType.FAILURE, Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage(), null);
+//        return new ResultObject<>(ResultType.FAILURE, Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage(), null, null);
     }
 
     /**

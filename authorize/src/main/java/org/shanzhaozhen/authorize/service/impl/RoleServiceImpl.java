@@ -12,7 +12,7 @@ import org.shanzhaozhen.basiccommon.domain.sys.RoleResourceDO;
 import org.shanzhaozhen.basiccommon.domain.sys.RoleRouteDO;
 import org.shanzhaozhen.basiccommon.dto.RoleDTO;
 import org.shanzhaozhen.basiccommon.form.BaseSearchForm;
-import org.shanzhaozhen.basiccommon.utils.CustomBeanUtils;
+import org.shanzhaozhen.common.utils.CustomBeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;

@@ -2,6 +2,7 @@ package org.shanzhaozhen.common.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.shanzhaozhen.common.entity.EnumParam;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public enum DictionaryType {
 
     KID("类型" ,0),
@@ -18,12 +20,4 @@ public enum DictionaryType {
 
     private Integer value;
 
-    public static List<EnumParam> toList() {
-        List<EnumParam> list = new ArrayList<>();
-        for (DictionaryType dictionaryType : DictionaryType.values()) {
-            EnumParam enumParam = new EnumParam(dictionaryType.getName(), dictionaryType.getValue());
-            list.add(enumParam);
-        }
-        return list;
-    }
 }
