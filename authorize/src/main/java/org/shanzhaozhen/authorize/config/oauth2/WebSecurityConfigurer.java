@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
@@ -52,11 +53,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .cors()
                 .and()
                 .csrf().disable()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
                 .authorizeRequests()
-//                .antMatchers("/admin/**").hasRole("ADMIN")
 //                .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated()
@@ -64,31 +61,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .headers()
                 .frameOptions().disable()       //允许iframe
                 .and()
-//                .formLogin().disable()
-//                .logout().disable()
-//            .exceptionHandling()
-//                .authenticationEntryPoint(customAuthenticationEntryPoint)
-//                .and()
-//                .addFilterBefore(customJwtAuthenticationFilter, BasicAuthenticationFilter.class)
-//                .addFilterBefore(customUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-//                .addFilterBefore(new LogoutWebFilter(), LogoutWebFilter.class)
-//                .logout().init(http);
-//                .addFilterAfter(CustomFilterSecurityInterceptor(), FilterSecurityInterceptor.class)
         ;
     }
-
-
-    /**
-     * 该方式才是最佳的AuthenticationFilter注入方式
-     * @return
-     * @throws Exception
-     */
-//    @Bean
-//    public CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter() throws Exception {
-//        CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter = new CustomUsernamePasswordAuthenticationFilter(customJwtTokenProvider);
-//        customUsernamePasswordAuthenticationFilter.setAuthenticationManager(authenticationManager());
-//        return customUsernamePasswordAuthenticationFilter;
-//    }
 
     /**
      *  如果不配置SpringBoot会自动配置一个AuthenticationManager,覆盖掉内存中的用户，而且也注入不了

@@ -3,6 +3,7 @@ package org.shanzhaozhen.gateway.config;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.shanzhaozhen.common.enums.AuthConstants;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -11,6 +12,8 @@ import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.ReactiveAuthorizationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.security.web.server.authorization.AuthorizationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
@@ -28,6 +31,8 @@ import java.util.*;
 public class CustomAuthorizationManager implements ReactiveAuthorizationManager<AuthorizationContext> {
 
     private final RedisTemplate<String, Object> redisTemplate;
+
+    private final RedisTokenStore redisTokenStore;
 
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> authentication, AuthorizationContext authorizationContext) {
@@ -59,6 +64,10 @@ public class CustomAuthorizationManager implements ReactiveAuthorizationManager<
             }
         }
 
+
+        // 4. 读取redis中token含有的权限
+        OAuth2AccessToken oAuth2AccessToken = redisTokenStore.readAccessToken(token);
+
 //        Iterator<Collection<ConfigAttribute>> iterator = resourceMap.keySet().iterator();
 //
 //        // 请求路径匹配到的资源需要的角色权限集合authorities统计
@@ -69,6 +78,7 @@ public class CustomAuthorizationManager implements ReactiveAuthorizationManager<
 //                authorities.addAll(Convert.toList(String.class, resourceRolesMap.get(pattern)));
 //            }
 //        }
+
         return authentication
                 .filter(Authentication::isAuthenticated)
                 .flatMapIterable(Authentication::getAuthorities)

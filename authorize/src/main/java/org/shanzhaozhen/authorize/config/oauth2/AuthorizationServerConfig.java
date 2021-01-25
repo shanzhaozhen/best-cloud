@@ -26,9 +26,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     private final CustomUserDetailsService customUserDetailsService;
 
-    private final JwtAccessTokenConverter jwtAccessTokenConverter;
-
-    private final JwtTokenEnhancer jwtTokenEnhancer;
 
     /**
      * 定义令牌端点上的安全约束
@@ -80,9 +77,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
                 .authenticationManager(authenticationManager)
-                .accessTokenConverter(jwtAccessTokenConverter)
                 .tokenStore(tokenStore)
-                .tokenEnhancer(jwtTokenEnhancer)
                 .userDetailsService(customUserDetailsService);
     }
 
