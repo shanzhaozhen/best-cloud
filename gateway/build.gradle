@@ -20,9 +20,9 @@ dependencies {
 
             'org.springframework.boot:spring-boot-starter-webflux',
 
-            'org.springframework.cloud:spring-cloud-starter-oauth2',
-            'org.springframework.security:spring-security-oauth2-resource-server',
-            'org.springframework.security:spring-security-oauth2-jose',
+//            'org.springframework.cloud:spring-cloud-starter-oauth2',
+//            'org.springframework.security:spring-security-oauth2-resource-server',
+//            'org.springframework.security:spring-security-oauth2-jose',
 
             'org.springframework.boot:spring-boot-starter-data-redis',
     )
