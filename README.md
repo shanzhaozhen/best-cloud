@@ -82,28 +82,11 @@ keytool -genkey -alias best-cloud -keyalg RSA -keypass 123456 -storepass 123456 
 
 ### 执行指南
 
-#### 1. 启动Nacos（官方推荐的源码构建方式）
-1. 下载/更新源码或下载发行包
-```shell
-# 你可以通过源码和发行包两种方式来获取 Nacos。
+#### 1. 启动 Nacos ([详细文档](https://github.com/alibaba/spring-cloud-alibaba/blob/master/spring-cloud-alibaba-examples/nacos-example/nacos-config-example/readme-zh.md))
 
-# 1. 从 Github 上下载源码方式
-git clone https://github.com/alibaba/nacos.git
-cd nacos/
-mvn -Prelease-nacos '-Dmaven.test.skip=true' clean install -U  
-ls -al distribution/target/
-
-# 切换到编译路径
-# change the $version to your actual path
-cd distribution/target/nacos-server-$version/nacos/bin
-
-
-# 2. 下载编译后压缩包方式
-# 您可以从 最新稳定版本 下载 nacos-server-$version.zip 包。
-
-unzip nacos-server-$version.zip 或者 tar -xvf nacos-server-$version.tar.gz
-cd nacos/bin
-```
+1. 下载/更新源码或下载发行包，[详细点击查看](https://github.com/alibaba/spring-cloud-alibaba/blob/master/spring-cloud-alibaba-examples/nacos-example/nacos-config-example/readme-zh.md)
+   1. 直接下载：[Nacos Server 下载页](https://github.com/alibaba/nacos/releases)
+   2. 源码构建：进入 Nacos [Github 项目页面](https://github.com/alibaba/nacos)，将代码 git clone 到本地自行编译打包，[参考此文档](https://nacos.io/zh-cn/docs/quick-start.html)。
 
 2. 启动Nacos
 
@@ -115,3 +98,38 @@ Linux/Unix/Mac 启动命令(standalone代表着单机模式运行，非集群模
 
 Windows 启动命令(standalone代表着单机模式运行，非集群模式):
 `startup.cmd -m standalone`
+
+* Docker 启动
+
+```shell
+mkdir -p /home/nacos/logs/                      #新建logs目录
+mkdir -p /home/nacos/init.d/          
+vim /home/nacos/init.d/custom.properties        #修改配置文件
+
+docker run \
+  --name nacos-standalone \
+  -e MODE=standalone -p 8848:8848 \
+  -d nacos/nacos-server:latest
+
+```
+
+#### 2. 启动 Sentinel ([详细文档](http://edas-public.oss-cn-hangzhou.aliyuncs.com/install_package/demo/sentinel-dashboard.jar))
+
+1. 首先需要获取 Sentinel 控制台，支持直接下载和源码构建两种方式。
+
+   1. 直接下载：[下载 Sentinel 控制台](http://edas-public.oss-cn-hangzhou.aliyuncs.com/install_package/demo/sentinel-dashboard.jar)
+   2. 源码构建：进入 Sentinel [Github 项目页面](https://github.com/alibaba/Sentinel)，将代码 git clone 到本地自行编译打包，[参考此文档](https://github.com/alibaba/Sentinel/tree/master/sentinel-dashboard)。
+
+2. 启动控制台，执行 Java 命令 `java -jar sentinel-dashboard.jar`完成 Sentinel 控制台的启动。
+   控制台默认的监听端口为 8080。Sentinel 控制台使用 Spring Boot 编程模型开发，如果需要指定其他端口，请使用 Spring Boot 容器配置的标准方式，详情请参考 [Spring Boot 文档](https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#boot-features-customizing-embedded-containers)。
+
+* Docker 启动
+
+  Sentinel 没有官方的镜像，所以使用Dockerfile构建镜像
+
+```shell
+docker run \
+  --name sentinel \
+  -p 8858:8858 \
+  -d  bladex/sentinel-dashboard
+```
