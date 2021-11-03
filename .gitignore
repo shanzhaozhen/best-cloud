@@ -34,4 +34,4 @@ out/
 
 ### Custom ###
 /nacos
-/middleware
+/middleware/**/*.jar

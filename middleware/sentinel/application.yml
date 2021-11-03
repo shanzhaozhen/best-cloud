@@ -1,0 +1,11 @@
+server:
+  port: 18080
+
+spring:
+  application:
+    name: sentinel-example
+  cloud:
+    sentinel:
+      transport:
+        dashboard: 'localhost:18080'
+

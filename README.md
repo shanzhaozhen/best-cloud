@@ -86,7 +86,7 @@ keytool -genkey -alias best-cloud -keyalg RSA -keypass 123456 -storepass 123456 
 
 1. 下载/更新源码或下载发行包，[详细点击查看](https://github.com/alibaba/spring-cloud-alibaba/blob/master/spring-cloud-alibaba-examples/nacos-example/nacos-config-example/readme-zh.md)
    1. 直接下载：[Nacos Server 下载页](https://github.com/alibaba/nacos/releases)
-   2. 源码构建：进入 Nacos [Github 项目页面](https://github.com/alibaba/nacos)，将代码 git clone 到本地自行编译打包，[参考此文档](https://nacos.io/zh-cn/docs/quick-start.html)。
+   2. 源码构建：进入 Nacos [Github 项目页面](https://github.com/alibaba/nacos) ，将代码 git clone 到本地自行编译打包，[参考此文档](https://nacos.io/zh-cn/docs/quick-start.html) 。
 
 2. 启动Nacos
 
@@ -103,14 +103,13 @@ Windows 启动命令(standalone代表着单机模式运行，非集群模式):
 
 ```shell
 mkdir -p /home/nacos/logs/                      #新建logs目录
-mkdir -p /home/nacos/init.d/          
+mkdir -p /home/nacos/init.d/
 vim /home/nacos/init.d/custom.properties        #修改配置文件
 
 docker run \
   --name nacos-standalone \
   -e MODE=standalone -p 8848:8848 \
   -d nacos/nacos-server:latest
-
 ```
 
 #### 2. 启动 Sentinel ([详细文档](http://edas-public.oss-cn-hangzhou.aliyuncs.com/install_package/demo/sentinel-dashboard.jar))
@@ -125,11 +124,11 @@ docker run \
 
 * Docker 启动
 
-  Sentinel 没有官方的镜像，所以使用Dockerfile构建镜像
+  Sentinel 没有官方的镜像，所以使用Dockerfile构建镜像`(请看路径/middleware/sentinel)`
 
-```shell
-docker run \
-  --name sentinel \
-  -p 8858:8858 \
-  -d  bladex/sentinel-dashboard
-```
+    ```shell
+    docker run \
+      --name sentinel \
+      -p 18080:18080 \
+      -d sentinel-dashboard:1.8.0
+    ```

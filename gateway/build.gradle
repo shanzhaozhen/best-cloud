@@ -16,6 +16,7 @@ dependencies {
             'com.alibaba.cloud:spring-cloud-alibaba-sentinel-gateway',
 
             'org.springframework.boot:spring-boot-starter-actuator',
+            'org.springframework.cloud:spring-cloud-starter-bootstrap',
             'org.springframework.cloud:spring-cloud-starter-gateway',
 
             'org.springframework.boot:spring-boot-starter-webflux',
