@@ -106,10 +106,30 @@ mkdir -p /home/nacos/logs/                      #新建logs目录
 mkdir -p /home/nacos/init.d/
 vim /home/nacos/init.d/custom.properties        #修改配置文件
 
+git clone https://github.com/nacos-group/nacos-docker.git
+cd nacos-docker
+
+# 单机模式 Derby
+docker-compose -f example/standalone-derby.yaml up
+
+# 如果希望使用MySQL5.7
+docker-compose -f example/standalone-mysql-5.7.yaml up
+
+# 如果希望使用MySQL8
+docker-compose -f example/standalone-mysql-8.yaml up
+
+# 集群模式
+docker-compose -f example/cluster-hostname.yaml up 
+
 docker run \
   --name nacos-standalone \
   -e MODE=standalone -p 8848:8848 \
   -d nacos/nacos-server:latest
+```
+
+* K8S
+```shell
+git clone https://github.com/nacos-group/nacos-k8s.git
 ```
 
 #### 2. 启动 Sentinel ([详细文档](http://edas-public.oss-cn-hangzhou.aliyuncs.com/install_package/demo/sentinel-dashboard.jar))

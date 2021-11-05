@@ -1,5 +1,8 @@
 server:
   port: 18080
+  servlet:
+#    session:
+#      timeout:
 
 spring:
   application:
@@ -8,4 +11,10 @@ spring:
     sentinel:
       transport:
         dashboard: 'localhost:18080'
+
+sentinel:
+  dashboard:
+    auth:
+      username: sentinel
+      password: sentinel
 

@@ -6,6 +6,12 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
+        - id: nacos-route
+          uri: lb://service-gateway-provider
+          predicates:
+            - Path=/nacos/**
+          filters:
+            - StripPrefix=1
         - id: basic
           uri: lb://basic
           predicates:
@@ -14,11 +20,15 @@ spring:
           uri: lb://authorize
           predicates:
             - Path=/**
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: http://localhost:${server.port}/authorize/rsa/publicKey
+        - id: aliyun_route
+          uri: https://www.aliyun.com/
+          predicates:
+            - Path=/product/**
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          jwk-set-uri: http://localhost:${server.port}/authorize/rsa/publicKey
 
   ## Redis 配置
   redis:
