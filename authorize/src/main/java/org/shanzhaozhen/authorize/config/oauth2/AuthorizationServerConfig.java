@@ -92,18 +92,30 @@ public class AuthorizationServerConfig {
         return new JdbcRegisteredClientRepository(jdbcTemplate);
     }
 
+    /**
+     * 保存授权信息，授权服务器给我们颁发来token，那我们肯定需要保存吧，由这个服务来保存
+     * @param jdbcTemplate
+     * @param registeredClientRepository
+     * @return
+     */
     @Bean
     public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository) {
         return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
     }
 
+    /**
+     * 如果是授权码的流程，可能客户端申请了多个权限，比如：获取用户信息，修改用户信息，此Service处理的是用户给这个客户端哪些权限，比如只给获取用户信息的权限
+     * @param jdbcTemplate
+     * @param registeredClientRepository
+     * @return
+     */
     @Bean
     public OAuth2AuthorizationConsentService authorizationConsentService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository) {
         return new JdbcOAuth2AuthorizationConsentService(jdbcTemplate, registeredClientRepository);
     }
 
     /**
-     * 生成 jwt 配置
+     * 对 JWT 进行签名的 加解密密钥
      * @return
      */
     @Bean
@@ -113,6 +125,10 @@ public class AuthorizationServerConfig {
         return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
     }
 
+    /**
+     * 配置一些断点的路径，比如：获取token、授权端点 等
+     * @return
+     */
     @Bean
     public ProviderSettings providerSettings() {
         return ProviderSettings.builder().issuer("http://auth-server:9000").build();
