@@ -13,9 +13,7 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
-/**
- * @author Joe Grandja
- */
+
 public final class Jwks {
 
 	private Jwks() {

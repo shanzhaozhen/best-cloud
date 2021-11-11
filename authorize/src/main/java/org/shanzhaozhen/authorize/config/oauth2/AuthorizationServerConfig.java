@@ -24,7 +24,6 @@ import org.springframework.security.oauth2.server.authorization.config.ProviderS
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-import java.util.UUID;
 
 /**
  * 授权服务器配置
@@ -74,29 +73,53 @@ public class AuthorizationServerConfig {
         /*
         // 使用内存作为客户端的信息库
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
+                // 客户端id 需要唯一
                 .clientId("messaging-client")
+                // 客户端密码
                 .clientSecret("{noop}secret")
+                // 可以基于 basic 的方式和授权服务器进行认证
                 .clientAuthenticationMethod(ClientAuthenticationMethod.BASIC)
+                // 授权码
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                // 刷新token
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                // 客户端模式
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                // 密码模式
+                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
+                // 重定向url
                 .redirectUri("http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc")
                 .redirectUri("http://127.0.0.1:8080/authorized")
+                // 客户端申请的作用域，也可以理解这个客户端申请访问用户的哪些信息，比如：获取用户信息，获取用户照片等
                 .scope(OidcScopes.OPENID)
                 .scope("message.read")
                 .scope("message.write")
-                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
+                .clientSettings(ClientSettings
+                        .builder()
+                        // 是否需要用户确认一下客户端需要获取用户的哪些权限
+                        // 比如：客户端需要获取用户的 用户信息、用户照片 但是此处用户可以控制只给客户端授权获取 用户信息。
+                        .requireAuthorizationConsent(true)
+                        .build()
+                )
+                .tokenSettings(TokenSettings.builder()
+                        // accessToken 的有效期
+                        .accessTokenTimeToLive(Duration.ofHours(1))
+                        // refreshToken 的有效期
+                        .refreshTokenTimeToLive(Duration.ofDays(3))
+                        // 是否可重用刷新令牌
+                        .reuseRefreshTokens(true)
+                        .build()
+                )
                 .build();
         return new InMemoryRegisteredClientRepository(registeredClient);
         */
-
 
         // 使用数据库作为客户端的信息库
         return new JdbcRegisteredClientRepository(jdbcTemplate);
     }
 
     /**
-     * 保存授权信息，授权服务器给我们颁发来token，那我们肯定需要保存吧，由这个服务来保存
+     * 保存授权信息，授权服务器给我们颁发来 token，那我们肯定需要保存吧，由这个服务来保存
      * @param jdbcTemplate
      * @param registeredClientRepository
      * @return
@@ -137,7 +160,7 @@ public class AuthorizationServerConfig {
         return ProviderSettings.builder().issuer("http://auth-server:9000").build();
     }
 
-    @Bean
+/*    @Bean
     public EmbeddedDatabase embeddedDatabase() {
         return new EmbeddedDatabaseBuilder()
                 .generateUniqueName(true)
@@ -147,6 +170,6 @@ public class AuthorizationServerConfig {
                 .addScript("org/springframework/security/oauth2/server/authorization/oauth2-authorization-consent-schema.sql")
                 .addScript("org/springframework/security/oauth2/server/authorization/client/oauth2-registered-client-schema.sql")
                 .build();
-    }
+    }*/
 
 }

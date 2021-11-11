@@ -17,6 +17,7 @@ EXPOSE 18080
 
 
 # 可以使用的参数： -Xms64m -Xmx256m -Dsentinel.dashboard.auth.username=admin -Dsentinel.dashboard.auth.password=admin123 -Dserver.servlet.session.timeout=120
-ENTRYPOINT ["java", " ${JAVA_OPTS}", "-jar", "sentinel-dashboard.jar ${JAVA_ARGS}"]
+#ENTRYPOINT ["java", " ${JAVA_OPTS} -jar", "sentinel-dashboard.jar ${JAVA_ARGS}"]
+ENTRYPOINT ["java", "-jar", "sentinel-dashboard.jar"]
 
 # 在镜像运行为容器后执行的命令

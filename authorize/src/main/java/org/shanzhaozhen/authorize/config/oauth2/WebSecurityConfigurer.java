@@ -1,4 +1,5 @@
 package org.shanzhaozhen.authorize.config.oauth2;
+/*
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -15,9 +16,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
-    /**
+    */
+/**
      * 需要放行的URL
-     */
+     *//*
+
     private static final String[] AUTH_WHITELIST = {
             "/", "/login/**", "/logout/**", "/register/**",
             "/rsa/publicKey", "/oauth/logout", "/oauth/**",
@@ -32,11 +35,13 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     private final CustomUserDetailsService customUserDetailsService;
 
-    /**
+    */
+/**
      * 定义授权规则
      * @param auth
      * @throws Exception
-     */
+     *//*
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder);
@@ -64,12 +69,15 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         ;
     }
 
-    /**
+    */
+/**
      *  如果不配置SpringBoot会自动配置一个AuthenticationManager,覆盖掉内存中的用户，而且也注入不了
-     */
+     *//*
+
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
 }
+*/

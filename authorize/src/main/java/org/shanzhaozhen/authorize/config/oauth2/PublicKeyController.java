@@ -1,4 +1,5 @@
 package org.shanzhaozhen.authorize.config.oauth2;
+/*
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -24,3 +25,4 @@ public class PublicKeyController {
     }
 
 }
+*/

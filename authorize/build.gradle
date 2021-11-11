@@ -15,6 +15,9 @@ dependencies {
             'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel',
 
             'org.springframework.boot:spring-boot-starter-web',
+            'org.springframework.boot:spring-boot-starter-actuator',
+            'org.springframework.cloud:spring-cloud-starter-bootstrap',
+
 
             'org.springframework.boot:spring-boot-starter-security',
             "org.springframework.security:spring-security-oauth2-authorization-server:${authorizationServerVersion}",

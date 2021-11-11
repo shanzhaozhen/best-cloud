@@ -1,4 +1,5 @@
 package org.shanzhaozhen.authorize.config.oauth2;
+/*
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,3 +20,4 @@ public class InitResourceRolesCacheRunner implements CommandLineRunner {
     }
 
 }
+*/

@@ -1,4 +1,5 @@
 package org.shanzhaozhen.authorize.config.oauth2;
+/*
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,18 +17,19 @@ public class TokenStoreConfig {
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
 
-//    @Autowired
-//    private DataSource dataSource;
+    @Autowired
+    private DataSource dataSource;
 
     @Bean
     public TokenStore redisTokenStore () {
         return new RedisTokenStore(redisConnectionFactory);
     }
 
-//    @Bean
-//    public TokenStore jdbcTokenStore () {
-//        return new JdbcTokenStore(dataSource);
-//    }
+    @Bean
+    public TokenStore jdbcTokenStore () {
+        return new JdbcTokenStore(dataSource);
+    }
 
 
 }
+*/
