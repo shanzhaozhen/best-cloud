@@ -1,11 +1,8 @@
 package org.shanzhaozhen.authorize.service;
 
 import org.shanzhaozhen.basiccommon.dto.ResourceDTO;
-import org.springframework.security.access.ConfigAttribute;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public interface ResourceService {
 
@@ -20,7 +17,7 @@ public interface ResourceService {
      * 获取所有资源的树形结构
      * @return
      */
-    List<ResourceDTO> getAllResourceTreeByType(Integer type);
+    List<ResourceDTO> getResourceTreeByType(Integer type);
 
     /**
      * 通过资源id获取资源实体
@@ -51,8 +48,9 @@ public interface ResourceService {
     Long deleteResource(Long resourceId);
 
     /**
-     * 加载资源信息
+     * 批量删除资源(通过资源id删除)
+     * @param resourceIds
+     * @return
      */
-    Map<String, Collection<ConfigAttribute>> initResourceInfo();
-
+    List<Long> batchDeleteResource(List<Long> resourceIds);
 }

@@ -2,7 +2,6 @@ package org.shanzhaozhen.authorize.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.basiccommon.dto.RoleDTO;
-import org.shanzhaozhen.basiccommon.form.BaseSearchForm;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -18,10 +17,11 @@ public interface RoleService {
 
     /**
      * 获取角色的分页列表
-     * @param baseSearchForm
+     * @param page
+     * @param keyword
      * @return
      */
-    Page<RoleDTO> getRolePage(BaseSearchForm<RoleDTO> baseSearchForm);
+    Page<RoleDTO> getRolePage(Page<RoleDTO> page, String keyword);
 
     /**
      * 获取所有角色
@@ -35,6 +35,13 @@ public interface RoleService {
      * @return
      */
     RoleDTO getRoleById(Long roleId);
+
+    /**
+     * 通过角色id获取（细节）
+     * @param roleId
+     * @return
+     */
+    RoleDTO getRoleDetailById(Long roleId);
 
     /**
      * 新增角色
@@ -58,18 +65,25 @@ public interface RoleService {
     Long deleteRole(Long roleId);
 
     /**
-     * 更新角色与路由和资源的关系表
-     * @param roleId
-     * @param routeIds
+     * 批量删除角色(通过角色id删除)
+     * @param roleIds
+     * @return
      */
-    void updateRouteAndResource(@NotNull Long roleId, List<Long> routeIds, List<Long> resourceIds);
+    List<Long> batchDeleteRole(List<Long> roleIds);
 
     /**
-     * 批量插入角色-路由关系表
+     * 更新角色与菜单和资源的关系表
      * @param roleId
-     * @param routeIds
+     * @param menuIds
      */
-    void bathAddRoleRoute(Long roleId, List<Long> routeIds);
+    void updateMenuAndResource(@NotNull Long roleId, List<Long> menuIds, List<Long> resourceIds);
+
+    /**
+     * 批量插入角色-菜单关系表
+     * @param roleId
+     * @param menuIds
+     */
+    void bathAddRoleMenu(Long roleId, List<Long> menuIds);
 
     /**
      * 批量插入角色-资源关系表

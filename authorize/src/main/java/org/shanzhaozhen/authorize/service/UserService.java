@@ -1,10 +1,10 @@
 package org.shanzhaozhen.authorize.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.shanzhaozhen.common.entity.JWTUser;
+import org.shanzhaozhen.basiccommon.dto.JWTUser;
 import org.shanzhaozhen.basiccommon.dto.UserDTO;
-import org.shanzhaozhen.basiccommon.form.BaseSearchForm;
-import org.shanzhaozhen.basiccommon.vo.UserInfo;
+import org.shanzhaozhen.basiccommon.form.UserDepartmentForm;
+import org.shanzhaozhen.basiccommon.vo.CurrentUser;
 
 import java.util.List;
 
@@ -54,14 +54,15 @@ public interface UserService {
      * 获取当前用户的主要信息
      * @return
      */
-    UserInfo getUserInfo();
+    CurrentUser getUserInfo();
 
     /**
      * 获取用户的分页列表
-     * @param baseSearchForm
+     * @param page
+     * @param keyword
      * @return
      */
-    Page<UserDTO> getUserPage(BaseSearchForm<UserDTO> baseSearchForm);
+    Page<UserDTO> getUserPage(Page<UserDTO> page, String keyword);
 
     /**
      * 新增用户
@@ -85,10 +86,48 @@ public interface UserService {
     Long deleteUser(Long userId);
 
     /**
-     * 批量添加用户角色
-     * @param userId
-     * @param roleIds
+     * 批量删除用户
+     * @param userIds
+     * @return
      */
-    void bathAddUserRole(Long userId, List<Long> roleIds);
+    List<Long> batchDeleteUser(List<Long> userIds);
 
+    /**
+     * 通过获取角色Id获取用户
+     * @param page
+     * @param roleId
+     * @param keyword
+     * @return
+     */
+    Page<UserDTO> getUserPageByRoleId(Page<UserDTO> page, Long roleId, String keyword);
+
+    /**
+     * 通过获取部门Id获取用户
+     * @param page
+     * @param departmentId
+     * @param keyword
+     * @return
+     */
+    Page<UserDTO> getUserPageByDepartmentId(Page<UserDTO> page, Long departmentId, String keyword);
+
+    /**
+     * 更新用户的部门信息
+     * @param userId
+     * @param departmentId
+     * @return
+     */
+    Long updateUserDepartment(Long userId, Long departmentId);
+
+    /**
+     * 批量更新用户的部门信息
+     * @param userDepartmentForm
+     * @return
+     */
+    List<Long> batchUpdateUserDepartment(UserDepartmentForm userDepartmentForm);
+
+    /**
+     * 用户注销
+     * @return
+     */
+    Boolean logout();
 }

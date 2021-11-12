@@ -1,12 +1,11 @@
 package org.shanzhaozhen.basiccommon.dto;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import org.shanzhaozhen.basiccommon.domain.BaseInfo;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -16,67 +15,72 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "角色DTO实体")
-public class UserDTO implements UserDetails {
+@Schema(description = "角色DTO实体")
+public class UserDTO extends BaseInfo implements UserDetails {
 
-    @ApiModelProperty(value = "主键ID")
+    private static final long serialVersionUID = 6817233178740335398L;
+
+    @Schema(title = "主键ID")
     private Long id;
 
-    @ApiModelProperty(value = "用户名")
+    @Schema(title = "用户名")
     private String username;
 
-    @ApiModelProperty(value = "密码")
+    @Schema(title = "密码")
     private String password;
 
-    @TableField(exist = false)
-    private Collection<GrantedAuthority> authorities;
+    @Schema(title = "部门ID")
+    private Long depId;
 
-    @ApiModelProperty(value = "账户是否过期,过期无法验证")
+    @TableField(exist = false)
+    private Collection<CustomGrantedAuthority> authorities;
+
+    @Schema(title = "账户是否过期,过期无法验证")
     private boolean accountNonExpired;
 
-    @ApiModelProperty(value = "指定用户是否被锁定或者解锁,锁定的用户无法进行身份验证")
+    @Schema(title = "指定用户是否被锁定或者解锁,锁定的用户无法进行身份验证")
     private boolean accountNonLocked;
 
-    @ApiModelProperty(value = "指示是否已过期的用户的凭据(密码),过期的凭据防止认证")
+    @Schema(title = "指示是否已过期的用户的凭据(密码),过期的凭据防止认证")
     private boolean credentialsNonExpired;
 
-    @ApiModelProperty(value = "是否被禁用,禁用的用户不能身份验证")
+    @Schema(title = "是否被禁用,禁用的用户不能身份验证")
     private boolean enabled;
 
-    @ApiModelProperty(value = "姓名")
+    @Schema(title = "姓名")
     private String name;
 
-    @ApiModelProperty(value = "昵称")
+    @Schema(title = "昵称")
     private String nickname;
 
-    @ApiModelProperty(value = "性别")
+    @Schema(title = "性别")
     private Integer sex;
 
-    @ApiModelProperty(value = "生日")
+    @Schema(title = "生日")
     private Date birthday;
 
-    @ApiModelProperty(value = "头像")
+    @Schema(title = "头像")
     private String avatar;
 
-    @ApiModelProperty(value = "邮箱")
+    @Schema(title = "邮箱")
     private String email;
 
-    @ApiModelProperty(value = "手机号码")
+    @Schema(title = "手机号码")
     private String phoneNumber;
 
-    @ApiModelProperty(value = "地址编号")
+    @Schema(title = "地址编号")
     private String addressCode;
 
-    @ApiModelProperty(value = "详细地址")
+    @Schema(title = "详细地址")
     private String detailedAddress;
 
-    @ApiModelProperty(value = "个人介绍")
+    @Schema(title = "个人介绍")
     private String introduction;
 
-    @ApiModelProperty(value = "记录用户的角色")
+    @Schema(title = "记录用户的角色")
     private List<RoleDTO> roles;
 
-    @ApiModelProperty(value = "关联的角色id")
+    @Schema(title = "关联的角色ID")
     private List<Long> roleIds;
 
 }

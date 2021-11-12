@@ -1,7 +1,6 @@
 package org.shanzhaozhen.basiccommon.form;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,28 +14,28 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "角色Form实体")
+@Schema(description = "角色Form实体")
 public class RoleForm {
 
-    @ApiModelProperty(value = "主键ID")
+    @Schema(title = "主键ID")
     @NotNull(groups = {Update.class}, message = "角色id不能为空")
     private Long id;
 
-    @ApiModelProperty(value = "名称")
+    @Schema(title = "名称")
     @NotEmpty(groups = {Insert.class, Update.class}, message = "角色名称不能为空")
     private String name;
 
-    @ApiModelProperty(value = "标识名称")
-    @NotEmpty(groups = {Insert.class, Update.class}, message = "标识名称不能为空")
-    private String identification;
+    @Schema(title = "角色代码")
+    @NotEmpty(groups = {Insert.class, Update.class}, message = "角色代码不能为空")
+    private String code;
 
-    @ApiModelProperty(value = "描述")
+    @Schema(title = "描述")
     private String description;
 
-    @ApiModelProperty(value = "关联的路由id")
-    private List<Long> routeIds;
+    @Schema(title = "关联的菜单id")
+    private List<Long> menuIds;
 
-    @ApiModelProperty(value = "关联的资源id")
+    @Schema(title = "关联的资源id")
     private List<Long> resourceIds;
 
 }

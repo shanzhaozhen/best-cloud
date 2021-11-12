@@ -1,7 +1,7 @@
 package org.shanzhaozhen.basiccommon.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import org.shanzhaozhen.basiccommon.domain.BaseInfo;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,31 +11,33 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "角色DTO实体")
-public class RoleDTO {
+@Schema(description = "角色DTO实体")
+public class RoleDTO extends BaseInfo {
 
-    @ApiModelProperty(value = "主键ID")
+    private static final long serialVersionUID = -4386224070617343831L;
+
+    @Schema(title = "主键ID")
     private Long id;
 
-    @ApiModelProperty(value = "名称")
+    @Schema(title = "名称")
     private String name;
 
-    @ApiModelProperty(value = "标识名称")
-    private String identification;
+    @Schema(title = "角色代码")
+    private String code;
 
-    @ApiModelProperty(value = "描述")
+    @Schema(title = "描述")
     private String description;
 
-    @ApiModelProperty(value = "关联的路由")
-    private List<RouteDTO> routes;
+    @Schema(title = "关联的菜单")
+    private List<org.shanzhaozhen.basiccommon.dto.MenuDTO> menus;
 
-    @ApiModelProperty(value = "关联的路由id")
-    private List<Long> routeIds;
+    @Schema(title = "关联的菜单ID")
+    private List<Long> menuIds;
 
-    @ApiModelProperty(value = "关联的资源")
+    @Schema(title = "关联的资源")
     private List<ResourceDTO> resources;
 
-    @ApiModelProperty(value = "关联的资源id")
+    @Schema(title = "关联的资源ID")
     private List<Long> resourceIds;
 
 }

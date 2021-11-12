@@ -13,9 +13,9 @@ import org.shanzhaozhen.basiccommon.domain.BaseInfo;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("sys_resource")
-@Schema(description = "资源DO实体")
-public class ResourceDO extends BaseInfo {
+@TableName("sys_menu")
+@Schema(description = "菜单DO实体")
+public class MenuDO extends BaseInfo {
 
     private static final long serialVersionUID = 4485640590947953262L;
 
@@ -23,37 +23,34 @@ public class ResourceDO extends BaseInfo {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
-    @Schema(title = "资源名称")
+    @Schema(title = "菜单名称")
     private String name;
 
-    @Schema(title = "资源路由")
-    private String path;
+    @Schema(title = "菜单名称（本地化）")
+    private String locale;
 
-    @Schema(title = "资源类型")
-    private Integer type;
+    @Schema(title = "菜单路径")
+    private String path;
 
     @Schema(title = "上级ID")
     private Long pid;
 
+    @Schema(title = "图标")
+    private String icon;
+
     @Schema(title = "排序等级")
     private Integer priority;
 
-//    @Schema(title = "支持Get请求")
-//    private Boolean supportGet;
-//
-//    @Schema(title = "支持Post请求")
-//    private Boolean supportPost;
-//
-//    @Schema(title = "支持Put请求")
-//    private Boolean supportPut;
-//
-//    @Schema(title = "支持Delete请求")
-//    private Boolean supportDelete;
-//
-//    @Schema(title = "支持Patch请求")
-//    private Boolean supportPatch;
+    @Schema(title = "菜单是否隐藏")
+    private Boolean hideInMenu;
 
-    @Schema(title = "资源描述")
+    @Schema(title = "隐藏子节点")
+    private Boolean hideChildrenInMenu;
+
+    @Schema(title = "参数")
+    private String props;
+
+    @Schema(title = "菜单描述")
     private String description;
 
 }

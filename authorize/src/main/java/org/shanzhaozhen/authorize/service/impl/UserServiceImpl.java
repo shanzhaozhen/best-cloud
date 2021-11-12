@@ -1,27 +1,32 @@
 package org.shanzhaozhen.authorize.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import lombok.RequiredArgsConstructor;
-import org.shanzhaozhen.authorize.mapper.UserMapper;
-import org.shanzhaozhen.authorize.mapper.UserRoleMapper;
-import org.shanzhaozhen.authorize.service.RouteService;
-import org.shanzhaozhen.authorize.service.UserService;
+import org.shanzhaozhen.basiccommon.converter.MenuConverter;
 import org.shanzhaozhen.basiccommon.converter.RoleConverter;
 import org.shanzhaozhen.basiccommon.domain.sys.UserDO;
-import org.shanzhaozhen.basiccommon.domain.sys.UserRoleDO;
-import org.shanzhaozhen.common.entity.JWTUser;
+import org.shanzhaozhen.basiccommon.dto.JWTUser;
 import org.shanzhaozhen.basiccommon.dto.UserDTO;
-import org.shanzhaozhen.basiccommon.form.BaseSearchForm;
-import org.shanzhaozhen.basiccommon.vo.UserInfo;
-import org.shanzhaozhen.common.utils.CustomBeanUtils;
-import org.shanzhaozhen.common.utils.PasswordUtils;
+import org.shanzhaozhen.basiccommon.form.UserDepartmentForm;
+import org.shanzhaozhen.basiccommon.utils.CustomBeanUtils;
+import org.shanzhaozhen.basiccommon.utils.PasswordUtils;
 import org.shanzhaozhen.basiccommon.utils.UserDetailsUtils;
+import org.shanzhaozhen.basiccommon.vo.CurrentUser;
+import org.shanzhaozhen.basiccommon.vo.UserInfo;
+import org.shanzhaozhen.authorize.mapper.RoleMapper;
+import org.shanzhaozhen.authorize.mapper.UserMapper;
+import org.shanzhaozhen.authorize.mapper.UserRoleMapper;
+import org.shanzhaozhen.authorize.service.MenuService;
+import org.shanzhaozhen.authorize.service.UserRoleService;
+import org.shanzhaozhen.authorize.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -31,15 +36,18 @@ import java.util.List;
 @CacheConfig(cacheNames = "user")
 public class UserServiceImpl implements UserService {
 
+    private final UserRoleService userRoleService;
+
     private final UserMapper userMapper;
 
-    private final RouteService routeService;
+    private final MenuService menuService;
 
     private final UserRoleMapper userRoleMapper;
 
     @Override
     public UserDTO getUserById(Long userId) {
-        return userMapper.getUserAndRolesByUserId(userId);
+        UserDTO userAndRolesByUserId = userMapper.getUserAndRolesByUserId(userId);
+        return userAndRolesByUserId;
     }
 
     @Override
@@ -78,21 +86,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserInfo getUserInfo() {
+    public CurrentUser getUserInfo() {
         UserDTO userDTO = this.getCurrentUser();
-        return UserInfo.builder()
-                .nickname(userDTO.getNickname())
-                .avatar(userDTO.getAvatar())
-                .introduction(userDTO.getIntroduction())
+        UserInfo userInfo = new UserInfo();
+        BeanUtils.copyProperties(userDTO, userInfo);
+        return CurrentUser.builder()
+                .userInfo(userInfo)
                 .roles(RoleConverter.toBase(userDTO.getRoles()))
-                .asyncRoutes(routeService.getRoutesByCurrentUser())
+                .menus(MenuConverter.toMenuVO(menuService.getMenusByCurrentUser()))
                 .build();
     }
 
     @Override
     @Transactional
-    public Page<UserDTO> getUserPage(BaseSearchForm<UserDTO> baseSearchForm) {
-        return userMapper.getUserPage(baseSearchForm.getPage(), baseSearchForm.getKeyword());
+    public Page<UserDTO> getUserPage(Page<UserDTO> page, String keyword) {
+        return userMapper.getUserPage(page, keyword);
     }
 
     @Override
@@ -103,7 +111,9 @@ public class UserServiceImpl implements UserService {
         CustomBeanUtils.copyPropertiesExcludeMeta(userDTO, userDO, "password");
         userDO.setPassword(PasswordUtils.encryption(userDTO.getPassword()));
         userMapper.insert(userDO);
-        bathAddUserRole(userDO.getId(), userDTO.getRoleIds());
+        if (!CollectionUtils.isEmpty(userDTO.getRoleIds())) {
+            userRoleService.bathAddUserRole(userDO.getId(), userDTO.getRoleIds());
+        }
         return userDO.getId();
     }
 
@@ -119,7 +129,7 @@ public class UserServiceImpl implements UserService {
         }
         userMapper.updateById(userDO);
         userRoleMapper.deleteByUserId(userDO.getId());
-        bathAddUserRole(userDO.getId(), userDTO.getRoleIds());
+        userRoleService.bathAddUserRole(userDO.getId(), userDTO.getRoleIds());
         return userDO.getId();
     }
 
@@ -133,11 +143,51 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void bathAddUserRole(Long userId, List<Long> roleIds) {
-        for (Long roleId : roleIds) {
-            UserRoleDO userRoleDO = new UserRoleDO(null, userId, roleId);
-            userRoleMapper.insert(userRoleDO);
+    public List<Long> batchDeleteUser(List<Long> userIds) {
+        Assert.notEmpty(userIds, "没有需要删除的用户");
+        for (Long userId : userIds) {
+            this.deleteUser(userId);
         }
+        return userIds;
+    }
+
+    @Override
+    public Page<UserDTO> getUserPageByRoleId(Page<UserDTO> page, Long roleId, String keyword) {
+        Assert.notNull(roleId, "没有有效的角色ID！");
+        return userMapper.getUserPageByRoleId(page, roleId, keyword);
+    }
+
+    @Override
+    public Page<UserDTO> getUserPageByDepartmentId(Page<UserDTO> page, Long departmentId, String keyword) {
+        Assert.notNull(departmentId, "没有有效的部门ID！");
+        return userMapper.getUserPageByDepartmentId(page, departmentId, keyword);
+    }
+
+    @Override
+    @Transactional
+    public Long updateUserDepartment(Long userId, Long departmentId) {
+        UserDO userDO = userMapper.selectById(userId);
+        Assert.notNull(userDO, "没有找到对应的用户");
+        userDO.setDepId(departmentId);
+        userMapper.updateById(userDO);
+        return userDO.getId();
+    }
+
+    @Override
+    @Transactional
+    public List<Long> batchUpdateUserDepartment(UserDepartmentForm userDepartmentForm) {
+        List<Long> userIds = userDepartmentForm.getUserIds();
+        Long departmentId = userDepartmentForm.getDepartmentId();
+        for (Long userId : userIds) {
+            this.updateUserDepartment(userId, departmentId);
+        }
+        return userIds;
+    }
+
+    @Override
+    public Boolean logout() {
+        Long userId = UserDetailsUtils.getUserId();
+        return true;
     }
 
 }

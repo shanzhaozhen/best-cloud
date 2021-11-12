@@ -6,7 +6,7 @@
     <resultMap id="BaseResultMap" type="org.shanzhaozhen.basiccommon.domain.sys.RoleDO">
         <id column="id" property="id" />
         <result column="name" property="name" />
-        <result column="identification" property="identification" />
+        <result column="code" property="code" />
         <result column="description" property="description" />
         <result column="created_by" property="createdBy" />
         <result column="created_date" property="createdDate" />
@@ -16,17 +16,26 @@
 
     <resultMap autoMapping="true" type="org.shanzhaozhen.basiccommon.dto.RoleDTO" id="RoleResourceMap">
         <id property="id" column="id"></id>
-        <collection property="routes" column="id" select="org.shanzhaozhen.authorize.mapper.RouteMapper.getRouteByRoleId">
+        <collection property="menus" column="id" select="org.shanzhaozhen.authorize.mapper.MenuMapper.getMenuByRoleId">
         </collection>
         <collection property="resources" column="id" select="org.shanzhaozhen.authorize.mapper.ResourceMapper.getResourceByRoleId">
         </collection>
     </resultMap>
 
-    <select id="getRoleByRoleId" resultMap="RoleResourceMap">
-        select id, name, identification, description,
-        created_by, created_date, last_modified_by, last_modified_date
+    <select id="getRoleDetailById" resultMap="RoleResourceMap">
+        select id, name, code, description,
+               created_by, created_date, last_modified_by, last_modified_date
         from sys_role
         where id = #{roleId}
+    </select>
+
+    <select id="getRolePage" resultType="org.shanzhaozhen.basiccommon.dto.RoleDTO">
+        select id, name, code, description, created_by, created_date, last_modified_by, last_modified_date
+        from sys_role
+        <if test="keyword != null and keyword != ''">
+            where name like concat ('%', #{keyword}, '%') or code like concat ('%', #{keyword}, '%')
+            or description like concat ('%', #{keyword}, '%')
+        </if>
     </select>
 
 </mapper>

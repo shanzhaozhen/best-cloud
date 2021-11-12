@@ -7,24 +7,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Schema(description = "用户登陆信息")
-public class UserInfo {
+public class CurrentUser {
 
-    @Schema(title = "姓名")
-    private String name;
+    @Schema(title = "用户信息")
+    private UserInfo userInfo;
 
-    @Schema(title = "昵称")
-    private String nickname;
+    @Schema(title = "角色")
+    private List<RoleBase> roles;
 
-    @Schema(title = "头像")
-    private String avatar;
-
-    @Schema(title = "个人简介")
-    private String introduction;
+    @Schema(title = "菜单")
+    private List<MenuVO> menus;
 
 }

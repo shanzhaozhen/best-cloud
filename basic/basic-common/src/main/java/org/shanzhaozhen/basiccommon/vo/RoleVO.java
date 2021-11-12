@@ -1,7 +1,10 @@
 package org.shanzhaozhen.basiccommon.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import org.shanzhaozhen.basiccommon.config.Jackson.ToStringListSerialize;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,25 +14,29 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "角色VO实体")
-public class RoleVO {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Schema(description = "角色VO实体")
+public class RoleVO extends BaseInfoVO {
 
-    @ApiModelProperty(value = "主键ID")
+    @Schema(title = "主键ID")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    @ApiModelProperty(value = "名称")
+    @Schema(title = "名称")
     private String name;
 
-    @ApiModelProperty(value = "标识名称")
-    private String identification;
+    @Schema(title = "角色代码")
+    private String code;
 
-    @ApiModelProperty(value = "描述")
+    @Schema(title = "描述")
     private String description;
 
-    @ApiModelProperty(value = "关联的路由id")
-    private List<Long> routeIds;
+    @Schema(title = "关联的菜单id")
+    @JsonSerialize(using = ToStringListSerialize.class)
+    private List<Long> menuIds;
 
-    @ApiModelProperty(value = "关联的资源id")
+    @Schema(title = "关联的资源id")
+    @JsonSerialize(using = ToStringListSerialize.class)
     private List<Long> resourceIds;
 
 }

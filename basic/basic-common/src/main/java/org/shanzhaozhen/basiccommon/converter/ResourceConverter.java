@@ -5,9 +5,9 @@ import org.shanzhaozhen.basiccommon.dto.ResourceDTO;
 import org.shanzhaozhen.basiccommon.form.ResourceForm;
 import org.shanzhaozhen.basiccommon.vo.ResourceVO;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class ResourceConverter {
@@ -53,7 +53,7 @@ public class ResourceConverter {
     public static ResourceVO toVO(ResourceDTO resourceDTO) {
         ResourceVO resourceVO = new ResourceVO();
         BeanUtils.copyProperties(resourceDTO, resourceVO);
-        if (resourceDTO.getChildren() != null && resourceDTO.getChildren().size() > 0) {
+        if (!CollectionUtils.isEmpty(resourceDTO.getChildren())) {
             resourceVO.setChildren(toVO(resourceDTO.getChildren()));
         }
         return resourceVO;
@@ -70,53 +70,6 @@ public class ResourceConverter {
             resourceVOList.add(toVO(resourceDTO));
         }
         return resourceVOList;
-    }
-
-    /**
-     * 将资源list转成树状结构
-     * @param resourceDTOList
-     * @return
-     */
-    public static List<ResourceDTO> builtResourceTree(List<ResourceDTO> resourceDTOList) {
-        List<ResourceDTO> rootList = new ArrayList<>();
-        List<ResourceDTO> noRootList = new ArrayList<>();
-
-        for (ResourceDTO resourceDTO : resourceDTOList) {
-            if (resourceDTO.getPid() == null || resourceDTO.getPid() <= 0) {
-                rootList.add(resourceDTO);
-            } else {
-                noRootList.add(resourceDTO);
-            }
-        }
-
-        getResourceChildren(noRootList, resourceDTOList);
-
-        rootList.sort((Comparator.comparing(ResourceDTO::getPriority)));
-
-        return rootList;
-    }
-
-    /**
-     * 对动态路由子节点进行递归查找
-     * @param noRootList
-     * @param children
-     * @return
-     */
-    public static List<ResourceDTO> getResourceChildren(List<ResourceDTO> noRootList, List<ResourceDTO> children) {
-        for (ResourceDTO child : children) {
-            List<ResourceDTO> grandsons = new ArrayList<>();
-            for (ResourceDTO noRoot : noRootList) {
-                if (child.getId().equals(noRoot.getPid())) {
-                    grandsons.add(noRoot);
-                }
-            }
-            if (grandsons.size() > 0) {
-                child.setChildren(getResourceChildren(noRootList, grandsons));
-            }
-        }
-        children.sort((Comparator.comparing(ResourceDTO::getPriority)));
-
-        return children;
     }
 
 }
