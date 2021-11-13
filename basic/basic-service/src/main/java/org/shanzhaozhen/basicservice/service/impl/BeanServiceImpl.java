@@ -2,7 +2,7 @@ package org.shanzhaozhen.basicservice.service.impl;
 
 import org.shanzhaozhen.basiccommon.dto.BeanInfo;
 import org.shanzhaozhen.basiccommon.dto.MethodInfo;
-import org.shanzhaozhen.basiccommon.utils.SpringContextUtils;
+import org.shanzhaozhen.common.utils.SpringContextUtils;
 import org.shanzhaozhen.basicservice.service.BeanService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;

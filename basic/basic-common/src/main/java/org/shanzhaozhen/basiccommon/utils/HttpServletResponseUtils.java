@@ -1,4 +1,4 @@
-package org.shanzhaozhen.basiccommon.utils;
+package org.shanzhaozhen.common.utils;
 
 import org.shanzhaozhen.common.entity.ResultObject;
 import org.shanzhaozhen.common.utils.JacksonUtils;

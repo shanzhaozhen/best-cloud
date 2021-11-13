@@ -1,7 +1,7 @@
 package org.shanzhaozhen.basicservice.schedule;
 
 import lombok.extern.slf4j.Slf4j;
-import org.shanzhaozhen.basiccommon.utils.CustomClassUtils;
+import org.shanzhaozhen.common.utils.CustomClassUtils;
 import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotEmpty;

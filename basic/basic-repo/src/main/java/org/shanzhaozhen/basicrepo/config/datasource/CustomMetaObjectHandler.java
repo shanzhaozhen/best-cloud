@@ -2,7 +2,7 @@ package org.shanzhaozhen.basicrepo.config.datasource;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
-import org.shanzhaozhen.basiccommon.utils.UserDetailsUtils;
+import org.shanzhaozhen.common.utils.UserDetailsUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;

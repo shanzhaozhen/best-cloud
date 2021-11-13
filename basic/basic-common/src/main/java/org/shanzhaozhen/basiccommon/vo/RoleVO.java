@@ -3,11 +3,11 @@ package org.shanzhaozhen.basiccommon.vo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import org.shanzhaozhen.basiccommon.config.Jackson.ToStringListSerialize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.shanzhaozhen.common.jackson.ToStringListSerialize;
 
 import java.util.List;
 

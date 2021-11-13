@@ -7,6 +7,9 @@ include 'common:common-redis'
 include 'gateway'
 include 'authorize'
 
+include 'security:security-api'
+include 'security:security-biz'
+
 include 'client'
 
 include 'basic:basic-api'

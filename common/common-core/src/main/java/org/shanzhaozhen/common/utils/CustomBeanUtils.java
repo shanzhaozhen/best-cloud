@@ -5,6 +5,7 @@ import org.springframework.beans.FatalBeanException;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.beans.PropertyDescriptor;
@@ -16,14 +17,26 @@ import java.util.List;
 
 public class CustomBeanUtils extends BeanUtils {
 
-    private static List<String> metaList = Arrays.asList("createdDate", "createdBy", "lastModifiedDate", "lastModifiedBy");
+    private static final List<String> metaList = Arrays.asList("createdDate", "createdBy", "lastModifiedDate", "lastModifiedBy");
 
     public static void copyPropertiesExcludeMeta(Object source, Object target, @Nullable String... ignoreProperties) {
+        copyPropertiesExcludeMeta(source, target, false, ignoreProperties);
+    }
+
+    public static void copyPropertiesExcludeMeta(Object source, Object target, boolean excludeNull, @Nullable String... ignoreProperties) {
         List<String> newMetas = new ArrayList<>(metaList);
         if (ignoreProperties != null && ignoreProperties.length > 0) {
             newMetas = Arrays.asList(ignoreProperties);
         }
-        CustomBeanUtils.copyProperties(source, target, newMetas.toArray(new String[0]));
+        if (excludeNull) {
+            copyPropertiesExcludeNull(source, target, newMetas.toArray(new String[0]));
+        } else {
+            copyProperties(source, target, newMetas.toArray(new String[0]));
+        }
+    }
+
+    public static void copyPropertiesExcludeNull(Object source, Object target, @Nullable String... ignoreProperties) {
+        copyPropertiesExcludeNull(source, target, null, ignoreProperties);
     }
 
     public static void copyPropertiesExcludeNull(Object source, Object target, @Nullable Class<?> editable, @Nullable String... ignoreProperties) {
@@ -44,7 +57,7 @@ public class CustomBeanUtils extends BeanUtils {
 
         for (PropertyDescriptor targetPd : targetPds) {
             Method writeMethod = targetPd.getWriteMethod();
-            if (writeMethod != null && (ignoreList == null || !ignoreList.contains(targetPd.getName()))) {
+            if (writeMethod != null && (CollectionUtils.isEmpty(ignoreList) || !ignoreList.contains(targetPd.getName()))) {
                 PropertyDescriptor sourcePd = getPropertyDescriptor(source.getClass(), targetPd.getName());
                 if (sourcePd != null) {
                     Method readMethod = sourcePd.getReadMethod();
@@ -56,7 +69,7 @@ public class CustomBeanUtils extends BeanUtils {
                             }
                             Object value = readMethod.invoke(source);
 
-                            if (!StringUtils.isEmpty(value)) {  //只拷贝不为null和非空串的属性
+                            if (value != null && StringUtils.hasText(value.toString())) {  //只拷贝不为null和非空串的属性
                                 if (!Modifier.isPublic(writeMethod.getDeclaringClass().getModifiers())) {
                                     writeMethod.setAccessible(true);
                                 }

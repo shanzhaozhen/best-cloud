@@ -1,4 +1,4 @@
-package org.shanzhaozhen.basiccommon.utils;
+package org.shanzhaozhen.common.utils;
 
 import org.shanzhaozhen.common.entity.JWTUser;
 import org.springframework.security.core.Authentication;

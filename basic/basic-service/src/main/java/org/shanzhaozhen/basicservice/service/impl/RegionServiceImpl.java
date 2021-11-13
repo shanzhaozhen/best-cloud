@@ -6,7 +6,7 @@ import org.shanzhaozhen.basiccommon.converter.RegionConverter;
 import org.shanzhaozhen.basiccommon.domain.sys.RegionDO;
 import org.shanzhaozhen.basiccommon.dto.RegionDTO;
 import org.shanzhaozhen.basiccommon.form.BaseSearchForm;
-import org.shanzhaozhen.basiccommon.utils.CustomBeanUtils;
+import org.shanzhaozhen.common.utils.CustomBeanUtils;
 import org.shanzhaozhen.basicrepo.mapper.RegionMapper;
 import org.shanzhaozhen.basicservice.service.RegionService;
 import org.springframework.stereotype.Service;

@@ -27,6 +27,8 @@ dependencies {
 
             'org.springframework.boot:spring-boot-starter-actuator',
 
+            'org.springframework.cloud:spring-cloud-starter-openfeign',
+
             'mysql:mysql-connector-java',
             "com.alibaba:druid-spring-boot-starter:${druidVersion}",
             "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}",
