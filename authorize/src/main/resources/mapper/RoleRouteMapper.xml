@@ -3,7 +3,7 @@
 <mapper namespace="org.shanzhaozhen.authorize.mapper.RoleMenuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.shanzhaozhen.basiccommon.domain.sys.RoleMenuDO">
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.security.domain.RoleMenuDO">
         <id column="id" property="id" />
         <result column="role_id" property="roleId" />
         <result column="menu_id" property="menuId" />

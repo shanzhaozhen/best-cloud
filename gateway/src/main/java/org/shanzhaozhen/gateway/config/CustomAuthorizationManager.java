@@ -2,7 +2,7 @@
 //
 //import lombok.RequiredArgsConstructor;
 //import lombok.extern.slf4j.Slf4j;
-//import org.shanzhaozhen.common.enums.AuthConstants;
+//import org.shanzhaozhen.common.constant.AuthConstants;
 //import org.springframework.data.redis.connection.RedisConnectionFactory;
 //import org.springframework.data.redis.core.RedisTemplate;
 //import org.springframework.http.HttpMethod;

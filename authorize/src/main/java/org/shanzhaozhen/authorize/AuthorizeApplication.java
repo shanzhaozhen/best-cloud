@@ -1,14 +1,17 @@
 package org.shanzhaozhen.authorize;
 
+import org.shanzhaozhen.security.feign.UserFeignClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@ComponentScan("org.shanzhaozhen")
+//@EnableFeignClients(clients = {UserFeignClient.class})
+@EnableFeignClients("org.shanzhaozhen.security.feign")
+//@ComponentScan(basePackages={"org.shanzhaozhen"})
 public class AuthorizeApplication {
 
     public static void main(String[] args) {

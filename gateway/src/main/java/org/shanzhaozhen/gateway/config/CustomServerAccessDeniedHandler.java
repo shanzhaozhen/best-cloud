@@ -1,7 +1,7 @@
 //package org.shanzhaozhen.gateway.config;
 //
 //import org.shanzhaozhen.common.entity.ResultObject;
-//import org.shanzhaozhen.common.enums.CodeConst;
+//import org.shanzhaozhen.common.constant.enums.CodeConst;
 //import org.shanzhaozhen.common.utils.JacksonUtils;
 //import org.springframework.core.io.buffer.DataBuffer;
 //import org.springframework.http.HttpHeaders;

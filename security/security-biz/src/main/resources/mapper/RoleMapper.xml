@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.shanzhaozhen.security.biz.mapper.RoleMapper">
+<mapper namespace="org.shanzhaozhen.security.mapper.RoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.shanzhaozhen.basiccommon.domain.sys.RoleDO">
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.security.domain.RoleDO">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="code" property="code" />
@@ -14,11 +14,11 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-    <resultMap autoMapping="true" type="org.shanzhaozhen.basiccommon.dto.RoleDTO" id="RoleResourceMap">
+    <resultMap autoMapping="true" type="org.shanzhaozhen.security.dto.RoleDTO" id="RoleResourceMap">
         <id property="id" column="id"></id>
-        <collection property="menus" column="id" select="org.shanzhaozhen.security.biz.mapper.MenuMapper.getMenuByRoleId">
+        <collection property="menus" column="id" select="org.shanzhaozhen.security.mapper.MenuMapper.getMenuByRoleId">
         </collection>
-        <collection property="resources" column="id" select="org.shanzhaozhen.security.biz.mapper.ResourceMapper.getResourceByRoleId">
+        <collection property="resources" column="id" select="org.shanzhaozhen.security.mapper.ResourceMapper.getResourceByRoleId">
         </collection>
     </resultMap>
 
@@ -29,7 +29,7 @@
         where id = #{roleId}
     </select>
 
-    <select id="getRolePage" resultType="org.shanzhaozhen.basiccommon.dto.RoleDTO">
+    <select id="getRolePage" resultType="org.shanzhaozhen.security.dto.RoleDTO">
         select id, name, code, description, created_by, created_date, last_modified_by, last_modified_date
         from sys_role
         <if test="keyword != null and keyword != ''">

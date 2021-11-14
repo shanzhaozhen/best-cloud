@@ -3,7 +3,7 @@
 <mapper namespace="org.shanzhaozhen.authorize.mapper.RoleResourceMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.shanzhaozhen.basiccommon.domain.sys.RoleResourceDO">
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.security.domain.RoleResourceDO">
         <id column="id" property="id" />
         <result column="role_id" property="roleId" />
         <result column="resource_id" property="resourceId" />

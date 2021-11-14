@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.shanzhaozhen.security.biz.mapper.MenuMapper">
+<mapper namespace="org.shanzhaozhen.security.mapper.MenuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.shanzhaozhen.basiccommon.domain.sys.MenuDO">
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.security.domain.MenuDO">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="locale" property="locale" />
@@ -21,9 +21,9 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-    <resultMap type="org.shanzhaozhen.basiccommon.dto.MenuDTO" id="MenuRoleMap">
+    <resultMap type="org.shanzhaozhen.security.dto.MenuDTO" id="MenuRoleMap">
         <id property="id" column="id"/>
-        <collection property="roles" column="id" select="org.shanzhaozhen.security.biz.mapper.RoleMapper.getRoleByMenuId" />
+        <collection property="roles" column="id" select="org.shanzhaozhen.security.mapper.RoleMapper.getRoleByMenuId" />
     </resultMap>
 
     <select id="getMenuRoleListByUserId" resultMap="MenuRoleMap">

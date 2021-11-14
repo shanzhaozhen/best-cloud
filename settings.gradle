@@ -12,7 +12,3 @@ include 'security:security-biz'
 
 include 'client'
 
-include 'basic:basic-api'
-include 'basic:basic-common'
-include 'basic:basic-service'
-include 'basic:basic-repo'

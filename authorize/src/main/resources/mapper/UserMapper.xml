@@ -10,7 +10,7 @@
     </sql>
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.shanzhaozhen.basiccommon.domain.sys.UserDO">
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.security.domain.UserDO">
         <id column="id" property="id" />
         <result column="username" property="username" />
         <result column="password" property="password" />
@@ -35,13 +35,13 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-    <resultMap autoMapping="true" type="org.shanzhaozhen.basiccommon.dto.UserDTO" id="UserRoleMap">
+    <resultMap autoMapping="true" type="org.shanzhaozhen.security.dto.UserDTO" id="UserRoleMap">
         <id property="id" column="id"></id>
         <collection property="roles" column="id" select="org.shanzhaozhen.authorize.mapper.RoleMapper.getRoleListByUserId">
         </collection>
     </resultMap>
 
-    <resultMap autoMapping="true" type="org.shanzhaozhen.basiccommon.dto.JWTUser" id="JWTUserMap">
+    <resultMap autoMapping="true" type="org.shanzhaozhen.security.dto.JWTUser" id="JWTUserMap">
         <id property="id" column="id"></id>
         <collection property="authorities" column="id" select="org.shanzhaozhen.authorize.mapper.RoleMapper.getAuthoritiesByUserId" />
     </resultMap>
@@ -57,7 +57,7 @@
         select id, username from sys_user where id = #{id}
     </select>
 
-    <select id="getUserPage" resultType="org.shanzhaozhen.basiccommon.dto.UserDTO">
+    <select id="getUserPage" resultType="org.shanzhaozhen.security.dto.UserDTO">
         select id, username, dep_id, account_non_expired, account_non_locked, credentials_non_expired, enabled,
         name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction,
         created_by, created_date, last_modified_by, last_modified_date 
@@ -68,7 +68,7 @@
         </if>
     </select>
 
-    <select id="getUserPageByRoleId" resultType="org.shanzhaozhen.basiccommon.dto.UserDTO">
+    <select id="getUserPageByRoleId" resultType="org.shanzhaozhen.security.dto.UserDTO">
         select u.id, u.username, u.name, u.nickname, u.dep_id from sys_user u
             left join sys_user_role sur on u.id = sur.user_id
             left join sys_role r on sur.role_id = r.id
@@ -79,7 +79,7 @@
         </if>
     </select>
 
-    <select id="getUserPageByDepartmentId" resultType="org.shanzhaozhen.basiccommon.dto.UserDTO">
+    <select id="getUserPageByDepartmentId" resultType="org.shanzhaozhen.security.dto.UserDTO">
         select id, username, name, nickname, dep_id from sys_user
         where dep_id = #{departmentId}
         <if test="keyword != null and keyword != ''">

@@ -4,14 +4,18 @@ dependencies {
 
     api (
             'org.springframework.security:spring-security-core',
-    )
-
-
-    implementation(
-            'org.springframework.boot:spring-boot-starter-json',
             "com.baomidou:mybatis-plus-extension:${mybatisPlusVersion}",
-//            'org.apache.tomcat.embed:tomcat-embed-core',
 
+            // 表单校验的两个依赖
+            'jakarta.validation:jakarta.validation-api',
+            'org.hibernate.validator:hibernate-validator',
+            'org.springframework.boot:spring-boot-starter-json',
+            'org.apache.tomcat.embed:tomcat-embed-core',
     )
+
+
+//    implementation(
+//
+//    )
 
 }

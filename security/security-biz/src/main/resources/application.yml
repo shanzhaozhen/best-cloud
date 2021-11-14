@@ -1,4 +1,3 @@
-# 打包命令 mvn clean package -Dmaven.test.skip=true
 spring:
   profiles:
     active: dev

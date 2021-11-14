@@ -1,7 +1,7 @@
 //package org.shanzhaozhen.gateway.config;
 //
 //import lombok.RequiredArgsConstructor;
-//import org.shanzhaozhen.common.enums.AuthConstants;
+//import org.shanzhaozhen.common.constant.AuthConstants;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
 //import org.springframework.core.convert.converter.Converter;
