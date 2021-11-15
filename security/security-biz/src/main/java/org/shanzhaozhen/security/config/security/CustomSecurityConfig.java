@@ -23,32 +23,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    /**
-     * 需要放行的URL
-     */
-    private static final String[] AUTH_WHITELIST = {
-            "/",
-            "/login",
-            "/register/**",
-            "/swagger-resources/**",
-            "/v2/api-docs/**",
-            "/v3/api-docs/**",
-            "/swagger",
-            "/swagger/**",
-            "/swagger2",
-            "/swagger2/**",
-            "/swagger3",
-            "/swagger3/**",
-            "/swagger-ui",
-            "/swagger-ui/**",
-            "/swagger-ui.html",
-            "/druid/**",
-            "/webjars/**",
-            "/upload",
-            "/test",
-            "/files/**",
-            "/error"
-    };
+    private final SecurityConfig securityConfig;
 
     private final CustomUserDetailsService customUserDetailsService;
 
@@ -79,7 +54,7 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .authorizeRequests()
 //                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers(AUTH_WHITELIST).permitAll()
+                .antMatchers(securityConfig.getWhiteList()).permitAll()
                 .anyRequest().authenticated()
                 .and()
             .headers()
@@ -93,7 +68,7 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .authenticationEntryPoint(customAuthenticationEntryPoint)
 //                .and()
             .addFilterBefore(customJwtAuthenticationFilter, BasicAuthenticationFilter.class)
-            .addFilterBefore(CustomUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+//            .addFilterBefore(CustomUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
             .addFilterAfter(CustomFilterSecurityInterceptor(), FilterSecurityInterceptor.class)
         ;
     }
@@ -117,12 +92,12 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
      * @return
      * @throws Exception
      */
-    @Bean
-    public CustomUsernamePasswordAuthenticationFilter CustomUsernamePasswordAuthenticationFilter() throws Exception {
-        CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter = new CustomUsernamePasswordAuthenticationFilter(customJwtTokenProvider);
-        customUsernamePasswordAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
-        return customUsernamePasswordAuthenticationFilter;
-    }
+//    @Bean
+//    public CustomUsernamePasswordAuthenticationFilter CustomUsernamePasswordAuthenticationFilter() throws Exception {
+//        CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter = new CustomUsernamePasswordAuthenticationFilter(customJwtTokenProvider);
+//        customUsernamePasswordAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
+//        return customUsernamePasswordAuthenticationFilter;
+//    }
 
     /**
      * 注入自定义 FilterSecurityInterceptor

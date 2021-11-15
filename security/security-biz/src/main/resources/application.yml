@@ -89,3 +89,30 @@ spring:
         min-idle: 0
     ## 连接超时时间（毫秒）
     timeout: 1200
+
+mybatis:
+  mapper-locations: 'classpath: */mapper/*.xml'
+
+security:
+  white-list:
+    - "/"
+    - "/login"
+    - "/register/**"
+    - "/swagger-resources/**"
+    - "/v2/api-docs/**"
+    - "/v3/api-docs/**"
+    - "/swagger"
+    - "/swagger/**"
+    - "/swagger2"
+    - "/swagger2/**"
+    - "/swagger3"
+    - "/swagger3/**"
+    - "/swagger-ui"
+    - "/swagger-ui/**"
+    - "/swagger-ui.html"
+    - "/druid/**"
+    - "/webjars/**"
+    - "/upload"
+    - "/test"
+    - "/files/**"
+    - "/error"

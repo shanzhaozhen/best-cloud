@@ -23,6 +23,8 @@ dependencies {
             'org.springframework.cloud:spring-cloud-starter-bootstrap',
 
             'org.springframework.boot:spring-boot-starter-security',
+
+
 //            'org.springframework.cloud:spring-cloud-starter-oauth2',
 //            'org.springframework.cloud:spring-cloud-starter-security',
 //            "org.springframework.security:spring-security-oauth2-jose",

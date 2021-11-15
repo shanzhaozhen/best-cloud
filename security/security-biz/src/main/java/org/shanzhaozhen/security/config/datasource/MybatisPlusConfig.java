@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableTransactionManagement
 @Configuration
-@MapperScan("org.shanzhaozhen.authorize.mapper")
+@MapperScan("org.shanzhaozhen.security.mapper")
 public class MybatisPlusConfig {
 
     private final CustomMetaObjectHandler customMetaObjectHandler;
