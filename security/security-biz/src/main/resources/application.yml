@@ -90,9 +90,6 @@ spring:
     ## 连接超时时间（毫秒）
     timeout: 1200
 
-mybatis:
-  mapper-locations: 'classpath: */mapper/*.xml'
-
 security:
   white-list:
     - "/"

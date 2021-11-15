@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableTransactionManagement
 @Configuration
-@MapperScan("com.hbjs.hrsrepo.mapper")
 @RequiredArgsConstructor
 public class MybatisPlusConfig {
 
