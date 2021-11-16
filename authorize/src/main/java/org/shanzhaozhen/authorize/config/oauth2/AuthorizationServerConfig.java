@@ -157,7 +157,7 @@ public class AuthorizationServerConfig {
      */
     @Bean
     public ProviderSettings providerSettings() {
-        return ProviderSettings.builder().issuer("http://auth-server:9000").build();
+        return ProviderSettings.builder().issuer("http://authorize:9000").build();
     }
 
 /*    @Bean

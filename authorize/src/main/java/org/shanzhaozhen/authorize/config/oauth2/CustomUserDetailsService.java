@@ -3,6 +3,7 @@ package org.shanzhaozhen.authorize.config.oauth2;
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.common.entity.R;
 import org.shanzhaozhen.security.converter.UserConverter;
+import org.shanzhaozhen.security.dto.UserDTO;
 import org.shanzhaozhen.security.feign.UserFeignClient;
 import org.shanzhaozhen.security.vo.UserVO;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,11 +27,16 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        R<UserVO> data = userFeignClient.getUserByUsername(username);
+//        R<UserVO> data = userFeignClient.getUserByUsername(username);
+//
+//        UserVO userVO = data.getData();
+//
+//        return userVO == null ? null : UserConverter.toDTO(userVO);
 
-        UserVO userVO = data.getData();
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUsername("admin").setPassword("12345116");
 
-        return userVO == null ? null : UserConverter.toDTO(userVO);
+        return userDTO;
     }
 
 }

@@ -68,7 +68,7 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .authenticationEntryPoint(customAuthenticationEntryPoint)
 //                .and()
             .addFilterBefore(customJwtAuthenticationFilter, BasicAuthenticationFilter.class)
-//            .addFilterBefore(CustomUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(CustomUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
             .addFilterAfter(CustomFilterSecurityInterceptor(), FilterSecurityInterceptor.class)
         ;
     }
@@ -92,12 +92,12 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
      * @return
      * @throws Exception
      */
-//    @Bean
-//    public CustomUsernamePasswordAuthenticationFilter CustomUsernamePasswordAuthenticationFilter() throws Exception {
-//        CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter = new CustomUsernamePasswordAuthenticationFilter(customJwtTokenProvider);
-//        customUsernamePasswordAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
-//        return customUsernamePasswordAuthenticationFilter;
-//    }
+    @Bean
+    public CustomUsernamePasswordAuthenticationFilter CustomUsernamePasswordAuthenticationFilter() throws Exception {
+        CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter = new CustomUsernamePasswordAuthenticationFilter(customJwtTokenProvider);
+        customUsernamePasswordAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
+        return customUsernamePasswordAuthenticationFilter;
+    }
 
     /**
      * 注入自定义 FilterSecurityInterceptor
