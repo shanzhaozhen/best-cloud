@@ -3,6 +3,9 @@ package org.shanzhaozhen.security.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.common.utils.CustomBeanUtils;
 import org.shanzhaozhen.common.utils.PasswordUtils;
+import org.shanzhaozhen.security.dto.CustomGrantedAuthority;
+import org.shanzhaozhen.security.dto.RoleDTO;
+import org.shanzhaozhen.security.service.RoleService;
 import org.shanzhaozhen.security.utils.UserDetailsUtils;
 import org.shanzhaozhen.security.domain.UserDO;
 import org.shanzhaozhen.security.dto.JWTUser;
@@ -18,18 +21,23 @@ import org.shanzhaozhen.security.vo.UserInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 @CacheConfig(cacheNames = "user")
 public class UserServiceImpl implements UserService {
+
+    private final RoleService roleService;
 
     private final UserRoleService userRoleService;
 
@@ -39,10 +47,34 @@ public class UserServiceImpl implements UserService {
 
     private final UserRoleMapper userRoleMapper;
 
+
+    @Override
+    public UserDTO getAuthUserByUsername(String username) {
+        UserDTO userDTO = this.getUserByUsername(username);
+
+        if (userDTO == null) {
+            /**
+             * 在这里会继续捕获到UsernameNotFoundException异常。
+             * 由于hideUserNotFoundExceptions的值为true，所以这里会new一个新的BadCredentialsException异常抛出来，那么最后捕获到并放入session中的就是这个BadCredentialsException异常。
+             * 所以我们在页面始终无法捕获我们自定义的异常信息。
+             */
+            throw new BadCredentialsException("用户不存在!");
+        } else {
+            //将数据库保存的权限存至登陆的账号里面
+            List<RoleDTO> roleDTOList = roleService.getRolesByUserId(userDTO.getId());
+
+            if (!CollectionUtils.isEmpty(roleDTOList)) {
+                Set<CustomGrantedAuthority> grantedAuthorities = new HashSet<>();
+                roleDTOList.forEach(role -> grantedAuthorities.add(new CustomGrantedAuthority(role.getCode())));
+                userDTO.setAuthorities(grantedAuthorities);
+            }
+        }
+        return userDTO;
+    }
+
     @Override
     public UserDTO getUserById(Long userId) {
-        UserDTO userAndRolesByUserId = userMapper.getUserAndRolesByUserId(userId);
-        return userAndRolesByUserId;
+        return userMapper.getUserAndRolesByUserId(userId);
     }
 
     @Override

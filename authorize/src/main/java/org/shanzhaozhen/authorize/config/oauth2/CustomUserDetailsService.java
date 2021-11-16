@@ -26,17 +26,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-//        R<UserVO> data = userFeignClient.getUserByUsername(username);
-//
-//        UserVO userVO = data.getData();
-//
-//        return userVO == null ? null : UserConverter.toDTO(userVO);
-
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUsername("admin").setPassword("12345116");
-
-        return userDTO;
+        R<UserDTO> data = userFeignClient.getAuthUserByUsername(username);
+        return data.getData();
     }
 
 }

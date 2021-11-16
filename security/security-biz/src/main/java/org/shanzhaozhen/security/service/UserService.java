@@ -11,6 +11,13 @@ import java.util.List;
 public interface UserService {
 
     /**
+     * 授权服务器远程调用查询用户信息
+     * @param username
+     * @return
+     */
+    UserDTO getAuthUserByUsername(String username);
+
+    /**
      * 通过用户id查找用户
      * @param userId
      * @return

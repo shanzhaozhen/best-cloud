@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.HashSet;
 import java.util.List;
@@ -29,32 +30,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserService userService;
 
-    private final RoleService roleService;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDTO userDTO = userService.getUserByUsername(username);
-
-        if (userDTO == null) {
-            /**
-             * 在这里会继续捕获到UsernameNotFoundException异常。
-             * 由于hideUserNotFoundExceptions的值为true，所以这里会new一个新的BadCredentialsException异常抛出来，那么最后捕获到并放入session中的就是这个BadCredentialsException异常。
-             * 所以我们在页面始终无法捕获我们自定义的异常信息。
-             */
-            throw new BadCredentialsException("用户不存在!");
-        } else {
-            //将数据库保存的权限存至登陆的账号里面
-            List<RoleDTO> roleDTOList = roleService.getRolesByUserId(userDTO.getId());
-            if (roleDTOList != null && roleDTOList.size() > 0) {
-                Set<CustomGrantedAuthority> grantedAuthorities = new HashSet<>();
-                for (RoleDTO roleDTO : roleDTOList) {
-                    grantedAuthorities.add(new CustomGrantedAuthority(roleDTO.getCode()));
-                }
-                userDTO.setAuthorities(grantedAuthorities);
-            }
-        }
-
-        return userDTO;
+        return userService.getAuthUserByUsername(username);
     }
 
 }
