@@ -113,3 +113,4 @@ security:
     - "/test"
     - "/files/**"
     - "/error"
+    - "/user/oauth/**"

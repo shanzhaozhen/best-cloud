@@ -20,10 +20,14 @@ spring:
           uri: lb://authorize
           predicates:
             - Path=/**
-        - id: aliyun_route
-          uri: https://www.aliyun.com/
+        - id: security
+          uri: lb://security
           predicates:
-            - Path=/product/**
+            - Path=/**
+#        - id: aliyun_route
+#          uri: https://www.aliyun.com/
+#          predicates:
+#            - Path=/product/**
 #  security:
 #    oauth2:
 #      resourceserver:

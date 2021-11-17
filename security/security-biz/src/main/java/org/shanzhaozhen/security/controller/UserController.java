@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
+import org.shanzhaozhen.security.config.security.CustomUserDetailsService;
 import org.shanzhaozhen.security.converter.UserConverter;
 import org.shanzhaozhen.security.dto.UserDTO;
 import org.shanzhaozhen.security.form.UserDepartmentForm;
@@ -39,16 +40,14 @@ public class UserController {
     private static final String GET_USER_DEPARTMENT_PAGE = "/user/department/page";
     private static final String BATCH_UPDATE_USER_DEPARTMENT = "/user/department";
 
-
     private final UserService userService;
-
+    private final CustomUserDetailsService customUserDetailsService;
 
     @GetMapping(GET_OAUTH_USER)
     @Operation(summary = "获取当前登录用户的个人和权限信息接口")
-    public R<UserDTO> getAuthUserByUsername(@Parameter(description = "用户名", example = "username") @PathVariable("username") String username) {
-        return R.build(() -> userService.getAuthUserByUsername(username));
+    public R<UserDTO> loadUserByUsername(@Parameter(description = "用户名", example = "username") @PathVariable("username") String username) {
+        return R.build(() -> customUserDetailsService.loadUserByUsername(username));
     }
-
 
     @GetMapping(GET_USER_INFO)
     @Operation(summary = "获取当前登录用户的个人和权限信息接口")

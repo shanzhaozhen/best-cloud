@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface UserFeignClient {
 
     @GetMapping("/user/oauth/{username}")
-    R<UserDTO> getAuthUserByUsername(@PathVariable String username);
+    R<UserDTO> loadUserByUsername(@PathVariable String username);
 
 }
