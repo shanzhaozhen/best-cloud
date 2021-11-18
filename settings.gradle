@@ -10,5 +10,4 @@ include 'authorize'
 include 'security:security-api'
 include 'security:security-biz'
 
-include 'client'
 
