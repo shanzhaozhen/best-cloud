@@ -1,10 +1,16 @@
 package org.shanzhaozhen.authorize.config.jose;
 
+import com.nimbusds.jose.jwk.RSAKey;
+import org.shanzhaozhen.authorize.config.oauth2.JksConfig;
+import org.shanzhaozhen.common.utils.SpringContextUtils;
+import org.springframework.core.io.ClassPathResource;
+
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.math.BigInteger;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.KeyStore;
 import java.security.spec.ECFieldFp;
 import java.security.spec.ECParameterSpec;
 import java.security.spec.ECPoint;
@@ -12,9 +18,6 @@ import java.security.spec.EllipticCurve;
 
 
 final class KeyGeneratorUtils {
-
-	private KeyGeneratorUtils() {
-	}
 
 	static SecretKey generateSecretKey() {
 		SecretKey hmacKey;
@@ -29,9 +32,29 @@ final class KeyGeneratorUtils {
 	static KeyPair generateRsaKey() {
 		KeyPair keyPair;
 		try {
+			// Java提供了KeyPairGenerator类。此类用于生成公钥和私钥对。
+			// KeyPairGenerator类提供getInstance()方法，该方法接受表示所需密钥生成算法的String变量，并返回生成密钥的KeyPairGenerator对象。
 			KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+			// KeyPairGenerator类提供了一个名为initialize()的方法，该方法用于初始化密钥对生成器。 此方法接受表示密钥大小的整数值。
 			keyPairGenerator.initialize(2048);
+			// 可以使用KeyPairGenerator类的generateKeyPair()方法生成KeyPair。
 			keyPair = keyPairGenerator.generateKeyPair();
+		} catch (Exception ex) {
+			throw new IllegalStateException(ex);
+		}
+		return keyPair;
+	}
+
+	static KeyPair generateJksKey() {
+		KeyPair keyPair;
+		try {
+			JksConfig jksConfig = (JksConfig) SpringContextUtils.getBean("jksConfig");
+
+			ClassPathResource resource = new ClassPathResource(jksConfig.getPath());
+			KeyStore jks = KeyStore.getInstance("jks");
+			char[] pin = jksConfig.getSecret().toCharArray();
+			jks.load(resource.getInputStream(), pin);
+			keyPair = RSAKey.load(jks, jksConfig.getAlias(), pin).toKeyPair();
 		} catch (Exception ex) {
 			throw new IllegalStateException(ex);
 		}

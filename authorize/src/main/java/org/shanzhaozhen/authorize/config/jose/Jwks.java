@@ -21,13 +21,19 @@ public final class Jwks {
 
 	public static RSAKey generateRsa() {
 		KeyPair keyPair = KeyGeneratorUtils.generateRsaKey();
+		// 生成公钥
 		RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+		// 生成私钥
 		RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
 		return new RSAKey.Builder(publicKey)
 				.privateKey(privateKey)
 				.keyID(UUID.randomUUID().toString())
 				.build();
 	}
+
+/*	public static RSAKey generateJks() {
+		return KeyGeneratorUtils.generateJksKey();
+	}*/
 
 	public static ECKey generateEc() {
 		KeyPair keyPair = KeyGeneratorUtils.generateEcKey();

@@ -11,16 +11,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.*;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
@@ -151,14 +147,14 @@ public class AuthorizationServerConfig {
         return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
     }
 
-    /**
-     * 配置一些断点的路径，比如：获取token、授权端点 等
-     * @return
-     */
-    @Bean
-    public ProviderSettings providerSettings() {
-        return ProviderSettings.builder().issuer("http://authorize:9000").build();
-    }
+//    /**
+//     * 配置一些断点的路径，比如：获取token、授权端点 等
+//     * @return
+//     */
+//    @Bean
+//    public ProviderSettings providerSettings() {
+//        return ProviderSettings.builder().issuer("http://authorize:9000").build();
+//    }
 
 /*    @Bean
     public EmbeddedDatabase embeddedDatabase() {
