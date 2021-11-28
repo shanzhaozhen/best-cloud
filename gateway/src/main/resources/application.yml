@@ -15,15 +15,15 @@ spring:
         - id: basic
           uri: lb://basic
           predicates:
-            - Path=/**
+            - Path=/basic/**
         - id: authorize
           uri: lb://authorize
           predicates:
-            - Path=/**
+            - Path=/authorize/**
         - id: security
           uri: lb://security
           predicates:
-            - Path=/**
+            - Path=/security/**
 #        - id: aliyun_route
 #          uri: https://www.aliyun.com/
 #          predicates:

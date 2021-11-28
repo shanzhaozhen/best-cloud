@@ -24,6 +24,7 @@ dependencies {
 
             'org.springframework.boot:spring-boot-starter-security',
             "org.springframework.security:spring-security-oauth2-authorization-server:${authorizationServerVersion}",
+            'org.springframework.security:spring-security-oauth2-core:5.5.2',
 //            'org.springframework.cloud:spring-cloud-starter-oauth2',
 //            'org.springframework.cloud:spring-cloud-starter-security',
 //            "org.springframework.security:spring-security-oauth2-jose",
