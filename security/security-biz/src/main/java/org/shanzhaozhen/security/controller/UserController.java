@@ -16,6 +16,8 @@ import org.shanzhaozhen.security.form.UserForm;
 import org.shanzhaozhen.security.service.UserService;
 import org.shanzhaozhen.security.vo.CurrentUser;
 import org.shanzhaozhen.security.vo.UserVO;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,8 +47,8 @@ public class UserController {
 
     @GetMapping(GET_OAUTH_USER)
     @Operation(summary = "获取当前登录用户的个人和权限信息接口")
-    public R<UserDTO> loadUserByUsername(@Parameter(description = "用户名", example = "username") @PathVariable("username") String username) {
-        return R.build(() -> customUserDetailsService.loadUserByUsername(username));
+    public R<User> loadUserByUsername(@Parameter(description = "用户名", example = "username") @PathVariable("username") String username) {
+        return R.build(() -> (User) customUserDetailsService.loadUserByUsername(username));
     }
 
     @GetMapping(GET_USER_INFO)

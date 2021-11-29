@@ -19,7 +19,7 @@
         <result column="account_non_locked" property="accountNonLocked" />
         <result column="credentials_non_expired" property="credentialsNonExpired" />
         <result column="enabled" property="enabled" />
-        <result column="name" property="name" />
+        <!--<result column="name" property="name" />
         <result column="nickname" property="nickname" />
         <result column="sex" property="sex" />
         <result column="birthday" property="birthday" />
@@ -28,7 +28,7 @@
         <result column="phone_number" property="phoneNumber" />
         <result column="address_code" property="addressCode" />
         <result column="detailed_address" property="detailedAddress" />
-        <result column="introduction" property="introduction" />
+        <result column="introduction" property="introduction" />-->
         <result column="created_by" property="createdBy" />
         <result column="created_date" property="createdDate" />
         <result column="last_modified_by" property="lastModifiedBy" />
@@ -48,7 +48,7 @@
 
     <select id="getUserAndRolesByUserId" resultMap="UserRoleMap">
         select id, username, password, dep_id, account_non_expired, account_non_locked, credentials_non_expired, enabled,
-        name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction,
+--         name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction,
         created_by, created_date, last_modified_by, last_modified_date
         from sys_user where id = #{id}
     </select>
@@ -59,7 +59,7 @@
 
     <select id="getUserPage" resultType="org.shanzhaozhen.security.dto.UserDTO">
         select id, username, dep_id, account_non_expired, account_non_locked, credentials_non_expired, enabled,
-        name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction,
+--         name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction,
         created_by, created_date, last_modified_by, last_modified_date 
         from sys_user
         <if test="keyword != null and keyword != ''">

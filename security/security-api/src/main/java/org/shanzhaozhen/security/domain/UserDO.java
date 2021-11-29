@@ -45,34 +45,4 @@ public class UserDO extends BaseInfo {
     @Schema(title = "是否被禁用,禁用的用户不能身份验证")
     private boolean enabled = true;
 
-    @Schema(title = "姓名")
-    private String name;
-
-    @Schema(title = "昵称")
-    private String nickname;
-
-    @Schema(title = "性别")
-    private Integer sex;
-
-    @Schema(title = "生日")
-    private Date birthday;
-
-    @Schema(title = "头像")
-    private String avatar;
-
-    @Schema(title = "邮箱")
-    private String email;
-
-    @Schema(title = "手机号码")
-    private String phoneNumber;
-
-    @Schema(title = "地址编号")
-    private String addressCode;
-
-    @Schema(title = "详细地址")
-    private String detailedAddress;
-
-    @Schema(title = "个人介绍")
-    private String introduction;
-
 }

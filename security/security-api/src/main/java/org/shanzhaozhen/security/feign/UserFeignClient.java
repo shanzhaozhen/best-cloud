@@ -1,8 +1,8 @@
 package org.shanzhaozhen.security.feign;
 
 import org.shanzhaozhen.common.entity.R;
-import org.shanzhaozhen.security.dto.UserDTO;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface UserFeignClient {
 
     @GetMapping("/user/oauth/{username}")
-    R<UserDTO> loadUserByUsername(@PathVariable String username);
+    R<User> loadUserByUsername(@PathVariable String username);
 
 }

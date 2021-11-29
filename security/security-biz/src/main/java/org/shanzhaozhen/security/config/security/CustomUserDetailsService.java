@@ -8,15 +8,20 @@ import org.shanzhaozhen.security.dto.UserDTO;
 import org.shanzhaozhen.security.service.RoleService;
 import org.shanzhaozhen.security.service.UserService;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 启动服务器时，通过FilterInvocationSecurityMetadataSource获得用户的所有角色及权限信息
@@ -33,7 +38,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final RoleService roleService;
 
     @Override
-    public UserDTO loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDTO userDTO = userService.getUserByUsername(username);
 
         if (userDTO == null) {
@@ -44,16 +49,17 @@ public class CustomUserDetailsService implements UserDetailsService {
              */
             throw new BadCredentialsException("用户不存在!");
         } else {
+
             //将数据库保存的权限存至登陆的账号里面
             List<RoleDTO> roleDTOList = roleService.getRolesByUserId(userDTO.getId());
-
+            List<? extends GrantedAuthority> authorities = new ArrayList<>();
             if (!CollectionUtils.isEmpty(roleDTOList)) {
-                Set<CustomGrantedAuthority> grantedAuthorities = new HashSet<>();
-                roleDTOList.forEach(role -> grantedAuthorities.add(new CustomGrantedAuthority(role.getCode())));
-                userDTO.setAuthorities(grantedAuthorities);
+                authorities = roleDTOList.stream().map(roleDTO -> new SimpleGrantedAuthority(roleDTO.getCode())).collect(Collectors.toList());
             }
+
+            return new User(username, userDTO.getPassword(), userDTO.isAccountNonExpired(), userDTO.isAccountNonLocked(),
+                    userDTO.isCredentialsNonExpired(), userDTO.isEnabled(), authorities);
         }
-        return userDTO;
     }
 
 }

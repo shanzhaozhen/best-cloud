@@ -6,10 +6,14 @@ import org.shanzhaozhen.security.converter.UserConverter;
 import org.shanzhaozhen.security.dto.UserDTO;
 import org.shanzhaozhen.security.feign.UserFeignClient;
 import org.shanzhaozhen.security.vo.UserVO;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
 
 
 /**
@@ -26,8 +30,15 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        R<UserDTO> data = userFeignClient.loadUserByUsername(username);
+        R<User> data = userFeignClient.loadUserByUsername(username);
         return data.getData();
+//        return new User(
+//                userDTO.getUsername(),
+//                userDTO.getPassword(),
+//                userDTO.getAuthorities().stream().map(
+//                        r -> new SimpleGrantedAuthority(r.getRole())
+//                ).collect(Collectors.toList()));
+
     }
 
 }
