@@ -1,16 +1,12 @@
 package org.shanzhaozhen.security.dto;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.shanzhaozhen.common.entity.BaseInfo;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
 @Schema(description = "角色DTO实体")
 public class UserInfoDTO extends BaseInfo {
 
@@ -29,6 +24,9 @@ public class UserInfoDTO extends BaseInfo {
 
     @Schema(title = "关联用户id")
     private Long pid;
+
+    @Schema(title = "部门ID")
+    private Long depId;
 
     @Schema(title = "姓名")
     private String name;

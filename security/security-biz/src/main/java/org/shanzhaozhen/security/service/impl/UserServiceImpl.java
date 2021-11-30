@@ -38,6 +38,7 @@ import java.util.Set;
 @CacheConfig(cacheNames = "user")
 public class UserServiceImpl implements UserService {
 
+    private final RoleService roleService;
     private final UserRoleService userRoleService;
     private final UserMapper userMapper;
 //    private final MenuService menuService;
@@ -50,7 +51,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserByUsername(String username) {
-        return userMapper.getUserByUsername(username);
+        UserDTO user = userMapper.getUserByUsername(username);
+        if (user != null) {
+            user.setRoles(roleService.getRolesByUserId(user.getId()));
+        }
+        return user;
     }
 
     @Override

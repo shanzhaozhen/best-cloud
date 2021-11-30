@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 //@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
-@Schema(description = "角色DTO实体")
+@Schema(description = "用户DTO实体")
 public class UserDTO extends BaseInfo {
 
     private static final long serialVersionUID = -9022947720181781365L;
@@ -27,9 +27,6 @@ public class UserDTO extends BaseInfo {
 
     @Schema(title = "密码")
     private String password;
-
-    @Schema(title = "部门ID")
-    private Long depId;
 
     @Schema(title = "账户是否过期,过期无法验证")
     private boolean accountNonExpired;
