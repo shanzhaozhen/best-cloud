@@ -7,9 +7,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.jackson2.*;
 
 @SuppressWarnings("serial")
-public class AuthUserJackson2Module extends SimpleModule {
+public class SecurityJackson2Module extends SimpleModule {
 
-	public AuthUserJackson2Module() {
+	public SecurityJackson2Module() {
 		super(CoreJackson2Module.class.getName(), new Version(1, 0, 0, null, null, null));
 	}
 

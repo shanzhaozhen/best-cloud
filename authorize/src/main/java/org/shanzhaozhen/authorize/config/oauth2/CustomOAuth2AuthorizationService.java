@@ -8,7 +8,6 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 public class CustomOAuth2AuthorizationService implements OAuth2AuthorizationService {
 
 
-
 	@Override
 	public void save(OAuth2Authorization authorization) {
 

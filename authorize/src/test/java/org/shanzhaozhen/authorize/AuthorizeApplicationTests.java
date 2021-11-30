@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
 import org.springframework.util.ResourceUtils;
 
@@ -27,6 +30,18 @@ public class AuthorizeApplicationTests {
         set.add("authorization_code");
         set.add(" password");
         set.add(" client_credentials");
+    }
+
+    @Test
+    public void testPassword() throws IOException {
+//        PasswordEncoder passwordEncoder = new DelegatingPasswordEncoder();
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        boolean matches = passwordEncoder.matches("123456", "$2a$10$eX5hrXVr5/QWXAEt1BzRneb.RJIPOYNVj6NjTBLPfRJbQhx4jjPU2");
+        System.out.println(matches);
+
+        String encode = passwordEncoder.encode("123456");
+        System.out.println(encode);
+
     }
 
 }
