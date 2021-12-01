@@ -33,9 +33,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 @RequiredArgsConstructor
 public class AuthorizationServerConfig {
 
-    private static final String CUSTOM_CONSENT_PAGE_URI = "http://www.baidu.com";
-
-//    private final ObjectMapper objectMapper;
+    private static final String CUSTOM_CONSENT_PAGE_URI = "/oauth2/consent";
 
     /**
      *  security 挂载 Spring Authorization Server 认证服务器
@@ -57,9 +55,7 @@ public class AuthorizationServerConfig {
 
         http
                 .requestMatcher(endpointsMatcher)
-                .authorizeRequests(authorizeRequests ->
-                        authorizeRequests.anyRequest().authenticated()
-                )
+                .authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
                 // 开启form登录
 //                .formLogin()
 //                .and()
@@ -79,11 +75,11 @@ public class AuthorizationServerConfig {
         // 使用内存作为客户端的信息库
 //        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
 //                // 客户端id 需要唯一
-//                .clientId("messaging-client")
+//                .clientId("auth")
 //                // 客户端密码
-//                .clientSecret("secret")
+//                .clientSecret("123456")
 //                // 可以基于 basic 的方式和授权服务器进行认证
-//                .clientAuthenticationMethod(ClientAuthenticationMethod.BASIC)
+//                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
 //                // 授权码
 //                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
 //                // 刷新token

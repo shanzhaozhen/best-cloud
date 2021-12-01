@@ -36,7 +36,7 @@ public class AuthorizeApplicationTests {
     public void testPassword() throws IOException {
 //        PasswordEncoder passwordEncoder = new DelegatingPasswordEncoder();
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        boolean matches = passwordEncoder.matches("123456", "$2a$10$eX5hrXVr5/QWXAEt1BzRneb.RJIPOYNVj6NjTBLPfRJbQhx4jjPU2");
+        boolean matches = passwordEncoder.matches("secret", "$2a$10$eX5hrXVr5/QWXAEt1BzRneb.RJIPOYNVj6NjTBLPfRJbQhx4jjPU2");
         System.out.println(matches);
 
         String encode = passwordEncoder.encode("123456");
