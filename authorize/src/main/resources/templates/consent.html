@@ -5,23 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <title>确认页面 - 准许确认</title>
-    <style>
-        body {
-            background-color: aliceblue;
+    <title>授权确认</title>
+    <script>
+        function cancelConsent() {
+            document.consent_form.reset();
+            document.consent_form.submit();
         }
-    </style>
-	<script>
-		function cancelConsent() {
-			document.consent_form.reset();
-			document.consent_form.submit();
-		}
-	</script>
+    </script>
 </head>
 <body>
 <div class="container">
     <div class="py-5">
-        <h1 class="text-center text-primary">App permissions</h1>
+        <h1 class="text-center">应用授权</h1>
     </div>
     <div class="row">
         <div class="col text-center">
@@ -49,7 +44,8 @@
                            name="scope"
                            th:value="${scope.scope}"
                            th:id="${scope.scope}">
-                    <label class="form-check-label font-weight-bold" th:for="${scope.scope}" th:text="${scope.scope}"></label>
+                    <label class="form-check-label font-weight-bold" th:for="${scope.scope}"
+                           th:text="${scope.scope}"></label>
                     <p class="text-primary" th:text="${scope.description}"></p>
                 </div>
 
@@ -60,7 +56,8 @@
                            th:id="${scope.scope}"
                            disabled
                            checked>
-                    <label class="form-check-label font-weight-bold" th:for="${scope.scope}" th:text="${scope.scope}"></label>
+                    <label class="form-check-label font-weight-bold" th:for="${scope.scope}"
+                           th:text="${scope.scope}"></label>
                     <p class="text-primary" th:text="${scope.description}"></p>
                 </div>
 

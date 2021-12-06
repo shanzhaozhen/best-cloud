@@ -32,12 +32,6 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new BadCredentialsException("用户不存在!");
         }
         return new AuthUser(user);
-//        return new User(
-//                userDTO.getUsername(),
-//                userDTO.getPassword(),
-//                userDTO.getAuthorities().stream().map(
-//                        r -> new SimpleGrantedAuthority(r.getRole())
-//                ).collect(Collectors.toList()));
     }
 
 }

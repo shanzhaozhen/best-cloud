@@ -8,6 +8,7 @@ import com.nimbusds.jose.proc.SecurityContext;
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.authorize.config.jose.Jwks;
 import org.shanzhaozhen.authorize.jackson.SecurityJacksonConfig;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -19,6 +20,7 @@ import org.springframework.security.config.annotation.web.configurers.oauth2.ser
 import org.springframework.security.oauth2.server.authorization.*;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
@@ -35,6 +37,9 @@ public class AuthorizationServerConfig {
 
     private static final String CUSTOM_CONSENT_PAGE_URI = "/oauth2/consent";
 
+    @Value("${server.port}")
+    private Integer serverPort;
+
     /**
      *  security 挂载 Spring Authorization Server 认证服务器
      *  定义 spring security 拦击链规则
@@ -47,9 +52,9 @@ public class AuthorizationServerConfig {
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
         OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer<>();
 
-//        authorizationServerConfigurer
-//                .authorizationEndpoint(authorizationEndpoint ->
-//                        authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI));
+        authorizationServerConfigurer
+                .authorizationEndpoint(authorizationEndpoint ->
+                        authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI));
 
         RequestMatcher endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
 
@@ -176,14 +181,15 @@ public class AuthorizationServerConfig {
         return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
     }
 
-//    /**
-//     * 配置一些断点的路径，比如：获取token、授权端点 等
-//     * @return
-//     */
-//    @Bean
-//    public ProviderSettings providerSettings() {
-//        return ProviderSettings.builder().issuer("http://authorize:9000").build();
-//    }
+    /**
+     * 配置一些断点的路径，比如：获取token、授权端点 等
+     * 配置 OAuth2.0 provider元信息
+     * @return
+     */
+    @Bean
+    public ProviderSettings providerSettings() {
+        return ProviderSettings.builder().issuer("http://localhost:" + serverPort).build();
+    }
 
 /*    @Bean
     public EmbeddedDatabase embeddedDatabase() {
