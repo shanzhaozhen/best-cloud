@@ -6,8 +6,10 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.shanzhaozhen.authorize.config.jose.Jwks;
 import org.shanzhaozhen.authorize.jackson.SecurityJacksonConfig;
+import org.shanzhaozhen.security.dto.AuthUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +19,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.server.authorization.*;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -39,6 +43,8 @@ public class AuthorizationServerConfig {
 
     @Value("${server.port}")
     private Integer serverPort;
+
+    private final Jwks jwks;
 
     /**
      *  security 挂载 Spring Authorization Server 认证服务器
@@ -174,12 +180,32 @@ public class AuthorizationServerConfig {
      * 对 JWT 进行签名的 加解密密钥
      * @return
      */
+    @SneakyThrows
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
-        RSAKey rsaKey = Jwks.generateRsa();
+        RSAKey rsaKey = jwks.generateRsa();
         JWKSet jwkSet = new JWKSet(rsaKey);
         return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
     }
+
+
+    /**
+     * JWT内容增强
+     */
+    @Bean
+    OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer() {
+        return context -> {
+            JwtClaimsSet.Builder claims = context.getClaims();
+            Object principal = context.getPrincipal().getPrincipal();
+            if (principal instanceof AuthUser) {
+                AuthUser authUser = (AuthUser) principal;
+                claims.claim("userId", authUser.getUserId());
+                claims.claim("username", authUser.getUsername());
+            }
+            JwtEncodingContext.with(context.getHeaders(), claims);
+        };
+    }
+
 
     /**
      * 配置一些断点的路径，比如：获取token、授权端点 等
@@ -188,19 +214,11 @@ public class AuthorizationServerConfig {
      */
     @Bean
     public ProviderSettings providerSettings() {
-        return ProviderSettings.builder().issuer("http://localhost:" + serverPort).build();
+        return ProviderSettings.builder()
+                // 配置获取token的端点路径
+//                .tokenEndpoint("/oauth2/token")
+                // 发布者的url地址,一般是本系统访问的根路径
+                .issuer("http://localhost:" + serverPort).build();
     }
-
-/*    @Bean
-    public EmbeddedDatabase embeddedDatabase() {
-        return new EmbeddedDatabaseBuilder()
-                .generateUniqueName(true)
-                .setType(EmbeddedDatabaseType.H2)
-                .setScriptEncoding("UTF-8")
-                .addScript("org/springframework/security/oauth2/server/authorization/oauth2-authorization-schema.sql")
-                .addScript("org/springframework/security/oauth2/server/authorization/oauth2-authorization-consent-schema.sql")
-                .addScript("org/springframework/security/oauth2/server/authorization/client/oauth2-registered-client-schema.sql")
-                .build();
-    }*/
 
 }

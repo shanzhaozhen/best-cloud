@@ -19,17 +19,17 @@ spring:
     password: startlink
 
 # jwt配置
-jwt:
-  issuer: oldgod
-  secret: mySecret
-  #  header: Authorization
-  header: Best-Token
-  expiration: 3600
-  rememberExpiration: 604800
+#jwt:
+#  issuer: oldgod
+#  secret: mySecret
+#  #  header: Authorization
+#  header: Best-Token
+#  expiration: 3600
+#  rememberExpiration: 604800
 
 # jks 配置
-jks:
-  path: jwt.jks
+jwt:
+  path: best-cloud.jks
   password: 123456
   alias: best-cloud
 

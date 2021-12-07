@@ -80,6 +80,30 @@ oauth2.1 已弃用密码模式
 5. 撤销令牌
 
 ```http request
-
+POST /oauth2/revoke?token=xxx HTTP/1.1
+Host: localhost:9000
+Authorization: auth 123456
 ```
 
+6. 查看token信息
+
+```http request
+POST /oauth2/introspect?token=XXX HTTP/1.1
+Host: localhost:9000
+Authorization: Basic xxx
+```
+
+7. 查看JWK信息(获取公钥信息)
+
+```http request
+GET /oauth2/jwks HTTP/1.1
+Host: localhost:9000
+```
+
+
+8. 用户端点
+
+```http request
+GET /userinfo HTTP/1.1
+Host: localhost:9000
+```

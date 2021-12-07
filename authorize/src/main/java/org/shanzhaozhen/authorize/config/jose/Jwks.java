@@ -1,55 +1,43 @@
 package org.shanzhaozhen.authorize.config.jose;
 
-import com.nimbusds.jose.jwk.Curve;
-import com.nimbusds.jose.jwk.ECKey;
-import com.nimbusds.jose.jwk.OctetSequenceKey;
 import com.nimbusds.jose.jwk.RSAKey;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.shanzhaozhen.common.utils.SpringContextUtils;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey;
 import java.security.KeyPair;
-import java.security.interfaces.ECPrivateKey;
-import java.security.interfaces.ECPublicKey;
+import java.security.KeyStore;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
 
-public final class Jwks {
+@Configuration
+@RequiredArgsConstructor
+public class Jwks {
 
-	private Jwks() {
+	private final KeyPair keyPair;
+
+	// 生成公钥
+	public RSAPublicKey getPublicKey() {
+		return (RSAPublicKey) keyPair.getPublic();
 	}
 
-	public static RSAKey generateRsa() {
-		KeyPair keyPair = KeyGeneratorUtils.generateRsaKey();
-		// 生成公钥
-		RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-		// 生成私钥
-		RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
-		return new RSAKey.Builder(publicKey)
-				.privateKey(privateKey)
+	// 生成私钥
+	public RSAPrivateKey getPrivateKey() {
+		return (RSAPrivateKey) keyPair.getPrivate();
+	}
+
+	public RSAKey generateRsa() {
+		return new RSAKey.Builder(getPublicKey())
+				.privateKey(getPrivateKey())
 				.keyID(UUID.randomUUID().toString())
 				.build();
 	}
 
-/*	public static RSAKey generateJks() {
-		return KeyGeneratorUtils.generateJksKey();
-	}*/
 
-	public static ECKey generateEc() {
-		KeyPair keyPair = KeyGeneratorUtils.generateEcKey();
-		ECPublicKey publicKey = (ECPublicKey) keyPair.getPublic();
-		ECPrivateKey privateKey = (ECPrivateKey) keyPair.getPrivate();
-		Curve curve = Curve.forECParameterSpec(publicKey.getParams());
-		return new ECKey.Builder(curve, publicKey)
-				.privateKey(privateKey)
-				.keyID(UUID.randomUUID().toString())
-				.build();
-	}
-
-	public static OctetSequenceKey generateSecret() {
-		SecretKey secretKey = KeyGeneratorUtils.generateSecretKey();
-		return new OctetSequenceKey.Builder(secretKey)
-				.keyID(UUID.randomUUID().toString())
-				.build();
-	}
 }

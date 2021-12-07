@@ -23,7 +23,7 @@ Swagger2-api文档查看、导出 | √
 加入 Oauth2 实现第三方登陆 | -
 多种方式授权 | -
 加入Spring Cloud 微服务化 | -
-假如Dockerfile直接打包部署到服务器|√ 
+加入Dockerfile直接打包部署到服务器|√ 
 
 ### 微服务组件选型
 
@@ -156,6 +156,16 @@ git clone https://github.com/nacos-group/nacos-k8s.git
 ### RSA证书
 
 ```shell
-生成RSA证书
+# 生成RSA证书
+# -genkey 生成密钥
+# -alias 别名
+# -keyalg 密钥算法
+# -keypass 密钥口令
+# -keystore 生成密钥库的存储路径和名称
+# -storepass 密钥库口令
+
 keytool -genkey -alias jwt -keyalg RSA -keystore jwt.jks
+
+keytool -genkey -alias <alias> -keyalg RSA -keypass <keypass> -keystore <filename>.jks -storepass <storepass>
+
 ```
