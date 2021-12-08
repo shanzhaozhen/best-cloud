@@ -177,37 +177,6 @@ public class AuthorizationServerConfig {
     }
 
     /**
-     * 对 JWT 进行签名的 加解密密钥
-     * @return
-     */
-    @SneakyThrows
-    @Bean
-    public JWKSource<SecurityContext> jwkSource() {
-        RSAKey rsaKey = jwks.generateRsa();
-        JWKSet jwkSet = new JWKSet(rsaKey);
-        return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
-    }
-
-
-    /**
-     * JWT内容增强
-     */
-    @Bean
-    OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer() {
-        return context -> {
-            JwtClaimsSet.Builder claims = context.getClaims();
-            Object principal = context.getPrincipal().getPrincipal();
-            if (principal instanceof AuthUser) {
-                AuthUser authUser = (AuthUser) principal;
-                claims.claim("userId", authUser.getUserId());
-                claims.claim("username", authUser.getUsername());
-            }
-            JwtEncodingContext.with(context.getHeaders(), claims);
-        };
-    }
-
-
-    /**
      * 配置一些断点的路径，比如：获取token、授权端点 等
      * 配置 OAuth2.0 provider元信息
      * @return

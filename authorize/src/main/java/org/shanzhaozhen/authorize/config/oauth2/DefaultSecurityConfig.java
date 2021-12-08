@@ -15,7 +15,7 @@ public class DefaultSecurityConfig {
 		http
 			.authorizeRequests(authorizeRequests ->
 				authorizeRequests
-						.antMatchers("/oauth2/**").permitAll()
+						.antMatchers("/oauth2/**", "/userinfo").permitAll()
 						.anyRequest().authenticated()
 			)
 			.formLogin(withDefaults());

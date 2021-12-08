@@ -107,3 +107,9 @@ Host: localhost:9000
 GET /userinfo HTTP/1.1
 Host: localhost:9000
 ```
+
+
+### OIDC
+/connect/register
+/.well-known/openid-configuration
+/userinfo
