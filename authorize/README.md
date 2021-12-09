@@ -110,6 +110,10 @@ Host: localhost:9000
 
 
 ### OIDC
+
 /connect/register
+
 /.well-known/openid-configuration
+
 /userinfo
+

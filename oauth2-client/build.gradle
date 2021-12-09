@@ -10,6 +10,10 @@ dependencies {
             project(':security:security-api')
     )
 
+
+
+
+
     implementation(
             'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery',
             'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config',
@@ -18,18 +22,12 @@ dependencies {
             'org.springframework.cloud:spring-cloud-loadbalancer',
 
             'org.springframework.boot:spring-boot-starter-web',
-            'org.springframework.boot:spring-boot-starter-thymeleaf',
             'org.springframework.boot:spring-boot-starter-actuator',
             'org.springframework.cloud:spring-cloud-starter-bootstrap',
 
 
             "org.springframework.boot:spring-boot-starter-security",
-            "org.springframework.security:spring-security-oauth2-authorization-server:${authorizationServerVersion}",
-            "org.springframework.security:spring-security-oauth2-core:${springSecurityVersion}",
-            "org.springframework.security:spring-security-oauth2-jose:${springSecurityVersion}",
-
-//            'org.springframework.cloud:spring-cloud-starter-oauth2',
-//            'org.springframework.cloud:spring-cloud-starter-security',
+            "org.springframework.boot:spring-boot-starter-oauth2-client",
 
             'mysql:mysql-connector-java',
             "com.alibaba:druid-spring-boot-starter:${druidVersion}",
