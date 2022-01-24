@@ -24,15 +24,12 @@ spring:
           uri: lb://security
           predicates:
             - Path=/security/**
-#        - id: aliyun_route
-#          uri: https://www.aliyun.com/
-#          predicates:
-#            - Path=/product/**
-#  security:
-#    oauth2:
-#      resourceserver:
-#        jwt:
-#          jwk-set-uri: http://localhost:${server.port}/authorize/rsa/publicKey
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://auth-server:9000/authorize/rsa/publicKey
 
   ## Redis 配置
   redis:
