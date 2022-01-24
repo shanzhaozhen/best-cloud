@@ -5,7 +5,6 @@ apply plugin: 'java-library'
 dependencies {
 
     api(
-//            project(':basic:basic-common'),
             project(':common:common-core')
     )
 

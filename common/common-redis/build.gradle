@@ -1,7 +1,9 @@
 description = 'common-redis'
 
 dependencies {
+
     implementation(
-            'org.springframework.boot:spring-boot-starter-data-redis'
+//            'org.springframework.boot:spring-boot-starter-data-redis',
+            "org.redisson:redisson-spring-boot-starter:${redissonVersion}"
     )
 }
