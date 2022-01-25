@@ -1,7 +1,7 @@
 package org.shanzhaozhen.security.config.security;
 
 import lombok.RequiredArgsConstructor;
-import org.shanzhaozhen.common.constant.enums.ResourceType;
+import org.shanzhaozhen.common.enums.ResourceType;
 import org.shanzhaozhen.security.dto.ResourceDTO;
 import org.shanzhaozhen.security.dto.RoleDTO;
 import org.shanzhaozhen.security.service.ResourceService;

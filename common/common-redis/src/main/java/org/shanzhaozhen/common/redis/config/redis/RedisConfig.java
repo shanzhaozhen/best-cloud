@@ -1,4 +1,4 @@
-package org.shanzhaozhen.commonredis.config.redis;
+package org.shanzhaozhen.common.redis.config.redis;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -26,7 +26,7 @@ public class RedisConfig {
         // 用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
         redisTemplate.setKeySerializer(stringRedisSerializer); // key
-        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
         ObjectMapper objectMapper = new ObjectMapper();
         // 指定要序列化的域(field,get,set)，访问修饰符(public,private,protected)
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);

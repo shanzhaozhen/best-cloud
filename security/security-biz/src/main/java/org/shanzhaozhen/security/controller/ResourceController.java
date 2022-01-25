@@ -1,7 +1,7 @@
 package org.shanzhaozhen.security.controller;
 
-import org.shanzhaozhen.common.constant.enums.ResourceType;
-import org.shanzhaozhen.common.entity.R;
+import org.shanzhaozhen.common.enums.ResourceType;
+import org.shanzhaozhen.common.result.R;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;

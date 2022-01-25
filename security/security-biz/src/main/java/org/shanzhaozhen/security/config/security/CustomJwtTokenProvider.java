@@ -3,8 +3,8 @@ package org.shanzhaozhen.security.config.security;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.shanzhaozhen.common.constant.enums.JwtErrorConst;
-import org.shanzhaozhen.common.entity.R;
+import org.shanzhaozhen.common.enums.JwtErrorConst;
+import org.shanzhaozhen.common.result.R;
 import org.shanzhaozhen.common.utils.HttpServletUtils;
 import org.shanzhaozhen.security.dto.JWTUser;
 import org.shanzhaozhen.security.service.UserService;
@@ -15,7 +15,6 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.SignatureException;
 import java.util.Date;
 
 @Component

@@ -1,6 +1,6 @@
 package org.shanzhaozhen.security.feign;
 
-import org.shanzhaozhen.common.entity.R;
+import org.shanzhaozhen.common.result.R;
 import org.shanzhaozhen.security.dto.UserDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -3,7 +3,14 @@ description = 'common-redis'
 dependencies {
 
     implementation(
-//            'org.springframework.boot:spring-boot-starter-data-redis',
-            "org.redisson:redisson-spring-boot-starter:${redissonVersion}"
+            'org.springframework.boot:spring-boot-starter-data-redis',
+//            'org.springframework.boot:spring-boot-starter-cache',
+            'com.fasterxml.jackson.core:jackson-databind',
+//            "org.redisson:redisson-spring-boot-starter:${redissonVersion}"
     )
+
+//    annotationProcessor(
+//            'org.springframework.boot:spring-boot-configuration-processor'
+//    )
+
 }

@@ -1,8 +1,8 @@
 package org.shanzhaozhen.security.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.shanzhaozhen.common.constant.enums.JwtErrorConst;
-import org.shanzhaozhen.common.entity.R;
+import org.shanzhaozhen.common.enums.JwtErrorConst;
+import org.shanzhaozhen.common.result.R;
 import org.shanzhaozhen.common.utils.HttpServletUtils;
 import org.shanzhaozhen.security.dto.UserDTO;
 import org.shanzhaozhen.security.form.UserLoginForm;

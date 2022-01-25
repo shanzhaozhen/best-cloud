@@ -3,6 +3,7 @@ package org.shanzhaozhen.common.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -10,9 +11,9 @@ import java.util.List;
 @Slf4j
 public class JacksonUtils {
 
-    private static ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    public static String objectToString(Object object) {
+    public static String objectToJSONString(Object object) {
         try {
             return objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
@@ -22,9 +23,9 @@ public class JacksonUtils {
         }
     }
 
-    public static <T> T stringToObject(String json, Class<T> clazz) {
+    public static <T> T stringToOPojo(String json, Class<T> beanType) {
         try {
-            return objectMapper.readValue(json, clazz);
+            return objectMapper.readValue(json, beanType);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             log.error("Json转对象失败：Json to Object error");
@@ -32,9 +33,9 @@ public class JacksonUtils {
         }
     }
 
-    public static <T> List<T> stringToObjectList(String json, Class<T> clazz) {
+    public static <T> List<T> stringToPojoList(String json, Class<T> beanType) {
         try {
-            JavaType javaType = objectMapper.getTypeFactory().constructParametricType(List.class, clazz);
+            JavaType javaType = objectMapper.getTypeFactory().constructParametricType(List.class, beanType);
             return objectMapper.readValue(json, javaType);
         } catch (JsonProcessingException e) {
             e.printStackTrace();

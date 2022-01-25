@@ -1,6 +1,6 @@
 package org.shanzhaozhen.common.utils;
 
-import org.shanzhaozhen.common.entity.R;
+import org.shanzhaozhen.common.result.R;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -28,13 +28,20 @@ public class HttpServletUtils {
     }
 
     /**
-     * 获取HttpServletRequest中的Attribute
+     *
      */
     public static Object getAttribute(String name) {
         return getHttpServletRequest().getAttribute(name);
     }
 
 
+    /**
+     *
+     * @param httpServletResponse
+     * @param status
+     * @param content
+     * @throws IOException
+     */
     public static void resultJson(HttpServletResponse httpServletResponse, Integer status, String content) throws IOException {
         httpServletResponse.setCharacterEncoding("UTF-8");
         httpServletResponse.setContentType("application/json; charset=utf-8");

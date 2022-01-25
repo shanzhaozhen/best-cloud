@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
-import org.shanzhaozhen.common.entity.R;
+import org.shanzhaozhen.common.result.R;
 import org.shanzhaozhen.security.converter.RoleConverter;
 import org.shanzhaozhen.security.dto.RoleDTO;
 import org.shanzhaozhen.security.form.RoleForm;

@@ -1,4 +1,4 @@
-package org.shanzhaozhen.common.constant.enums;
+package org.shanzhaozhen.common.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

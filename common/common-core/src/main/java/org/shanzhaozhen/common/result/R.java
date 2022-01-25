@@ -1,4 +1,4 @@
-package org.shanzhaozhen.common.entity;
+package org.shanzhaozhen.common.result;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
@@ -7,9 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.shanzhaozhen.common.constant.IResultCode;
 import org.shanzhaozhen.common.constant.ResultType;
-import org.shanzhaozhen.common.constant.enums.JwtErrorConst;
+import org.shanzhaozhen.common.enums.JwtErrorConst;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -23,7 +22,7 @@ import java.util.function.Supplier;
 public class R<T> {
 
     @ApiModelProperty(value = "业务状态码", name = "code")
-    private Integer code;
+    private String code;
 
     @ApiModelProperty(value = "返回的信息", name = "message")
     private String message;
@@ -34,33 +33,25 @@ public class R<T> {
     @ApiModelProperty(value = "请求完成的时间", name = "timestamp")
     private long timestamp = System.currentTimeMillis();
 
-    public R(Integer code) {
-        this.code = code;
-    }
-
-    public R(String msg) {
-        this.message = msg;
-    }
-
-    public R(Integer code, String msg) {
+    public R(String code, String msg) {
         this.code = code;
         this.message = msg;
     }
 
-    public R(Integer code, T data) {
+    public R(String code, T data) {
         this.code = code;
         this.data = data;
     }
 
-    public R(Integer code, String msg, T data) {
+    public R(String code, String msg, T data) {
         this.code = code;
         this.message = msg;
         this.data = data;
     }
 
-    public R(JwtErrorConst jwtErrorConst) {
-        this.code = jwtErrorConst.getCode();
-        this.message = jwtErrorConst.getReason();
+    public R(IResultCode resultCode) {
+        this.code = resultCode.getCode();
+        this.message = resultCode.getMessage();
     }
 
     public static <T> R<T> build(Supplier<T> s) {
@@ -81,8 +72,12 @@ public class R<T> {
         return result;
     }
 
+    public static <T> R<T> build(IResultCode resultCode) {
+        return new R<>(resultCode);
+    }
+
     public static <T> R<T> ok() {
-        return new R<>(ResultType.SUCCESS);
+        return new R<>(ResultType.SUCCESS, null);
     }
 
     public static <T> R<T> ok(T data) {
@@ -94,7 +89,7 @@ public class R<T> {
     }
 
     public static <T> R<T> failed() {
-        return new R<>(ResultType.FAILURE);
+        return new R<>(ResultType.FAILURE, null);
     }
 
     public static <T> R<T> failed(String message) {
