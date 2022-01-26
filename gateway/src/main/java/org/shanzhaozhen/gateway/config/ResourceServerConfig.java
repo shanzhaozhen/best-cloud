@@ -1,6 +1,7 @@
 package org.shanzhaozhen.gateway.config;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -31,15 +32,14 @@ import java.util.List;
  * 资源服务器配置
  */
 @ConfigurationProperties(prefix = "security")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Configuration
 @EnableWebFluxSecurity
 public class ResourceServerConfig {
 
-    private ResourceServerManager resourceServerManager;
+    private final ResourceServerManager resourceServerManager;
 
-    @Setter
-    private List<String> ignoreUrls;
+    private final List<String> whiteListConfig;
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
@@ -49,7 +49,7 @@ public class ResourceServerConfig {
         ;
         http.oauth2ResourceServer().authenticationEntryPoint(authenticationEntryPoint());
         http.authorizeExchange()
-                .pathMatchers(Convert.toStrArray(ignoreUrls)).permitAll()
+                .pathMatchers(whiteListConfig).permitAll()
                 .anyExchange().access(resourceServerManager)
                 .and()
                 .exceptionHandling()
