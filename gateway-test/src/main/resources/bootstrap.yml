@@ -1,0 +1,49 @@
+server:
+  port: 8000
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        group: SYSTEM #应用分组
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yaml
+        group: SYSTEM
+        prefix: ${spring.application.name}
+#        命名空间
+#        namespace:
+    sentinel:
+      transport:
+        dashboard: 127.0.0.1:18080
+      datasource.ds2.file:
+        file: "classpath: gateway.json"
+        ruleType: gw-flow
+        datasource.ds1.file:
+          file: "classpath: api.json"
+          ruleType: gw-api-group
+        transport:
+          dashboard: localhost:8080
+        filter:
+          enabled: true
+        scg.fallback:
+          mode: response
+          response-status: 444
+          response-body: 1234
+        scg:
+          order: -100
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+# 白名单
+whitelist:
+  urls:
+    - "/oauth/token"
+    - "/rsa/publicKey"
+    - "/authorize/oauth/token"
+    - "/authorize/rsa/publicKey"

@@ -54,7 +54,7 @@ public class HttpServletUtils {
 
 
     public static void resultJson(HttpServletResponse httpServletResponse, Integer status, R<?> result) throws IOException {
-        resultJson(httpServletResponse, status, JacksonUtils.objectToString(result));
+        resultJson(httpServletResponse, status, JacksonUtils.toJSONString(result));
     }
 
 }

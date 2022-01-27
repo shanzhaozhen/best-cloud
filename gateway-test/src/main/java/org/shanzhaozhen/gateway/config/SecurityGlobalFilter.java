@@ -7,6 +7,8 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.shanzhaozhen.common.constant.SecurityConstants;
+import org.shanzhaozhen.common.result.ResultCode;
+import org.shanzhaozhen.gateway.util.ResponseUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -35,7 +37,6 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
     @SneakyThrows
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
 
@@ -53,7 +54,7 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
         String jti = (String) payload.get(SecurityConstants.JWT_JTI);
         Boolean isBlack = redisTemplate.hasKey(SecurityConstants.TOKEN_BLACKLIST_PREFIX + jti);
         if (isBlack) {
-            return ResponseUtils.writeErrorInfo(response, ResultCode.TOKEN_ACCESS_FORBIDDEN);
+            return ResponseUtils.writeErrorInfo(response, ResultCode.JWT_FORBIDDEN);
         }
 
         // 存在token且不是黑名单，request写入JWT的载体信息

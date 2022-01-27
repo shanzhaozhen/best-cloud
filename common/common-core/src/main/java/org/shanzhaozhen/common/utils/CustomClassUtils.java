@@ -72,7 +72,7 @@ public class CustomClassUtils {
      * @return
      */
     public static Object[] methodParamInfoToParams(String paramJson) {
-        List<MethodParamInfo> methodParamInfoList = JSON.parseObject(paramJson, new TypeReference<List<MethodParamInfo>>(){});
+        List<MethodParamInfo> methodParamInfoList = JacksonUtils.toPojoList(paramJson, MethodParamInfo.class);;
         return CustomClassUtils.methodParamInfoToParams(methodParamInfoList);
     }
 
@@ -85,7 +85,7 @@ public class CustomClassUtils {
         try {
             List<Object> params = new ArrayList<>();
             for (MethodParamInfo methodParamInfo : methodParamInfos) {
-                Object param = JSON.parseObject(methodParamInfo.getParamValue(), methodParamInfo.getParamType());
+                Object param = JacksonUtils.toOPojo(methodParamInfo.getParamValue(), Object.class);
                 params.add(param);
             }
             return params.toArray();

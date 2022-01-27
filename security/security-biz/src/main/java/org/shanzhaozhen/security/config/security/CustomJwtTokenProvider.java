@@ -3,8 +3,8 @@ package org.shanzhaozhen.security.config.security;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.shanzhaozhen.common.enums.JwtErrorConst;
 import org.shanzhaozhen.common.result.R;
+import org.shanzhaozhen.common.result.ResultCode;
 import org.shanzhaozhen.common.utils.HttpServletUtils;
 import org.shanzhaozhen.security.dto.JWTUser;
 import org.shanzhaozhen.security.service.UserService;
@@ -83,27 +83,27 @@ public class CustomJwtTokenProvider {
 //        } catch (SignatureException ex) {
 //            log.error("Invalid JWT signature");
 //            HttpServletUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
-//            new R<>(JwtErrorConst.JWT_SIGNATURE));
+//            new R<>(ResultCode.JWT_SIGNATURE));
         } catch (MalformedJwtException ex) {
             log.error("Invalid JWT token");
             HttpServletUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
-                    new R<>(JwtErrorConst.JWT_MALFORMED));
+                    new R<>(ResultCode.JWT_MALFORMED));
         } catch (ExpiredJwtException ex) {
             log.error("Expired JWT token");
             HttpServletUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
-                    new R<>(JwtErrorConst.JWT_EXPIRED));
+                    new R<>(ResultCode.JWT_EXPIRED));
         } catch (UnsupportedJwtException ex) {
             log.error("Unsupported JWT token");
             HttpServletUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
-                    new R<>(JwtErrorConst.JWT_UNSUPPORTED));
+                    new R<>(ResultCode.JWT_UNSUPPORTED));
         } catch (IllegalArgumentException ex) {
             log.error("JWT claims string is empty.");
             HttpServletUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
-                    new R<>(JwtErrorConst.JWT_ILLEGAL_ARGUMENT));
+                    new R<>(ResultCode.JWT_ILLEGAL_ARGUMENT));
         } catch (JwtException ex) {
             log.error("JWT error.");
             HttpServletUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
-                    new R<>(JwtErrorConst.JWT_ERROR));
+                    new R<>(ResultCode.JWT_ERROR));
         }
         return false;
     }

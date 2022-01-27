@@ -13,7 +13,7 @@ public class JacksonUtils {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    public static String objectToJSONString(Object object) {
+    public static String toJSONString(Object object) {
         try {
             return objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
@@ -23,7 +23,7 @@ public class JacksonUtils {
         }
     }
 
-    public static <T> T stringToOPojo(String json, Class<T> beanType) {
+    public static <T> T toOPojo(String json, Class<T> beanType) {
         try {
             return objectMapper.readValue(json, beanType);
         } catch (JsonProcessingException e) {
@@ -33,7 +33,7 @@ public class JacksonUtils {
         }
     }
 
-    public static <T> List<T> stringToPojoList(String json, Class<T> beanType) {
+    public static <T> List<T> toPojoList(String json, Class<T> beanType) {
         try {
             JavaType javaType = objectMapper.getTypeFactory().constructParametricType(List.class, beanType);
             return objectMapper.readValue(json, javaType);

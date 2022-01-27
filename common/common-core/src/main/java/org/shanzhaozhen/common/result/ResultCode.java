@@ -12,7 +12,7 @@ import java.io.Serializable;
 public enum ResultCode implements IResultCode, Serializable {
 
     LOGIN_SUCCESS("2000", "登陆成功"),
-    LOGIN_ERROR("4010", "登陆异常"),
+    ACCESS_UNAUTHORIZED("4010", "登陆异常"),
 
     JWT_SIGNATURE("4011", "token签名异常"),
     JWT_MALFORMED("4012", "token格式不正确"),

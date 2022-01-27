@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import org.shanzhaozhen.common.constant.SecurityConstants;
+import org.shanzhaozhen.common.result.ResultCode;
+import org.shanzhaozhen.gateway.util.ResponseUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +29,6 @@ import java.io.InputStream;
 import java.security.KeyFactory;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.List;
 
 /**
  * 资源服务器配置
@@ -39,17 +41,18 @@ public class ResourceServerConfig {
 
     private final ResourceServerManager resourceServerManager;
 
-    private final List<String> whiteListConfig;
+    private final WhiteListConfig whiteListConfig;
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
-        http.oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter())
-                .publicKey(rsaPublicKey()) // 本地获取公钥
+//        http.oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter())
+//                .publicKey(rsaPublicKey()) // 本地获取公钥
                 //.jwkSetUri() // 远程获取公钥
         ;
         http.oauth2ResourceServer().authenticationEntryPoint(authenticationEntryPoint());
         http.authorizeExchange()
-                .pathMatchers(whiteListConfig).permitAll()
+                // 白名单
+                .pathMatchers(whiteListConfig.getUrls().toArray(new String[0])).permitAll()
                 .anyExchange().access(resourceServerManager)
                 .and()
                 .exceptionHandling()
@@ -65,11 +68,8 @@ public class ResourceServerConfig {
      */
     @Bean
     ServerAccessDeniedHandler accessDeniedHandler() {
-        return (exchange, denied) -> {
-            Mono<Void> mono = Mono.defer(() -> Mono.just(exchange.getResponse()))
-                    .flatMap(response -> ResponseUtils.writeErrorInfo(response, ResultCode.ACCESS_UNAUTHORIZED));
-            return mono;
-        };
+        return (exchange, denied) -> Mono.defer(() -> Mono.just(exchange.getResponse()))
+                .flatMap(response -> ResponseUtils.writeErrorInfo(response, ResultCode.ACCESS_UNAUTHORIZED));
     }
 
     /**
@@ -77,11 +77,8 @@ public class ResourceServerConfig {
      */
     @Bean
     ServerAuthenticationEntryPoint authenticationEntryPoint() {
-        return (exchange, e) -> {
-            Mono<Void> mono = Mono.defer(() -> Mono.just(exchange.getResponse()))
-                    .flatMap(response -> ResponseUtils.writeErrorInfo(response, ResultCode.TOKEN_INVALID_OR_EXPIRED));
-            return mono;
-        };
+        return (exchange, e) -> Mono.defer(() -> Mono.just(exchange.getResponse()))
+                .flatMap(response -> ResponseUtils.writeErrorInfo(response, ResultCode.JWT_EXPIRED));
     }
 
     /**
@@ -101,20 +98,13 @@ public class ResourceServerConfig {
         return new ReactiveJwtAuthenticationConverterAdapter(jwtAuthenticationConverter);
     }
 
-    /**
-     * 本地获取JWT验签公钥
-     */
-    @SneakyThrows
-    @Bean
-    public RSAPublicKey rsaPublicKey() {
-        Resource resource = new ClassPathResource("public.key");
-        InputStream is = resource.getInputStream();
-        String publicKeyData = IoUtil.read(is).toString();
-        X509EncodedKeySpec keySpec = new X509EncodedKeySpec((Base64.decode(publicKeyData)));
-
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        RSAPublicKey rsaPublicKey = (RSAPublicKey)keyFactory.generatePublic(keySpec);
-        return rsaPublicKey;
-    }
+//    /**
+//     * 本地获取JWT验签公钥
+//     */
+//    @SneakyThrows
+//    @Bean
+//    public RSAPublicKey rsaPublicKey() {
+//        return rsaPublicKey;
+//    }
 
 }

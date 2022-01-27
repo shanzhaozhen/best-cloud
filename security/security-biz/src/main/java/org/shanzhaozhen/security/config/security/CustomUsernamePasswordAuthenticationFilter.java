@@ -3,6 +3,7 @@ package org.shanzhaozhen.security.config.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.shanzhaozhen.common.enums.JwtErrorConst;
 import org.shanzhaozhen.common.result.R;
+import org.shanzhaozhen.common.result.ResultCode;
 import org.shanzhaozhen.common.utils.HttpServletUtils;
 import org.shanzhaozhen.security.dto.UserDTO;
 import org.shanzhaozhen.security.form.UserLoginForm;
@@ -86,7 +87,7 @@ public class CustomUsernamePasswordAuthenticationFilter extends AbstractAuthenti
 
         // 登陆成功返回
         HttpServletUtils.resultJson(response, HttpServletResponse.SC_OK,
-                new R<>(JwtErrorConst.LOGIN_SUCCESS.getCode(), "登陆成功", token));
+                new R<>(ResultCode.LOGIN_SUCCESS.getCode(), "登陆成功", token));
     }
 
     @Override
@@ -94,7 +95,7 @@ public class CustomUsernamePasswordAuthenticationFilter extends AbstractAuthenti
         String msg = failed == null ? "参数错误" : failed.getMessage();
 //        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, msg);
         HttpServletUtils.resultJson(response, HttpServletResponse.SC_UNAUTHORIZED,
-                new R<>(JwtErrorConst.LOGIN_ERROR.getCode(), msg)
+                new R<>(ResultCode.ACCESS_UNAUTHORIZED.getCode(), msg)
         );
     }
 
