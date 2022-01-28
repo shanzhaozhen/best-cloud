@@ -1,15 +1,9 @@
 package org.shanzhaozhen.authorize.config.oauth2;
 
 
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.source.JWKSource;
-import com.nimbusds.jose.proc.SecurityContext;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.shanzhaozhen.authorize.config.jose.Jwks;
 import org.shanzhaozhen.authorize.jackson.SecurityJacksonConfig;
-import org.shanzhaozhen.security.dto.AuthUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +13,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.server.authorization.*;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -47,8 +39,8 @@ public class AuthorizationServerConfig {
     private final Jwks jwks;
 
     /**
-     *  security 挂载 Spring Authorization Server 认证服务器
-     *  定义 spring security 拦击链规则
+     *  uaa 挂载 Spring Authorization Server 认证服务器
+     *  定义 spring uaa 拦击链规则
      * @param http
      * @return
      * @throws Exception

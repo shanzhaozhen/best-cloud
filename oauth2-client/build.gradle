@@ -7,7 +7,7 @@ dependencies {
     api(
 //            project(':basic:basic-common'),
 //            project(':common:common-core')
-            project(':security:security-api')
+            project(':uaa:uaa-api')
     )
 
 
@@ -26,7 +26,7 @@ dependencies {
             'org.springframework.cloud:spring-cloud-starter-bootstrap',
 
 
-            "org.springframework.boot:spring-boot-starter-security",
+            "org.springframework.boot:spring-boot-starter-uaa",
             "org.springframework.boot:spring-boot-starter-oauth2-client",
 
             'mysql:mysql-connector-java',

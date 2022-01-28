@@ -9,7 +9,7 @@ include 'authorize'
 
 include 'oauth2-client'
 
-include 'security:security-api'
-include 'security:security-biz'
+include 'uaa:uaa-api'
+include 'uaa:uaa-biz'
 
 

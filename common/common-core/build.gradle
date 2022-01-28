@@ -3,7 +3,7 @@ description = 'common-core'
 dependencies {
 
     api (
-            'org.springframework.security:spring-security-core',
+            'org.springframework.uaa:spring-uaa-core',
             "com.baomidou:mybatis-plus-extension:${mybatisPlusVersion}",
 
             // 表单校验的两个依赖

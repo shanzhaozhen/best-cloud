@@ -5,9 +5,8 @@ apply plugin: 'java-library'
 dependencies {
 
     api(
-//            project(':basic:basic-common'),
-//            project(':common:common-core')
-            project(':security:security-api')
+            project(':common:common-redis'),
+            project(':uaa:uaa-api')
     )
 
     implementation(
@@ -23,13 +22,13 @@ dependencies {
             'org.springframework.cloud:spring-cloud-starter-bootstrap',
 
 
-            "org.springframework.boot:spring-boot-starter-security",
-            "org.springframework.security:spring-security-oauth2-authorization-server:${authorizationServerVersion}",
-            "org.springframework.security:spring-security-oauth2-core:${springSecurityVersion}",
-            "org.springframework.security:spring-security-oauth2-jose:${springSecurityVersion}",
+            "org.springframework.boot:spring-boot-starter-uaa",
+            "org.springframework.uaa:spring-uaa-oauth2-authorization-server:${authorizationServerVersion}",
+            "org.springframework.uaa:spring-uaa-oauth2-core:${springSecurityVersion}",
+            "org.springframework.uaa:spring-uaa-oauth2-jose:${springSecurityVersion}",
 
 //            'org.springframework.cloud:spring-cloud-starter-oauth2',
-//            'org.springframework.cloud:spring-cloud-starter-security',
+//            'org.springframework.cloud:spring-cloud-starter-uaa',
 
             'mysql:mysql-connector-java',
             "com.alibaba:druid-spring-boot-starter:${druidVersion}",

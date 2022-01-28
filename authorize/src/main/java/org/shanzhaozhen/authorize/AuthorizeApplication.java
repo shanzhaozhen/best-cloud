@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients("org.shanzhaozhen.security.feign")
+@EnableFeignClients("org.shanzhaozhen.uaa.feign")
 public class AuthorizeApplication {
 
     public static void main(String[] args) {

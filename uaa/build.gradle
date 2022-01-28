@@ -1,0 +1,12 @@
+description = 'uaa'
+
+subprojects {
+
+    apply plugin: 'java-library'
+    jar.enabled = true
+
+    dependencies {
+//        implementation 'org.springframework.boot:spring-boot-starter-web'
+    }
+
+}

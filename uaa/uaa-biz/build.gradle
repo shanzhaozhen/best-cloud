@@ -1,0 +1,41 @@
+description = 'uaa-biz'
+
+//apply plugin: 'java-library'
+
+dependencies {
+
+    api(
+            project(':common:common-redis'),
+            project(':uaa:uaa-api')
+    )
+
+    implementation(
+            'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery',
+            'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config',
+            'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel',
+
+            'org.springframework.boot:spring-boot-starter-web',
+            'org.springframework.boot:spring-boot-starter-actuator',
+            'org.springframework.cloud:spring-cloud-starter-bootstrap',
+
+            'org.springframework.boot:spring-boot-starter-uaa',
+
+
+//            'org.springframework.cloud:spring-cloud-starter-oauth2',
+//            'org.springframework.cloud:spring-cloud-starter-uaa',
+//            "org.springframework.uaa:spring-uaa-oauth2-jose",
+            "io.jsonwebtoken:jjwt:${jjwtVersion}",
+
+            'org.springframework.boot:spring-boot-starter-actuator',
+
+            'mysql:mysql-connector-java',
+            "com.alibaba:druid-spring-boot-starter:${druidVersion}",
+            "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}",
+            'org.springframework.boot:spring-boot-starter-data-redis'
+
+    )
+
+}
+
+
+

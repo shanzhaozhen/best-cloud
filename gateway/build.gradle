@@ -21,8 +21,8 @@ dependencies {
             'org.springframework.cloud:spring-cloud-starter-gateway',
 
 //            'org.springframework.cloud:spring-cloud-starter-oauth2',
-//            'org.springframework.security:spring-security-oauth2-resource-server',
-//            'org.springframework.security:spring-security-oauth2-jose',
+//            'org.springframework.uaa:spring-uaa-oauth2-resource-server',
+//            'org.springframework.uaa:spring-uaa-oauth2-jose',
             'org.springframework.boot:spring-boot-starter-oauth2-resource-server',
 
             'org.springframework.boot:spring-boot-starter-data-redis',

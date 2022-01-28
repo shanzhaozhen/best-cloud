@@ -20,10 +20,10 @@ spring:
           uri: lb://authorize
           predicates:
             - Path=/authorize/**
-        - id: security
-          uri: lb://security
+        - id: uaa
+          uri: lb://uaa
           predicates:
-            - Path=/security/**
+            - Path=/uaa/**
 
   security:
     oauth2:

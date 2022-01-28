@@ -18,8 +18,8 @@ public class OAuth2ClientSecurityConfiguration {
     /**
      * 放开对{@code redirect_uri}的访问，否则会出现{@code 403}，授权服务器需要回调该地址
      *
-     * @param httpSecurity the http security
-     * @return the security filter chain
+     * @param httpSecurity the http uaa
+     * @return the uaa filter chain
      * @throws Exception the exception
      */
     @Bean

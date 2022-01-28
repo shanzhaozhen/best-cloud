@@ -33,7 +33,7 @@ import java.security.spec.X509EncodedKeySpec;
 /**
  * 资源服务器配置
  */
-@ConfigurationProperties(prefix = "security")
+@ConfigurationProperties(prefix = "uaa")
 @RequiredArgsConstructor
 @Configuration
 @EnableWebFluxSecurity
