@@ -1,8 +1,8 @@
 package org.shanzhaozhen.gateway.config;
 
 import lombok.RequiredArgsConstructor;
-import org.shanzhaozhen.common.constant.SecurityConstants;
-import org.shanzhaozhen.common.result.ResultCode;
+import org.shanzhaozhen.common.core.constant.SecurityConstants;
+import org.shanzhaozhen.common.core.result.ResultCode;
 import org.shanzhaozhen.gateway.filter.WhiteListRemoveJwtFilter;
 import org.shanzhaozhen.gateway.util.ResponseUtils;
 import org.springframework.context.annotation.Bean;

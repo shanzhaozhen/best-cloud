@@ -1,12 +1,12 @@
 package org.shanzhaozhen.uaa.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.shanzhaozhen.common.utils.CustomBeanUtils;
+import org.shanzhaozhen.common.core.utils.CustomBeanUtils;
 import org.shanzhaozhen.uaa.converter.RoleConverter;
-import org.shanzhaozhen.uaa.domain.RoleDO;
-import org.shanzhaozhen.uaa.domain.RoleMenuDO;
-import org.shanzhaozhen.uaa.domain.RolePermissionDO;
-import org.shanzhaozhen.uaa.dto.RoleDTO;
+import org.shanzhaozhen.uaa.pojo.entity.RoleDO;
+import org.shanzhaozhen.uaa.pojo.entity.RoleMenuDO;
+import org.shanzhaozhen.uaa.pojo.entity.RolePermissionDO;
+import org.shanzhaozhen.uaa.pojo.dto.RoleDTO;
 import org.shanzhaozhen.uaa.mapper.RolePermissionMapper;
 import org.shanzhaozhen.uaa.service.RoleService;
 import org.shanzhaozhen.uaa.mapper.RoleMapper;

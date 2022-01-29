@@ -1,20 +1,20 @@
 package org.shanzhaozhen.uaa.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.shanzhaozhen.common.utils.CustomBeanUtils;
-import org.shanzhaozhen.common.utils.PasswordUtils;
+import org.shanzhaozhen.common.core.utils.CustomBeanUtils;
+import org.shanzhaozhen.common.core.utils.PasswordUtils;
 import org.shanzhaozhen.uaa.service.RoleService;
-import org.shanzhaozhen.uaa.domain.UserDO;
-import org.shanzhaozhen.uaa.dto.JWTUser;
-import org.shanzhaozhen.uaa.dto.UserDTO;
-import org.shanzhaozhen.uaa.form.UserDepartmentForm;
+import org.shanzhaozhen.uaa.pojo.entity.UserDO;
+import org.shanzhaozhen.uaa.pojo.dto.JWTUser;
+import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
+import org.shanzhaozhen.uaa.pojo.form.UserDepartmentForm;
 import org.shanzhaozhen.uaa.service.UserRoleService;
 import org.shanzhaozhen.uaa.service.UserService;
 import org.shanzhaozhen.uaa.mapper.UserMapper;
 import org.shanzhaozhen.uaa.mapper.UserRoleMapper;
 import lombok.RequiredArgsConstructor;
-import org.shanzhaozhen.uaa.vo.CurrentUser;
-import org.shanzhaozhen.uaa.vo.UserInfo;
+import org.shanzhaozhen.uaa.pojo.vo.CurrentUser;
+import org.shanzhaozhen.uaa.pojo.vo.UserInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -59,7 +59,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getCurrentUser() {
-        UserDTO userDTO = userMapper.getUserAndRolesByUserId(UserDetailsUtils.getUserId());
+//        UserDTO userDTO = userMapper.getUserAndRolesByUserId(UserDetailsUtils.getUserId());
+        UserDTO userDTO = userMapper.getUserAndRolesByUserId(null);
         Assert.notNull(userDTO, "没有找到当前用户信息");
         return userDTO;
     }
@@ -182,7 +183,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean logout() {
-        Long userId = UserDetailsUtils.getUserId();
+//        Long userId = UserDetailsUtils.getUserId();
         return true;
     }
 

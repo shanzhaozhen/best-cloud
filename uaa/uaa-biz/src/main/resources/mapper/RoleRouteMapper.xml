@@ -3,7 +3,7 @@
 <mapper namespace="org.shanzhaozhen.uaa.mapper.RoleMenuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.shanzhaozhen.uaa.domain.RoleMenuDO">
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.uaa.pojo.entity.RoleMenuDO">
         <id column="id" property="id" />
         <result column="role_id" property="roleId" />
         <result column="menu_id" property="menuId" />
@@ -12,5 +12,9 @@
         <result column="last_modified_by" property="lastModifiedBy" />
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
+
+    <delete id="deleteByRoleId">
+        delete from sys_role_menu where role_id = #{roleId}
+    </delete>
 
 </mapper>

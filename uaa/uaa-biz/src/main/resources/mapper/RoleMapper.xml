@@ -3,7 +3,7 @@
 <mapper namespace="org.shanzhaozhen.uaa.mapper.RoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.shanzhaozhen.uaa.domain.RoleDO">
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.uaa.pojo.entity.RoleDO">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="code" property="code" />
@@ -14,28 +14,63 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-    <resultMap autoMapping="true" type="org.shanzhaozhen.uaa.dto.RoleDTO" id="RoleResourceMap">
-        <id property="id" column="id"></id>
+    <resultMap autoMapping="true" type="org.shanzhaozhen.uaa.pojo.dto.RoleDTO" id="RolePermissionMap">
+        <id property="id" column="id"/>
         <collection property="menus" column="id" select="org.shanzhaozhen.uaa.mapper.MenuMapper.getMenuByRoleId">
         </collection>
-        <collection property="resources" column="id" select="org.shanzhaozhen.uaa.mapper.ResourceMapper.getResourceByRoleId">
+        <collection property="permissions" column="id" select="org.shanzhaozhen.uaa.mapper.PermissionMapper.getPermissionByRoleId">
         </collection>
     </resultMap>
 
-    <select id="getRoleDetailById" resultMap="RoleResourceMap">
+    <select id="getRoleDetailById" resultMap="RolePermissionMap">
         select id, name, code, description,
                created_by, created_date, last_modified_by, last_modified_date
         from sys_role
         where id = #{roleId}
     </select>
 
-    <select id="getRolePage" resultType="org.shanzhaozhen.uaa.dto.RoleDTO">
+    <select id="getRoleByMenuId" resultType="org.shanzhaozhen.uaa.pojo.dto.RoleDTO">
+        select r.id, r.name, r.code, r.description,
+               r.created_by, r.created_date, r.last_modified_by, r.last_modified_date
+        from sys_role r
+                 inner join sys_role_menu srm on srm.menu_id = #{menuId} and r.id = srm.role_id
+    </select>
+
+    <select id="getRoleByPermissionId" resultType="org.shanzhaozhen.uaa.pojo.dto.RoleDTO">
+        select r.id, r.name, r.code, r.description,
+               r.created_by, r.created_date, r.last_modified_by, r.last_modified_date
+        from sys_role r
+                 inner join sys_role_permission srr on srr.permission_id = #{permissionId} and r.id = srr.role_id
+    </select>
+
+    <select id="getRoleListByUserId" resultType="org.shanzhaozhen.uaa.pojo.dto.RoleDTO">
+        select r.id, r.name, r.code, r.description,
+               r.created_by, r.created_date, r.last_modified_by, r.last_modified_date
+        from sys_role r inner join sys_user_role sur on sur.user_id = #{userId} and r.id = sur.role_id
+--             inner join sys_user su on sur.user_id = su.id
+    </select>
+
+    <select id="getAuthoritiesByUserId" resultType="org.shanzhaozhen.uaa.pojo.dto.CustomGrantedAuthority">
+        select r.code role from sys_role r inner join sys_user_role sur on sur.user_id = #{userId} and r.id = sur.role_id
+    </select>
+
+    <select id="getRolePage" resultType="org.shanzhaozhen.uaa.pojo.dto.RoleDTO">
         select id, name, code, description, created_by, created_date, last_modified_by, last_modified_date
         from sys_role
         <if test="keyword != null and keyword != ''">
             where name like concat ('%', #{keyword}, '%') or code like concat ('%', #{keyword}, '%')
             or description like concat ('%', #{keyword}, '%')
         </if>
+    </select>
+
+    <select id="getAllRoles" resultType="org.shanzhaozhen.uaa.pojo.dto.RoleDTO">
+        select id, name from sys_role
+    </select>
+
+    <select id="getRoleByCode" resultType="org.shanzhaozhen.uaa.pojo.dto.RoleDTO">
+        select id, name, code, description,
+               created_by, created_date, last_modified_by, last_modified_date
+        from sys_role where code = #{code}
     </select>
 
 </mapper>

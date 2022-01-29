@@ -1,15 +1,15 @@
 package org.shanzhaozhen.uaa.controller;
 
-import org.shanzhaozhen.common.enums.PermissionType;
-import org.shanzhaozhen.common.result.R;
+import org.shanzhaozhen.common.core.enums.PermissionType;
+import org.shanzhaozhen.common.core.result.R;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.uaa.converter.PermissionConverter;
-import org.shanzhaozhen.uaa.form.PermissionForm;
+import org.shanzhaozhen.uaa.pojo.form.PermissionForm;
 import org.shanzhaozhen.uaa.service.PermissionService;
-import org.shanzhaozhen.uaa.vo.PermissionVO;
+import org.shanzhaozhen.uaa.pojo.vo.PermissionVO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

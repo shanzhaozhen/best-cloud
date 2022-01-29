@@ -1,9 +1,9 @@
 package org.shanzhaozhen.authorize.config.oauth2;
 
 import lombok.RequiredArgsConstructor;
-import org.shanzhaozhen.common.result.R;
-import org.shanzhaozhen.uaa.dto.AuthUser;
-import org.shanzhaozhen.uaa.dto.UserDTO;
+import org.shanzhaozhen.common.core.result.R;
+import org.shanzhaozhen.uaa.pojo.dto.AuthUser;
+import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
 import org.shanzhaozhen.uaa.feign.UserFeignClient;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -3,7 +3,7 @@ description = 'common-core'
 dependencies {
 
     api (
-            'org.springframework.uaa:spring-uaa-core',
+            'org.springframework.security:spring-security-core',
             "com.baomidou:mybatis-plus-extension:${mybatisPlusVersion}",
 
             // 表单校验的两个依赖
@@ -13,9 +13,5 @@ dependencies {
             'org.apache.tomcat.embed:tomcat-embed-core',
     )
 
-
-//    implementation(
-//
-//    )
 
 }

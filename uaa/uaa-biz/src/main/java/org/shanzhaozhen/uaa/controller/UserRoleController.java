@@ -2,15 +2,15 @@ package org.shanzhaozhen.uaa.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import org.shanzhaozhen.common.result.R;
+import org.shanzhaozhen.common.core.result.R;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.uaa.converter.UserConverter;
-import org.shanzhaozhen.uaa.dto.UserDTO;
-import org.shanzhaozhen.uaa.form.UserRoleForm;
+import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
+import org.shanzhaozhen.uaa.pojo.form.UserRoleForm;
 import org.shanzhaozhen.uaa.service.UserRoleService;
-import org.shanzhaozhen.uaa.vo.UserVO;
+import org.shanzhaozhen.uaa.pojo.vo.UserVO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

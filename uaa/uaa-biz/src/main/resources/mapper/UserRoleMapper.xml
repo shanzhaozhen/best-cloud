@@ -3,7 +3,7 @@
 <mapper namespace="org.shanzhaozhen.uaa.mapper.UserRoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.shanzhaozhen.uaa.domain.UserRoleDO">
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.uaa.pojo.entity.UserRoleDO">
         <id column="id" property="id" />
         <result column="user_id" property="userId" />
         <result column="role_id" property="roleId" />
@@ -13,7 +13,8 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-    <select id="getUserRolePage" resultType="org.shanzhaozhen.uaa.dto.UserDTO">
+
+    <select id="getUserRolePage" resultType="org.shanzhaozhen.uaa.pojo.dto.UserDTO">
         select u.id, u.username, u.name, u.nickname from sys_user_role sur
         left join sys_user u on u.id = sur.user_id
         where sur.role_id = #{roleId}
@@ -22,5 +23,17 @@
             or u.nickName like concat ('%', #{keyword}, '%') or u.introduction like concat ('%', #{keyword}, '%')
         </if>
     </select>
+
+    <select id="getUserRoleByUserIdAndRoleId" resultType="org.shanzhaozhen.uaa.pojo.entity.UserRoleDO">
+        select * from sys_user_role where user_id = #{userId} and role_id = #{roleId}
+    </select>
+
+    <delete id="deleteByUserId">
+        delete from sys_user_role where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteByUserIdAndRoleId">
+        delete from sys_user_role where user_id = #{userId} and  role_id = #{roleId}
+    </delete>
 
 </mapper>

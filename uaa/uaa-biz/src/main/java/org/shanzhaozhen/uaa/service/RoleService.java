@@ -1,7 +1,7 @@
 package org.shanzhaozhen.uaa.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.shanzhaozhen.uaa.dto.RoleDTO;
+import org.shanzhaozhen.uaa.pojo.dto.RoleDTO;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;

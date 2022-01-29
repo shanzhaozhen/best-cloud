@@ -7,12 +7,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
-import org.shanzhaozhen.common.result.R;
+import org.shanzhaozhen.common.core.result.R;
 import org.shanzhaozhen.uaa.converter.RoleConverter;
-import org.shanzhaozhen.uaa.dto.RoleDTO;
-import org.shanzhaozhen.uaa.form.RoleForm;
+import org.shanzhaozhen.uaa.pojo.dto.RoleDTO;
+import org.shanzhaozhen.uaa.pojo.form.RoleForm;
 import org.shanzhaozhen.uaa.service.RoleService;
-import org.shanzhaozhen.uaa.vo.RoleVO;
+import org.shanzhaozhen.uaa.pojo.vo.RoleVO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +48,7 @@ public class RoleController {
     @Operation(summary = "获取角色信息（通过角色id）")
     @GetMapping(GET_ROLE_BY_ID)
     public R<RoleVO> getRoleById(@PathVariable("roleId") @Parameter(description = "角色id", example = "1") Long roleId) {
-        return R.build(() -> RoleConverter.toVO(roleService.getRoleDetailById(roleId)));
+        return R.build(() -> RoleConverter.toVO(roleService.getRoleById(roleId)));
     }
 
     @Operation(summary = "添加角色接口")

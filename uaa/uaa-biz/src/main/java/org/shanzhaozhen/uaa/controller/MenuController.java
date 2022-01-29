@@ -1,14 +1,14 @@
 package org.shanzhaozhen.uaa.controller;
 
-import org.shanzhaozhen.common.result.R;
+import org.shanzhaozhen.common.core.result.R;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.uaa.converter.MenuConverter;
-import org.shanzhaozhen.uaa.form.MenuForm;
+import org.shanzhaozhen.uaa.pojo.form.MenuForm;
 import org.shanzhaozhen.uaa.service.MenuService;
-import org.shanzhaozhen.uaa.vo.MenuVO;
+import org.shanzhaozhen.uaa.pojo.vo.MenuVO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

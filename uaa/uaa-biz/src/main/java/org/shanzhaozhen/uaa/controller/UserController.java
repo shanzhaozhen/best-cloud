@@ -1,7 +1,7 @@
 package org.shanzhaozhen.uaa.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.shanzhaozhen.common.result.R;
+import org.shanzhaozhen.common.core.result.R;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -9,12 +9,12 @@ import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 import org.shanzhaozhen.uaa.converter.UserConverter;
-import org.shanzhaozhen.uaa.dto.UserDTO;
-import org.shanzhaozhen.uaa.form.UserDepartmentForm;
-import org.shanzhaozhen.uaa.form.UserForm;
+import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
+import org.shanzhaozhen.uaa.pojo.form.UserDepartmentForm;
+import org.shanzhaozhen.uaa.pojo.form.UserForm;
 import org.shanzhaozhen.uaa.service.UserService;
-import org.shanzhaozhen.uaa.vo.CurrentUser;
-import org.shanzhaozhen.uaa.vo.UserVO;
+import org.shanzhaozhen.uaa.pojo.vo.CurrentUser;
+import org.shanzhaozhen.uaa.pojo.vo.UserVO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +40,6 @@ public class UserController {
     private static final String BATCH_UPDATE_USER_DEPARTMENT = "/user/department";
 
     private final UserService userService;
-    private final CustomUserDetailsService customUserDetailsService;
 
     @GetMapping(GET_OAUTH_USER)
     @Operation(summary = "获取当前登录用户的个人和权限信息接口")

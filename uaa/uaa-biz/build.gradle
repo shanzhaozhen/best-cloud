@@ -18,12 +18,12 @@ dependencies {
             'org.springframework.boot:spring-boot-starter-actuator',
             'org.springframework.cloud:spring-cloud-starter-bootstrap',
 
-            'org.springframework.boot:spring-boot-starter-uaa',
+            'org.springframework.boot:spring-boot-starter-security',
 
 
 //            'org.springframework.cloud:spring-cloud-starter-oauth2',
-//            'org.springframework.cloud:spring-cloud-starter-uaa',
-//            "org.springframework.uaa:spring-uaa-oauth2-jose",
+//            'org.springframework.cloud:spring-cloud-starter-security',
+//            "org.springframework.security:spring-security-oauth2-jose",
             "io.jsonwebtoken:jjwt:${jjwtVersion}",
 
             'org.springframework.boot:spring-boot-starter-actuator',

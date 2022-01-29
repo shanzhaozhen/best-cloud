@@ -1,11 +1,11 @@
 package org.shanzhaozhen.uaa.converter;
 
 
-import org.shanzhaozhen.uaa.domain.MenuDO;
-import org.shanzhaozhen.uaa.dto.MenuDTO;
-import org.shanzhaozhen.uaa.dto.RoleDTO;
-import org.shanzhaozhen.uaa.form.MenuForm;
-import org.shanzhaozhen.uaa.vo.MenuVO;
+import org.shanzhaozhen.uaa.pojo.entity.MenuDO;
+import org.shanzhaozhen.uaa.pojo.dto.MenuDTO;
+import org.shanzhaozhen.uaa.pojo.dto.RoleDTO;
+import org.shanzhaozhen.uaa.pojo.form.MenuForm;
+import org.shanzhaozhen.uaa.pojo.vo.MenuVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 

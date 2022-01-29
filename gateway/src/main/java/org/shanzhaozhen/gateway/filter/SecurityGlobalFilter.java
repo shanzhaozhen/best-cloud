@@ -2,13 +2,12 @@ package org.shanzhaozhen.gateway.filter;
 
 import com.nimbusds.jose.JWSObject;
 import com.nimbusds.jose.Payload;
-import com.sun.org.apache.xml.internal.security.encryption.EncryptedType;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
-import org.shanzhaozhen.common.constant.SecurityConstants;
-import org.shanzhaozhen.common.result.ResultCode;
+import org.shanzhaozhen.common.core.constant.SecurityConstants;
+import org.shanzhaozhen.common.core.result.ResultCode;
 import org.shanzhaozhen.gateway.util.ResponseUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -21,7 +20,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.net.URLEncoder;
 import java.util.Map;
 
 /**

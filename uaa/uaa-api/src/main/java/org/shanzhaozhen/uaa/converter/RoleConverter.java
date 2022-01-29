@@ -1,12 +1,12 @@
 package org.shanzhaozhen.uaa.converter;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.shanzhaozhen.uaa.domain.RoleDO;
-import org.shanzhaozhen.uaa.dto.PermissionDTO;
-import org.shanzhaozhen.uaa.dto.RoleDTO;
-import org.shanzhaozhen.uaa.form.RoleForm;
-import org.shanzhaozhen.uaa.vo.RoleBase;
-import org.shanzhaozhen.uaa.vo.RoleVO;
+import org.shanzhaozhen.uaa.pojo.entity.RoleDO;
+import org.shanzhaozhen.uaa.pojo.dto.PermissionDTO;
+import org.shanzhaozhen.uaa.pojo.dto.RoleDTO;
+import org.shanzhaozhen.uaa.pojo.form.RoleForm;
+import org.shanzhaozhen.uaa.pojo.vo.RoleBase;
+import org.shanzhaozhen.uaa.pojo.vo.RoleVO;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
@@ -74,13 +74,13 @@ public class RoleConverter {
 //            }
 //            roleVO.setMenuIds(menuIds);
 //        }
-        List<PermissionDTO> resources = roleDTO.getResources();
-        if (resources != null && resources.size() > 0) {
-            List<Long> resourceIds = new ArrayList<>();
-            for (PermissionDTO permissionDTO : resources) {
-                resourceIds.add(permissionDTO.getId());
+        List<PermissionDTO> permissions = roleDTO.getPermissions();
+        if (permissions != null && permissions.size() > 0) {
+            List<Long> permissionIds = new ArrayList<>();
+            for (PermissionDTO permissionDTO : permissions) {
+                permissionIds.add(permissionDTO.getId());
             }
-            roleVO.setResourceIds(resourceIds);
+            roleVO.setPermissionIds(permissionIds);
         }
         return roleVO;
     }

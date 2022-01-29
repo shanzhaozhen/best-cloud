@@ -1,8 +1,8 @@
 package org.shanzhaozhen.uaa.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.shanzhaozhen.uaa.domain.UserRoleDO;
-import org.shanzhaozhen.uaa.dto.UserDTO;
+import org.shanzhaozhen.uaa.pojo.entity.UserRoleDO;
+import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
 import org.shanzhaozhen.uaa.mapper.UserRoleMapper;
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.uaa.service.UserRoleService;

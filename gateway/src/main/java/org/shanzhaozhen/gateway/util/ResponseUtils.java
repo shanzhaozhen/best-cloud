@@ -1,8 +1,8 @@
 package org.shanzhaozhen.gateway.util;
 
-import org.shanzhaozhen.common.result.R;
-import org.shanzhaozhen.common.result.ResultCode;
-import org.shanzhaozhen.common.utils.JacksonUtils;
+import org.shanzhaozhen.common.core.result.R;
+import org.shanzhaozhen.common.core.result.ResultCode;
+import org.shanzhaozhen.common.core.utils.JacksonUtils;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;

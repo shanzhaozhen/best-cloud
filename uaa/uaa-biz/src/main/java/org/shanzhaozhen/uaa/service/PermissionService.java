@@ -1,6 +1,6 @@
 package org.shanzhaozhen.uaa.service;
 
-import org.shanzhaozhen.uaa.dto.PermissionDTO;
+import org.shanzhaozhen.uaa.pojo.dto.PermissionDTO;
 
 import java.util.List;
 
@@ -53,4 +53,12 @@ public interface PermissionService {
      * @return
      */
     List<Long> batchDeletePermission(List<Long> permissionIds);
+
+
+    /**
+     * 刷新权限缓存
+     * @return
+     */
+    void refreshPermissionCache();
+
 }

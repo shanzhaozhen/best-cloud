@@ -1,12 +1,12 @@
 package org.shanzhaozhen.uaa.converter;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.shanzhaozhen.uaa.domain.UserDO;
-import org.shanzhaozhen.uaa.dto.RoleDTO;
-import org.shanzhaozhen.uaa.dto.UserDTO;
-import org.shanzhaozhen.uaa.form.UserForm;
-import org.shanzhaozhen.uaa.form.UserLoginForm;
-import org.shanzhaozhen.uaa.vo.UserVO;
+import org.shanzhaozhen.uaa.pojo.entity.UserDO;
+import org.shanzhaozhen.uaa.pojo.dto.RoleDTO;
+import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
+import org.shanzhaozhen.uaa.pojo.form.UserForm;
+import org.shanzhaozhen.uaa.pojo.form.UserLoginForm;
+import org.shanzhaozhen.uaa.pojo.vo.UserVO;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;

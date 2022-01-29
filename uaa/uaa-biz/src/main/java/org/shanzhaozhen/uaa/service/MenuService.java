@@ -1,6 +1,6 @@
 package org.shanzhaozhen.uaa.service;
 
-import org.shanzhaozhen.uaa.dto.MenuDTO;
+import org.shanzhaozhen.uaa.pojo.dto.MenuDTO;
 
 import java.util.List;
 

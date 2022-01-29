@@ -1,26 +1,36 @@
 package org.shanzhaozhen.uaa.service.impl;
 
 
-import org.shanzhaozhen.common.utils.CustomBeanUtils;
-import org.shanzhaozhen.common.utils.TreeUtils;
+import org.shanzhaozhen.common.core.constant.GlobalConstants;
+import org.shanzhaozhen.common.core.utils.CustomBeanUtils;
+import org.shanzhaozhen.common.core.utils.TreeUtils;
 import org.shanzhaozhen.uaa.converter.PermissionConverter;
-import org.shanzhaozhen.uaa.domain.PermissionDO;
-import org.shanzhaozhen.uaa.dto.PermissionDTO;
+import org.shanzhaozhen.uaa.pojo.dto.RoleDTO;
+import org.shanzhaozhen.uaa.pojo.entity.PermissionDO;
+import org.shanzhaozhen.uaa.pojo.dto.PermissionDTO;
 import org.shanzhaozhen.uaa.service.PermissionService;
 import org.shanzhaozhen.uaa.mapper.PermissionMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static org.shanzhaozhen.common.core.enums.PermissionType.API;
 
 @Service
 @RequiredArgsConstructor
 public class PermissionServiceImpl implements PermissionService {
 
     private final PermissionMapper permissionMapper;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public List<PermissionDTO> getPermissionRoleListByType(Integer type) {
@@ -84,6 +94,25 @@ public class PermissionServiceImpl implements PermissionService {
             this.deletePermission(permissionId);
         }
         return permissionIds;
+    }
+
+    @Override
+    public void refreshPermissionCache() {
+        redisTemplate.delete(GlobalConstants.URL_PERM_ROLES_KEY);
+
+        // 获取所有url权限列表
+        List<PermissionDTO> permissionList = this.getPermissionRoleListByType(API.getValue());
+
+        // 将url权限转成[url]:[role]格式
+        if (!CollectionUtils.isEmpty(permissionList)) {
+            Map<String, List<String>> urlMatchRole = new HashMap<>();
+            permissionList.forEach(permission -> {
+                List<RoleDTO> rolesBody = permission.getRoles();
+                List<String> roles = CollectionUtils.isEmpty(rolesBody) ? null : rolesBody.stream().map(RoleDTO::getCode).collect(Collectors.toList());
+                urlMatchRole.put(permission.getPath(), roles);
+            });
+            redisTemplate.opsForHash().putAll(GlobalConstants.URL_PERM_ROLES_KEY, urlMatchRole);
+        }
     }
 
 }

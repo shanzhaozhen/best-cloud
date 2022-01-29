@@ -3,7 +3,7 @@
 <mapper namespace="org.shanzhaozhen.uaa.mapper.MenuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.shanzhaozhen.uaa.domain.MenuDO">
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.uaa.pojo.entity.MenuDO">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="locale" property="locale" />
@@ -21,10 +21,23 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-    <resultMap type="org.shanzhaozhen.uaa.dto.MenuDTO" id="MenuRoleMap">
+    <resultMap type="org.shanzhaozhen.uaa.pojo.dto.MenuDTO" id="MenuRoleMap">
         <id property="id" column="id"/>
         <collection property="roles" column="id" select="org.shanzhaozhen.uaa.mapper.RoleMapper.getRoleByMenuId" />
     </resultMap>
+
+    <select id="getMenuByRoleId" resultType="org.shanzhaozhen.uaa.pojo.dto.MenuDTO">
+        select m.id, m.name, m.locale, m.path, m.pid, m.icon, m.priority,
+               m.hide_in_menu, m.hide_children_in_menu, m.props, m.description
+        from sys_menu m
+            inner join sys_role_menu srm on srm.role_id = #{roleId} and m.id = srm.menu_id
+    </select>
+
+    <select id="getAllMenus" resultType="org.shanzhaozhen.uaa.pojo.dto.MenuDTO">
+        select id, name, locale, path, pid, icon, priority,
+               hide_in_menu, hide_children_in_menu, props, description
+        from sys_menu order by priority
+    </select>
 
     <select id="getMenuRoleListByUserId" resultMap="MenuRoleMap">
         select distinct m.id, m.name, m.locale, m.path, m.pid, m.icon, m.priority, m.hide_in_Menu, m.hide_children_in_menu,
@@ -37,6 +50,5 @@
             inner join sys_user_role sur on sur.user_id = #{userId} and r.id = sur.role_id
         </if>
     </select>
-
 
 </mapper>

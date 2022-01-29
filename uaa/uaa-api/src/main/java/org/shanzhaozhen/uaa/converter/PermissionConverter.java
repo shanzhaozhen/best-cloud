@@ -1,9 +1,9 @@
 package org.shanzhaozhen.uaa.converter;
 
-import org.shanzhaozhen.uaa.domain.PermissionDO;
-import org.shanzhaozhen.uaa.dto.PermissionDTO;
-import org.shanzhaozhen.uaa.form.PermissionForm;
-import org.shanzhaozhen.uaa.vo.PermissionVO;
+import org.shanzhaozhen.uaa.pojo.entity.PermissionDO;
+import org.shanzhaozhen.uaa.pojo.dto.PermissionDTO;
+import org.shanzhaozhen.uaa.pojo.form.PermissionForm;
+import org.shanzhaozhen.uaa.pojo.vo.PermissionVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 

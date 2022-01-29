@@ -1,7 +1,7 @@
 package org.shanzhaozhen.uaa.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.shanzhaozhen.uaa.dto.UserDTO;
+import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
 
 import java.util.List;
 
