@@ -1,4 +1,4 @@
-package org.shanzhaozhen.uaa.config.datasource;
+package org.shanzhaozhen.common.mybatis.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -23,10 +23,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-/**
- * 自定义分页主键
- * 此处主要修改了前端传入的驼峰字段进行排序，后端将其转换成下划线拼接字段
- */
 public class CustomPaginationInnerInterceptor extends PaginationInnerInterceptor {
 
     public CustomPaginationInnerInterceptor(DbType dbType) {

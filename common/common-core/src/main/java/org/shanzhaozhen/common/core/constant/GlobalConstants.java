@@ -18,11 +18,11 @@ public interface GlobalConstants {
     /**
      * [ {接口路径:[角色编码]},...]
      */
-    String URL_PERM_ROLES_KEY = "system:permission_roles_rule:url";
+    String URL_PERM_ROLES_KEY = "sys:permission_roles_rule:url";
 
     /**
      * [{按钮权限:[角色编码]},...]
      */
-    String BTN_PERM_ROLES_KEY = "system:permission_roles_rule:btn";
+    String BTN_PERM_ROLES_KEY = "sys:permission_roles_rule:btn";
 
 }

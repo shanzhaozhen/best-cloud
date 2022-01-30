@@ -2,8 +2,14 @@ description = 'common-mybais'
 
 dependencies {
 
+    api(
+            project(':common:common-web'),
+    )
+
     implementation(
-            "com.baomidou:mybatis-plus-extension:${mybatisPlusVersion}",
+//            'org.springframework:spring-tx',
+            "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}",
+
     )
 
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.shanzhaozhen.common.core.constant.GlobalConstants;
 import org.shanzhaozhen.common.core.constant.SecurityConstants;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -14,6 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.server.authorization.AuthorizationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.PathMatcher;
 import org.springframework.util.StringUtils;
 import reactor.core.publisher.Mono;
@@ -64,22 +66,24 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
          * 缓存取 [URL权限-角色集合] 规则数据
          * urlPermRolesRules = [{'key':'GET:/api/v1/users/*','value':['ADMIN','TEST']},...]
          */
-        Map<Object, Object> urlMatchRole = redisTemplate.opsForHash().entries(GlobalConstants.URL_PERM_ROLES_KEY);
+
+
+        HashOperations<String, String, List<String>> stringObjectObjectHashOperations = redisTemplate.opsForHash();
+        Map<String, List<String>> urlMatchRole = stringObjectObjectHashOperations.entries(GlobalConstants.URL_PERM_ROLES_KEY);
 
         // 根据请求路径获取有访问权限的角色列表
         List<String> authorizedRoles = new ArrayList<>(); // 拥有访问权限的角色
         boolean requireCheck = false; // 是否需要鉴权，默认未设置拦截规则不需鉴权
 
-        /*for (Map.Entry<String, Object> permRoles : urlMatchRole.entrySet()) {
+        for (Map.Entry<String, List<String>> permRoles : urlMatchRole.entrySet()) {
             String permission = permRoles.getKey();
             if (pathMatcher.match(permission, restfulPath)) {
-                List<String> roles = (List<String>) permRoles.getValue();
-                authorizedRoles.addAll(Convert.toList(String.class, roles));
+                authorizedRoles.addAll(permRoles.getValue());
                 if (!requireCheck) {
                     requireCheck = true;
                 }
             }
-        }*/
+        }
         // 没有设置拦截规则放行
         if (!requireCheck) {
             return Mono.just(new AuthorizationDecision(true));
@@ -95,8 +99,7 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
                     if (GlobalConstants.ROOT_ROLE_CODE.equals(roleCode)) {
                         return true; // 如果是超级管理员则放行
                     }
-//                    return !CollectionUtils.isEmpty(authorizedRoles) && authorizedRoles.contains(roleCode);
-                    return true;
+                    return !CollectionUtils.isEmpty(authorizedRoles) && authorizedRoles.contains(roleCode);
                 })
                 .map(AuthorizationDecision::new)
                 .defaultIfEmpty(new AuthorizationDecision(false));

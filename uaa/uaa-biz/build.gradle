@@ -5,6 +5,7 @@ description = 'uaa-biz'
 dependencies {
 
     api(
+            project(':common:common-mybatis'),
             project(':common:common-redis'),
             project(':uaa:uaa-api')
     )
@@ -30,7 +31,7 @@ dependencies {
 
             'mysql:mysql-connector-java',
             "com.alibaba:druid-spring-boot-starter:${druidVersion}",
-            "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}",
+//            "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}",
             'org.springframework.boot:spring-boot-starter-data-redis'
 
     )

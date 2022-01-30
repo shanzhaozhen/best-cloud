@@ -1,6 +1,5 @@
 package org.shanzhaozhen.gateway.filter;
 
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.common.core.constant.SecurityConstants;
 import org.shanzhaozhen.gateway.config.WhiteListConfig;
@@ -28,7 +27,7 @@ public class WhiteListRemoveJwtFilter implements WebFilter {
     private final WhiteListConfig whiteListConfig;
 
     @Override
-    public Mono<Void> filter(ServerWebExchange exchange, @NonNull WebFilterChain chain) {
+    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         URI uri = request.getURI();
         PathMatcher pathMatcher = new AntPathMatcher();

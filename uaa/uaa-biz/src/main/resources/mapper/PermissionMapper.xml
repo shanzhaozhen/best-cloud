@@ -19,7 +19,7 @@
 
     <resultMap autoMapping="true" type="org.shanzhaozhen.uaa.pojo.dto.PermissionDTO" id="PermissionRoleMap">
         <id property="id" column="id"/>
-        <collection property="roles" column="id" select="com.hbjs.hrsrepo.mapper.RoleMapper.getRoleByPermissionId">
+        <collection property="roles" column="id" select="org.shanzhaozhen.uaa.mapper.RoleMapper.getRoleByPermissionId">
         </collection>
     </resultMap>
 

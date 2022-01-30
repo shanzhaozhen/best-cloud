@@ -47,7 +47,7 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
         }
 
         // 解析JWT获取jti，以jti为key判断redis的黑名单列表是否存在，存在则拦截访问
-        // todo: 由于oauth2会将用户储存，考虑更改其他方式进行鉴权
+        // todo: 由于oauth2会将用户储存，考虑更改其他方式进行对用户操作，增加下线功能
         token = StringUtils.replace(token, SecurityConstants.JWT_PREFIX, Strings.EMPTY);
 
         Payload payload = JWSObject.parse(token).getPayload();

@@ -5,6 +5,7 @@ apply plugin: 'java-library'
 dependencies {
 
     api(
+            project(':common:common-mybatis'),
             project(':common:common-redis'),
             project(':uaa:uaa-api')
     )

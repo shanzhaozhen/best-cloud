@@ -1,0 +1,10 @@
+description = 'common-web'
+
+dependencies {
+
+    api(
+            project(':common:common-core'),
+            'com.nimbusds:nimbus-jose-jwt'
+    )
+
+}
