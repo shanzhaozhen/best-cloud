@@ -5,6 +5,7 @@ dependencies {
     api (
             'org.springframework.security:spring-security-core',
 //            "com.baomidou:mybatis-plus-extension:${mybatisPlusVersion}",
+            "com.baomidou:mybatis-plus-annotation:${mybatisPlusVersion}",
 
             // 表单校验的两个依赖
             'jakarta.validation:jakarta.validation-api',
