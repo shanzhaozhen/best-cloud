@@ -1,33 +1,36 @@
-# best-admin
+# Best Cloud
 
 ### 介绍
-该项目主要是一个用于开发的基础框架，以供给自己快速开发项目，也准备制作一般以Spring Cloud技术栈实现的
 
-* [后台项目地址](https://github.com/shanzhaozhen/best-server)
-* [Spring Cloud实现项目地址](https://github.com/shanzhaozhen/best-cloud)
-* [前端项目地址](https://github.com/shanzhaozhen/best-client)
-* [Demo站点](http://best.loogoos.tk)
+这个一个基础架构项目，以目前最新的技术栈输出最好的示例，以实现拿来即用的开发框架脚手架。项目结构主要采用微服务 Spring Cloud 系的技术栈实现，是一个非常好用的轮子，欢迎大家指错，一起进步。
+
+* [~~后台项目地址~~](https://github.com/shanzhaozhen/best-server)
+* [~~Spring Cloud实现项目地址~~](https://github.com/shanzhaozhen/best-cloud)
+* [~~前端项目地址~~](https://github.com/shanzhaozhen/best-client)
+* [~~Demo站点~~](http://best.loogoos.tk)
     > 仅支持ipv6用户访问，因为demo站点是使用我私有的小服务器搭建的的ipv6的方式映射的，[详见：我另外一个仓库（暂时没完善）](https://github.com/shanzhaozhen/MyNAS)
     > 默认账号：admin
     > 默认密码：123456
 
+_没条件搞服务器都挂了_
+
 ### 功能实现
 |          实现功能          | 是否已实现 |
 |:----------------------:|:-----:|
-|        JWT验证登陆         |   √   |
-|       RABC动态权限管理       |   √   |
-|         动态分配菜单         |   √   |
-|  Swagger2-api文档查看、导出   |   √   |
-|        动态配置定时任务        |   √   |
-|  动态定时任务增加第三方http接口的调用  |   -   |
+|   Spring Cloud 微服务化    |   √   |
+|      整合 Oauth2.1       |   √   |
+|    增加 Password 认证方式    |   √   |
+|     Oauth2 加入JWT增强     |   √   |
+|      RBAC 动态权限管理       |   √   |
+|         动态分配菜单         |   -   |
+|    整合服务熔断 Sentinel     |   -   |
+|     openapi文档查看、导出     |   -   |
+|       实现分布式定时任务        |   -   |
+|        加入分布式事务         |   -   |
 |   加入 Oauth2 实现第三方登陆    |   -   |
-|         多种方式授权         |   -   |
-|  加入Spring Cloud 微服务化   |   -   |
-| 加入Dockerfile直接打包部署到服务器 |   √   |
+| 加入Dockerfile直接打包部署到服务器 |   -   |
 
 ### 微服务组件选型
-
-微服务组件的更新实在是太快了，短短半年时间Netflix对微服务的各种组件各种停更、定制维护，据说原因有团队的调整、微服务的服务方便有所改变。但是由于停更的原因我们也需要用其他组件时间在原来基础的功能甚至拓展这些功能。该项目的技术栈线主要使用Spring Cloud Alibaba
 
 | 组件功能  |    组件    |
 |:-----:|:--------:|
@@ -38,17 +41,19 @@
 | 消息队列  | RocketMQ |
 
 ### 版本说明
+
 [Spring Cloud Alibaba 版本说明](https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
 
 ### 相关技术
 该项目使用的相关技术/工具主要有:
+* Spring Cloud / Spring Cloud Alibaba
 * Spring Boot
 * Spring Security
+* Oauth2
 * JWT
-* Druid
-* Vue
+* React
 * Redis
-* Swagger2
+* openapi
 * Docker
 
 ### 建表语句
@@ -59,21 +64,15 @@ oauth2授权信息持久化建表：
 https://github.com/spring-projects/spring-security-oauth/blob/master/spring-security-oauth2/src/test/resources/schema.sql
 
 生成密钥库jwt.jks
-``` shell script
+```(shell script)
 keytool -genkey -alias best-cloud -keyalg RSA -keypass 123456 -storepass 123456 -keystore jwt.jks
 
-
--genkey 生成密钥
-
--alias 别名
-
--keyalg 密钥算法
-
--keypass 密钥口令
-
--keystore 生成密钥库的存储路径和名称
-
--storepass 密钥库口令
+# genkey 生成密钥
+# alias 别名
+# keyalg 密钥算法
+# keypass 密钥口令
+# keystore 生成密钥库的存储路径和名称
+# storepass 密钥库口令
 ```
 
 ### 环境要求
