@@ -18,7 +18,7 @@ Host: localhost:9000
 * 被OAuth2AuthorizationRequestRedirectFilter拦截后组装成下面的请求链接向授权服务器oauth2-server发起授权码授权：
 
 ```http request
-# http://localhost:9000/oauth2/authorize?response_type=code&client_id=auth&scope=message.read&redirect_uri=http://www.baidu.com
+# http://localhost:9000/authentication/authorize?response_type=code&client_id=auth&scope=message.read&redirect_uri=http://www.baidu.com
 GET /oauth2/authorize?response_type=code&client_id=auth&scope=message.read&redirect_uri=http://www.baidu.com HTTP/1.1
 Host: localhost:9000
 ```
@@ -53,7 +53,7 @@ Authorization: auth 123456
 2. 刷新token
 
 ```http request
-# http://localhost:9000/oauth2/token?grant_type=refresh_token&refresh_token=xxx
+# http://localhost:9000/authentication/token?grant_type=refresh_token&refresh_token=xxx
 
 POST /oauth2/token?grant_type=refresh_token&refresh_token=xxx
 Host: localhost:9000

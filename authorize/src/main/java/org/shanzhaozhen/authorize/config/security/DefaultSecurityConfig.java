@@ -1,4 +1,4 @@
-package org.shanzhaozhen.authorize.config.oauth2;
+package org.shanzhaozhen.authorize.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,6 +18,7 @@ public class DefaultSecurityConfig {
 //						.antMatchers("/**", "/authorize/rsa/publicKey", "/.well-known/openid-configuration").permitAll()
 						.anyRequest().authenticated()
 			)
+			.csrf().disable()
 			.formLogin(withDefaults());
 		return http.build();
 	}

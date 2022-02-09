@@ -28,7 +28,8 @@ dependencies {
             "org.springframework.security:spring-security-oauth2-core:${springSecurityVersion}",
             "org.springframework.security:spring-security-oauth2-jose:${springSecurityVersion}",
 
-//            'org.springframework.cloud:spring-cloud-starter-oauth2',
+
+//            'org.springframework.cloud:spring-cloud-starter-authentication',
 //            'org.springframework.cloud:spring-cloud-starter-security',
 
             'mysql:mysql-connector-java',

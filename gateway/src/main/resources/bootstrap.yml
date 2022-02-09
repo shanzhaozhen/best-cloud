@@ -1,5 +1,5 @@
 server:
-  port: 8000
+  port: 8088
 spring:
   application:
     name: gateway
@@ -45,5 +45,6 @@ whitelist:
   urls:
     - "/oauth/token"
     - "/rsa/publicKey"
-    - "/authorize/oauth/token"
-    - "/authorize/rsa/publicKey"
+#    - "/authorize/oauth/token"
+#    - "/authorize/rsa/publicKey"
+    - "/authorize/**"

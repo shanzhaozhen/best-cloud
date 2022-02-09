@@ -31,7 +31,6 @@ CREATE TABLE sys_user
     id                      BIGINT       NOT NULL COMMENT '主键ID',
     username                VARCHAR(30)  NOT NULL UNIQUE COMMENT '用户名',
     password                VARCHAR(255) NOT NULL COMMENT '密码',
-    dep_id                  BIGINT NULL DEFAULT NULL COMMENT '部门ID',
     account_non_expired     bit(1)       NOT NULL COMMENT '账户是否过期,过期无法验证',
     account_non_locked      bit(1)       NOT NULL COMMENT '指定用户是否被锁定或者解锁,锁定的用户无法进行身份验证',
     credentials_non_expired bit(1)       NOT NULL COMMENT '指示是否已过期的用户的凭据(密码),过期的凭据防止认证',

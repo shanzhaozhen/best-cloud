@@ -30,7 +30,7 @@ export default {
   'app.settings.security.phone-description': 'Bound phone',
   'app.settings.security.question': 'Security Question',
   'app.settings.security.question-description':
-    'The uaa question is not set, and the uaa policy can effectively protect the account uaa',
+    'The security question is not set, and the security policy can effectively protect the account security',
   'app.settings.security.email': 'Backup Email',
   'app.settings.security.email-description': 'Bound Email',
   'app.settings.security.mfa': 'MFA Device',

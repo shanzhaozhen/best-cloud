@@ -1,9 +1,10 @@
 import {
-  AlipayCircleOutlined,
+  GithubOutlined,
   LockOutlined,
   MobileOutlined,
-  TaobaoCircleOutlined,
+  QqOutlined,
   UserOutlined,
+  WechatOutlined,
   WeiboCircleOutlined,
 } from '@ant-design/icons';
 import { Alert, message, Tabs } from 'antd';
@@ -96,8 +97,9 @@ const Login: React.FC = () => {
               id="pages.login.loginWith"
               defaultMessage="其他登录方式"
             />,
-            <AlipayCircleOutlined key="AlipayCircleOutlined" className={styles.icon} />,
-            <TaobaoCircleOutlined key="TaobaoCircleOutlined" className={styles.icon} />,
+            <GithubOutlined key="GithubOutlined" className={styles.icon} />,
+            <WechatOutlined key="WechatOutlined" className={styles.icon} />,
+            <QqOutlined key="QqOutlined" className={styles.icon} />,
             <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.icon} />,
           ]}
           onFinish={async (values) => {
@@ -139,7 +141,7 @@ const Login: React.FC = () => {
                 }}
                 placeholder={intl.formatMessage({
                   id: 'pages.login.username.placeholder',
-                  defaultMessage: '用户名: admin or user',
+                  defaultMessage: '用户名',
                 })}
                 rules={[
                   {
@@ -161,7 +163,7 @@ const Login: React.FC = () => {
                 }}
                 placeholder={intl.formatMessage({
                   id: 'pages.login.password.placeholder',
-                  defaultMessage: '密码: ant.design',
+                  defaultMessage: '密码',
                 })}
                 rules={[
                   {

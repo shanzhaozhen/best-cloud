@@ -29,9 +29,6 @@ public class UserForm {
     @Length(min = 6, max = 25, message = "密码长度为6-25位")
     private String password;
 
-    @Schema(title = "部门ID")
-    private Long depId;
-
     @Schema(title = "账户是否过期,过期无法验证")
     private boolean accountNonExpired;
 

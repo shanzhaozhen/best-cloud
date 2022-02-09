@@ -38,8 +38,7 @@ export default defineConfig({
   routes,
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
-    'primary-color': defaultSettings.primaryColor,
-    'root-entry-name': 'default',
+    'root-entry-name': 'variable',
   },
   // esbuild is father build tools
   // https://umijs.org/plugins/plugin-esbuild
@@ -62,7 +61,7 @@ export default defineConfig({
     },
     {
       requestLibPath: "import { request } from 'umi'",
-      schemaPath: 'https://gw.alipayobjects.com/os/antfincdn/CA1dOm%2631B/openapi.json',
+      schemaPath: 'http://localhost:8000',
       projectName: 'swagger',
     },
   ],

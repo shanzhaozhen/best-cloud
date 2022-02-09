@@ -6,7 +6,7 @@ const Footer: React.FC = () => {
   const intl = useIntl();
   const defaultMessage = intl.formatMessage({
     id: 'app.copyright.produced',
-    defaultMessage: 'shanzhaozhen',
+    defaultMessage: '神大人嚟啦！',
   });
 
   const currentYear = new Date().getFullYear();
@@ -16,21 +16,21 @@ const Footer: React.FC = () => {
       copyright={`${currentYear} ${defaultMessage}`}
       links={[
         {
-          key: 'Best-Cloud',
-          title: 'Best Cloud',
-          href: 'https://github.com/shanzhaozhen/best-cloud',
+          key: 'shanzhaozhen',
+          title: 'Home',
+          href: 'https://github.com/shanzhaozhen',
           blankTarget: true,
         },
         {
           key: 'github',
           title: <GithubOutlined />,
-          href: 'https://github.com/shanzhaozhen',
+          href: 'https://github.com/shanzhaozhen/best-cloud',
           blankTarget: true,
         },
         {
-          key: 'Best-Cloud2',
-          title: 'Best Cloud',
-          href: 'https://github.com/shanzhaozhen/best-cloud',
+          key: 'shanzhaozhen1',
+          title: 'shanzhaozhen',
+          href: 'https://github.com/shanzhaozhen',
           blankTarget: true,
         },
       ]}

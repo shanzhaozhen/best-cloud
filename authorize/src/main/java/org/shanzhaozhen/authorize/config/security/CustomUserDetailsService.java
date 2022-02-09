@@ -1,4 +1,4 @@
-package org.shanzhaozhen.authorize.config.oauth2;
+package org.shanzhaozhen.authorize.config.security;
 
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.common.core.result.R;
@@ -26,8 +26,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        R<UserDTO> data = userFeignClient.loadUserByUsername(username);
-        UserDTO user = data.getData();
+        UserDTO user;
+        try {
+            R<UserDTO> data = userFeignClient.loadUserByUsername(username);
+            user = data.getData();
+        } catch (Exception e) {
+            throw new BadCredentialsException("用户获取出错!");
+        }
+
         if (user == null) {
             throw new BadCredentialsException("用户不存在!");
         }

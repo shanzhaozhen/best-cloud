@@ -165,7 +165,6 @@ public class UserServiceImpl implements UserService {
     public Long updateUserDepartment(Long userId, Long departmentId) {
         UserDO userDO = userMapper.selectById(userId);
         Assert.notNull(userDO, "没有找到对应的用户");
-        userDO.setDepId(departmentId);
         userMapper.updateById(userDO);
         return userDO.getId();
     }

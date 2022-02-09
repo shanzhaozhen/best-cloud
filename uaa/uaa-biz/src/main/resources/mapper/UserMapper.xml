@@ -4,7 +4,7 @@
 
     <!-- 用户查询结果列 -->
     <sql id="User_Columns">
-        id, username, password, dep_id, account_non_expired, account_non_locked, credentials_non_expired, enabled,
+        id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
         name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction,
         created_by, created_date, last_modified_by, last_modified_date
     </sql>
@@ -14,7 +14,6 @@
         <id column="id" property="id" />
         <result column="username" property="username" />
         <result column="password" property="password" />
-        <result column="dep_id" property="depId" />
         <result column="account_non_expired" property="accountNonExpired" />
         <result column="account_non_locked" property="accountNonLocked" />
         <result column="credentials_non_expired" property="credentialsNonExpired" />
@@ -47,7 +46,7 @@
     </resultMap>
 
     <select id="selectUserByUsername" resultType="org.shanzhaozhen.uaa.pojo.entity.UserDO">
-        select id, username, password, dep_id, account_non_expired, account_non_locked, credentials_non_expired, enabled,
+        select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
                name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction
         from sys_user where username = #{username}
     </select>
@@ -57,13 +56,13 @@
     </select>
 
     <select id="getUserById" resultType="org.shanzhaozhen.uaa.pojo.dto.UserDTO">
-        select id, username, password, dep_id, account_non_expired, account_non_locked, credentials_non_expired, enabled,
+        select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
                name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction
         from sys_user where id = #{id}
     </select>
 
     <select id="getUserAndRolesByUserId" resultMap="UserRoleMap">
-        select id, username, password, dep_id, account_non_expired, account_non_locked, credentials_non_expired, enabled,
+        select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
 --         name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction,
         created_by, created_date, last_modified_by, last_modified_date
         from sys_user where id = #{id}
@@ -74,13 +73,13 @@
     </select>
 
     <select id="getUserByUsername" resultType="org.shanzhaozhen.uaa.pojo.dto.UserDTO">
-        select id, username, password, dep_id, account_non_expired, account_non_locked, credentials_non_expired, enabled,
+        select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
                name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction
         from sys_user where username = #{username}
     </select>
 
     <select id="getUserPage" resultType="org.shanzhaozhen.uaa.pojo.dto.UserDTO">
-        select id, username, dep_id, account_non_expired, account_non_locked, credentials_non_expired, enabled,
+        select id, username, account_non_expired, account_non_locked, credentials_non_expired, enabled,
 --         name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction,
         created_by, created_date, last_modified_by, last_modified_date 
         from sys_user
@@ -91,7 +90,7 @@
     </select>
 
     <select id="getUserPageByRoleId" resultType="org.shanzhaozhen.uaa.pojo.dto.UserDTO">
-        select u.id, u.username, u.name, u.nickname, u.dep_id from sys_user u
+        select u.id, u.username, u.name, u.nickname from sys_user u
             left join sys_user_role sur on u.id = sur.user_id
             left join sys_role r on sur.role_id = r.id
         where r.id = #{roleId}
@@ -102,8 +101,8 @@
     </select>
 
     <select id="getUserPageByDepartmentId" resultType="org.shanzhaozhen.uaa.pojo.dto.UserDTO">
-        select id, username, name, nickname, dep_id from sys_user
-        where dep_id = #{departmentId}
+        select id, username, name, nickname from sys_user
+--         where dep_id = #{departmentId}
         <if test="keyword != null and keyword != ''">
             and (username like concat ('%', #{keyword}, '%') or name like concat ('%', #{keyword}, '%')
             or nickName like concat ('%', #{keyword}, '%') or introduction like concat ('%', #{keyword}, '%'))

@@ -28,9 +28,6 @@ public class UserDO extends BaseInfo {
     @Schema(title = "密码")
     private String password;
 
-    @Schema(title = "部门ID")
-    private Long depId;
-
     @Schema(title = "账户是否过期,过期无法验证")
     private boolean accountNonExpired = true;
 

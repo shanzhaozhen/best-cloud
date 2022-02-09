@@ -27,6 +27,9 @@ public class UserInfoDO extends BaseInfo {
     @Schema(title = "关联用户id")
     private Long pid;
 
+    @Schema(title = "部门ID")
+    private Long depId;
+
     @Schema(title = "姓名")
     private String name;
 

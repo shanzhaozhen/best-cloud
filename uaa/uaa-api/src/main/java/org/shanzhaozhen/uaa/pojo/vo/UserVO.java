@@ -30,10 +30,6 @@ public class UserVO extends BaseInfoVO {
     @Schema(title = "用户名")
     private String username;
 
-    @Schema(title = "部门ID")
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long depId;
-
     @TableField(exist = false)
     private Collection<GrantedAuthority> authorities;
 

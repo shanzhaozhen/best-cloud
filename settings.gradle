@@ -8,7 +8,7 @@ include 'common:common-redis'
 include 'gateway'
 include 'authorize'
 
-include 'oauth2-client'
+include 'authentication-client'
 
 include 'uaa:uaa-api'
 include 'uaa:uaa-biz'

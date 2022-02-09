@@ -2,7 +2,9 @@ package org.shanzhaozhen.authorize.config.oauth2;
 
 
 import lombok.RequiredArgsConstructor;
-import org.shanzhaozhen.authorize.config.jose.Jwks;
+import org.shanzhaozhen.authorize.config.oauth2.authentication.OAuth2ConfigurerUtils;
+import org.shanzhaozhen.authorize.config.oauth2.authentication.OAuth2ResourceOwnerPasswordAuthenticationConverter;
+import org.shanzhaozhen.authorize.config.oauth2.authentication.OAuth2ResourceOwnerPasswordAuthenticationProvider;
 import org.shanzhaozhen.authorize.jackson.SecurityJacksonConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -10,33 +12,37 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.server.authorization.*;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
+import org.springframework.security.oauth2.server.authorization.web.authentication.DelegatingAuthenticationConverter;
+import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2AuthorizationCodeAuthenticationConverter;
+import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2ClientCredentialsAuthenticationConverter;
+import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2RefreshTokenAuthenticationConverter;
+import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+
+import java.util.Arrays;
 
 
 /**
  * 授权服务器配置
- * JWT：指的是 JSON Web Token，由 header.payload.signture 组成。不存在签名的JWT是不安全的，存在签名的JWT是不可窜改的。
- * JWS：指的是签过名的JWT，即拥有签名的JWT。
- * JWK：既然涉及到签名，就涉及到签名算法，对称加密还是非对称加密，那么就需要加密的 密钥或者公私钥对。此处我们将 JWT的密钥或者公私钥对统一称为 JSON WEB KEY，即 JWK。
  */
 @Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
 public class AuthorizationServerConfig {
 
-    private static final String CUSTOM_CONSENT_PAGE_URI = "/oauth2/consent";
+    private static final String CUSTOM_CONSENT_PAGE_URI = "/authentication/consent";
 
     @Value("${server.port}")
     private Integer serverPort;
-
-    private final Jwks jwks;
 
     /**
      *  uaa 挂载 Spring Authorization Server 认证服务器
@@ -50,13 +56,22 @@ public class AuthorizationServerConfig {
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
         OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer<>();
 
-        authorizationServerConfigurer
-                .authorizationEndpoint(authorizationEndpoint ->
-                        authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI));
+        // 追加 password 认证方式
+        http.apply(authorizationServerConfigurer.tokenEndpoint((tokenEndpoint) -> tokenEndpoint.accessTokenRequestConverter(
+            new DelegatingAuthenticationConverter(
+                    Arrays.asList(
+                            new OAuth2AuthorizationCodeAuthenticationConverter(),
+                            new OAuth2RefreshTokenAuthenticationConverter(),
+                            new OAuth2ClientCredentialsAuthenticationConverter(),
+                            new OAuth2ResourceOwnerPasswordAuthenticationConverter()))
+        )));
 
+        // 自定义确认 scope 页面
+        authorizationServerConfigurer.authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI));
+        // 提取 确认 scope 页面的端点
         RequestMatcher endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
 
-        http
+        DefaultSecurityFilterChain securityFilterChain = http
                 .requestMatcher(endpointsMatcher)
                 .authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
                 // 开启form登录
@@ -65,8 +80,13 @@ public class AuthorizationServerConfig {
                 // 忽略掉相关端点的csrf
                 .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
                 // 应用 授权服务器的配置
-                .apply(authorizationServerConfigurer);
-        return http.formLogin(Customizer.withDefaults()).build();
+                .apply(authorizationServerConfigurer)
+                .and()
+                .formLogin(Customizer.withDefaults()).build();
+
+        addCustomOAuth2ResourceOwnerPasswordAuthenticationProvider(http);
+
+        return securityFilterChain;
     }
 
     /**
@@ -177,9 +197,32 @@ public class AuthorizationServerConfig {
     public ProviderSettings providerSettings() {
         return ProviderSettings.builder()
                 // 配置获取token的端点路径
-//                .tokenEndpoint("/oauth2/token")
+//                .tokenEndpoint("/authentication/token")
                 // 发布者的url地址,一般是本系统访问的根路径
                 .issuer("http://localhost:" + serverPort).build();
+    }
+
+
+    // 基于默认授权服务器设置中追加 password 模式
+    private void addCustomOAuth2ResourceOwnerPasswordAuthenticationProvider(HttpSecurity http) {
+        AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
+
+        // 弃用JwtEncoder和关联的类以准备在0.3.0发布中删除（请参阅gh-594）。
+        // 该0.3.0版本将使用Spring Security 5.6JwtEncoder中引入的。
+        JwtEncoder jwtEncoder = OAuth2ConfigurerUtils.getJwtEncoder(http);
+        OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer = OAuth2ConfigurerUtils.getJwtCustomizer(http);
+
+        OAuth2ResourceOwnerPasswordAuthenticationProvider resourceOwnerPasswordAuthenticationProvider =
+                new OAuth2ResourceOwnerPasswordAuthenticationProvider(
+                        authenticationManager,
+                        OAuth2ConfigurerUtils.getAuthorizationService(http),
+                        jwtEncoder
+                );
+        if (jwtCustomizer != null) {
+            resourceOwnerPasswordAuthenticationProvider.setJwtCustomizer(jwtCustomizer);
+        }
+
+        http.authenticationProvider(resourceOwnerPasswordAuthenticationProvider);
     }
 
 }

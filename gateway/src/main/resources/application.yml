@@ -29,7 +29,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://auth-server:9000/oauth2/jwks    #配置RSA的公钥访问地址
+          jwk-set-uri: http://auth-server:9000/authentication/jwks    #配置RSA的公钥访问地址
 
   ## Redis 配置
   redis:

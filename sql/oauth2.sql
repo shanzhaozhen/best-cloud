@@ -2,7 +2,7 @@ CREATE SCHEMA IF NOT EXISTS `oauth2` DEFAULT CHARACTER SET utf8mb4 ;
 USE `oauth2` ;
 
 -- -----------------------------------------------------
--- Table `oauth2`.`clientdetails`
+-- Table `authentication`.`clientdetails`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `oauth2`.`ClientDetails` (
   `appId` VARCHAR(128) NOT NULL,
