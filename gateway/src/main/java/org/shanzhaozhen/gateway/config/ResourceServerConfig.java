@@ -19,6 +19,7 @@ import org.springframework.security.oauth2.server.resource.authentication.Reacti
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
 import org.springframework.security.web.server.authorization.ServerAccessDeniedHandler;
+import org.springframework.util.CollectionUtils;
 import reactor.core.publisher.Mono;
 
 @Configuration
@@ -38,8 +39,11 @@ public class ResourceServerConfig {
         http.oauth2ResourceServer().authenticationEntryPoint(authenticationEntryPoint());
         // 2、对白名单路径，直接移除JWT请求头
         http.addFilterBefore(whiteListRemoveJwtFilter, SecurityWebFiltersOrder.AUTHENTICATION);
+        if (!CollectionUtils.isEmpty(whiteListConfig.getUrls())) {
+            http.authorizeExchange().pathMatchers(whiteListConfig.getUrlArray()).permitAll(); // 白名单配置
+        }
+
         http.authorizeExchange()
-                .pathMatchers(whiteListConfig.getUrls().toArray(new String[0])).permitAll() // 白名单配置
                 .anyExchange().access(resourceServerManager)    // 鉴权管理器配置
                 .and().exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler()) // 处理未授权

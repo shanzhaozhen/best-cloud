@@ -56,6 +56,9 @@ public class AuthorizationServerConfig {
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
         OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer<>();
 
+        System.out.println("====");
+
+
         // 追加 password 认证方式
         http.apply(authorizationServerConfigurer.tokenEndpoint((tokenEndpoint) -> tokenEndpoint.accessTokenRequestConverter(
             new DelegatingAuthenticationConverter(
@@ -84,6 +87,8 @@ public class AuthorizationServerConfig {
                 .and()
                 .formLogin(Customizer.withDefaults()).build();
 
+        // 因为 build() 后会 在 OAuth2TokenEndpointConfigurer createDefaultAuthenticationProviders 中初始化 Oauth2 认证服务器的默认配置
+        // 所以需要在 build 之后再追加 password 认证方式的鉴权
         addCustomOAuth2ResourceOwnerPasswordAuthenticationProvider(http);
 
         return securityFilterChain;
@@ -203,7 +208,10 @@ public class AuthorizationServerConfig {
     }
 
 
-    // 基于默认授权服务器设置中追加 password 模式
+    /**
+     * 基于默认授权服务器设置中追加 password 模式
+     * @param http
+     */
     private void addCustomOAuth2ResourceOwnerPasswordAuthenticationProvider(HttpSecurity http) {
         AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
 

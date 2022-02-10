@@ -22,12 +22,16 @@ export async function outLogin(options?: { [key: string]: any }) {
 
 /** 登录接口 POST /api/login/account */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('/api/login/account', {
+  return request<API.LoginResult>('/api/authorize/oauth2/token', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': 'Basic YXV0aDoxMjM0NTY=' // 客户端信息Base64明文：auth:123456
     },
-    data: body,
+    params: {
+      grant_type: 'password',
+      ...body
+    },
     ...(options || {}),
   });
 }

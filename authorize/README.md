@@ -74,7 +74,13 @@ grant_type=client_credentials&scope=all
 
 4. 密码模式
 
-oauth2.1 已弃用密码模式
+oauth2.1 已弃用密码模式，已拓展支持
+
+```http request
+POST /oauth2/token?username=admin&password=123456&scope=all&grant_type=password HTTP/1.1
+Host: localhost:9000
+Authorization: auth 123456
+```
 
 
 5. 撤销令牌
