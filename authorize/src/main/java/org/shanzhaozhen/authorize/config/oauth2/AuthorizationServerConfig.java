@@ -56,10 +56,8 @@ public class AuthorizationServerConfig {
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
         OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer<>();
 
-        System.out.println("====");
-
-
         // 追加 password 认证方式
+        // 这种追加方式太不优雅了，持续关注该项目的里程碑 https://github.com/spring-projects/spring-authorization-server/milestone/10
         http.apply(authorizationServerConfigurer.tokenEndpoint((tokenEndpoint) -> tokenEndpoint.accessTokenRequestConverter(
             new DelegatingAuthenticationConverter(
                     Arrays.asList(
