@@ -28,7 +28,7 @@ import reactor.core.publisher.Mono;
 public class ResourceServerConfig {
 
     private final WhiteListConfig whiteListConfig;
-    private final WhiteListRemoveJwtFilter whiteListRemoveJwtFilter;
+//    private final WhiteListRemoveJwtFilter whiteListRemoveJwtFilter;
     private final ResourceServerManager resourceServerManager;
 
 
@@ -38,7 +38,7 @@ public class ResourceServerConfig {
         // 1、自定义处理JWT请求头过期或签名错误的结果
         http.oauth2ResourceServer().authenticationEntryPoint(authenticationEntryPoint());
         // 2、对白名单路径，直接移除JWT请求头
-        http.addFilterBefore(whiteListRemoveJwtFilter, SecurityWebFiltersOrder.AUTHENTICATION);
+//        http.addFilterBefore(whiteListRemoveJwtFilter, SecurityWebFiltersOrder.AUTHENTICATION);
         if (!CollectionUtils.isEmpty(whiteListConfig.getUrls())) {
             http.authorizeExchange().pathMatchers(whiteListConfig.getUrlArray()).permitAll(); // 白名单配置
         }

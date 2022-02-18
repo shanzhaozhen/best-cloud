@@ -20,7 +20,7 @@ import java.util.List;
  * @Date: 2022-01-28
  * @Description: 白名单路径访问时需要移除JWT请求头
  */
-@EnableWebFluxSecurity
+//@EnableWebFluxSecurity
 @RequiredArgsConstructor
 public class WhiteListRemoveJwtFilter implements WebFilter {
 

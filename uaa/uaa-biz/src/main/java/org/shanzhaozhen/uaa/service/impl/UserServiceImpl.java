@@ -3,6 +3,7 @@ package org.shanzhaozhen.uaa.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.common.core.utils.CustomBeanUtils;
 import org.shanzhaozhen.common.core.utils.PasswordUtils;
+import org.shanzhaozhen.common.web.utils.JwtUtils;
 import org.shanzhaozhen.uaa.service.RoleService;
 import org.shanzhaozhen.uaa.pojo.entity.UserDO;
 import org.shanzhaozhen.uaa.pojo.dto.JWTUser;
@@ -59,8 +60,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getCurrentUser() {
-//        UserDTO userDTO = userMapper.getUserAndRolesByUserId(UserDetailsUtils.getUserId());
-        UserDTO userDTO = userMapper.getUserAndRolesByUserId(null);
+        Long userId = JwtUtils.getUserIdWithoutError();
+        Assert.notNull(userId, "请求头没有包含用户信息");
+        UserDTO userDTO = userMapper.getUserAndRolesByUserId(userId);
         Assert.notNull(userDTO, "没有找到当前用户信息");
         return userDTO;
     }

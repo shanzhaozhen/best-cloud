@@ -52,9 +52,28 @@ _没条件搞服务器都挂了_
 * Oauth2
 * JWT
 * React
+* Typescript & ES6
 * Redis
 * openapi
 * Docker
+
+### 项目路径
+
+```lua
+best-cloud -- 父项目,各模块分离，方便集成和微服务
+│  ├─common -- 核心通用模块，主模块
+│  │  ├─common-core -- 封装通用模块
+│  │  ├─common-mybatis -- 封装 mybatis 配置模块
+│  │  ├─common-redis -- 封装 redis 配置模块
+│  │  ├─common-web -- 封装 web 常用基础模块
+│  │─gateway -- 统一网关模块 [8088]
+│  │─authorize -- 统一认证中心模块 [9000]
+│  │─uaa -- 系统用户管理模块，主模块
+│  │  ├─uaa-api -- 系统用户管理的通用模块，供其他模块引用
+│  │  ├─uaa-biz -- 系统用户管理模块核心功能 [9500]
+│  │─client -- 前端项目
+```
+
 
 ### 建表语句
 基础服务建表语句:

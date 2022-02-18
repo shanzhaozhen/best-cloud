@@ -43,6 +43,7 @@ management:
 # 白名单
 whitelist:
   urls:
+    - "/authorize/**"
+
 #    - "/authorize/oauth/token"
 #    - "/authorize/rsa/publicKey"
-    - "/authorize/**"
