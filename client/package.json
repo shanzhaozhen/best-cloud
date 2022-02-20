@@ -1,8 +1,8 @@
 {
-  "name": "ant-design-pro",
-  "version": "5.2.0",
+  "name": "best-cloud",
+  "version": "0.0.1",
   "private": true,
-  "description": "An out-of-box UI solution for enterprise applications",
+  "description": "An Common UI solution for Best Cloud",
   "scripts": {
     "analyze": "cross-env ANALYZE=1 umi build",
     "build": "umi build",

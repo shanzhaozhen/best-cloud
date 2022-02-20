@@ -4,6 +4,8 @@ dependencies {
 
     implementation(
             'org.springframework.boot:spring-boot-starter-data-redis',
+            'org.apache.commons:commons-pool2',
+
 //            'org.springframework.boot:spring-boot-starter-cache',
             'com.fasterxml.jackson.core:jackson-databind',
 //            "org.redisson:redisson-spring-boot-starter:${redissonVersion}"

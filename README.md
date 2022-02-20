@@ -57,6 +57,12 @@ _没条件搞服务器都挂了_
 * openapi
 * Docker
 
+### 版本要求
+
+1. JDK 1.8
+2. Gradle 7.0+
+3. Node.JS 16.x.x
+
 ### 项目路径
 
 ```lua
@@ -139,10 +145,12 @@ docker-compose -f example/standalone-mysql-8.yaml up
 # 集群模式
 docker-compose -f example/cluster-hostname.yaml up 
 
-docker run \
+docker run -d \
+  --restart=always \
   --name nacos-standalone \
-  -e MODE=standalone -p 8848:8848 \
-  -d nacos/nacos-server:latest
+  -e MODE=standalone \
+  -p 8848:8848 \
+  nacos/nacos-server:latest
 ```
 
 * K8S
