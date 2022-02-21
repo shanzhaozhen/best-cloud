@@ -8,6 +8,9 @@ import Footer from '@/components/Footer';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import defaultSettings from '../config/defaultSettings';
+import type { RequestConfig } from "@@/plugin-request/request";
+import type { RequestOptionsInit, ResponseError } from 'umi-request';
+
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -105,3 +108,48 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     ...initialState?.settings,
   };
 };
+
+/** 异常处理程序
+ * @see https://beta-pro.ant.design/docs/request-cn
+ */
+const errorHandler = async (error: ResponseError) => {
+  throw error;
+};
+
+/**
+ * 自动添加 AccessToken 的请求前拦截器
+ * 参考 https://github.com/umijs/umi-request/issues/181#issuecomment-730794198
+ * @param url
+ * @param options
+ */
+const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
+  const tokenType = localStorage.getItem('TOKEN_TYPE');
+  const accessToken = localStorage.getItem('ACCESS_TOKEN');
+
+  console.log(tokenType)
+  console.log(accessToken)
+
+  if (tokenType && accessToken) {
+    return {
+      url,
+      options: {
+        ...options,
+        interceptors: true,
+        headers: {
+          // ...options.headers,
+          Authorization: `${tokenType} ${accessToken}`,
+        },
+      },
+    };
+  }
+
+  return {url, options};
+};
+
+export const request: RequestConfig = {
+  errorHandler,
+  // 新增自动添加AccessToken的请求前拦截器
+  requestInterceptors: [authHeaderInterceptor],
+};
+
+
