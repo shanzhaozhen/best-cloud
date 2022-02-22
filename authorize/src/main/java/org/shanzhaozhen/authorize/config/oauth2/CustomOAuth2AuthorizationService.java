@@ -5,6 +5,9 @@ import org.springframework.security.oauth2.core.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 
+/**
+ * 自定义管理，改成 mybatis 实现
+ */
 public class CustomOAuth2AuthorizationService implements OAuth2AuthorizationService {
 
 

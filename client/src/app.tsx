@@ -129,7 +129,7 @@ const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
   console.log(tokenType)
   console.log(accessToken)
 
-  if (tokenType && accessToken) {
+  if (url !== '/api/authorize/oauth2/token' && tokenType && accessToken) {
     return {
       url,
       options: {

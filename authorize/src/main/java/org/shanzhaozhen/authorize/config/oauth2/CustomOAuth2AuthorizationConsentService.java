@@ -4,6 +4,9 @@ package org.shanzhaozhen.authorize.config.oauth2;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsent;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
 
+/**
+ * 自定义管理，改成 mybatis 实现
+ */
 public class CustomOAuth2AuthorizationConsentService implements OAuth2AuthorizationConsentService {
 
 	@Override
