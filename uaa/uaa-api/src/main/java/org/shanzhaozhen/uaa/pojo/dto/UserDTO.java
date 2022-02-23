@@ -13,7 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-//@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
 @Schema(description = "用户DTO实体")
 public class UserDTO extends BaseInfo {
 
@@ -45,5 +44,8 @@ public class UserDTO extends BaseInfo {
 
     @Schema(title = "关联的角色ID")
     private List<Long> roleIds;
+
+    @Schema(title = "关联的用户信息")
+    private UserInfoDTO userInfoDTO;
 
 }

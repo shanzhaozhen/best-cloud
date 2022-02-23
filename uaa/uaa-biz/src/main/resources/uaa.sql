@@ -53,6 +53,33 @@ CREATE TABLE sys_user
 
 
 -- ----------------------------
+-- 用户信息表
+-- ----------------------------
+DROP TABLE IF EXISTS sys_user_info;
+
+CREATE TABLE sys_user_info
+(
+    id                      BIGINT       NOT NULL COMMENT '主键ID',
+    pid                     BIGINT       NOT NULL COMMENT '关联的用户ID',
+    name                    VARCHAR(30) NULL DEFAULT NULL COMMENT '姓名',
+    nickname                VARCHAR(30) NULL DEFAULT NULL COMMENT '昵称',
+    sex                     INT NULL DEFAULT NULL COMMENT '性别',
+    birthday                DATE NULL DEFAULT NULL COMMENT '生日',
+    avatar                  VARCHAR(255) NULL DEFAULT NULL COMMENT '头像',
+    email                   VARCHAR(50) NULL DEFAULT NULL COMMENT '邮箱',
+    phone_number            VARCHAR(11) NULL DEFAULT NULL COMMENT '手机号码',
+    address_code            VARCHAR(255) NULL DEFAULT NULL COMMENT '地址编号',
+    detailed_address        VARCHAR(255) NULL DEFAULT NULL COMMENT '详细地址',
+    introduction            VARCHAR(255) NULL DEFAULT NULL COMMENT '个人介绍',
+    created_by              BIGINT NULL DEFAULT NULL COMMENT '创建人',
+    created_date            datetime NULL DEFAULT NULL COMMENT '创建时间',
+    last_modified_by        BIGINT NULL DEFAULT NULL COMMENT '修改人',
+    last_modified_date      datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (id)
+);
+
+
+-- ----------------------------
 -- 角色表
 -- ----------------------------
 DROP TABLE IF EXISTS sys_role;

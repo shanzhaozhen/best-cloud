@@ -18,7 +18,7 @@ import java.util.List;
 public class CurrentUser {
 
     @Schema(title = "用户信息")
-    private UserInfo userInfo;
+    private UserInfoVO userInfo;
 
     @Schema(title = "角色")
     private List<RoleBase> roles;

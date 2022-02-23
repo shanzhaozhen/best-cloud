@@ -4,18 +4,20 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.common.core.utils.CustomBeanUtils;
 import org.shanzhaozhen.common.core.utils.PasswordUtils;
 import org.shanzhaozhen.common.web.utils.JwtUtils;
+import org.shanzhaozhen.uaa.converter.UserInfoConverter;
+import org.shanzhaozhen.uaa.pojo.dto.UserInfoDTO;
 import org.shanzhaozhen.uaa.service.RoleService;
 import org.shanzhaozhen.uaa.pojo.entity.UserDO;
 import org.shanzhaozhen.uaa.pojo.dto.JWTUser;
 import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
 import org.shanzhaozhen.uaa.pojo.form.UserDepartmentForm;
+import org.shanzhaozhen.uaa.service.UserInfoService;
 import org.shanzhaozhen.uaa.service.UserRoleService;
 import org.shanzhaozhen.uaa.service.UserService;
 import org.shanzhaozhen.uaa.mapper.UserMapper;
 import org.shanzhaozhen.uaa.mapper.UserRoleMapper;
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.uaa.pojo.vo.CurrentUser;
-import org.shanzhaozhen.uaa.pojo.vo.UserInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -34,6 +36,7 @@ public class UserServiceImpl implements UserService {
 
     private final RoleService roleService;
     private final UserRoleService userRoleService;
+    private final UserInfoService userInfoService;
     private final UserMapper userMapper;
 //    private final MenuService menuService;
     private final UserRoleMapper userRoleMapper;
@@ -84,13 +87,15 @@ public class UserServiceImpl implements UserService {
         return userDO == null;
     }
 
+
+
     @Override
     public CurrentUser getUserInfo() {
         UserDTO userDTO = this.getCurrentUser();
-        UserInfo userInfo = new UserInfo();
+        UserInfoDTO userInfo = new UserInfoDTO();
         BeanUtils.copyProperties(userDTO, userInfo);
         return CurrentUser.builder()
-                .userInfo(userInfo)
+                .userInfo(UserInfoConverter.toVO(userInfoService.getUserInfoByUserId(userDTO.getId())))
 //                .roles(RoleConverter.toBase(userDTO.getRoles()))
 //                .menus(MenuConverter.toMenuVO(menuService.getMenusByCurrentUser()))
                 .build();

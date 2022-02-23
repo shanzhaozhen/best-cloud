@@ -53,11 +53,9 @@ const Login: React.FC = () => {
       const msg = await login({ ...values, type });
       if (!msg.error && msg.access_token) {
         // 登陆成功保存 token
-
         localStorage.setItem('TOKEN_TYPE', msg.token_type || '');
         localStorage.setItem('ACCESS_TOKEN', msg.access_token || '');
         localStorage.setItem('REFRESH_TOKEN', msg.refresh_token || '');
-
 
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',

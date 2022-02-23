@@ -1,28 +1,30 @@
-package org.shanzhaozhen.uaa.pojo.dto;
+package org.shanzhaozhen.uaa.pojo.form;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.annotations.Update;
 import org.shanzhaozhen.common.core.entity.BaseInfo;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Schema(description = "角色DTO实体")
-public class UserInfoDTO extends BaseInfo {
+public class UserInfoForm extends BaseInfo {
 
-    private static final long serialVersionUID = -7438360875495028237L;
 
     @Schema(title = "主键ID")
+    @NotNull(groups = {Update.class}, message = "用户信息id不能为空")
     private Long id;
 
     @Schema(title = "关联用户id")
+    @NotNull(groups = {Update.class}, message = "用户关联id不能为空")
     private Long pid;
 
     @Schema(title = "部门ID")

@@ -5,7 +5,6 @@
     <!-- 用户查询结果列 -->
     <sql id="User_Columns">
         id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
-        name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction,
         created_by, created_date, last_modified_by, last_modified_date
     </sql>
 
@@ -18,16 +17,6 @@
         <result column="account_non_locked" property="accountNonLocked" />
         <result column="credentials_non_expired" property="credentialsNonExpired" />
         <result column="enabled" property="enabled" />
-        <!--<result column="name" property="name" />
-        <result column="nickname" property="nickname" />
-        <result column="sex" property="sex" />
-        <result column="birthday" property="birthday" />
-        <result column="avatar" property="avatar" />
-        <result column="email" property="email" />
-        <result column="phone_number" property="phoneNumber" />
-        <result column="address_code" property="addressCode" />
-        <result column="detailed_address" property="detailedAddress" />
-        <result column="introduction" property="introduction" />-->
         <result column="created_by" property="createdBy" />
         <result column="created_date" property="createdDate" />
         <result column="last_modified_by" property="lastModifiedBy" />
@@ -47,7 +36,6 @@
 
     <select id="selectUserByUsername" resultType="org.shanzhaozhen.uaa.pojo.entity.UserDO">
         select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
-               name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction
         from sys_user where username = #{username}
     </select>
 
@@ -57,13 +45,11 @@
 
     <select id="getUserById" resultType="org.shanzhaozhen.uaa.pojo.dto.UserDTO">
         select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
-               name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction
         from sys_user where id = #{id}
     </select>
 
     <select id="getUserAndRolesByUserId" resultMap="UserRoleMap">
         select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
---         name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction,
         created_by, created_date, last_modified_by, last_modified_date
         from sys_user where id = #{id}
     </select>
@@ -74,14 +60,12 @@
 
     <select id="getUserByUsername" resultType="org.shanzhaozhen.uaa.pojo.dto.UserDTO">
         select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
-               name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction
         from sys_user where username = #{username}
     </select>
 
     <select id="getUserPage" resultType="org.shanzhaozhen.uaa.pojo.dto.UserDTO">
         select id, username, account_non_expired, account_non_locked, credentials_non_expired, enabled,
---         name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction,
-        created_by, created_date, last_modified_by, last_modified_date 
+        created_by, created_date, last_modified_by, last_modified_date
         from sys_user
         <if test="keyword != null and keyword != ''">
             where username like concat ('%', #{keyword}, '%') or name like concat ('%', #{keyword}, '%')

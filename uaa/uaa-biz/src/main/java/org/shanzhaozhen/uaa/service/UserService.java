@@ -3,6 +3,7 @@ package org.shanzhaozhen.uaa.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.uaa.pojo.dto.JWTUser;
 import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
+import org.shanzhaozhen.uaa.pojo.dto.UserInfoDTO;
 import org.shanzhaozhen.uaa.pojo.form.UserDepartmentForm;
 import org.shanzhaozhen.uaa.pojo.vo.CurrentUser;
 
@@ -72,7 +73,7 @@ public interface UserService {
     Long addUser(UserDTO userDTO);
 
     /**
-     * 修改角色
+     * 修改用户
      * @param userDTO
      * @return
      */
