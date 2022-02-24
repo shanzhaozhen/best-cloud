@@ -50,7 +50,7 @@
 
     <select id="getUserAndRolesByUserId" resultMap="UserRoleMap">
         select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
-        created_by, created_date, last_modified_by, last_modified_date
+            created_by, created_date, last_modified_by, last_modified_date
         from sys_user where id = #{id}
     </select>
 
@@ -59,13 +59,13 @@
     </select>
 
     <select id="getUserByUsername" resultType="org.shanzhaozhen.uaa.pojo.dto.UserDTO">
-        select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
+        select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled
         from sys_user where username = #{username}
     </select>
 
     <select id="getUserPage" resultType="org.shanzhaozhen.uaa.pojo.dto.UserDTO">
         select id, username, account_non_expired, account_non_locked, credentials_non_expired, enabled,
-        created_by, created_date, last_modified_by, last_modified_date
+            created_by, created_date, last_modified_by, last_modified_date
         from sys_user
         <if test="keyword != null and keyword != ''">
             where username like concat ('%', #{keyword}, '%') or name like concat ('%', #{keyword}, '%')

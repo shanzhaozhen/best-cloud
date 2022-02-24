@@ -92,13 +92,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public CurrentUser getUserInfo() {
         UserDTO userDTO = this.getCurrentUser();
-        UserInfoDTO userInfo = new UserInfoDTO();
-        BeanUtils.copyProperties(userDTO, userInfo);
-        return CurrentUser.builder()
-                .userInfo(UserInfoConverter.toVO(userInfoService.getUserInfoByUserId(userDTO.getId())))
-//                .roles(RoleConverter.toBase(userDTO.getRoles()))
-//                .menus(MenuConverter.toMenuVO(menuService.getMenusByCurrentUser()))
-                .build();
+        CurrentUser currentUser = new CurrentUser();
+
+        // 获取用户信息
+        UserInfoDTO userInfo = userInfoService.getUserInfoByUserId(userDTO.getId());
+        if (userInfo != null) {
+            currentUser.setUserInfo(UserInfoConverter.toVO(userInfo));
+        }
+
+        // todo: 获取用户角色
+
+        // todo: 获取用户所拥有的的菜单
+
+        return currentUser;
+
     }
 
     @Override
