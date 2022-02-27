@@ -43,7 +43,13 @@ management:
 # 白名单
 whitelist:
   urls:
-    - "/authorize/**"
+    - '/'
+    - '/authorize/**'
+    - '/v3/**'
+    - '/*/v3/**'
+    - '/swagger-ui/**'
+    - '/swagger-ui.html'
+    - '/webjars/**'
 
 #    - "/authorize/oauth/token"
 #    - "/authorize/rsa/publicKey"

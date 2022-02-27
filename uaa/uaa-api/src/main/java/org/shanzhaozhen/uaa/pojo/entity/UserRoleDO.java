@@ -18,14 +18,14 @@ public class UserRoleDO extends BaseInfo {
 
     private static final long serialVersionUID = -8389872342618587940L;
 
-    @Schema(title = "主键ID")
+    @Schema(description = "主键ID")
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
-    @Schema(title = "用户ID")
+    @Schema(description = "用户ID")
     private Long userId;
 
-    @Schema(title = "角色ID")
+    @Schema(description = "角色ID")
     private Long roleId;
 
 }

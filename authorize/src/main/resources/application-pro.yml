@@ -33,3 +33,7 @@ jwt:
   password: 123456
   alias: best-cloud
 
+springdoc:
+  api-docs:
+    enabled: false
+

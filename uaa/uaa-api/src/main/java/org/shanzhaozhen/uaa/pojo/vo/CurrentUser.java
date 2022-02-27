@@ -17,13 +17,13 @@ import java.util.List;
 @Schema(description = "用户登陆信息")
 public class CurrentUser {
 
-    @Schema(title = "用户信息")
+    @Schema(description = "用户信息")
     private UserInfoVO userInfo;
 
-    @Schema(title = "角色")
+    @Schema(description = "角色")
     private List<RoleBase> roles;
 
-//    @Schema(title = "菜单")
+//    @Schema(description = "菜单")
 //    private List<MenuVO> menus;
 
 }

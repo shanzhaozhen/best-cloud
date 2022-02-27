@@ -19,41 +19,41 @@ public class PermissionDO extends BaseInfo {
 
     private static final long serialVersionUID = 4485640590947953262L;
 
-    @Schema(title = "主键ID")
+    @Schema(description = "主键ID")
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
-    @Schema(title = "权限名称")
+    @Schema(description = "权限名称")
     private String name;
 
-    @Schema(title = "权限路由")
+    @Schema(description = "权限路由")
     private String path;
 
-    @Schema(title = "权限类型")
+    @Schema(description = "权限类型")
     private Integer type;
 
-    @Schema(title = "上级ID")
+    @Schema(description = "上级ID")
     private Long pid;
 
-    @Schema(title = "排序等级")
+    @Schema(description = "排序等级")
     private Integer priority;
 
-//    @Schema(title = "支持Get请求")
+//    @Schema(description = "支持Get请求")
 //    private Boolean supportGet;
 //
-//    @Schema(title = "支持Post请求")
+//    @Schema(description = "支持Post请求")
 //    private Boolean supportPost;
 //
-//    @Schema(title = "支持Put请求")
+//    @Schema(description = "支持Put请求")
 //    private Boolean supportPut;
 //
-//    @Schema(title = "支持Delete请求")
+//    @Schema(description = "支持Delete请求")
 //    private Boolean supportDelete;
 //
-//    @Schema(title = "支持Patch请求")
+//    @Schema(description = "支持Patch请求")
 //    private Boolean supportPatch;
 
-    @Schema(title = "权限描述")
+    @Schema(description = "权限描述")
     private String description;
 
 }

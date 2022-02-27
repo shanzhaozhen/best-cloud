@@ -1,7 +1,6 @@
 package org.shanzhaozhen.uaa.pojo.form;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,54 +13,54 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "路由Form实体")
+@Schema(description = "路由Form实体")
 public class RouteForm {
 
-    @ApiModelProperty(value = "主键ID")
+    @Schema(description = "主键ID")
     @NotNull(groups = {Update.class}, message = "资源id不能为空")
     private Long id;
 
-    @ApiModelProperty(value = "权限名称")
+    @Schema(description = "权限名称")
     @NotEmpty(groups = {Insert.class, Update.class}, message = "资源名称不能为空")
     private String name;
 
-    @ApiModelProperty(value = "菜单路由")
+    @Schema(description = "菜单路由")
     private String path;
 
-    @ApiModelProperty(value = "上级ID")
+    @Schema(description = "上级ID")
     private Long pid;
 
-    @ApiModelProperty(value = "重定向路径")
+    @Schema(description = "重定向路径")
     private String redirect;
 
-    @ApiModelProperty(value = "显示名称")
+    @Schema(description = "显示名称")
     private String title;
 
-    @ApiModelProperty(value = "图标")
+    @Schema(description = "图标")
     private String icon;
 
-    @ApiModelProperty(value = "排序等级")
+    @Schema(description = "排序等级")
     private Integer priority;
 
-    @ApiModelProperty(value = "菜单是否隐藏")
+    @Schema(description = "菜单是否隐藏")
     private Boolean hidden;
 
-    @ApiModelProperty(value = "菜单是否总是显示")
+    @Schema(description = "菜单是否总是显示")
     private Boolean alwaysShow;
 
-    @ApiModelProperty(value = "是否需要缓存")
+    @Schema(description = "是否需要缓存")
     private Boolean noCache;
 
-    @ApiModelProperty(value = "固钉")
+    @Schema(description = "固钉")
     private Boolean affix;
 
-    @ApiModelProperty(value = "面包屑")
+    @Schema(description = "面包屑")
     private Boolean breadcrumb;
 
-    @ApiModelProperty(value = "参数")
+    @Schema(description = "参数")
     private String props;
 
-    @ApiModelProperty(value = "菜单描述")
+    @Schema(description = "菜单描述")
     private String description;
 
 }

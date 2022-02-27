@@ -2,7 +2,7 @@ package org.shanzhaozhen.common.core.entity;
 
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "BaseSearchForm",description = "基础分页列表查询前端传入参数")
+@Schema(name = "BaseSearchForm", description = "基础分页列表查询前端传入参数")
 public class BaseSearchForm<T> {
 
     /**

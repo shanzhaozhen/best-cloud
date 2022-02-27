@@ -12,6 +12,10 @@ dependencies {
             'org.hibernate.validator:hibernate-validator',
             'org.springframework.boot:spring-boot-starter-json',
             'org.apache.tomcat.embed:tomcat-embed-core',
+
+//            "com.github.xiaoymin:knife4j-micro-spring-boot-starter:${knife4jVersion}"
+            "org.springdoc:springdoc-openapi-common:${springDocVersion}",
+
     )
 
 

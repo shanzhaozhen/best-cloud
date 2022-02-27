@@ -1,5 +1,7 @@
 package org.shanzhaozhen.authorize;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -8,6 +10,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients("org.shanzhaozhen.uaa.feign")
+@OpenAPIDefinition(info =
+    @Info(title = "${springdoc.title}", version = "${springdoc.version}", description = "${springdoc.description}")
+)
 public class AuthorizeApplication {
 
     public static void main(String[] args) {

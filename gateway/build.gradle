@@ -28,6 +28,11 @@ dependencies {
 //            'org.springframework.boot:spring-boot-starter-oauth2-resource-server',
 
             'org.springframework.boot:spring-boot-starter-data-redis',
+
+//            "com.github.xiaoymin:knife4j-spring-boot-starter:${knife4jVersion}",
+//            "org.springdoc:springdoc-openapi-webflux-core:${springDocVersion}",
+            "org.springdoc:springdoc-openapi-webflux-ui:${springDocVersion}",
+
     )
 
 }

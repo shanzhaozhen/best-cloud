@@ -9,7 +9,7 @@ export async function getFakeCaptcha(
     /** 手机号 */
     phone?: string;
   },
-  options?: { [key: string]: any },
+  options?: Record<string, any>,
 ) {
   return request<API.FakeCaptcha>('/api/login/captcha', {
     method: 'GET',

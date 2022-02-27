@@ -90,3 +90,7 @@ spring:
     ## 连接超时时间（毫秒）
     timeout: 1200
 
+springdoc:
+  version: '0.0.1'
+  title: 'UAA API'
+  description: 'UAA API 文档 v0.0.1'

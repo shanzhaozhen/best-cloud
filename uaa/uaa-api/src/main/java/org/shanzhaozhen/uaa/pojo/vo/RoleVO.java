@@ -19,24 +19,24 @@ import java.util.List;
 @Schema(description = "角色VO实体")
 public class RoleVO extends BaseInfoVO {
 
-    @Schema(title = "主键ID")
+    @Schema(description = "主键ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    @Schema(title = "名称")
+    @Schema(description = "名称")
     private String name;
 
-    @Schema(title = "角色代码")
+    @Schema(description = "角色代码")
     private String code;
 
-    @Schema(title = "描述")
+    @Schema(description = "描述")
     private String description;
 
-    @Schema(title = "关联的菜单id")
+    @Schema(description = "关联的菜单id")
     @JsonSerialize(using = ToStringListSerialize.class)
     private List<Long> menuIds;
 
-    @Schema(title = "关联的资源id")
+    @Schema(description = "关联的资源id")
     @JsonSerialize(using = ToStringListSerialize.class)
     private List<Long> permissionIds;
 

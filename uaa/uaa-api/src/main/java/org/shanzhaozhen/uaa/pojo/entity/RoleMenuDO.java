@@ -18,14 +18,14 @@ public class RoleMenuDO extends BaseInfo {
 
     private static final long serialVersionUID = 1642473344166749722L;
 
-    @Schema(title = "主键ID")
+    @Schema(description = "主键ID")
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
-    @Schema(title = "角色ID")
+    @Schema(description = "角色ID")
     private Long roleId;
 
-    @Schema(title = "菜单ID")
+    @Schema(description = "菜单ID")
     private Long menuId;
 
 }

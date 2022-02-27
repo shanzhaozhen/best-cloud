@@ -1,8 +1,7 @@
 package org.shanzhaozhen.common.core.result;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,20 +15,20 @@ import java.util.function.Supplier;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@ApiModel(description = "API公共返回对象")
+@Schema(description = "API公共返回对象")
 @Slf4j
 public class R<T> {
 
-    @ApiModelProperty(value = "业务状态码", name = "code")
+    @Schema(description = "业务状态码", name = "code")
     private String code;
 
-    @ApiModelProperty(value = "返回的信息", name = "message")
+    @Schema(description = "返回的信息", name = "message")
     private String message;
 
-    @ApiModelProperty(value = "返回的数据", name = "data")
+    @Schema(description = "返回的数据", name = "data")
     private T data;
 
-    @ApiModelProperty(value = "请求完成的时间", name = "timestamp")
+    @Schema(description = "请求完成的时间", name = "timestamp")
     private long timestamp = System.currentTimeMillis();
 
     public R(String code, String msg) {

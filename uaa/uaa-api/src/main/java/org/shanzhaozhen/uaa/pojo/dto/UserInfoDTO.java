@@ -19,43 +19,43 @@ public class UserInfoDTO extends BaseInfo {
 
     private static final long serialVersionUID = -7438360875495028237L;
 
-    @Schema(title = "主键ID")
+    @Schema(description = "主键ID")
     private Long id;
 
-    @Schema(title = "关联用户id")
+    @Schema(description = "关联用户id")
     private Long pid;
 
-    @Schema(title = "部门ID")
+    @Schema(description = "部门ID")
     private Long depId;
 
-    @Schema(title = "姓名")
+    @Schema(description = "姓名")
     private String name;
 
-    @Schema(title = "昵称")
+    @Schema(description = "昵称")
     private String nickname;
 
-    @Schema(title = "性别")
+    @Schema(description = "性别")
     private Integer sex;
 
-    @Schema(title = "生日")
+    @Schema(description = "生日")
     private Date birthday;
 
-    @Schema(title = "头像")
+    @Schema(description = "头像")
     private String avatar;
 
-    @Schema(title = "邮箱")
+    @Schema(description = "邮箱")
     private String email;
 
-    @Schema(title = "手机号码")
+    @Schema(description = "手机号码")
     private String phoneNumber;
 
-    @Schema(title = "地址编号")
+    @Schema(description = "地址编号")
     private String addressCode;
 
-    @Schema(title = "详细地址")
+    @Schema(description = "详细地址")
     private String detailedAddress;
 
-    @Schema(title = "个人介绍")
+    @Schema(description = "个人介绍")
     private String introduction;
 
 }

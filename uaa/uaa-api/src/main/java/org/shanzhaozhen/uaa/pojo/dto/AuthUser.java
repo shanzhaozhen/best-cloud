@@ -22,28 +22,28 @@ public class AuthUser implements UserDetails {
 
     private static final long serialVersionUID = 172687743338426957L;
 
-    @Schema(title = "用户")
+    @Schema(description = "用户")
     private Long userId;
 
-    @Schema(title = "用户名")
+    @Schema(description = "用户名")
     private String username;
 
-    @Schema(title = "密码")
+    @Schema(description = "密码")
     private String password;
 
-    @Schema(title = "账户是否过期,过期无法验证")
+    @Schema(description = "账户是否过期,过期无法验证")
     private boolean accountNonExpired;
 
-    @Schema(title = "指定用户是否被锁定或者解锁,锁定的用户无法进行身份验证")
+    @Schema(description = "指定用户是否被锁定或者解锁,锁定的用户无法进行身份验证")
     private boolean accountNonLocked;
 
-    @Schema(title = "指示是否已过期的用户的凭据(密码),过期的凭据防止认证")
+    @Schema(description = "指示是否已过期的用户的凭据(密码),过期的凭据防止认证")
     private boolean credentialsNonExpired;
 
-    @Schema(title = "是否被禁用,禁用的用户不能身份验证")
+    @Schema(description = "是否被禁用,禁用的用户不能身份验证")
     private boolean enabled;
 
-    @Schema(title = "用户权限")
+    @Schema(description = "用户权限")
     private Collection<? extends GrantedAuthority> authorities;
 
     public AuthUser(UserDTO user) {

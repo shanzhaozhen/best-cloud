@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: uaa
@@ -23,5 +26,4 @@ management:
     web:
       exposure:
         include: '*'
-server:
-  port: 8080
+

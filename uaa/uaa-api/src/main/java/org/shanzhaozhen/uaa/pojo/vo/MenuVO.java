@@ -18,48 +18,48 @@ import java.util.List;
 @Schema(description = "菜单VO实体")
 public class MenuVO extends BaseInfoVO {
 
-    @Schema(title = "主键ID")
+    @Schema(description = "主键ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    @Schema(title = "菜单名称")
+    @Schema(description = "菜单名称")
     private String name;
 
-    @Schema(title = "菜单名称（本地化）")
+    @Schema(description = "菜单名称（本地化）")
     private String locale;
 
-    @Schema(title = "菜单路径")
+    @Schema(description = "菜单路径")
     private String path;
 
-    @Schema(title = "上级ID")
+    @Schema(description = "上级ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long pid;
 
-    @Schema(title = "图标")
+    @Schema(description = "图标")
     private String icon;
 
-    @Schema(title = "排序等级")
+    @Schema(description = "排序等级")
     private Integer priority;
 
-    @Schema(title = "菜单是否隐藏")
+    @Schema(description = "菜单是否隐藏")
     private Boolean hideInMenu;
 
-    @Schema(title = "隐藏子节点")
+    @Schema(description = "隐藏子节点")
     private Boolean hideChildrenInMenu;
 
-    @Schema(title = "参数")
+    @Schema(description = "参数")
     private String props;
 
-    @Schema(title = "菜单描述")
+    @Schema(description = "菜单描述")
     private String description;
 
-    @Schema(title = "关联的角色")
+    @Schema(description = "关联的角色")
     private List<RoleVO> roleVOList;
 
-    @Schema(title = "下级菜单")
+    @Schema(description = "下级菜单")
     private List<MenuVO> children;
 
-    @Schema(title = "授权角色")
+    @Schema(description = "授权角色")
     private List<String> access;
 
 }

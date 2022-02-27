@@ -1,4 +1,7 @@
 spring:
+  profiles:
+    active: dev
+
   cloud:
     gateway:
       discovery:
@@ -6,16 +9,12 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
-        - id: nacos-route
-          uri: lb://service-gateway-provider
-          predicates:
-            - Path=/nacos/**
-          filters:
-            - StripPrefix=1
-        - id: basic
-          uri: lb://basic
-          predicates:
-            - Path=/basic/**
+#        - id: nacos-route
+#          uri: lb://service-gateway-provider
+#          predicates:
+#            - Path=/nacos/**
+#          filters:
+#            - StripPrefix=1
         - id: authorize
           uri: lb://authorize
           predicates:
@@ -24,6 +23,13 @@ spring:
           uri: lb://uaa
           predicates:
             - Path=/uaa/**
+        - id: openapi
+          uri: http://localhost:${server.port}
+          predicates:
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
+
 
   security:
     oauth2:
@@ -41,3 +47,13 @@ spring:
     port: 6379
     ## Redis服务器连接密码（默认为空）
     password: 123456
+
+springdoc:
+  version: '0.0.1'
+  title: '网关'
+  description: '网关 API 文档 v0.0.1'
+  swagger-ui:
+    enabled: false
+#    urls:
+#      - name: uaa
+#        url: /v3/api-docs/uaa

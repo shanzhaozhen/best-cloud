@@ -76,11 +76,11 @@ subprojects {
     }
 
     dependencies {
-        implementation(
+//        implementation(
 //                'org.springframework.boot:spring-boot-starter-web',
-                "io.springfox:springfox-boot-starter:${swaggerVersion}",
+//                "io.springfox:springfox-boot-starter:${springFoxVersion}",
 //                'com.alibaba:fastjson:1.2.73'
-        )
+//        )
 
         compileOnly 'org.projectlombok:lombok'
 

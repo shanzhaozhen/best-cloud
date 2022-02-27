@@ -15,11 +15,11 @@ import java.util.List;
 @Schema(description = "用户角色Form实体")
 public class UserRoleForm {
 
-    @Schema(title = "用户ID")
+    @Schema(description = "用户ID")
     @NotEmpty(message = "用户id不能为空")
     private List<Long> userIds;
 
-    @Schema(title = "角色ID")
+    @Schema(description = "角色ID")
     @NotNull(message = "角色ID不能为空")
     private Long roleId;
 

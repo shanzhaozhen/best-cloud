@@ -1,28 +1,42 @@
 ﻿export default [
   {
-    path: '/user',
+    path: '/login',
     layout: false,
-    routes: [
-      {
-        path: '/user',
-        routes: [
-          {
-            name: 'login',
-            path: '/user/login',
-            component: './user/Login',
-          },
-        ],
-      },
-      {
-        component: './404',
-      },
-    ],
+    component: './common/Login',
   },
   {
     path: '/welcome',
     name: 'welcome',
     icon: 'smile',
     component: './Welcome',
+  },
+  {
+    path: '/system',
+    name: 'system',
+    icon: 'crown',
+    routes: [
+      {
+        name: 'user',
+        path: '/system/user',
+        component: './system/userList',
+      },
+      // {
+      //   path: '/system/user',
+      //   name: 'useradmin',
+      //   icon: 'smile',
+      //   routes: [
+      //     {
+      //       name: 'user',
+      //       path: '/system/user/list',
+      //       component: './TableList',
+      //       icon: 'crown',
+      //     },
+      //   ],
+      // },
+      // {
+      //   component: './common/errorPage/404',
+      // },
+    ],
   },
   // {
   //   path: '/admin',
@@ -114,6 +128,6 @@
     redirect: '/welcome',
   },
   {
-    component: './404',
+    component: './common/errorPage/404',
   },
 ];

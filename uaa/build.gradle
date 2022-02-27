@@ -6,7 +6,16 @@ subprojects {
     jar.enabled = true
 
     dependencies {
-//        implementation 'org.springframework.boot:spring-boot-starter-web'
+
+
+        implementation(
+//                'org.springframework.boot:spring-boot-starter-web',
+//                "com.github.xiaoymin:knife4j-micro-spring-boot-starter:${knife4jVersion}",
+
+                "org.springdoc:springdoc-openapi-webmvc-core:${springDocVersion}",
+        )
+
+
     }
 
 }

@@ -92,3 +92,8 @@ spring:
 feign:
   sentinel:
     enabled: true
+
+springdoc:
+  version: '0.0.1'
+  title: 'Authorize API'
+  description: 'Authorize API 文档 v0.0.1'

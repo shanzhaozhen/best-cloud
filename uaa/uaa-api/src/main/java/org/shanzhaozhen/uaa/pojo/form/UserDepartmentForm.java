@@ -14,11 +14,11 @@ import java.util.List;
 @Schema(description = "用户部门Form实体")
 public class UserDepartmentForm {
 
-    @Schema(title = "用户ID")
+    @Schema(description = "用户ID")
     @NotEmpty(message = "用户id不能为空")
     private List<Long> userIds;
 
-    @Schema(title = "部门ID")
+    @Schema(description = "部门ID")
     private Long departmentId;
 
 }

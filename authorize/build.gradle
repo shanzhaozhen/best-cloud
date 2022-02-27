@@ -22,12 +22,10 @@ dependencies {
             'org.springframework.boot:spring-boot-starter-actuator',
             'org.springframework.cloud:spring-cloud-starter-bootstrap',
 
-
             "org.springframework.boot:spring-boot-starter-security",
             "org.springframework.security:spring-security-oauth2-authorization-server:${authorizationServerVersion}",
             "org.springframework.security:spring-security-oauth2-core:${springSecurityVersion}",
             "org.springframework.security:spring-security-oauth2-jose:${springSecurityVersion}",
-
 
 //            'org.springframework.cloud:spring-cloud-starter-authentication',
 //            'org.springframework.cloud:spring-cloud-starter-security',
@@ -35,7 +33,11 @@ dependencies {
             'mysql:mysql-connector-java',
             "com.alibaba:druid-spring-boot-starter:${druidVersion}",
             "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}",
-            'org.springframework.boot:spring-boot-starter-data-redis'
+            'org.springframework.boot:spring-boot-starter-data-redis',
+
+//            "com.github.xiaoymin:knife4j-micro-spring-boot-starter:${knife4jVersion}",
+            "org.springdoc:springdoc-openapi-security:${springDocVersion}",
+            "org.springdoc:springdoc-openapi-webmvc-core:${springDocVersion}",
 
     )
 

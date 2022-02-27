@@ -15,6 +15,7 @@ public class DefaultSecurityConfig {
 		http
 			.authorizeRequests(authorizeRequests ->
 				authorizeRequests
+						.antMatchers("/v3/**").permitAll()
 //						.antMatchers("/**", "/authorize/rsa/publicKey", "/.well-known/openid-configuration").permitAll()
 						.anyRequest().authenticated()
 			)
