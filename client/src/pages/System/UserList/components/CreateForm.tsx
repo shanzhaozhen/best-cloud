@@ -1,6 +1,6 @@
 import type {Dispatch, MutableRefObject, SetStateAction} from "react";
 import React from "react";
-import {ModalForm} from "@ant-design/pro-form";
+import {DrawerForm} from "@ant-design/pro-form";
 import type {ActionType} from "@ant-design/pro-table";
 import {message} from "antd";
 import type {UserForm} from "@/services/uaa/type/user";
@@ -35,7 +35,7 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
   const { createModalVisible, handleCreateModalVisible, actionRef } = props;
 
   return (
-    <ModalForm
+    <DrawerForm
       title="新建用户"
       width="748px"
       visible={createModalVisible}
@@ -51,7 +51,7 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
       }}
     >
       <FormBody />
-    </ModalForm>
+    </DrawerForm>
   );
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Col, Row } from 'antd';
-import { ProFormSelect, ProFormSwitch, ProFormText } from '@ant-design/pro-form';
+import {Col, Row, Tabs} from 'antd';
+import {ProFormDatePicker, ProFormSelect, ProFormSwitch, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 // import { getAllRoles } from '@/services/role/role';
 // import type { RoleVO } from '@/services/role/typings';
 // import FormTreeSelect from '@/components/FormTreeSelect';
@@ -19,87 +19,89 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
   return (
     <>
       <ProFormText name="id" label="用户id" hidden={true} />
-      <Row gutter={24}>
-        <Col xl={12} lg={12} md={24}>
-          <ProFormText
-            width="md"
-            name="username"
-            label="用户名"
-            disabled={disable}
-            fieldProps={{ autoComplete: 'off' }}
-            rules={[{ required: true, message: '请输入用户名' }]}
-          />
-        </Col>
-        <Col xl={12} lg={12} md={24}>
-          <ProFormText width="md" name="name" label="姓名" />
-        </Col>
-        <Col xl={12} lg={12} md={24}>
-          <ProFormText.Password
-            width="md"
-            label="密码"
-            name="password"
-            fieldProps={{ autoComplete: 'new-password' }}
-            rules={[
-              {
-                required: !disable,
-                validator: async (rule, value) => {
-                  // 编辑模式时不为空才判断
-                  if (disable && !value) return;
+      <Tabs defaultActiveKey="account">
+        <Tabs.TabPane tab="账户信息" key="account" forceRender>
+          <Row gutter={24}>
+            <Col xl={12} lg={12} md={24}>
+              <ProFormText
+                width="md"
+                name="username"
+                label="用户名"
+                disabled={disable}
+                fieldProps={{ autoComplete: 'off' }}
+                rules={[{ required: true, message: '请输入用户名' }]}
+              />
+            </Col>
+            <Col xl={12} lg={12} md={24}>
+              <ProFormText width="md" name={['userInfo', 'name']} label="姓名" />
+            </Col>
+            <Col xl={12} lg={12} md={24}>
+              <ProFormText.Password
+                width="md"
+                label="密码"
+                name="password"
+                fieldProps={{ autoComplete: 'new-password' }}
+                rules={[
+                  {
+                    required: !disable,
+                    validator: async (rule, value) => {
+                      // 编辑模式时不为空才判断
+                      if (disable && !value) return;
 
-                  // 密码不能小于六位，至少含字母、数字、特殊字符其中的2种！
-                  const regExp = new RegExp(
-                    /^.*(?=.{6,16})(?=.*\d)(?=.*[A-Za-z])(?=.*[/\\?.,~!@#$%^&*()_+={}|:<>[\]]).*$/,
-                  );
-                  if (!regExp.test(value)) {
-                    throw new Error('密码长度为6-20位，且含字母、数字、特殊字符！');
-                  }
-                },
-              },
-            ]}
-          />
-        </Col>
-        <Col xl={12} lg={12} md={24}>
-          <ProFormText.Password
-            width="md"
-            label="确认密码"
-            name="re-password"
-            rules={[
-              { required: !disable },
-              ({ getFieldValue }) => ({
-                validator: async (rule, value) => {
-                  const password = getFieldValue('password');
+                      // 密码不能小于六位，至少含字母、数字、特殊字符其中的2种！
+                      const regExp = new RegExp(
+                        /^.*(?=.{6,16})(?=.*\d)(?=.*[A-Za-z])(?=.*[/\\?.,~!@#$%^&*()_+={}|:<>[\]]).*$/,
+                      );
+                      if (!regExp.test(value)) {
+                        throw new Error('密码长度为6-20位，且含字母、数字、特殊字符！');
+                      }
+                    },
+                  },
+                ]}
+              />
+            </Col>
+            <Col xl={12} lg={12} md={24}>
+              <ProFormText.Password
+                width="md"
+                label="确认密码"
+                name="re-password"
+                rules={[
+                  { required: !disable },
+                  ({ getFieldValue }) => ({
+                    validator: async (rule, value) => {
+                      const password = getFieldValue('password');
 
-                  // 编辑状态时，如果密码为空不进行校验
-                  if (disable && !password) return;
+                      // 编辑状态时，如果密码为空不进行校验
+                      if (disable && !password) return;
 
-                  if (!value) {
-                    throw new Error('确认密码不能为空');
-                  }
+                      if (!value) {
+                        throw new Error('确认密码不能为空');
+                      }
 
-                  if (password !== value) {
-                    throw new Error('两次输入的密码不一致');
-                  }
-                },
-              }),
-            ]}
-          />
-        </Col>
-        <Col xl={12} lg={12} md={24}>
-          <ProFormText width="md" name="nickname" label="昵称" />
-        </Col>
-        <Col xl={12} lg={12} md={24}>
-          <ProFormSelect
-            width="md"
-            name="sex"
-            label="性别"
-            options={[
-              { label: '男', value: 0 },
-              { label: '女', value: 1 },
-            ]}
-            placeholder="请选择性别"
-          />
-        </Col>
-        {/*<Col xl={12} lg={12} md={24}>
+                      if (password !== value) {
+                        throw new Error('两次输入的密码不一致');
+                      }
+                    },
+                  }),
+                ]}
+              />
+            </Col>
+            <Col xl={12} lg={12} md={24}>
+              <ProFormText width="md" name={['userInfo', 'nickname']} label="昵称" />
+            </Col>
+            <Col xl={12} lg={12} md={24}>
+              <ProFormSelect
+                width="md"
+                name={['userInfo', 'sex']}
+                label="性别"
+                options={[
+                  { label: '男', value: 0 },
+                  { label: '女', value: 1 },
+                ]}
+                placeholder="请选择性别"
+              />
+            </Col>
+            {/*<Col xl={12} lg={12} md={24}>
           <Form.Item
             name="depId"
             label="所属部门"
@@ -112,7 +114,7 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
             />
           </Form.Item>
         </Col>*/}
-        {/*<Col span={24}>
+            {/*<Col span={24}>
           <ProFormSelect
             mode="multiple"
             name="roleIds"
@@ -132,43 +134,75 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
             }}
           />
         </Col>*/}
-        <Col xl={6} md={12} sm={24}>
-          <ProFormSwitch
-            name="accountNonExpired"
-            label="是否过期"
-            checkedChildren="未过期"
-            unCheckedChildren="已过期"
-            fieldProps={{ defaultChecked: true }}
-          />
-        </Col>
-        <Col xl={6} md={12} sm={24}>
-          <ProFormSwitch
-            name="accountNonLocked"
-            label="是否锁定"
-            checkedChildren="开启"
-            unCheckedChildren="锁定"
-            fieldProps={{ defaultChecked: true }}
-          />
-        </Col>
-        <Col xl={6} md={12} sm={24}>
-          <ProFormSwitch
-            name="credentialsNonExpired"
-            label="密码过期"
-            checkedChildren="未过期"
-            unCheckedChildren="已过期"
-            fieldProps={{ defaultChecked: true }}
-          />
-        </Col>
-        <Col xl={6} md={12} sm={24}>
-          <ProFormSwitch
-            name="enabled"
-            label="是否禁用"
-            checkedChildren="可用"
-            unCheckedChildren="禁用"
-            fieldProps={{ defaultChecked: true }}
-          />
-        </Col>
-      </Row>
+            <Col xl={6} md={12} sm={24}>
+              <ProFormSwitch
+                name="accountNonExpired"
+                label="是否过期"
+                checkedChildren="未过期"
+                unCheckedChildren="已过期"
+                fieldProps={{ defaultChecked: true }}
+              />
+            </Col>
+            <Col xl={6} md={12} sm={24}>
+              <ProFormSwitch
+                name="accountNonLocked"
+                label="是否锁定"
+                checkedChildren="开启"
+                unCheckedChildren="锁定"
+                fieldProps={{ defaultChecked: true }}
+              />
+            </Col>
+            <Col xl={6} md={12} sm={24}>
+              <ProFormSwitch
+                name="credentialsNonExpired"
+                label="密码过期"
+                checkedChildren="未过期"
+                unCheckedChildren="已过期"
+                fieldProps={{ defaultChecked: true }}
+              />
+            </Col>
+            <Col xl={6} md={12} sm={24}>
+              <ProFormSwitch
+                name="enabled"
+                label="是否禁用"
+                checkedChildren="可用"
+                unCheckedChildren="禁用"
+                fieldProps={{ defaultChecked: true }}
+              />
+            </Col>
+          </Row>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="用户资料" key="detail">
+          <Row>
+            <Col xl={12} lg={12} md={24}>
+              <Row gutter={24}>
+                <Col xl={12} lg={24} md={24}>
+                  <ProFormDatePicker width="md" name={['userInfo', 'birthday']} label="生日" />
+                </Col>
+                <Col xl={12} lg={24} md={24}>
+                  <ProFormText
+                    width="md"
+                    name={['userInfo', 'phoneNumber']}
+                    label="手机号码" rules={[{ type: 'number', pattern: /^1[3-5|7-9][0-9]\d{8}$/, message: '请输入正确的手机号' }]}
+                  />
+                </Col>
+                <Col xl={12} lg={24} md={24}>
+                  <ProFormText width="md" name={['userInfo', 'email']} label="邮箱" rules={[{ type: 'email', message: '请填入正确的邮箱' }]} />
+                </Col>
+              </Row>
+            </Col>
+            <Col xl={12} lg={12} md={24}>
+              <ProFormText width="md" name={['userInfo', 'email']} label="头像" />
+            </Col>
+          </Row>
+
+          <Row gutter={24}>
+            <Col xl={24} lg={24} md={24}>
+              <ProFormTextArea name={['userInfo', 'introduction']} label="个人介绍" />
+            </Col>
+          </Row>
+        </Tabs.TabPane>
+      </Tabs>
     </>
   );
 };

@@ -118,11 +118,7 @@ const UserList: React.FC = () => {
       hideInSearch: true,
       render: (_, entity) => (
         <Space>
-          {entity.accountNonExpired ? (
-            <Tag color="green">未过期</Tag>
-          ) : (
-            <Tag color="red">已过期</Tag>
-          )}
+          {entity.accountNonExpired ? <Tag color="green">未过期</Tag> : <Tag color="red">已过期</Tag>}
         </Space>
       ),
     },
@@ -132,7 +128,7 @@ const UserList: React.FC = () => {
       hideInSearch: true,
       render: (_, entity) => (
         <Space>
-          {entity.accountNonLocked ? <Tag color="green">开启</Tag> : <Tag color="red">锁定</Tag>}
+          {entity.accountNonLocked ? <Tag color="green">否</Tag> : <Tag color="red">是</Tag>}
         </Space>
       ),
     },
@@ -142,11 +138,7 @@ const UserList: React.FC = () => {
       hideInSearch: true,
       render: (_, entity) => (
         <Space>
-          {entity.credentialsNonExpired ? (
-            <Tag color="green">未过期</Tag>
-          ) : (
-            <Tag color="red">已过期</Tag>
-          )}
+          {entity.credentialsNonExpired ? <Tag color="green">未过期</Tag> : <Tag color="red">已过期</Tag>}
         </Space>
       ),
     },
@@ -222,14 +214,14 @@ const UserList: React.FC = () => {
       <ProTable<UserVO, PageParams>
         headerTitle="用户列表"
         actionRef={actionRef}
-        rowKey="key"
+        rowKey="id"
         search={{
           labelWidth: 120,
         }}
         toolBarRender={() => [
           <Button
             type="primary"
-            key="primary"
+            key="add"
             onClick={() => {
               handleCreateModalVisible(true);
             }}

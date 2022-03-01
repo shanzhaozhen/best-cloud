@@ -1,9 +1,11 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from 'umi';
+import {R} from "@/services/common/typings";
+import {MenuForm, MenuVO} from './type/menu';
 
 /** 更新菜单接口 PUT /menu */
-export async function updateMenu(body: API.MenuForm, options?: Record<string, any>) {
+export async function updateMenu(body: MenuForm, options?: Record<string, any>) {
   return request<R<number>>(`/api/uaa/menu`, {
     method: 'PUT',
     headers: {
@@ -15,7 +17,7 @@ export async function updateMenu(body: API.MenuForm, options?: Record<string, an
 }
 
 /** 添加菜单接口 POST /menu */
-export async function addMenu(body: API.MenuForm, options?: Record<string, any>) {
+export async function addMenu(body: MenuForm, options?: Record<string, any>) {
   return request<R<number>>(`/api/uaa/menu`, {
     method: 'POST',
     headers: {
@@ -41,11 +43,11 @@ export async function batchDeleteMenu(body: number[], options?: Record<string, a
 /** 获取菜单信息（通过菜单id） GET /menu/${param0} */
 export async function getMenuById(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.getMenuByIdParams,
+  params: getMenuByIdParams,
   options?: Record<string, any>,
 ) {
   const { menuId: param0, ...queryParams } = params;
-  return request<API.RMenuVO>(`/api/uaa/menu/${param0}`, {
+  return request<R<MenuVO>>(`/api/uaa/menu/${param0}`, {
     method: 'GET',
     params: { ...queryParams },
     ...(options || {}),
@@ -55,7 +57,7 @@ export async function getMenuById(
 /** 删除菜单接口 DELETE /menu/${param0} */
 export async function deleteMenu(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.deleteMenuParams,
+  params: deleteMenuParams,
   options?: Record<string, any>,
 ) {
   const { menuId: param0, ...queryParams } = params;
@@ -68,7 +70,7 @@ export async function deleteMenu(
 
 /** 获取所有菜单信息（树状结构） GET /menu/tree */
 export async function getMenuTree(options?: Record<string, any>) {
-  return request<API.RListMenuVO>(`/api/uaa/menu/tree`, {
+  return request<R<MenuVO[]>>(`/api/uaa/menu/tree`, {
     method: 'GET',
     ...(options || {}),
   });
@@ -76,7 +78,7 @@ export async function getMenuTree(options?: Record<string, any>) {
 
 /** 获取所有菜单信息 GET /menu/all */
 export async function getAllMenus(options?: Record<string, any>) {
-  return request<API.RListMenuVO>(`/api/uaa/menu/all`, {
+  return request<R<MenuVO[]>>(`/api/uaa/menu/all`, {
     method: 'GET',
     ...(options || {}),
   });

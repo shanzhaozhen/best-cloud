@@ -2,7 +2,7 @@ import type {Dispatch, MutableRefObject, SetStateAction} from "react";
 import React from "react";
 import type {UserForm, UserVO} from "@/services/uaa/type/user";
 import FormBody from "@/pages/System/UserList/components/FormBody";
-import {ModalForm} from "@ant-design/pro-form";
+import {DrawerForm} from "@ant-design/pro-form";
 import type {ActionType} from "@ant-design/pro-table";
 import {message} from "antd";
 import {updateUser} from "@/services/uaa/user";
@@ -38,11 +38,11 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
   const {updateModalVisible, handleUpdateModalVisible, actionRef, setCurrentRow, values} = props;
 
   return (
-    <ModalForm
+    <DrawerForm
       title="修改用户"
       width="748px"
-      modalProps={{
-        onCancel: () => {
+      drawerProps={{
+        onClose: () => {
           handleUpdateModalVisible(false);
           if (!updateModalVisible) {
             setCurrentRow(undefined);
@@ -64,7 +64,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
       }}
     >
       <FormBody />
-    </ModalForm>
+    </DrawerForm>
   )
 }
 

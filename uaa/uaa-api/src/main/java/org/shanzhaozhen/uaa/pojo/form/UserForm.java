@@ -41,37 +41,10 @@ public class UserForm {
     @Schema(description = "是否被禁用,禁用的用户不能身份验证")
     private boolean enabled;
 
-    @Schema(description = "姓名")
-    private String name;
-
-    @Schema(description = "昵称")
-    private String nickname;
-
-    @Schema(description = "性别")
-    private Integer sex;
-
-    @Schema(description = "生日")
-    private Date birthday;
-
-    @Schema(description = "头像")
-    private String avatar;
-
-    @Schema(description = "邮箱")
-    private String email;
-
-    @Schema(description = "手机号码")
-    private String phoneNumber;
-
-    @Schema(description = "地址编号")
-    private String addressCode;
-
-    @Schema(description = "详细地址")
-    private String detailedAddress;
-
-    @Schema(description = "个人介绍")
-    private String introduction;
-
     @Schema(description = "关联的角色id")
     private List<Long> roleIds;
+
+    @Schema(description = "用户信息")
+    private UserInfoForm userInfoForm;
 
 }

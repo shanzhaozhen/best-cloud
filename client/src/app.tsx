@@ -43,8 +43,6 @@ export async function getInitialState(): Promise<{
   if (history.location.pathname !== loginPath) {
     const currentUser = await fetchUserInfo();
 
-    console.log('currentUser: ', currentUser)
-
     return {
       fetchUserInfo,
       currentUser,
@@ -129,9 +127,6 @@ const errorHandler = async (error: ResponseError) => {
 const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
   const tokenType = localStorage.getItem('TOKEN_TYPE');
   const accessToken = localStorage.getItem('ACCESS_TOKEN');
-
-  console.log(tokenType)
-  console.log(accessToken)
 
   if (url !== '/api/authorize/oauth2/token' && tokenType && accessToken) {
     return {
