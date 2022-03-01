@@ -12,10 +12,10 @@ import React, { useState } from 'react';
 import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
 import { useIntl, history, FormattedMessage, SelectLang, useModel } from 'umi';
 import Footer from '@/components/Footer';
-import { login } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
-
 import styles from './index.less';
+import type {LoginParams, LoginResult} from '@/services/common/typings';
+import {login} from "@/services/common/login";
 
 const LoginMessage: React.FC<{
   content: string;
@@ -31,7 +31,7 @@ const LoginMessage: React.FC<{
 );
 
 const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
+  const [userLoginState, setUserLoginState] = useState<LoginResult>({});
   const [type, setType] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
 
@@ -47,7 +47,7 @@ const Login: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (values: API.LoginParams) => {
+  const handleSubmit = async (values: LoginParams) => {
     try {
       // 登录
       const msg = await login({ ...values, type });
@@ -102,13 +102,13 @@ const Login: React.FC = () => {
               id="pages.login.loginWith"
               defaultMessage="其他登录方式"
             />,
-            <GithubOutlined key="GithubOutlined" className={styles.icon} />,
-            <WechatOutlined key="WechatOutlined" className={styles.icon} />,
-            <QqOutlined key="QqOutlined" className={styles.icon} />,
-            <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.icon} />,
+            <GithubOutlined key="githubOutlined" className={styles.icon} />,
+            <WechatOutlined key="wechatOutlined" className={styles.icon} />,
+            <QqOutlined key="qqOutlined" className={styles.icon} />,
+            <WeiboCircleOutlined key="weiboCircleOutlined" className={styles.icon} />,
           ]}
           onFinish={async (values) => {
-            await handleSubmit(values as API.LoginParams);
+            await handleSubmit(values as LoginParams);
           }}
         >
           <Tabs activeKey={type} onChange={setType}>

@@ -72,3 +72,27 @@ export type PageParams = {
   /** 其他参数 */
   [key: string]: any
 };
+
+export type LoginParams = {
+  username?: string;
+  password?: string;
+  autoLogin?: boolean;
+  type?: string;
+};
+
+export type LoginResult = {
+  status?: string;
+  type?: string;
+  currentAuthority?: string;
+
+  error?: string;
+  access_token?: string;
+  refresh_token?: string;
+  aud?: string[];
+  expires_in?: number;
+  scope?: string;
+  sub?: string;
+  token_type?: string;
+  userId?: string;
+  username?: string
+};

@@ -4,14 +4,6 @@ import { request } from 'umi';
 import {Page, PageParams, R} from "@/services/common/typings";
 import {CurrentUser, UserForm, UserVO} from "@/services/uaa/type/user";
 
-/** 登出用户接口 GET /user/logout */
-export async function logout(options?: Record<string, any>) {
-  return request<R<boolean>>(`/api/uaa/user/logout`, {
-    method: 'GET',
-    ...(options || {}),
-  });
-}
-
 /** 获取当前登录用户的个人和权限信息接口 GET /user/current */
 export async function getCurrentUserInfo(options?: Record<string, any>) {
   return request<R<CurrentUser>>(`/api/uaa/user/current`, {

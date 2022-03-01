@@ -16,7 +16,7 @@ export type GlobalHeaderRightProps = {
  * 退出登录，并且将当前的 url 保存
  */
 const loginOut = async () => {
-  // await outLogin();
+  // await loginOut();
 
   // todo: 后台注销 token
 
