@@ -24,11 +24,13 @@ _没条件搞服务器都挂了_
 |      RBAC 动态权限管理       |   √   |
 |         动态分配菜单         |   -   |
 |    整合服务熔断 Sentinel     |   -   |
-|     openapi文档查看、导出     |   -   |
+|     openapi文档查看、导出     |   √   |
 |       实现分布式定时任务        |   -   |
 |        加入分布式事务         |   -   |
+|     引入分布式存储 MinIO      |   -   |
 |   加入 Oauth2 实现第三方登陆    |   -   |
 | 加入Dockerfile直接打包部署到服务器 |   -   |
+
 
 ### 微服务组件选型
 
@@ -179,6 +181,26 @@ git clone https://github.com/nacos-group/nacos-k8s.git
       -d sentinel-dashboard:1.8.0
     ```
   
+
+### 启动分布式存储 MinIO
+
+- [文档](https://docs.min.io)
+- Docker 启动
+
+```shell
+# 创建一个存储的文件夹进行映射，我这里的环境是使用虚拟机，直接用硬盘映射到虚拟机测试
+# 默认账号密码：minioadmin:minioadmin
+docker run \
+    -p 9000:9000 \
+    -p 33909:33909 \
+    -v /root/minio-docker/data:/data \
+    -v /root/minio-docker/config:/root/.minio \
+    -d minio/minio server /data \
+    --console-address ":33909"
+
+```
+
+
 ### RSA证书
 
 ```shell

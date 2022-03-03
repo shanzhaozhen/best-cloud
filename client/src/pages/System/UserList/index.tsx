@@ -148,7 +148,7 @@ const UserList: React.FC = () => {
       hideInSearch: true,
       render: (_, entity) => (
         <Space>
-          {entity.enabled ? <Tag color="green">可用</Tag> : <Tag color="red">禁用</Tag>}
+          {entity.enabled ? <Tag color="green">否</Tag> : <Tag color="red">是</Tag>}
         </Space>
       ),
     },
