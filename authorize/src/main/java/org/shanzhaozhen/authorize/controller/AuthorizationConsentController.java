@@ -6,6 +6,7 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -15,18 +16,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.security.Principal;
 import java.util.*;
 
-
+/**
+ * 自定义用户确认页
+ */
 @Controller
 @RequiredArgsConstructor
 public class AuthorizationConsentController {
 	private final RegisteredClientRepository registeredClientRepository;
 	private final OAuth2AuthorizationConsentService authorizationConsentService;
+	private final ProviderSettings providerSettings;
 
-	@GetMapping(value = "/oauth2/consent")
-	public String consent(Principal principal, Model model,
-			@RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
-			@RequestParam(OAuth2ParameterNames.SCOPE) String scope,
-			@RequestParam(OAuth2ParameterNames.STATE) String state) {
+	/**
+     * {@link OAuth2AuthorizationEndpointFilter} 会302重定向到{@code  /oauth2/consent}并携带入参
+     *
+     * @param principal 当前用户
+     * @param model     视图模型
+     * @param clientId  oauth2 client id
+     * @param scope     请求授权的scope
+     * @param state     state 值
+     * @return 自定义授权确认页面 consent.html
+     */
+    @GetMapping(value = "/oauth2/consent")
+    public String consent(Principal principal, Model model,
+                          @RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
+                          @RequestParam(OAuth2ParameterNames.SCOPE) String scope,
+                          @RequestParam(OAuth2ParameterNames.STATE) String state) {
 
 		// Remove scopes that were already approved
 		Set<String> scopesToApprove = new HashSet<>();
@@ -47,7 +61,9 @@ public class AuthorizationConsentController {
 			}
 		}
 
+		model.addAttribute("authorizationEndpoint", providerSettings.getAuthorizationEndpoint());
 		model.addAttribute("clientId", clientId);
+		model.addAttribute("clientName", registeredClient.getClientName());
 		model.addAttribute("state", state);
 		model.addAttribute("scopes", withDescription(scopesToApprove));
 		model.addAttribute("previouslyApprovedScopes", withDescription(previouslyApprovedScopes));

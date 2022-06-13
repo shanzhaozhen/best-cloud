@@ -2,11 +2,10 @@ buildscript {
 
     // gradle仓库的依赖源
     repositories {
-        // 默认maven官方源
-        // mavenCentral()
-//        mavenLocal()
         maven{ url 'https://maven.aliyun.com/repository/central' }
         maven{ url 'https://maven.aliyun.com/repository/public' }
+        mavenCentral()
+        mavenLocal()
     }
 
     dependencies {
@@ -31,11 +30,10 @@ allprojects {
 
     // gradle仓库的依赖源
     repositories {
-        // 默认maven官方源
-        // mavenCentral()
-//        mavenLocal()
         maven{ url 'https://maven.aliyun.com/repository/central' }
         maven{ url 'https://maven.aliyun.com/repository/public' }
+        mavenCentral()
+        mavenLocal()
     }
 
 //    task copyTestResources(type: Copy) {
@@ -67,12 +65,10 @@ subprojects {
 
     // gradle仓库的依赖源
     repositories {
-        // 默认maven官方源
-        // mavenCentral()
-//        mavenLocal()
         maven{ url 'https://maven.aliyun.com/repository/central' }
         maven{ url 'https://maven.aliyun.com/repository/public' }
         mavenCentral()
+        mavenLocal()
     }
 
     dependencies {

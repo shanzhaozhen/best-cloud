@@ -21,9 +21,10 @@
     <div class="row">
         <div class="col text-center">
             <p>
-                该应用
-                <span class="font-weight-bold text-primary" th:text="${clientId}"></span>
-                想要访问您的账户
+                应用
+<!--                <span class="font-weight-bold text-primary" th:text="${clientId}"></span>-->
+                <a href="https://felord.cn"><span class="font-weight-bold text-primary" th:text="${clientName}"></span></a>
+                想要访问您的账号
                 <span class="font-weight-bold" th:text="${principalName}"></span>
             </p>
         </div>
@@ -34,7 +35,7 @@
     </div>
     <div class="row">
         <div class="col text-center">
-            <form name="consent_form" method="post" action="/oauth2/authorize">
+            <form name="consent_form" method="post" th:action="${authorizationEndpoint}">
                 <input type="hidden" name="client_id" th:value="${clientId}">
                 <input type="hidden" name="state" th:value="${state}">
 
@@ -44,8 +45,7 @@
                            name="scope"
                            th:value="${scope.scope}"
                            th:id="${scope.scope}">
-                    <label class="form-check-label font-weight-bold" th:for="${scope.scope}"
-                           th:text="${scope.scope}"></label>
+                    <label class="form-check-label font-weight-bold" th:for="${scope.scope}" th:text="${scope.scope}"></label>
                     <p class="text-primary" th:text="${scope.description}"></p>
                 </div>
 
@@ -56,8 +56,7 @@
                            th:id="${scope.scope}"
                            disabled
                            checked>
-                    <label class="form-check-label font-weight-bold" th:for="${scope.scope}"
-                           th:text="${scope.scope}"></label>
+                    <label class="form-check-label font-weight-bold" th:for="${scope.scope}" th:text="${scope.scope}"></label>
                     <p class="text-primary" th:text="${scope.description}"></p>
                 </div>
 
@@ -78,10 +77,11 @@
         <div class="col text-center">
             <p>
                 <small>
-                    需要您的同意才能提供访问权限。
-                    <br/>如果你不同意, 请点击取消, 在这种情况下，不会与应用程序共享任何信息。
+                    需要您同意并提供访问权限。
+                    <br/>如果您不同意，请单击<span class="font-weight-bold text-primary">取消授权</span>，将不会为上述应用程序提供任何您的信息。
                 </small>
             </p>
+            <p class="text-center text-danger font-weight-bold"><a href="https://github.com/shanzhaozhen/best-cloud">技术支持</a></p>
         </div>
     </div>
 </div>
