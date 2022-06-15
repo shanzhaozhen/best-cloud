@@ -57,7 +57,8 @@ public class AuthorizationServerConfig {
         OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer<>();
 
         // 追加 password 认证方式
-        // 这种追加方式太不优雅了，持续关注该项目的里程碑 https://github.com/spring-projects/spring-authorization-server/milestone/10
+        // 这种追加方式太不优雅了，持续关注该项目的里程碑和issues https://github.com/spring-projects/spring-authorization-server/milestone/10
+        // https://github.com/spring-projects/spring-authorization-server/issues/417
         http.apply(authorizationServerConfigurer.tokenEndpoint((tokenEndpoint) -> tokenEndpoint.accessTokenRequestConverter(
             new DelegatingAuthenticationConverter(
                     Arrays.asList(

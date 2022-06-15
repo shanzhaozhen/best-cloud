@@ -1,4 +1,4 @@
-package org.shanzhaozhen.authorize.config.oauth2;
+package org.shanzhaozhen.authorize.service.impl;
 
 
 import org.springframework.security.oauth2.core.OAuth2TokenType;
