@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("oauth2_client_auth_method")
+@TableName("client_auth_method")
 @Schema(description = "oauth2客户端信息DO实体")
 public class OAuth2ClientAuthMethodDO implements Serializable {
 
