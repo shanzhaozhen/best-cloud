@@ -12,13 +12,13 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("oauth2_registered_client")
-@Schema(description = "oauth2客户端信息DO实体")
+@Schema(description = "oauth2客户端配置DO实体")
 public class OAuth2ClientSettingsDO implements Serializable {
 
     private static final long serialVersionUID = 1339017694529471908L;
 
     @Schema(description = "oauth2客户端id")
-    private String clientId;
+    private String registeredClientId;
 
     @Schema(description = "客户端是否需要证明密钥")
     private boolean requireProofKey;

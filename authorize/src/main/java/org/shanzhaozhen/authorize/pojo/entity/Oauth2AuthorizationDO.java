@@ -13,7 +13,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("oauth2_authorization_consent")
-@Schema(description = "oauth2客户端信息DO实体")
+@Schema(description = "oauth2认证记录信息DO实体")
 public class Oauth2AuthorizationDO implements Serializable {
 
     private static final long serialVersionUID = -6398242906473807795L;

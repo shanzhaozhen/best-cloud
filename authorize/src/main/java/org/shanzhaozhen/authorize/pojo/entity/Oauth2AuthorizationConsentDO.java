@@ -14,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("oauth2_authorization_consent")
-@Schema(description = "oauth2客户端信息DO实体")
+@Schema(description = "oauth2授权记录DO实体")
 public class Oauth2AuthorizationConsentDO implements Serializable {
 
     private static final long serialVersionUID = -6568842581990261240L;

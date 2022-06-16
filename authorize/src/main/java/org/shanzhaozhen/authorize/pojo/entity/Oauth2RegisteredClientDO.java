@@ -17,7 +17,7 @@ public class Oauth2RegisteredClientDO {
     private String id;
 
     @Schema(description = "客户端id")
-    private String clientId;
+    private String registeredClientId;
 
     @Schema(description = "客户端密码")
     private String clientSecret;

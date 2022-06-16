@@ -12,14 +12,14 @@ import java.time.Duration;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("oauth2_registered_client")
-@Schema(description = "oauth2客户端信息DO实体")
+@TableName("oauth2_token_settings")
+@Schema(description = "oauth2客户端token配置DO实体")
 public class OAuth2TokenSettingsDO implements Serializable {
 
     private static final long serialVersionUID = 104913821115105292L;
 
     @Schema(description = "oauth2客户端id")
-    private String clientId;
+    private String registeredClientId;
 
     @Schema(description = "access_token 有效时间")
     private Duration accessTokenTimeToLive;
