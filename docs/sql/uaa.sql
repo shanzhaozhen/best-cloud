@@ -3,10 +3,12 @@
 */
 
 CREATE SCHEMA IF NOT EXISTS `uaa` DEFAULT CHARACTER SET utf8mb4;
-USE `uaa` ;
+USE
+`uaa` ;
 
 SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
+SET
+FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
 -- 用户表
@@ -47,22 +49,22 @@ DROP TABLE IF EXISTS sys_user_info;
 
 CREATE TABLE sys_user_info
 (
-    id                      BIGINT       NOT NULL COMMENT '主键ID',
-    pid                     BIGINT       NOT NULL COMMENT '关联的用户ID',
-    name                    VARCHAR(30) NULL DEFAULT NULL COMMENT '姓名',
-    nickname                VARCHAR(30) NULL DEFAULT NULL COMMENT '昵称',
-    sex                     INT NULL DEFAULT NULL COMMENT '性别',
-    birthday                DATE NULL DEFAULT NULL COMMENT '生日',
-    avatar                  VARCHAR(255) NULL DEFAULT NULL COMMENT '头像',
-    email                   VARCHAR(50) NULL DEFAULT NULL COMMENT '邮箱',
-    phone_number            VARCHAR(11) NULL DEFAULT NULL COMMENT '手机号码',
-    address_code            VARCHAR(255) NULL DEFAULT NULL COMMENT '地址编号',
-    detailed_address        VARCHAR(255) NULL DEFAULT NULL COMMENT '详细地址',
-    introduction            VARCHAR(255) NULL DEFAULT NULL COMMENT '个人介绍',
-    created_by              BIGINT NULL DEFAULT NULL COMMENT '创建人',
-    created_date            datetime NULL DEFAULT NULL COMMENT '创建时间',
-    last_modified_by        BIGINT NULL DEFAULT NULL COMMENT '修改人',
-    last_modified_date      datetime NULL DEFAULT NULL COMMENT '修改时间',
+    id                 BIGINT NOT NULL COMMENT '主键ID',
+    pid                BIGINT NOT NULL COMMENT '关联的用户ID',
+    name               VARCHAR(30) NULL DEFAULT NULL COMMENT '姓名',
+    nickname           VARCHAR(30) NULL DEFAULT NULL COMMENT '昵称',
+    sex                INT NULL DEFAULT NULL COMMENT '性别',
+    birthday           DATE NULL DEFAULT NULL COMMENT '生日',
+    avatar             VARCHAR(255) NULL DEFAULT NULL COMMENT '头像',
+    email              VARCHAR(50) NULL DEFAULT NULL COMMENT '邮箱',
+    phone_number       VARCHAR(11) NULL DEFAULT NULL COMMENT '手机号码',
+    address_code       VARCHAR(255) NULL DEFAULT NULL COMMENT '地址编号',
+    detailed_address   VARCHAR(255) NULL DEFAULT NULL COMMENT '详细地址',
+    introduction       VARCHAR(255) NULL DEFAULT NULL COMMENT '个人介绍',
+    created_by         BIGINT NULL DEFAULT NULL COMMENT '创建人',
+    created_date       datetime NULL DEFAULT NULL COMMENT '创建时间',
+    last_modified_by   BIGINT NULL DEFAULT NULL COMMENT '修改人',
+    last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (id)
 );
 
@@ -176,7 +178,7 @@ CREATE TABLE sys_role_permission
 (
     id                 BIGINT NOT NULL COMMENT '主键ID',
     role_id            BIGINT NOT NULL COMMENT '角色ID',
-    permission_id        BIGINT NOT NULL COMMENT '权限ID',
+    permission_id      BIGINT NOT NULL COMMENT '权限ID',
     created_by         BIGINT NULL DEFAULT NULL COMMENT '创建人',
     created_date       datetime NULL DEFAULT NULL COMMENT '创建时间',
     last_modified_by   BIGINT NULL DEFAULT NULL COMMENT '修改人',
@@ -185,7 +187,13 @@ CREATE TABLE sys_role_permission
 );
 
 
-SET FOREIGN_KEY_CHECKS = 1;
+SET
+FOREIGN_KEY_CHECKS = 1;
 
-INSERT INTO `sys_user`(`id`, `username`, `password`, `account_non_expired`, `account_non_locked`, `credentials_non_expired`, `enabled`, `name`, `nickname`, `sex`, `birthday`, `avatar`, `email`, `phone_number`, `address_code`, `detailed_address`, `introduction`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942465, 'admin', '$2a$10$ZHloNREZMCnmeSqGlPL4tudSt4QdR4JnFwODJnVsXoWoxAkNMaqda', b'1', b'1', b'1', b'1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_user`(`id`, `username`, `password`, `account_non_expired`, `account_non_locked`,
+                       `credentials_non_expired`, `enabled`, `name`, `nickname`, `sex`, `birthday`, `avatar`, `email`,
+                       `phone_number`, `address_code`, `detailed_address`, `introduction`, `created_by`, `created_date`,
+                       `last_modified_by`, `last_modified_date`)
+VALUES (1378349825706942465, 'admin', '$2a$10$ZHloNREZMCnmeSqGlPL4tudSt4QdR4JnFwODJnVsXoWoxAkNMaqda', b'1', b'1', b'1',
+        b'1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 

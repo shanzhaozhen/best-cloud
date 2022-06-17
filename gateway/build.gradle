@@ -23,9 +23,9 @@ dependencies {
 
 //            'org.springframework.cloud:spring-cloud-starter-authentication',
             'org.springframework.security:spring-security-config',
-            'org.springframework.security:spring-security-oauth2-resource-server',
-            'org.springframework.security:spring-security-oauth2-jose',
-//            'org.springframework.boot:spring-boot-starter-oauth2-resource-server',
+//            'org.springframework.security:spring-security-oauth2-resource-server',
+//            'org.springframework.security:spring-security-oauth2-jose',
+            'org.springframework.boot:spring-boot-starter-oauth2-resource-server',
 
             'org.springframework.boot:spring-boot-starter-data-redis',
 

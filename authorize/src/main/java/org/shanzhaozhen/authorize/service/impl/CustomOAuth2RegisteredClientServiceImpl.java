@@ -1,10 +1,15 @@
 package org.shanzhaozhen.authorize.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.shanzhaozhen.authorize.service.RegisteredClientService;
+import org.shanzhaozhen.authorize.service.CustomOAuth2RegisteredClientService;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 
-public class RegisteredClientServiceImpl implements RegisteredClientService {
+/**
+ * @Author: shanzhaozhen
+ * @Date: 2022-06-17
+ * @Description:
+ */
+public class CustomOAuth2RegisteredClientServiceImpl implements CustomOAuth2RegisteredClientService {
 
 
     @Override

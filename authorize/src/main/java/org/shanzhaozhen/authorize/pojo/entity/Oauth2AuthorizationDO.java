@@ -12,7 +12,7 @@ import java.time.Instant;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("oauth2_authorization_consent")
+@TableName("oauth2_authorization")
 @Schema(description = "oauth2客户端信息DO实体")
 public class Oauth2AuthorizationDO implements Serializable {
 

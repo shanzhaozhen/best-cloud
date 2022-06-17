@@ -1,0 +1,16 @@
+description = 'generator'
+
+apply plugin: 'java-library'
+
+dependencies {
+
+    implementation(
+            'org.springframework.boot:spring-boot-starter-freemarker',
+            "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}",
+            "com.baomidou:mybatis-plus-generator:${mybatisPlusVersion}",
+//            "org.apache.velocity:velocity-engine-core:2.3",
+    )
+
+    runtimeOnly 'mysql:mysql-connector-java'
+
+}

@@ -7,6 +7,7 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
+import org.springframework.security.oauth2.server.authorization.web.OAuth2AuthorizationEndpointFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -17,7 +18,9 @@ import java.security.Principal;
 import java.util.*;
 
 /**
- * 自定义用户确认页
+ * @Author: shanzhaozhen
+ * @Date: 2022-06-17
+ * @Description: 自定义用户确认页
  */
 @Controller
 @RequiredArgsConstructor

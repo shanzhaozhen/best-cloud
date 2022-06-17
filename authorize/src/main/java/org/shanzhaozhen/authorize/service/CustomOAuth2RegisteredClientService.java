@@ -4,7 +4,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 
-public interface RegisteredClientService extends RegisteredClientRepository {
+/**
+ * @Author: shanzhaozhen
+ * @Date: 2022-06-17
+ * @Description:
+ */
+public interface CustomOAuth2RegisteredClientService extends RegisteredClientRepository {
 
     Page<RegisteredClient> page(Page<RegisteredClient> page, Long registeredClientId, String keyword);
 
