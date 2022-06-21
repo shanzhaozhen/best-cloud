@@ -190,13 +190,17 @@ git clone https://github.com/nacos-group/nacos-k8s.git
 ```shell
 # 创建一个存储的文件夹进行映射，我这里的环境是使用虚拟机，直接用硬盘映射到虚拟机测试
 # 默认账号密码：minioadmin:minioadmin
-docker run \
-    -p 9000:9000 \
-    -p 33909:33909 \
-    -v /root/minio-docker/data:/data \
-    -v /root/minio-docker/config:/root/.minio \
-    -d minio/minio server /data \
-    --console-address ":33909"
+mkdir -p /root/docker/minio/{data,config}
+
+docker run -d \
+    --restart always \
+    -p 9100:9000 \
+    -p 9101:9001 \
+    -v /root/docker/minio/data:/data \
+    -v /root/docker/minio/config:/root/.minio \
+    -e "MINIO_ROOT_USER=minioadmin" \
+    -e "MINIO_ROOT_PASSWORD=minioadmin" \
+    quay.io/minio/minio server /data --console-address ":9001"
 
 ```
 

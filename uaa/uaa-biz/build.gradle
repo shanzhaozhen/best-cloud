@@ -7,6 +7,7 @@ dependencies {
     api(
             project(':common:common-mybatis'),
             project(':common:common-redis'),
+            project(':common:common-minio'),
             project(':uaa:uaa-api')
     )
 

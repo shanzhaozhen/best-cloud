@@ -1,10 +1,10 @@
-description = 'common-web'
+description = 'common-minio'
 
 dependencies {
 
     api(
             project(':common:common-core'),
-            'com.nimbusds:nimbus-jose-jwt:9.14'
+            "io.minio:minio:${minioVersion}"
     )
 
 }

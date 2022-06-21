@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  * @Date: 2022-06-17
  * @Description:
  */
-@Service
+//@Service
 public class CustomOAuth2AuthorizationConsentServiceImpl implements CustomOAuth2AuthorizationConsentService {
 
     @Override

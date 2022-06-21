@@ -6,6 +6,7 @@ include 'common:common-core'
 include 'common:common-web'
 include 'common:common-mybatis'
 include 'common:common-redis'
+include 'common:common-minio'
 
 include 'gateway'
 include 'authorize'

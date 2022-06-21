@@ -187,8 +187,7 @@ CREATE TABLE sys_role_permission
 );
 
 
-SET
-FOREIGN_KEY_CHECKS = 1;
+SET FOREIGN_KEY_CHECKS = 1;
 
 INSERT INTO `sys_user`(`id`, `username`, `password`, `account_non_expired`, `account_non_locked`,
                        `credentials_non_expired`, `enabled`, `name`, `nickname`, `sex`, `birthday`, `avatar`, `email`,
