@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/files")
 @RequiredArgsConstructor
-public class FileEndpoint {
+public class MinioEndpoint {
 
     private final MinioService minioService;
 

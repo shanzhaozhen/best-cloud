@@ -76,7 +76,6 @@ const UserList: React.FC = () => {
         return (
           <a
             onClick={() => {
-              console.log('entity: ', entity)
               setCurrentRow(entity);
               setShowDetail(true);
             }}
@@ -88,18 +87,18 @@ const UserList: React.FC = () => {
     },
     {
       title: '姓名',
-      dataIndex: 'name',
+      dataIndex: ['userInfo', 'name'],
       valueType: 'text',
       sorter: true,
     },
     {
       title: '昵称',
-      dataIndex: 'nickname',
+      dataIndex: ['userInfo', 'nickname'],
       valueType: 'text',
     },
     {
       title: '性别',
-      dataIndex: 'sex',
+      dataIndex: ['userInfo', 'sex'],
       valueType: 'text',
       valueEnum: {
         0: { text: '男' },
@@ -108,7 +107,7 @@ const UserList: React.FC = () => {
     },
     {
       title: '头像',
-      dataIndex: 'avatar',
+      dataIndex: ['userInfo', 'avatar'],
       valueType: 'text',
       hideInSearch: true,
     },
@@ -275,13 +274,15 @@ const UserList: React.FC = () => {
         actionRef={actionRef}
       />
 
-      <UpdateForm
-        updateModalVisible={updateModalVisible}
-        handleUpdateModalVisible={handleUpdateModalVisible}
-        actionRef={actionRef}
-        setCurrentRow={setCurrentRow}
-        values={currentRow || {}}
-      />
+      {currentRow && Object.keys(currentRow).length ? (
+        <UpdateForm
+          updateModalVisible={updateModalVisible}
+          handleUpdateModalVisible={handleUpdateModalVisible}
+          actionRef={actionRef}
+          setCurrentRow={setCurrentRow}
+          values={currentRow || {}}
+        />
+      ) : null}
 
       <Drawer
         width={600}

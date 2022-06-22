@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -91,7 +92,7 @@ public class MinioService implements InitializingBean {
         createBucketIfAbsent(bucketName);
 
         // todo: 微服务集群需要改成雪花id
-        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+        String suffix = Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().lastIndexOf(".") + 1);
         String fileName = UUID.randomUUID() + "." + suffix;
 
         InputStream inputStream = file.getInputStream();

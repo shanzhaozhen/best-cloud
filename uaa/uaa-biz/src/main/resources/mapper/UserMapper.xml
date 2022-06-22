@@ -23,6 +23,12 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
+    <resultMap autoMapping="true" type="org.shanzhaozhen.uaa.pojo.dto.UserDTO" id="UserAndInfoMap">
+        <id property="id" column="id"></id>
+        <association property="userInfo" column="id" select="org.shanzhaozhen.uaa.mapper.UserInfoMapper.getUserInfoByUserId">
+        </association>
+    </resultMap>
+
     <resultMap autoMapping="true" type="org.shanzhaozhen.uaa.pojo.dto.UserDTO" id="UserRoleMap">
         <id property="id" column="id"></id>
         <collection property="roles" column="id" select="org.shanzhaozhen.uaa.mapper.RoleMapper.getRoleListByUserId">
@@ -36,6 +42,7 @@
 
     <select id="selectUserByUsername" resultType="org.shanzhaozhen.uaa.pojo.entity.UserDO">
         select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
+               created_by, created_date, last_modified_by, last_modified_date
         from sys_user where username = #{username}
     </select>
 
@@ -45,12 +52,13 @@
 
     <select id="getUserById" resultType="org.shanzhaozhen.uaa.pojo.dto.UserDTO">
         select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
+               created_by, created_date, last_modified_by, last_modified_date
         from sys_user where id = #{id}
     </select>
 
     <select id="getUserAndRolesByUserId" resultMap="UserRoleMap">
         select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
-            created_by, created_date, last_modified_by, last_modified_date
+               created_by, created_date, last_modified_by, last_modified_date
         from sys_user where id = #{id}
     </select>
 
@@ -63,13 +71,14 @@
         from sys_user where username = #{username}
     </select>
 
-    <select id="getUserPage" resultType="org.shanzhaozhen.uaa.pojo.dto.UserDTO">
-        select id, username, account_non_expired, account_non_locked, credentials_non_expired, enabled,
-            created_by, created_date, last_modified_by, last_modified_date
-        from sys_user
+    <select id="getUserPage" resultMap="UserAndInfoMap">
+        select u.id, u.username, u.account_non_expired, u.account_non_locked, u.credentials_non_expired, u.enabled,
+               u.created_by, u.created_date, u.last_modified_by, u.last_modified_date
+        from sys_user u
+        left join sys_user_info ui on u.id = ui.pid
         <if test="keyword != null and keyword != ''">
-            where username like concat ('%', #{keyword}, '%') or name like concat ('%', #{keyword}, '%')
-            or nickName like concat ('%', #{keyword}, '%') or introduction like concat ('%', #{keyword}, '%')
+            where u.username like concat ('%', #{keyword}, '%') or ui.name like concat ('%', #{keyword}, '%')
+            or ui.nickName like concat ('%', #{keyword}, '%') or ui.introduction like concat ('%', #{keyword}, '%')
         </if>
     </select>
 

@@ -1,6 +1,9 @@
 import React from 'react';
 import {Col, Row, Tabs} from 'antd';
-import {ProFormDatePicker, ProFormSelect, ProFormSwitch, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
+import {ProFormDatePicker, ProFormSelect, ProFormSwitch, ProFormText, ProFormTextArea} from '@ant-design/pro-form';
+import AvatarView from "@/components/AvatarView";
+import ProFormItem from '@ant-design/pro-form/lib/components/FormItem';
+import styles from "@/components/AvatarView/AvatarView.less";
 // import { getAllRoles } from '@/services/role/role';
 // import type { RoleVO } from '@/services/role/typings';
 // import FormTreeSelect from '@/components/FormTreeSelect';
@@ -11,6 +14,8 @@ interface FormBodyProps {
   readonly?: boolean;
 }
 
+
+
 const FormBody: React.FC<FormBodyProps> = (props) => {
   const { disable } = props;
 
@@ -19,6 +24,7 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
   return (
     <>
       <ProFormText name="id" label="用户id" hidden={true} />
+      <ProFormText name={['userInfo', 'id']} label="用户信息id" hidden={true} />
       <Tabs defaultActiveKey="account">
         <Tabs.TabPane tab="账户信息" key="account" forceRender>
           <Row gutter={24}>
@@ -28,7 +34,7 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
                 name="username"
                 label="用户名"
                 disabled={disable}
-                fieldProps={{ autoComplete: 'off' }}
+                // fieldProps={{ autoComplete: 'off' }}
                 rules={[{ required: true, message: '请输入用户名' }]}
               />
             </Col>
@@ -176,23 +182,27 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
           <Row>
             <Col xl={12} lg={12} md={24}>
               <Row gutter={24}>
-                <Col xl={12} lg={24} md={24}>
+                <Col xl={24} lg={24} md={24}>
                   <ProFormDatePicker width="md" name={['userInfo', 'birthday']} label="生日" />
                 </Col>
-                <Col xl={12} lg={24} md={24}>
+                <Col xl={24} lg={24} md={24}>
                   <ProFormText
                     width="md"
                     name={['userInfo', 'phoneNumber']}
                     label="手机号码" rules={[{ type: 'number', pattern: /^1[3-5|7-9][0-9]\d{8}$/, message: '请输入正确的手机号' }]}
                   />
                 </Col>
-                <Col xl={12} lg={24} md={24}>
+                <Col xl={24} lg={24} md={24}>
                   <ProFormText width="md" name={['userInfo', 'email']} label="邮箱" rules={[{ type: 'email', message: '请填入正确的邮箱' }]} />
                 </Col>
               </Row>
             </Col>
             <Col xl={12} lg={12} md={24}>
-              <ProFormText width="md" name={['userInfo', 'email']} label="头像" />
+              {/*<ProFormText width="md" name={['userInfo', 'email']} label="头像" />*/}
+              <ProFormItem name={['userInfo', 'avatar']}>
+                <AvatarView />
+              </ProFormItem>
+
             </Col>
           </Row>
 

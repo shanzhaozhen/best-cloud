@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.shanzhaozhen.common.core.entity.BaseInfoVO;
 import org.shanzhaozhen.common.core.jackson.ToStringListSerialize;
+import org.shanzhaozhen.uaa.pojo.dto.UserInfoDTO;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
@@ -45,38 +46,11 @@ public class UserVO extends BaseInfoVO {
     @Schema(description = "是否被禁用,禁用的用户不能身份验证")
     private boolean enabled;
 
-    @Schema(description = "姓名")
-    private String name;
-
-    @Schema(description = "昵称")
-    private String nickname;
-
-    @Schema(description = "性别")
-    private Integer sex;
-
-    @Schema(description = "生日")
-    private Date birthday;
-
-    @Schema(description = "头像")
-    private String avatar;
-
-    @Schema(description = "邮箱")
-    private String email;
-
-    @Schema(description = "手机号码")
-    private String phoneNumber;
-
-    @Schema(description = "地址编号")
-    private String addressCode;
-
-    @Schema(description = "详细地址")
-    private String detailedAddress;
-
-    @Schema(description = "个人介绍")
-    private String introduction;
-
     @Schema(description = "关联的角色id")
     @JsonSerialize(using = ToStringListSerialize.class)
     private List<Long> roleIds;
+
+    @Schema(description = "关联的用户信息")
+    private UserInfoVO userInfo;
 
 }

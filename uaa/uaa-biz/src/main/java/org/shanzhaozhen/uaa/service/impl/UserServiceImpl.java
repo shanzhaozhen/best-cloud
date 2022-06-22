@@ -43,7 +43,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserById(Long userId) {
-        return userMapper.getUserAndRolesByUserId(userId);
+        UserDTO user = userMapper.getUserById(userId);
+        Assert.notNull(user, "用户不存在");
+        UserInfoDTO userInfo = userInfoService.getUserInfoByUserId(userId);
+        user.setUserInfo(userInfo);
+        return user;
     }
 
     @Override

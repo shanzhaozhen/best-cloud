@@ -46,6 +46,6 @@ public class UserDTO extends BaseInfo {
     private List<Long> roleIds;
 
     @Schema(description = "关联的用户信息")
-    private UserInfoDTO userInfoDTO;
+    private UserInfoDTO userInfo;
 
 }

@@ -24,7 +24,6 @@ const handleUpdate = async (fields: UserForm) => {
   try {
     await updateUser(fields);
     hide();
-
     message.success('用户更新成功');
     return true;
   } catch (error) {
