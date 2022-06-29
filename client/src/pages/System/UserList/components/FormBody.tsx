@@ -202,7 +202,6 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
               <ProFormItem name={['userInfo', 'avatar']}>
                 <AvatarView />
               </ProFormItem>
-
             </Col>
           </Row>
 

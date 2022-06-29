@@ -219,6 +219,8 @@ const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
   const tokenType = localStorage.getItem('TOKEN_TYPE');
   const accessToken = localStorage.getItem('ACCESS_TOKEN');
 
+  console.log('进入请求方法')
+
   if (url !== '/api/authorize/oauth2/token' && tokenType && accessToken) {
     return {
       url,
