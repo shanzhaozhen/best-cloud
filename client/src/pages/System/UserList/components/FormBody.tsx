@@ -3,13 +3,14 @@ import {Col, Row, Tabs} from 'antd';
 import {ProFormDatePicker, ProFormSelect, ProFormSwitch, ProFormText, ProFormTextArea} from '@ant-design/pro-form';
 import AvatarView from "@/components/AvatarView";
 import ProFormItem from '@ant-design/pro-form/lib/components/FormItem';
-import styles from "@/components/AvatarView/AvatarView.less";
+import type { FormType } from '@/services/common/typings';
 // import { getAllRoles } from '@/services/role/role';
 // import type { RoleVO } from '@/services/role/typings';
 // import FormTreeSelect from '@/components/FormTreeSelect';
 // import { useDepartmentTree } from '@/utils/department';
 
 interface FormBodyProps {
+  formType?: FormType;
   disable?: boolean;
   readonly?: boolean;
 }
@@ -17,7 +18,7 @@ interface FormBodyProps {
 
 
 const FormBody: React.FC<FormBodyProps> = (props) => {
-  const { disable } = props;
+  const { disable, formType } = props;
 
   // const departmentTree = useDepartmentTree();
 
@@ -35,6 +36,7 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
                 label="用户名"
                 disabled={disable}
                 // fieldProps={{ autoComplete: 'off' }}
+                placeholder="请输入用户名"
                 rules={[{ required: true, message: '请输入用户名' }]}
               />
             </Col>
@@ -47,12 +49,13 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
                 label="密码"
                 name="password"
                 fieldProps={{ autoComplete: 'new-password' }}
+                placeholder={formType === 'create' ? '请输入密码' : '留空则不更新密码'}
                 rules={[
                   {
-                    required: !disable,
+                    required: formType === 'create',
                     validator: async (rule, value) => {
                       // 编辑模式时不为空才判断
-                      if (disable && !value) return;
+                      if (formType === 'update' && !value) return;
 
                       // 密码不能小于六位，至少含字母、数字、特殊字符其中的2种！
                       const regExp = new RegExp(
@@ -71,14 +74,15 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
                 width="md"
                 label="确认密码"
                 name="re-password"
+                placeholder={formType === 'create' ? '请再次输入密码' : '留空则不更新密码'}
                 rules={[
-                  { required: !disable },
+                  { required: formType === 'create' },
                   ({ getFieldValue }) => ({
                     validator: async (rule, value) => {
                       const password = getFieldValue('password');
 
                       // 编辑状态时，如果密码为空不进行校验
-                      if (disable && !password) return;
+                      if (formType === 'update' && !password) return;
 
                       if (!value) {
                         throw new Error('确认密码不能为空');
@@ -93,7 +97,7 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
               />
             </Col>
             <Col xl={12} lg={12} md={24}>
-              <ProFormText width="md" name={['userInfo', 'nickname']} label="昵称" />
+              <ProFormText width="md" name={['userInfo', 'nickname']} label="昵称" placeholder="请输入用户名" />
             </Col>
             <Col xl={12} lg={12} md={24}>
               <ProFormSelect

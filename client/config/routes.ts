@@ -110,12 +110,12 @@ export default [
     path: '/',
     redirect: '/welcome',
   },
-  {
-    name: '个人设置',
-    icon: 'smile',
-    path: '/accountsettings',
-    component: './AccountSettings',
-  },
+  // {
+  //   name: '个人设置',
+  //   icon: 'smile',
+  //   path: '/accountsettings',
+  //   component: './AccountSettings',
+  // },
   {
     component: './common/errorPage/404',
   },

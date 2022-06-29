@@ -13,6 +13,7 @@ import {getCurrentUserInfo} from "@/services/uaa/user";
 import type {CurrentUser} from "@/services/uaa/type/user";
 import {stringify} from "querystring";
 import {Modal, notification} from "antd";
+import {getToken} from "@/utils/common";
 
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -216,12 +217,11 @@ const errorHandler = async (error: ResponseError) => {
  * @param options
  */
 const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
-  const tokenType = localStorage.getItem('TOKEN_TYPE');
-  const accessToken = localStorage.getItem('ACCESS_TOKEN');
+  const accessToken = getToken();
 
   console.log('进入请求方法')
 
-  if (url !== '/api/authorize/oauth2/token' && tokenType && accessToken) {
+  if (url !== '/api/authorize/oauth2/token' && accessToken) {
     return {
       url,
       options: {
@@ -229,7 +229,7 @@ const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
         interceptors: true,
         headers: {
           // ...options.headers,
-          Authorization: `${tokenType} ${accessToken}`,
+          Authorization: accessToken,
         },
       },
     };

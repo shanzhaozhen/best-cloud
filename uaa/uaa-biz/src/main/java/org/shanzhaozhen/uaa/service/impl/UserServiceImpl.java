@@ -91,8 +91,6 @@ public class UserServiceImpl implements UserService {
         return userDO == null;
     }
 
-
-
     @Override
     public CurrentUser getUserInfo() {
         UserDTO userDTO = this.getCurrentUser();
@@ -139,12 +137,28 @@ public class UserServiceImpl implements UserService {
         UserDO userDO = userMapper.selectById(userDTO.getId());
         Assert.notNull(userDO, "更新失败：没有找到该用户或已被删除");
         CustomBeanUtils.copyPropertiesExcludeMeta(userDTO, userDO, "password");
+        // 密码不为空则更新密码
         if (StringUtils.hasText(userDTO.getPassword())) {
             userDO.setPassword(PasswordUtils.encryption(userDTO.getPassword()));
         }
+
+        // 更新主用户
         userMapper.updateById(userDO);
+
+        // 更新用户信息
+        UserInfoDTO userInfo = userDTO.getUserInfo();
+        if (userInfo != null) {
+            userInfo.setPid(userDTO.getId());
+            userInfoService.updateUserInfo(userInfo);
+        }
+
+        // 更新用户关联角色
         userRoleMapper.deleteByUserId(userDO.getId());
-        userRoleService.bathAddUserRole(userDO.getId(), userDTO.getRoleIds());
+        List<Long> roleIds = userDTO.getRoleIds();
+        if (!CollectionUtils.isEmpty(roleIds)) {
+            userRoleService.bathAddUserRole(userDO.getId(), roleIds);
+        }
+
         return userDO.getId();
     }
 

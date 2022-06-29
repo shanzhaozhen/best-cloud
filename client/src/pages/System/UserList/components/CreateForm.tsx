@@ -50,7 +50,7 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
         }
       }}
     >
-      <FormBody />
+      <FormBody formType="create" />
     </DrawerForm>
   );
 }

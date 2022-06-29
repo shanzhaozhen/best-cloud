@@ -29,12 +29,14 @@
     </resultMap>
 
     <select id="getUserInfoById" resultType="org.shanzhaozhen.uaa.pojo.dto.UserInfoDTO">
-        select id, pid, name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction
+        select id, pid, name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction,
+               created_by, created_date, last_modified_by, last_modified_date
         from sys_user_info where id = #{userInfoId}
     </select>
 
     <select id="getUserInfoByUserId" resultType="org.shanzhaozhen.uaa.pojo.dto.UserInfoDTO">
-        select id, pid, name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction
+        select id, pid, name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction,
+               created_by, created_date, last_modified_by, last_modified_date
         from sys_user_info where pid = #{userId}
     </select>
 

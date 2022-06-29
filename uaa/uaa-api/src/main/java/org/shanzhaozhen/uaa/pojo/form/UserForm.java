@@ -45,6 +45,6 @@ public class UserForm {
     private List<Long> roleIds;
 
     @Schema(description = "用户信息")
-    private UserInfoForm userInfoForm;
+    private UserInfoForm userInfo;
 
 }

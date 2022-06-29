@@ -62,7 +62,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         }
       }}
     >
-      <FormBody />
+      <FormBody formType="update" />
     </DrawerForm>
   )
 }

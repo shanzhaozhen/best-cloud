@@ -1,30 +1,56 @@
 // 头像组件 方便以后独立，增加裁剪之类的功能
-import {Button, message, Upload, UploadProps} from "antd";
+import type { UploadProps} from "antd";
+import {Button, message, Upload} from "antd";
 import {UploadOutlined} from "@ant-design/icons";
 import styles from "./AvatarView.less";
 import {getToken} from "@/utils/common";
+import type {RcFile} from "antd/es/upload";
+import {useState} from "react";
 
-const AvatarView = (props: Record<string, any>) => {
-  const { value, maxCount } = props
+interface AvatarViewProps {
+  onChange?: (value: any) => void;
+  value?: string;
+}
 
-  console.log(props)
+const AvatarView = (props: AvatarViewProps) => {
+  const { value, onChange } = props
+
+  const [loading, setLoading] = useState(false);
 
   const uploadProps: UploadProps = {
     name: 'file',
     showUploadList: false,
     action: '/api/uaa/files',
-    maxCount,
-    // headers: {
-    //   Authorization: getToken(),
-    // },
+    maxCount: 1,
+    headers: {
+      Authorization: getToken(),
+    },
+    beforeUpload: async (file: RcFile) => {
+      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+      if (!isJpgOrPng) {
+        message.error('您只能上传JPG/PNG文件格式！');
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        message.error('图片必须少于2MB！');
+      }
+      return isJpgOrPng && isLt2M;
+    },
     onChange: async (info) => {
-      if (!info.event && info.fileList[0].response) {
-        const { data } = info.fileList[0].response;
-        console.log(info)
-        if (data && data.length > 0) {
-          // setPhotoUrl(targetUrlNotDiagonal + data[0].urlPath);
-          // onChange?.(data[0].id);
+      if (info.file.status === 'uploading') {
+        setLoading(true);
+        return;
+      }
+
+      if (info.file.status === 'done') {
+        const { response } = info.file;
+        if (response.code === '0') {
+          console.log(response.data)
+          onChange?.(response.data || '');
+        } else {
+          message.error('上传失败！');
         }
+        setLoading(false);
       }
     },
   };
@@ -34,12 +60,11 @@ const AvatarView = (props: Record<string, any>) => {
     <>
       <div className={styles.avatar_title}>头像</div>
       <div className={styles.avatar}>
-        <img src={null || 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'} alt="avatar" />
+        <img src={value || '/default-avatar.png'} alt="avatar" />
       </div>
       <Upload {...uploadProps}>
         <div className={styles.button_view}>
-          <Button>
-            <UploadOutlined />
+          <Button icon={<UploadOutlined />} loading={loading}>
             更换头像
           </Button>
         </div>

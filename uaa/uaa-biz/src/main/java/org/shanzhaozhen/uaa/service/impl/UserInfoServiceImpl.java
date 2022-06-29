@@ -1,5 +1,6 @@
 package org.shanzhaozhen.uaa.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.common.core.utils.CustomBeanUtils;
 import org.shanzhaozhen.common.web.utils.JwtUtils;
@@ -50,13 +51,16 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public Long updateUserInfo(UserInfoDTO userInfoDTO) {
-        Assert.notNull(userInfoDTO.getPid(), "用户信息ID不能为空");
+//        Assert.notNull(userInfoDTO.getId(), "用户信息ID不能为空");
         Assert.notNull(userInfoDTO.getPid(), "关联的用户ID不能为空");
-        UserInfoDO userInfoDO = userInfoMapper.selectById(userInfoDTO.getId());
-        Assert.notNull(userInfoDO, "更新失败：没有找到该用户信息或已被删除");
-        CustomBeanUtils.copyPropertiesExcludeMeta(userInfoDTO, userInfoDO);
-        userInfoMapper.updateById(userInfoDO);
-        return userInfoDO.getId();
+        UserInfoDO userInfoDO = userInfoMapper.selectOne(new LambdaQueryWrapper<UserInfoDO>().eq(UserInfoDO::getPid, userInfoDTO.getPid()));
+        if (userInfoDO != null) {
+            CustomBeanUtils.copyPropertiesExcludeMeta(userInfoDTO, userInfoDO, true);
+            userInfoMapper.updateById(userInfoDO);
+            return userInfoDO.getId();
+        } else {
+            return this.addUserInfo(userInfoDTO);
+        }
     }
 
     @Override

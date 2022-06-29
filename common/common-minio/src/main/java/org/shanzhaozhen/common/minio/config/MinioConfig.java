@@ -39,6 +39,6 @@ public class MinioConfig {
     /**
      * 存储桶名称，默认微服务单独一个存储桶
      */
-    private String defaultBucket;
+    private String bucketName;
 
 }

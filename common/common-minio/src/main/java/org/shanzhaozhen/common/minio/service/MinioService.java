@@ -26,6 +26,8 @@ public class MinioService implements InitializingBean {
 
     private MinioClient minioClient;
 
+    private final String defaultBucket = "default";
+
     @Override
     public void afterPropertiesSet() {
         log.info("初始化 MinIO 客户端...");
@@ -72,7 +74,7 @@ public class MinioService implements InitializingBean {
      * @return
      */
     public String putObject(MultipartFile file) {
-        return putObject(file, minioConfig.getDefaultBucket());
+        return putObject(file, defaultBucket);
     }
 
     /**
@@ -86,7 +88,10 @@ public class MinioService implements InitializingBean {
     public String putObject(MultipartFile file, String bucketName) {
         // 存储桶名称为空则使用默认的存储桶
         if (!StringUtils.hasText(bucketName)) {
-            bucketName = minioConfig.getDefaultBucket();
+            bucketName = minioConfig.getBucketName();
+        }
+        if (!StringUtils.hasText(bucketName)) {
+            bucketName = defaultBucket;
         }
 
         createBucketIfAbsent(bucketName);
@@ -116,7 +121,7 @@ public class MinioService implements InitializingBean {
             fileUrl = minioClient.getPresignedObjectUrl(getPresignedObjectUrlArgs);
             fileUrl = fileUrl.substring(0, fileUrl.indexOf("?"));
         } else { // 自定义文件路径域名，Nginx配置方向代理转发MinIO
-            fileUrl = minioConfig.getCustomDomain() +'/'+ bucketName + "/" + fileName;
+            fileUrl = String.format("%s/%s/%s", minioConfig.getCustomDomain(), bucketName, fileName);
         }
         return fileUrl;
     }

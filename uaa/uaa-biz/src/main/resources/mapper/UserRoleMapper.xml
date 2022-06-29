@@ -15,8 +15,9 @@
 
 
     <select id="getUserRolePage" resultType="org.shanzhaozhen.uaa.pojo.dto.UserDTO">
-        select u.id, u.username, u.name, u.nickname from sys_user_role sur
-        left join sys_user u on u.id = sur.user_id
+        select u.id, u.username, u.name, u.nickname
+        from sys_user_role sur
+            left join sys_user u on u.id = sur.user_id
         where sur.role_id = #{roleId}
         <if test="keyword != null and keyword != ''">
             and u.username like concat ('%', #{keyword}, '%') or u.name like concat ('%', #{keyword}, '%')

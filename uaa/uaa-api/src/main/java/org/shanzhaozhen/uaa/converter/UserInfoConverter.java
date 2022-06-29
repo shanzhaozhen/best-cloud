@@ -51,6 +51,7 @@ public class UserInfoConverter {
      * @return
      */
     public static UserInfoDTO toDTO(UserInfoDO userInfoDO) {
+        if (userInfoDO == null) return null;
         UserInfoDTO userInfoDTO = new UserInfoDTO();
         BeanUtils.copyProperties(userInfoDO, userInfoDTO);
         return userInfoDTO;

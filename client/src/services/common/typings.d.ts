@@ -96,3 +96,5 @@ export type LoginResult = {
   userId?: string;
   username?: string
 };
+
+export type FormType = 'view' | 'create' | 'update'

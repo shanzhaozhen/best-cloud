@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("sys_user")
+@TableName("sys_user_info")
 @Schema(description = "用户DO实体")
 public class UserInfoDO extends BaseInfo {
 
@@ -27,8 +27,8 @@ public class UserInfoDO extends BaseInfo {
     @Schema(description = "关联用户id")
     private Long pid;
 
-    @Schema(description = "部门ID")
-    private Long depId;
+//    @Schema(description = "部门ID")
+//    private Long depId;
 
     @Schema(description = "姓名")
     private String name;
