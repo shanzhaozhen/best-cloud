@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -24,7 +25,7 @@ public class BaseInfo implements Serializable {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @TableField(fill = FieldFill.INSERT)
     @Schema(description = "创建时间")
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     @Schema(description = "修改人")
@@ -33,6 +34,6 @@ public class BaseInfo implements Serializable {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @TableField(fill = FieldFill.INSERT_UPDATE)
     @Schema(description = "修改时间")
-    private Date lastModifiedDate;
+    private LocalDateTime lastModifiedDate;
 
 }

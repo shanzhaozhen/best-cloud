@@ -19,7 +19,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.oidc.IdTokenClaimNames;
 import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
-import org.springframework.security.oauth2.jwt.JoseHeader;
+import org.springframework.security.oauth2.jwt.JwsHeader;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
@@ -42,8 +42,8 @@ public class JwtUtils {
 	private JwtUtils() {
 	}
 
-	static JoseHeader.Builder headers() {
-		return JoseHeader.withAlgorithm(SignatureAlgorithm.RS256);
+	static JwsHeader.Builder headers() {
+		return JwsHeader.with(SignatureAlgorithm.RS256);
 	}
 
 	static JwtClaimsSet.Builder accessTokenClaims(RegisteredClient registeredClient,

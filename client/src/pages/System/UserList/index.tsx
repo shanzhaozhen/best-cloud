@@ -108,7 +108,7 @@ const UserList: React.FC = () => {
     {
       title: '头像',
       dataIndex: ['userInfo', 'avatar'],
-      valueType: 'text',
+      valueType: 'image',
       hideInSearch: true,
     },
     {

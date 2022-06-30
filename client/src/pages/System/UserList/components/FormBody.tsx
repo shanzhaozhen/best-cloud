@@ -41,7 +41,7 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
               />
             </Col>
             <Col xl={12} lg={12} md={24}>
-              <ProFormText width="md" name={['userInfo', 'name']} label="姓名" />
+              <ProFormText width="md" name={['userInfo', 'name']} label="姓名" placeholder="请输入用户名"/>
             </Col>
             <Col xl={12} lg={12} md={24}>
               <ProFormText.Password

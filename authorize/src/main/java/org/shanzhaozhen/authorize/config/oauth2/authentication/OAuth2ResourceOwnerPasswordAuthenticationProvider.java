@@ -12,14 +12,14 @@ import org.springframework.security.crypto.keygen.StringKeyGenerator;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.jwt.*;
-import org.springframework.security.oauth2.server.authorization.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
-import org.springframework.security.oauth2.server.authorization.OAuth2TokenCustomizer;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
+import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
+import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
@@ -102,7 +102,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 			
 			String issuer = this.providerSettings != null ? this.providerSettings.getIssuer() : null;
 
-			JoseHeader.Builder headersBuilder = JwtUtils.headers();
+			JwsHeader.Builder headersBuilder = JwtUtils.headers();
 			JwtClaimsSet.Builder claimsBuilder = JwtUtils.accessTokenClaims(
 					registeredClient, issuer, usernamePasswordAuthentication.getName(), authorizedScopes);
 
@@ -117,9 +117,9 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 
 			this.jwtCustomizer.customize(context);
 
-			JoseHeader headers = context.getHeaders().build();
+			JwsHeader headers = context.getHeaders().build();
 			JwtClaimsSet claims = context.getClaims().build();
-			Jwt jwtAccessToken = this.jwtEncoder.encode(headers, claims);
+			Jwt jwtAccessToken = this.jwtEncoder.encode(JwtEncoderParameters.from(headers, claims));
 
 			// Use the scopes after customizing the token
 			authorizedScopes = claims.getClaim(OAuth2ParameterNames.SCOPE);

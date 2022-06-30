@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.shanzhaozhen.common.core.entity.BaseInfo;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -40,7 +40,7 @@ public class UserInfoDO extends BaseInfo {
     private Integer sex;
 
     @Schema(description = "生日")
-    private Date birthday;
+    private LocalDate birthday;
 
     @Schema(description = "头像")
     private String avatar;
