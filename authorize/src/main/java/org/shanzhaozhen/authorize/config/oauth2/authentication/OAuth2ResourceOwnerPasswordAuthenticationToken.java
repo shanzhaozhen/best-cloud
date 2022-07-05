@@ -24,7 +24,8 @@ public class OAuth2ResourceOwnerPasswordAuthenticationToken extends AbstractAuth
 	 */
 	
 	public OAuth2ResourceOwnerPasswordAuthenticationToken(AuthorizationGrantType authorizationGrantType,
-			Authentication clientPrincipal,  @Nullable Set<String> scopes, @Nullable Map<String, Object> additionalParameters) {
+														  Authentication clientPrincipal,  @Nullable Set<String> scopes,
+														  @Nullable Map<String, Object> additionalParameters) {
 		super(Collections.emptyList());
 		Assert.notNull(authorizationGrantType, "authorizationGrantType cannot be null");
 		Assert.notNull(clientPrincipal, "clientPrincipal cannot be null");

@@ -20,6 +20,11 @@ export default [
         path: '/system/user',
         component: './system/userList',
       },
+      {
+        name: 'role',
+        path: '/system/role',
+        component: './system/roleList',
+      },
     ],
   }, // {
   //   path: '/admin',

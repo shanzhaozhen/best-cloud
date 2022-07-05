@@ -3,9 +3,9 @@ import React from "react";
 import {DrawerForm} from "@ant-design/pro-form";
 import type {ActionType} from "@ant-design/pro-table";
 import {message} from "antd";
-import type {UserForm} from "@/services/uaa/type/user";
-import FormBody from "@/pages/System/UserList/components/FormBody";
-import {addUser} from "@/services/uaa/user";
+import type {RoleForm} from "@/services/uaa/type/role";
+import FormBody from "@/pages/System/RoleList/components/FormBody";
+import {addRole} from "@/services/uaa/role";
 
 interface CreateFormProps {
   createModalVisible: boolean;
@@ -14,13 +14,13 @@ interface CreateFormProps {
 }
 
 /**
- * 新建用户
+ * 新建角色
  * @param fields
  */
-const handleAdd = async (fields: UserForm) => {
+const handleAdd = async (fields: RoleForm) => {
   const hide = message.loading('添加中...');
   try {
-    await addUser({ ...fields });
+    await addRole({ ...fields });
     hide();
     message.success('新建成功！');
     return true;
@@ -36,25 +36,18 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
 
   return (
     <DrawerForm
-      title="新建用户"
+      title="新建角色"
       width="748px"
-      drawerProps={{ destroyOnClose: true }}
       visible={createModalVisible}
       onVisibleChange={handleCreateModalVisible}
       onFinish={async (value) => {
-        const success = await handleAdd(value as UserForm);
+        const success = await handleAdd(value as RoleForm);
         if (success) {
           handleCreateModalVisible(false);
           if (actionRef.current) {
             actionRef.current.reload();
           }
         }
-      }}
-      initialValues={{
-        accountNonExpired: true,
-        accountNonLocked: true,
-        credentialsNonExpired: true,
-        enabled: true,
       }}
     >
       <FormBody formType="create" />

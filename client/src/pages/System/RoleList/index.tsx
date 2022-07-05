@@ -1,27 +1,27 @@
 import { PlusOutlined } from '@ant-design/icons';
-import {Button, message, Drawer, Popconfirm, Space, Tag} from 'antd';
+import {Button, message, Drawer, Popconfirm, Input} from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
-import type {UserVO} from "@/services/uaa/type/user";
-import {batchDeleteUser, deleteUser, getUserById, getUserPage} from "@/services/uaa/user";
+import type {RoleVO} from "@/services/uaa/type/role";
+import {batchDeleteRole, deleteRole, getRoleById, getRolePage} from "@/services/uaa/role";
 import type {PageParams} from "@/services/common/typings";
 import {convertPageParams} from "@/utils/common";
-import CreateForm from "@/pages/System/UserList/components/CreateForm";
-import UpdateForm from "@/pages/System/UserList/components/UpdateForm";
+import CreateForm from "@/pages/System/RoleList/components/CreateForm";
+import UpdateForm from "@/pages/System/RoleList/components/UpdateForm";
 
 /**
- * 删除用户
+ * 删除角色
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: UserVO[]) => {
+const handleRemove = async (selectedRows: RoleVO[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    await batchDeleteUser(selectedRows.map((row) => row.id));
+    await batchDeleteRole(selectedRows.map((row) => row.id));
     hide();
     message.success('删除成功！');
     return true;
@@ -32,7 +32,7 @@ const handleRemove = async (selectedRows: UserVO[]) => {
   }
 };
 
-const UserList: React.FC = () => {
+const RoleList: React.FC = () => {
 
   const [createModalVisible, handleCreateModalVisible] = useState<boolean>(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
@@ -40,30 +40,31 @@ const UserList: React.FC = () => {
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<UserVO>();
-  const [selectedRowsState, setSelectedRows] = useState<UserVO[]>([]);
+  const [currentRow, setCurrentRow] = useState<RoleVO>();
+  const [selectedRowsState, setSelectedRows] = useState<RoleVO[]>([]);
 
-  const columns: ProColumns<UserVO>[] = [
-    // {
-    //   title: '关键字',
-    //   key: 'keyword',
-    //   hideInTable: true,
-    //   hideInForm: true,
-    //   dataIndex: 'keyword',
-    //   renderFormItem: () => {
-    //     return <Input placeholder="请输入关键字" />;
-    //   },
-    // },
+  const columns: ProColumns<RoleVO>[] = [
+    {
+      title: '关键字',
+      key: 'keyword',
+      hideInTable: true,
+      hideInForm: true,
+      dataIndex: 'keyword',
+      renderFormItem: () => {
+        return <Input placeholder="请输入关键字" />;
+      },
+    },
     {
       dataIndex: 'index',
       valueType: 'indexBorder',
       width: 48,
     },
     {
-      title: '用户名',
-      dataIndex: 'username',
+      title: '角色名称',
+      dataIndex: 'name',
       valueType: 'text',
       sorter: true,
+      hideInSearch: true,
       formItemProps: {
         rules: [
           {
@@ -86,70 +87,17 @@ const UserList: React.FC = () => {
       },
     },
     {
-      title: '姓名',
-      dataIndex: ['userInfo', 'name'],
+      title: '角色代码',
+      dataIndex: 'code',
       valueType: 'text',
+      hideInSearch: true,
       sorter: true,
     },
     {
-      title: '昵称',
-      dataIndex: ['userInfo', 'nickname'],
+      title: '描述',
+      dataIndex: 'description',
+      hideInSearch: true,
       valueType: 'text',
-    },
-    {
-      title: '性别',
-      dataIndex: ['userInfo', 'sex'],
-      valueType: 'text',
-      valueEnum: {
-        0: { text: '男' },
-        1: { text: '女' },
-      },
-    },
-    {
-      title: '头像',
-      dataIndex: ['userInfo', 'avatar'],
-      valueType: 'image',
-      hideInSearch: true,
-    },
-    {
-      title: '是否过期',
-      dataIndex: 'accountNonExpired',
-      hideInSearch: true,
-      render: (_, entity) => (
-        <Space>
-          {entity.accountNonExpired ? <Tag color="green">未过期</Tag> : <Tag color="red">已过期</Tag>}
-        </Space>
-      ),
-    },
-    {
-      title: '是否锁定',
-      dataIndex: 'accountNonLocked',
-      hideInSearch: true,
-      render: (_, entity) => (
-        <Space>
-          {entity.accountNonLocked ? <Tag color="green">否</Tag> : <Tag color="red">是</Tag>}
-        </Space>
-      ),
-    },
-    {
-      title: '密码过期',
-      dataIndex: 'credentialsNonExpired',
-      hideInSearch: true,
-      render: (_, entity) => (
-        <Space>
-          {entity.credentialsNonExpired ? <Tag color="green">未过期</Tag> : <Tag color="red">已过期</Tag>}
-        </Space>
-      ),
-    },
-    {
-      title: '是否禁用',
-      dataIndex: 'enabled',
-      hideInSearch: true,
-      render: (_, entity) => (
-        <Space>
-          {entity.enabled ? <Tag color="green">否</Tag> : <Tag color="red">是</Tag>}
-        </Space>
-      ),
     },
     {
       title: '创建时间',
@@ -176,12 +124,12 @@ const UserList: React.FC = () => {
           key="update"
           onClick={async () => {
             if (entity && entity.id) {
-              const { data } = await getUserById(entity.id);
+              const { data } = await getRoleById(entity.id);
               setCurrentRow(data || {});
               handleUpdateModalVisible(true);
-              // message.error(res.message || `没有获取到用户信息（id:${entity.id}）`);
+              // message.error(res.message || `没有获取到角色信息（id:${entity.id}）`);
             } else {
-              message.warn('没有选中有效的用户');
+              message.warn('没有选中有效的角色');
             }
           }}
         >
@@ -189,14 +137,14 @@ const UserList: React.FC = () => {
         </a>,
         <Popconfirm
           key="delete"
-          title="确定删除该用户?"
+          title="确定删除该角色?"
           onConfirm={async () => {
             if (entity && entity.id) {
-              await deleteUser(entity.id);
+              await deleteRole(entity.id);
               message.success('删除成功！');
               actionRef.current?.reloadAndRest?.();
             } else {
-              message.warn('没有选中有效的用户');
+              message.warn('没有选中有效的角色');
             }
           }}
           okText="确定"
@@ -210,8 +158,8 @@ const UserList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<UserVO, PageParams>
-        headerTitle="用户列表"
+      <ProTable<RoleVO, PageParams>
+        headerTitle="角色列表"
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -225,11 +173,11 @@ const UserList: React.FC = () => {
               handleCreateModalVisible(true);
             }}
           >
-            <PlusOutlined /> 新建用户
+            <PlusOutlined /> 新建角色
           </Button>,
         ]}
         request={async (params, sort) => {
-          const { data } = await getUserPage(convertPageParams(params, sort));
+          const { data } = await getRolePage(convertPageParams(params, sort));
           return {
             // success 请返回 true，
             // 不然 table 会停止解析数据，即使有数据
@@ -294,7 +242,7 @@ const UserList: React.FC = () => {
         closable={false}
       >
         {currentRow?.id && (
-          <ProDescriptions<UserVO>
+          <ProDescriptions<RoleVO>
             column={2}
             title={currentRow?.name}
             request={async () => ({
@@ -303,7 +251,7 @@ const UserList: React.FC = () => {
             params={{
               id: currentRow?.id,
             }}
-            columns={columns as ProDescriptionsItemProps<UserVO>[]}
+            columns={columns as ProDescriptionsItemProps<RoleVO>[]}
           />
         )}
       </Drawer>
@@ -311,4 +259,4 @@ const UserList: React.FC = () => {
   );
 };
 
-export default UserList;
+export default RoleList;

@@ -69,6 +69,8 @@ export type PageParams = {
   asc?: string[],
   /** 降序 */
   desc?: string[],
+  /** 排序字段信息 */
+  orders?: OrderItem[],
   /** 其他参数 */
   [key: string]: any
 };

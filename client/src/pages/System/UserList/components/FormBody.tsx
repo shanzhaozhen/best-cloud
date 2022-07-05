@@ -11,14 +11,13 @@ import type { FormType } from '@/services/common/typings';
 
 interface FormBodyProps {
   formType?: FormType;
-  disable?: boolean;
   readonly?: boolean;
 }
 
 
 
 const FormBody: React.FC<FormBodyProps> = (props) => {
-  const { disable, formType } = props;
+  const { formType } = props;
 
   // const departmentTree = useDepartmentTree();
 
@@ -34,7 +33,6 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
                 width="md"
                 name="username"
                 label="用户名"
-                disabled={disable}
                 // fieldProps={{ autoComplete: 'off' }}
                 placeholder="请输入用户名"
                 rules={[{ required: true, message: '请输入用户名' }]}
@@ -150,7 +148,6 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
                 label="是否过期"
                 checkedChildren="未过期"
                 unCheckedChildren="已过期"
-                fieldProps={{ defaultChecked: true }}
               />
             </Col>
             <Col xl={6} md={12} sm={24}>
@@ -159,7 +156,6 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
                 label="是否锁定"
                 checkedChildren="开启"
                 unCheckedChildren="锁定"
-                fieldProps={{ defaultChecked: true }}
               />
             </Col>
             <Col xl={6} md={12} sm={24}>
@@ -168,7 +164,6 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
                 label="密码过期"
                 checkedChildren="未过期"
                 unCheckedChildren="已过期"
-                fieldProps={{ defaultChecked: true }}
               />
             </Col>
             <Col xl={6} md={12} sm={24}>
@@ -177,7 +172,6 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
                 label="是否禁用"
                 checkedChildren="可用"
                 unCheckedChildren="禁用"
-                fieldProps={{ defaultChecked: true }}
               />
             </Col>
           </Row>
@@ -218,10 +212,6 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
       </Tabs>
     </>
   );
-};
-
-FormBody.defaultProps = {
-  disable: false,
 };
 
 export default FormBody;
