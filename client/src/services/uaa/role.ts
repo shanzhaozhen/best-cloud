@@ -59,8 +59,11 @@ export async function deleteRole(roleId: number, options?: Record<string, any>) 
 /** 获取角色信息（分页） GET /role/page */
 export async function getRolePage(params: PageParams, options?: Record<string, any>) {
   return request<R<Page<RoleVO>>>(`/api/uaa/role/page`, {
-    method: 'GET',
-    params,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: params,
     ...(options || {}),
   });
 }

@@ -123,6 +123,8 @@ const RoleList: React.FC = () => {
         <a
           key="update"
           onClick={async () => {
+            setShowDetail(false);
+
             if (entity && entity.id) {
               const { data } = await getRoleById(entity.id);
               setCurrentRow(data || {});

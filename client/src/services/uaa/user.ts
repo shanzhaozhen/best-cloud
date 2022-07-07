@@ -15,8 +15,11 @@ export async function getCurrentUserInfo(options?: Record<string, any>) {
 /** 获取用户信息（分页） GET /user/page */
 export async function getUserPage(params: PageParams, options?: Record<string, any>) {
   return request<R<Page<UserVO>>>(`/api/uaa/user/page`, {
-    method: 'GET',
-    params: {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: {
       ...params,
       page: undefined,
       ...params['page'],
@@ -79,8 +82,11 @@ export async function deleteUser(userId: number, options?: Record<string, any>) 
 /** 通过角色ID获取用户信息（分页） GET /user/role/page */
 export async function getUserPageByRoleId(pageParams: PageParams, roleId?: number, options?: Record<string, any>) {
   return request<R<Page<UserVO>>>(`/api/uaa/user/role/page`, {
-    method: 'GET',
-    params: {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: {
       ...pageParams,
       roleId,
     },
@@ -91,8 +97,11 @@ export async function getUserPageByRoleId(pageParams: PageParams, roleId?: numbe
 /** 通过部门ID获取用户信息（分页） GET /user/department/page */
 export async function getUserPageByDepartmentId(pageParams: PageParams, departmentId?: number, options?: Record<string, any>,) {
   return request<R<Page<UserVO>>>(`/api/uaa/user/department/page`, {
-    method: 'GET',
-    params: {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: {
       ...pageParams,
       departmentId,
     },

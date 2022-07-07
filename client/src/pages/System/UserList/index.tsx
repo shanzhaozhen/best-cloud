@@ -1,17 +1,16 @@
 import { PlusOutlined } from '@ant-design/icons';
-import {Button, message, Drawer, Popconfirm, Space, Tag} from 'antd';
+import {Button, message, Popconfirm, Space, Tag} from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
-import ProDescriptions from '@ant-design/pro-descriptions';
 import type {UserVO} from "@/services/uaa/type/user";
 import {batchDeleteUser, deleteUser, getUserById, getUserPage} from "@/services/uaa/user";
 import type {PageParams} from "@/services/common/typings";
 import {convertPageParams} from "@/utils/common";
 import CreateForm from "@/pages/System/UserList/components/CreateForm";
 import UpdateForm from "@/pages/System/UserList/components/UpdateForm";
+import ViewForm from "@/pages/System/UserList/components/ViewForm";
 
 /**
  * 删除用户
@@ -36,8 +35,7 @@ const UserList: React.FC = () => {
 
   const [createModalVisible, handleCreateModalVisible] = useState<boolean>(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
-
-  const [showDetail, setShowDetail] = useState<boolean>(false);
+  const [viewModalVisible, handleViewModalVisible] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<UserVO>();
@@ -75,9 +73,14 @@ const UserList: React.FC = () => {
       render: (dom, entity) => {
         return (
           <a
-            onClick={() => {
-              setCurrentRow(entity);
-              setShowDetail(true);
+            onClick={async () => {
+              if (entity && entity.id) {
+                const { data } = await getUserById(entity.id);
+                setCurrentRow(data || {});
+                handleViewModalVisible(true);
+              } else {
+                message.warn('没有选中有效的用户');
+              }
             }}
           >
             {dom}
@@ -89,7 +92,7 @@ const UserList: React.FC = () => {
       title: '姓名',
       dataIndex: ['userInfo', 'name'],
       valueType: 'text',
-      sorter: true,
+      sorter: 'u.name',
     },
     {
       title: '昵称',
@@ -164,6 +167,7 @@ const UserList: React.FC = () => {
       title: '修改时间',
       dataIndex: 'lastModifiedDate',
       valueType: 'dateTime',
+      sorter: true,
       hideInSearch: true,
       hideInForm: true,
     },
@@ -268,6 +272,7 @@ const UserList: React.FC = () => {
         </FooterToolbar>
       )}
 
+
       <CreateForm
         createModalVisible={createModalVisible}
         handleCreateModalVisible={handleCreateModalVisible}
@@ -284,29 +289,15 @@ const UserList: React.FC = () => {
         />
       ) : null}
 
-      <Drawer
-        width={600}
-        visible={showDetail}
-        onClose={() => {
-          setCurrentRow(undefined);
-          setShowDetail(false);
-        }}
-        closable={false}
-      >
-        {currentRow?.id && (
-          <ProDescriptions<UserVO>
-            column={2}
-            title={currentRow?.name}
-            request={async () => ({
-              data: currentRow || {},
-            })}
-            params={{
-              id: currentRow?.id,
-            }}
-            columns={columns as ProDescriptionsItemProps<UserVO>[]}
-          />
-        )}
-      </Drawer>
+      {currentRow && Object.keys(currentRow).length ? (
+        <ViewForm
+          viewModalVisible={viewModalVisible}
+          handleViewModalVisible={handleViewModalVisible}
+          setCurrentRow={setCurrentRow}
+          values={currentRow || {}}
+        />
+      ) : null}
+
     </PageContainer>
   );
 };

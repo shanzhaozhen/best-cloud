@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
+import org.shanzhaozhen.common.core.entity.BasePageParams;
 import org.shanzhaozhen.common.core.result.R;
 import org.shanzhaozhen.uaa.converter.RoleConverter;
 import org.shanzhaozhen.uaa.pojo.dto.RoleDTO;
@@ -34,9 +35,9 @@ public class RoleController {
     private final RoleService roleService;
 
     @Operation(summary = "获取角色信息（分页）")
-    @GetMapping(GET_ROLE_PAGE)
-    public R<Page<RoleVO>> getRolePage(Page<RoleDTO> page, String keyword) {
-        return R.build(() -> RoleConverter.toVO(roleService.getRolePage(page, keyword)));
+    @PostMapping(GET_ROLE_PAGE)
+    public R<Page<RoleVO>> getRolePage(@RequestBody BasePageParams<RoleDTO> pageParams) {
+        return R.build(() -> RoleConverter.toVO(roleService.getRolePage(pageParams.getPage(), pageParams.getKeyword())));
     }
 
     @Operation(summary = "获取所有角色")

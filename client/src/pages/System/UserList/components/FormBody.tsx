@@ -21,6 +21,66 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
 
   // const departmentTree = useDepartmentTree();
 
+  const PasswordField = () => (
+    <>
+      <Col xl={12} lg={12} md={24}>
+        <ProFormText.Password
+          width="md"
+          label="密码"
+          name="password"
+          fieldProps={{ autoComplete: 'new-password' }}
+          readonly={formType === 'view'}
+          placeholder={formType === 'create' ? '请输入密码' : '留空则不更新密码'}
+          rules={[
+            {
+              required: formType === 'create',
+              validator: async (rule, value) => {
+                // 编辑模式时不为空才判断
+                if (formType === 'update' && !value) return;
+
+                // 密码不能小于六位，至少含字母、数字、特殊字符其中的2种！
+                const regExp = new RegExp(
+                  /^.*(?=.{6,16})(?=.*\d)(?=.*[A-Za-z])(?=.*[/\\?.,~!@#$%^&*()_+={}|:<>[\]]).*$/,
+                );
+                if (!regExp.test(value)) {
+                  throw new Error('密码长度为6-20位，且含字母、数字、特殊字符！');
+                }
+              },
+            },
+          ]}
+        />
+      </Col>
+      <Col xl={12} lg={12} md={24}>
+        <ProFormText.Password
+          width="md"
+          label="确认密码"
+          name="re-password"
+          readonly={formType === 'view'}
+          placeholder={formType === 'create' ? '请再次输入密码' : '留空则不更新密码'}
+          rules={[
+            { required: formType === 'create' },
+            ({ getFieldValue }) => ({
+              validator: async (rule, value) => {
+                const password = getFieldValue('password');
+
+                // 编辑状态时，如果密码为空不进行校验
+                if (formType === 'update' && !password) return;
+
+                if (!value) {
+                  throw new Error('确认密码不能为空');
+                }
+
+                if (password !== value) {
+                  throw new Error('两次输入的密码不一致');
+                }
+              },
+            }),
+          ]}
+        />
+      </Col>
+    </>
+  );
+
   return (
     <>
       <ProFormText name="id" label="用户id" hidden={true} />
@@ -36,66 +96,27 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
                 // fieldProps={{ autoComplete: 'off' }}
                 placeholder="请输入用户名"
                 rules={[{ required: true, message: '请输入用户名' }]}
+                readonly={formType === 'view'}
               />
             </Col>
             <Col xl={12} lg={12} md={24}>
-              <ProFormText width="md" name={['userInfo', 'name']} label="姓名" placeholder="请输入用户名"/>
-            </Col>
-            <Col xl={12} lg={12} md={24}>
-              <ProFormText.Password
+              <ProFormText
                 width="md"
-                label="密码"
-                name="password"
-                fieldProps={{ autoComplete: 'new-password' }}
-                placeholder={formType === 'create' ? '请输入密码' : '留空则不更新密码'}
-                rules={[
-                  {
-                    required: formType === 'create',
-                    validator: async (rule, value) => {
-                      // 编辑模式时不为空才判断
-                      if (formType === 'update' && !value) return;
-
-                      // 密码不能小于六位，至少含字母、数字、特殊字符其中的2种！
-                      const regExp = new RegExp(
-                        /^.*(?=.{6,16})(?=.*\d)(?=.*[A-Za-z])(?=.*[/\\?.,~!@#$%^&*()_+={}|:<>[\]]).*$/,
-                      );
-                      if (!regExp.test(value)) {
-                        throw new Error('密码长度为6-20位，且含字母、数字、特殊字符！');
-                      }
-                    },
-                  },
-                ]}
+                name={['userInfo', 'name']}
+                label="姓名"
+                placeholder="请输入用户名"
+                readonly={formType === 'view'}
               />
             </Col>
+            { formType === 'view' ? null : <PasswordField/> }
             <Col xl={12} lg={12} md={24}>
-              <ProFormText.Password
+              <ProFormText
                 width="md"
-                label="确认密码"
-                name="re-password"
-                placeholder={formType === 'create' ? '请再次输入密码' : '留空则不更新密码'}
-                rules={[
-                  { required: formType === 'create' },
-                  ({ getFieldValue }) => ({
-                    validator: async (rule, value) => {
-                      const password = getFieldValue('password');
-
-                      // 编辑状态时，如果密码为空不进行校验
-                      if (formType === 'update' && !password) return;
-
-                      if (!value) {
-                        throw new Error('确认密码不能为空');
-                      }
-
-                      if (password !== value) {
-                        throw new Error('两次输入的密码不一致');
-                      }
-                    },
-                  }),
-                ]}
+                name={['userInfo', 'nickname']}
+                label="昵称"
+                placeholder="请输入昵称"
+                readonly={formType === 'view'}
               />
-            </Col>
-            <Col xl={12} lg={12} md={24}>
-              <ProFormText width="md" name={['userInfo', 'nickname']} label="昵称" placeholder="请输入用户名" />
             </Col>
             <Col xl={12} lg={12} md={24}>
               <ProFormSelect
@@ -106,6 +127,7 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
                   { label: '男', value: 0 },
                   { label: '女', value: 1 },
                 ]}
+                readonly={formType === 'view'}
                 placeholder="请选择性别"
               />
             </Col>
@@ -148,6 +170,7 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
                 label="是否过期"
                 checkedChildren="未过期"
                 unCheckedChildren="已过期"
+                readonly={formType === 'view'}
               />
             </Col>
             <Col xl={6} md={12} sm={24}>
@@ -156,6 +179,7 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
                 label="是否锁定"
                 checkedChildren="开启"
                 unCheckedChildren="锁定"
+                readonly={formType === 'view'}
               />
             </Col>
             <Col xl={6} md={12} sm={24}>
@@ -164,6 +188,7 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
                 label="密码过期"
                 checkedChildren="未过期"
                 unCheckedChildren="已过期"
+                readonly={formType === 'view'}
               />
             </Col>
             <Col xl={6} md={12} sm={24}>
@@ -172,6 +197,7 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
                 label="是否禁用"
                 checkedChildren="可用"
                 unCheckedChildren="禁用"
+                readonly={formType === 'view'}
               />
             </Col>
           </Row>
@@ -181,31 +207,43 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
             <Col xl={12} lg={12} md={24}>
               <Row gutter={24}>
                 <Col xl={24} lg={24} md={24}>
-                  <ProFormDatePicker width="md" name={['userInfo', 'birthday']} label="生日" />
+                  <ProFormDatePicker
+                    width="md"
+                    name={['userInfo', 'birthday']}
+                    label="生日"
+                    readonly={formType === 'view'}
+                  />
                 </Col>
                 <Col xl={24} lg={24} md={24}>
                   <ProFormText
                     width="md"
                     name={['userInfo', 'phoneNumber']}
                     label="手机号码" rules={[{ type: 'number', pattern: /^1[3-5|7-9][0-9]\d{8}$/, message: '请输入正确的手机号' }]}
+                    readonly={formType === 'view'}
                   />
                 </Col>
                 <Col xl={24} lg={24} md={24}>
-                  <ProFormText width="md" name={['userInfo', 'email']} label="邮箱" rules={[{ type: 'email', message: '请填入正确的邮箱' }]} />
+                  <ProFormText
+                    width="md"
+                    name={['userInfo', 'email']}
+                    label="邮箱"
+                    rules={[{ type: 'email', message: '请填入正确的邮箱' }]}
+                    readonly={formType === 'view'}
+                  />
                 </Col>
               </Row>
             </Col>
             <Col xl={12} lg={12} md={24}>
               {/*<ProFormText width="md" name={['userInfo', 'email']} label="头像" />*/}
               <ProFormItem name={['userInfo', 'avatar']}>
-                <AvatarView />
+                <AvatarView readonly={formType === 'view'}/>
               </ProFormItem>
             </Col>
           </Row>
 
           <Row gutter={24}>
             <Col xl={24} lg={24} md={24}>
-              <ProFormTextArea name={['userInfo', 'introduction']} label="个人介绍" />
+              <ProFormTextArea name={['userInfo', 'introduction']} label="个人介绍" readonly={formType === 'view'} />
             </Col>
           </Row>
         </Tabs.TabPane>

@@ -8,12 +8,13 @@ import type {RcFile} from "antd/es/upload";
 import {useState} from "react";
 
 interface AvatarViewProps {
+  readonly?: boolean;
   onChange?: (value: any) => void;
   value?: string;
 }
 
 const AvatarView = (props: AvatarViewProps) => {
-  const { value, onChange } = props
+  const { readonly, value, onChange } = props
 
   const [loading, setLoading] = useState(false);
 
@@ -62,13 +63,17 @@ const AvatarView = (props: AvatarViewProps) => {
       <div className={styles.avatar}>
         <img src={value || '/default-avatar.png'} alt="avatar" />
       </div>
-      <Upload {...uploadProps}>
-        <div className={styles.button_view}>
-          <Button icon={<UploadOutlined />} loading={loading}>
-            更换头像
-          </Button>
-        </div>
-      </Upload>
+      { readonly ? null : (
+        <Upload {...uploadProps}>
+          <div className={styles.button_view}>
+            <Button icon={<UploadOutlined />} loading={loading}>
+              更换头像
+            </Button>
+          </div>
+        </Upload>
+      )}
+
+
     </>
   )
 }

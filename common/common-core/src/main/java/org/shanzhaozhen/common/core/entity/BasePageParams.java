@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.shanzhaozhen.common.core.utils.SqlInjectionUtil;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +15,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(name = "BaseSearchForm", description = "基础分页列表查询前端传入参数")
-public class BaseSearchForm<T> {
+@Schema(name = "BasePageParams", description = "基础分页列表查询前端传入参数")
+public class BasePageParams<T> {
 
     /**
      * 关键字
@@ -38,12 +40,23 @@ public class BaseSearchForm<T> {
 
     /**
      * 生成mybatis的分页实体
-     * @param
-     * @return
+     * @return mybatis的分页实体
      */
     public Page<T> getPage() {
         Page<T> page = new Page<>(this.current, this.size);
-        page.setOrders(this.getOrders());
+        // 检查排序字段有没有SQL注入风险
+        if (!CollectionUtils.isEmpty(this.orders)) {
+//            this.orders.forEach(orderItem -> {
+//                SqlInjectionUtil.filterContent(orderItem);
+//                page.addOrder(orderItem);
+//            });
+
+            for (OrderItem orderItem : this.orders) {
+                SqlInjectionUtil.filterContent(orderItem);
+                page.addOrder(orderItem);
+            }
+        }
+
         return page;
     }
 

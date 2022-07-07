@@ -12,6 +12,7 @@ import org.shanzhaozhen.uaa.converter.UserConverter;
 import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
 import org.shanzhaozhen.uaa.pojo.form.UserDepartmentForm;
 import org.shanzhaozhen.uaa.pojo.form.UserForm;
+import org.shanzhaozhen.uaa.pojo.form.UserPageParams;
 import org.shanzhaozhen.uaa.service.UserService;
 import org.shanzhaozhen.uaa.pojo.vo.CurrentUser;
 import org.shanzhaozhen.uaa.pojo.vo.UserVO;
@@ -60,9 +61,9 @@ public class UserController {
     }
 
     @Operation(summary = "获取用户信息（分页）")
-    @GetMapping(GET_USER_PAGE)
-    public R<Page<UserVO>> getUserPage(Page<UserDTO> page, String keyword) {
-        return R.build(() -> UserConverter.toVO(userService.getUserPage(page, keyword)));
+    @PostMapping(GET_USER_PAGE)
+    public R<Page<UserVO>> getUserPage(@RequestBody UserPageParams<UserDTO> pageParams) {
+        return R.build(() -> UserConverter.toVO(userService.getUserPage(pageParams.getPage(), pageParams.getKeyword())));
     }
 
     @Operation(summary = "获取用户信息（通过用户id）")
@@ -97,15 +98,15 @@ public class UserController {
 
 
     @Operation(summary = "通过角色ID获取用户信息（分页）")
-    @GetMapping(GET_USER_ROLE_PAGE)
-    public R<Page<UserVO>> getUserPageByRoleId(Page<UserDTO> page, Long roleId, String keyword) {
-        return R.build(() -> UserConverter.toVO(userService.getUserPageByRoleId(page, roleId ,keyword)));
+    @PostMapping(GET_USER_ROLE_PAGE)
+    public R<Page<UserVO>> getUserPageByRoleId(@RequestBody UserPageParams<UserDTO> pageParams) {
+        return R.build(() -> UserConverter.toVO(userService.getUserPageByRoleId(pageParams.getPage(), pageParams.getRoleId(), pageParams.getKeyword())));
     }
 
     @Operation(summary = "通过部门ID获取用户信息（分页）")
-    @GetMapping(GET_USER_DEPARTMENT_PAGE)
-    public R<Page<UserVO>> getUserPageByDepartmentId(Page<UserDTO> page, Long departmentId, String keyword) {
-        return R.build(() -> UserConverter.toVO(userService.getUserPageByDepartmentId(page, departmentId, keyword)));
+    @PostMapping(GET_USER_DEPARTMENT_PAGE)
+    public R<Page<UserVO>> getUserPageByDepartmentId(@RequestBody UserPageParams<UserDTO> pageParams) {
+        return R.build(() -> UserConverter.toVO(userService.getUserPageByDepartmentId(pageParams.getPage(), pageParams.getDepartmentId(), pageParams.getKeyword())));
     }
 
     @Operation(summary = "批量更新用户部门接口")

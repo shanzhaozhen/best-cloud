@@ -1,5 +1,5 @@
 import type { SortOrder } from 'antd/lib/table/interface';
-import type { PageParams } from '@/services/common/typings';
+import type {OrderItem, PageParams} from '@/services/common/typings';
 
 export const copyObject = (A: any, B: any) => {
   const res = {};
@@ -29,20 +29,17 @@ export const getPageParams = (params: any): PageParams => {
  */
 export const  convertPageParams = (param: PageParams, sorter: Record<string, SortOrder>) => {
   if (sorter) {
-    const asc: string[]  = [];
-    const desc: string[] = [];
+    const orders: OrderItem[]  = [];
     Object.keys(sorter).forEach((item) => {
-      if (sorter[item] === 'ascend') {
-        asc.push(item);
-      } else {
-        desc.push(item);
-      }
+      orders.push({
+        column: item,
+        asc: sorter[item] === 'ascend'
+      })
     });
 
     return {
       ...param,
-      asc,
-      desc
+      orders
     }
   }
 

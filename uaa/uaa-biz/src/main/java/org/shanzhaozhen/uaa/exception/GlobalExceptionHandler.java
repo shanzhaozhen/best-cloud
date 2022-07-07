@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public R<?> handleIllegalArgumentException(Exception e) {
-        log.warn("未知错误：{0}", e);
+        log.warn("未知错误：{}", e.getMessage());
         return new R<>().setCode(ResultType.FAILURE).setMessage("未知异常错误").setData(e.getMessage());
     }
 
@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R<?> handleIllegalArgumentException(IllegalArgumentException e) {
-        log.warn("未知错误：{0}", e);
+        log.warn("未知错误：{}", e.getMessage());
         return new R<>().setCode(ResultType.FAILURE).setMessage(e.getMessage());
     }
 
@@ -50,7 +50,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public R<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        log.warn("监听表单验证错误：{0}", e);
+        log.warn("监听表单验证错误：{}", e.getMessage());
         return new R<>().setCode(ResultType.FAILURE).setMessage(Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage());
     }
 
@@ -62,7 +62,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({SQLException.class, SQLSyntaxErrorException.class, MyBatisSystemException.class, DataIntegrityViolationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R<?> handleAboutSQLException(Exception e) {
-        log.warn("SQL执行错误：{0}", e);
+        log.warn("SQL执行错误：{}", e.getMessage());
         return new R<>().setCode(ResultType.FAILURE).setMessage("执行失败").setData(e.getMessage());
     }
 

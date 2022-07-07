@@ -65,10 +65,6 @@ export type PageParams = {
   current?: number;
   /** 分页大小 */
   size?: number;
-  /** 升序 */
-  asc?: string[],
-  /** 降序 */
-  desc?: string[],
   /** 排序字段信息 */
   orders?: OrderItem[],
   /** 其他参数 */
