@@ -1,12 +1,13 @@
 package org.shanzhaozhen.common.core.utils;
 
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.Assert;
 
-import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * sql注入处理工具类
@@ -72,4 +73,37 @@ public class SqlInjectionUtil {
 			filterContent(orderItem);
 		}
 	}
+
+	/**
+	 * 检查字段是否在实体类中
+	 * @param columns 字段列表
+	 * @param clazz 实体类
+	 */
+	public static void checkColumnsInEntity(String[] columns, Class<?> clazz) {
+		List<Field> allFields = TableInfoHelper.getAllFields(clazz);
+		List<String> fieldName = allFields.stream().map(Field::getName).collect(Collectors.toList());
+
+		for (String column: columns) {
+			if (!fieldName.contains(column)) {
+				log.error("请注意，存在SQL注入关键词---> {}", column);
+				log.error("请注意，值可能存在SQL注入风险!---> {}", column);
+				throw new RuntimeException("请注意，值可能存在SQL注入风险!--->" + column);
+			}
+		}
+	}
+
+	public static void checkColumnsInEntity(String column, Class<?> clazz) {
+		checkColumnsInEntity(new String[]{column}, clazz);
+
+	}
+
+	public static void checkColumnsInEntity(OrderItem orderItem, Class<?> clazz) {
+		checkColumnsInEntity(orderItem.getColumn(), clazz);
+	}
+
+	public static void checkColumnsInEntity(List<OrderItem> orderItemList, Class<?> clazz) {
+		String[] columns = orderItemList.stream().map(OrderItem::getColumn).toArray(String[] :: new);
+		checkColumnsInEntity(columns, clazz);
+	}
+
 }
