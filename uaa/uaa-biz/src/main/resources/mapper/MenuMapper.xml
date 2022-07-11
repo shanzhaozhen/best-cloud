@@ -34,10 +34,10 @@
         <where>
             <choose>
                 <when test="pid != null and pid != ''">
-                    where pid = #{pid}
+                    pid = #{pid}
                 </when>
                 <otherwise>
-                    where pid is null
+                    pid is null
                 </otherwise>
             </choose>
         </where>

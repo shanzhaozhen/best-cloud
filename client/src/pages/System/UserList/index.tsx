@@ -189,11 +189,12 @@ const UserList: React.FC = () => {
             }
           }}
         >
-          修改
+          编辑
         </a>,
         <Popconfirm
           key="delete"
           title="确定删除该用户?"
+          arrowPointAtCenter
           onConfirm={async () => {
             if (entity && entity.id) {
               await deleteUser(entity.id);
@@ -263,7 +264,7 @@ const UserList: React.FC = () => {
             danger
             onClick={() => {
               Modal.confirm({
-                title: '请确认！',
+                title: '请确认',
                 icon: <ExclamationCircleOutlined />,
                 content: '确定删除选中的用户吗？',
                 onOk: async () => {

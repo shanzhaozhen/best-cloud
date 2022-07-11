@@ -38,7 +38,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
 
   return (
     <DrawerForm
-      title="修改菜单"
+      title="编辑菜单"
       width="748px"
       drawerProps={{
         destroyOnClose: true,

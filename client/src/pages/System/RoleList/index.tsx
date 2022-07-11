@@ -1,39 +1,22 @@
-import {ExclamationCircleOutlined, PlusOutlined} from '@ant-design/icons';
-import {Button, message, Drawer, Popconfirm, Input, Modal} from 'antd';
+import {DownOutlined, ExclamationCircleOutlined, PlusOutlined} from '@ant-design/icons';
+import {Button, message, Drawer, Input, Modal} from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
+import ProTable, {TableDropdown} from '@ant-design/pro-table';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import type {RoleVO} from "@/services/uaa/type/role";
 import {batchDeleteRole, deleteRole, getRoleById, getRolePage} from "@/services/uaa/role";
 import type {PageParams} from "@/services/common/typings";
-import {convertPageParams, getPageParams} from "@/utils/common";
+import {convertPageParams} from "@/utils/common";
 import CreateForm from "@/pages/System/RoleList/components/CreateForm";
 import UpdateForm from "@/pages/System/RoleList/components/UpdateForm";
 import UserRelateList from "@/pages/System/UserRelateList";
-import {SortOrder} from "antd/es/table/interface";
 import {getUserPageByRoleId} from "@/services/uaa/user";
-
-/**
- * 删除角色
- * @param selectedRows
- */
-const handleRemove = async (selectedRows: RoleVO[]) => {
-  const hide = message.loading('正在删除');
-  if (!selectedRows) return true;
-  try {
-    await batchDeleteRole(selectedRows.map((row) => row.id));
-    hide();
-    message.success('删除成功！');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('删除失败，请重试！');
-    return false;
-  }
-};
+import {addUserRole, deleteUserRoles} from "@/services/uaa/userRole";
+import type {UserVO} from "@/services/uaa/type/user";
+import type {SortOrder} from "antd/es/table/interface";
 
 const RoleList: React.FC = () => {
 
@@ -44,8 +27,103 @@ const RoleList: React.FC = () => {
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
+  const userRoleActionRef = useRef<ActionType>();
+
   const [currentRow, setCurrentRow] = useState<RoleVO>();
   const [selectedRowsState, setSelectedRows] = useState<RoleVO[]>([]);
+
+
+  /**
+   * 删除角色
+   * @param selectedRows
+   */
+  const handleRemove = async (selectedRows: RoleVO[]) => {
+    const hide = message.loading('正在删除');
+    if (!selectedRows) return true;
+    try {
+      await batchDeleteRole(selectedRows.map((row) => row.id));
+      hide();
+      message.success('删除成功！');
+      return true;
+    } catch (error) {
+      hide();
+      message.error('删除失败，请重试！');
+      return false;
+    }
+  };
+
+  /**
+   * 批量添加用户角色关联
+   * @param selectedUserRoleRows
+   */
+  const handleBatchAddUserRole = async (selectedUserRoleRows: UserVO[]) => {
+    const hide = message.loading('正在添加');
+    if (!selectedUserRoleRows) return true;
+    try {
+      const userIds = selectedUserRoleRows.map((user) => user.id);
+      await addUserRole({
+        userIds,
+        roleId: currentRow?.id,
+      });
+      hide();
+      message.success('添加成功');
+      userRoleActionRef.current?.reloadAndRest?.();
+      return true;
+    } catch (error) {
+      hide();
+      message.error('添加失败，请重试');
+      return false;
+    }
+  };
+
+  /**
+   * 取消用户角色关联
+   * @param record
+   */
+  const handleDeleteUserRole = async (record: UserVO) => {
+    if (record && record.id) {
+      await deleteUserRoles({
+        userIds: [record.id],
+        roleId: currentRow?.id,
+      });
+      message.success('取消关联成功！');
+      userRoleActionRef.current?.reloadAndRest?.();
+    } else {
+      message.warn('没有选中有效的角色');
+    }
+  };
+
+  /**
+   * 批量取消用户角色关联
+   * @param selectedUserRoleRows
+   */
+  const handleBatchDeleteUserRole = (selectedUserRoleRows: UserVO[]) => {
+    Modal.confirm({
+      title: '请确认',
+      icon: <ExclamationCircleOutlined />,
+      content: '确定批量取消勾选中的用户与角色的关联关系吗？',
+      okText: '确认',
+      cancelText: '取消',
+      onOk: async () => {
+        const hide = message.loading('正在取消关联成功');
+        if (!selectedUserRoleRows) return true;
+        try {
+          await deleteUserRoles({
+            userIds: selectedUserRoleRows.map((selectedRow) => selectedRow.id) || [],
+            roleId: currentRow?.id,
+          });
+          hide();
+          message.success('取消关联成功，即将刷新');
+          userRoleActionRef.current?.reloadAndRest?.();
+          return true;
+        } catch (error) {
+          hide();
+          message.error('取消关联失败，请重试');
+          return false;
+        }
+      },
+    });
+  };
 
   const columns: ProColumns<RoleVO>[] = [
     {
@@ -125,39 +203,65 @@ const RoleList: React.FC = () => {
       valueType: 'option',
       render: (_, entity) => [
         <a
-          key="update"
+          key="view-user"
           onClick={async () => {
-            setShowDetail(false);
-
             if (entity && entity.id) {
-              const { data } = await getRoleById(entity.id);
-              setCurrentRow(data || {});
-              handleUpdateModalVisible(true);
-              // message.error(res.message || `没有获取到角色信息（id:${entity.id}）`);
+              setCurrentRow(entity);
+              handleUserRelateListVisible(true);
             } else {
               message.warn('没有选中有效的角色');
             }
           }}
         >
-          修改
+          用户
         </a>,
-        <Popconfirm
-          key="delete"
-          title="确定删除该角色?"
-          onConfirm={async () => {
-            if (entity && entity.id) {
-              await deleteRole(entity.id);
-              message.success('删除成功！');
-              actionRef.current?.reloadAndRest?.();
-            } else {
-              message.warn('没有选中有效的角色');
+        <a
+          key="grant"
+          onClick={async () => {
+          }}
+        >
+          授权
+        </a>,
+        <TableDropdown
+          key="actionGroup"
+          onSelect={async (key) => {
+            if (key === 'edit') {
+              setShowDetail(false);
+              if (entity && entity.id) {
+                const { data } = await getRoleById(entity.id);
+                setCurrentRow(data || {});
+                handleUpdateModalVisible(true);
+                // message.error(res.message || `没有获取到角色信息（id:${entity.id}）`);
+              } else {
+                message.warn('没有选中有效的角色');
+              }
+            } else if (key === 'delete') {
+              Modal.confirm({
+                title: '请确认',
+                icon: <ExclamationCircleOutlined />,
+                content: '确定删除改角色？',
+                onOk: async () => {
+                  if (entity && entity.id) {
+                    await deleteRole(entity.id);
+                    message.success('删除成功！');
+                    actionRef.current?.reloadAndRest?.();
+                  } else {
+                    message.warn('没有选中有效的角色！');
+                  }
+                },
+                onCancel() {
+                },
+              });
             }
           }}
-          okText="确定"
-          cancelText="取消"
+          menus={[
+            { key: 'edit', name: '编辑' },
+            { key: 'delete', name: '删除' },
+          ]}
         >
-          <a href="#">删除</a>
-        </Popconfirm>
+          更多
+          <DownOutlined />
+        </TableDropdown>
       ],
     },
   ];
@@ -213,7 +317,7 @@ const RoleList: React.FC = () => {
             danger
             onClick={() => {
               Modal.confirm({
-                title: '请确认！',
+                title: '请确认',
                 icon: <ExclamationCircleOutlined />,
                 content: '确定删除选中的角色吗？',
                 onOk: async () => {
@@ -284,9 +388,8 @@ const RoleList: React.FC = () => {
           handleDeleteUserRelate={handleDeleteUserRole}
           handleBatchDeleteUserRelate={handleBatchDeleteUserRole}
           queryList={async (params: PageParams, sorter: Record<string, SortOrder>) =>
-            await getUserPageByRoleId(getPageParams(params), currentRow.id, getSortOrder(sorter))
+            await getUserPageByRoleId(convertPageParams(params, sorter), currentRow.id)
           }
-          values={currentRow}
         />
       ) : null}
 

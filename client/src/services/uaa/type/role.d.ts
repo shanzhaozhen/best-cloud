@@ -79,7 +79,7 @@ type RoleVO = {
 
 export type UserRoleForm = {
   /** 用户ID */
-  userIds: number[];
+  userIds: (number | undefined)[];
   /** 角色ID */
-  roleId: number;
+  roleId: number | undefined;
 };

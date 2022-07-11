@@ -197,11 +197,12 @@ const MenuList: React.FC = () => {
             }
           }}
         >
-          修改
+          编辑
         </a>,
         <Popconfirm
           key="delete"
           title="确定删除该菜单节点?"
+          arrowPointAtCenter
           onConfirm={async () => {
             if (record && record.id) {
               if (record.children && record.children.length > 0) {
@@ -294,7 +295,7 @@ const MenuList: React.FC = () => {
             danger
             onClick={() => {
               Modal.confirm({
-                title: '请确认！',
+                title: '请确认',
                 icon: <ExclamationCircleOutlined />,
                 content: '确定删除选中的菜单吗？（包含子节点）',
                 onOk: async () => {

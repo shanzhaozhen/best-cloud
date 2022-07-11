@@ -13,7 +13,6 @@ interface CheckBoxUserProps {
   checkBoxUserVisible: boolean;
   handleCheckBoxUserVisible: Dispatch<SetStateAction<boolean>>;
   handleBatchAddUserRelate: (selectRows: RoleVO[]) => void;
-  values: RoleVO;
 }
 
 const CheckBoxUser: React.FC<CheckBoxUserProps> = (props) => {
@@ -104,6 +103,7 @@ const CheckBoxUser: React.FC<CheckBoxUserProps> = (props) => {
       title="用户选择"
       width={820}
       visible={checkBoxUserVisible}
+      destroyOnClose
       onCancel={() => {
         handleCheckBoxUserVisible(false);
         actionRef.current?.clearSelected?.();

@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import type { Dispatch, MutableRefObject, SetStateAction } from 'react';
-import { Button, Divider, Drawer, Input, message, Popconfirm } from 'antd';
-import type { ActionType, ProColumns } from '@ant-design/pro-table';
+import {Button, Divider, Drawer, Input, message, Popconfirm, Space, Tag} from 'antd';
+import type {ActionType, ColumnsState, ProColumns} from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { FooterToolbar } from '@ant-design/pro-layout';
-import { PlusOutlined } from '@ant-design/icons';
+import {CheckCircleOutlined, PlusOutlined} from '@ant-design/icons';
 import UpdateForm from '@/pages/System/UserList/components/UpdateForm';
 import CreateForm from '@/pages/System/UserList/components/CreateForm';
 import CheckBoxUser from '@/pages/System/UserRelateList/components/CheckBoxUser';
@@ -28,7 +27,6 @@ interface UserRelateListProps {
     params: PageParams,
     sorter: Record<string, SortOrder>,
   ) => Promise<R<Page<UserVO>>>;
-  values: RoleVO;
 }
 
 const UserRelateList: React.FC<UserRelateListProps> = (props) => {
@@ -40,7 +38,6 @@ const UserRelateList: React.FC<UserRelateListProps> = (props) => {
     handleBatchDeleteUserRelate,
     onCancel,
     queryList,
-    values,
   } = props;
 
   const [createModalVisible, handleCreateModalVisible] = useState<boolean>(false);
@@ -73,6 +70,7 @@ const UserRelateList: React.FC<UserRelateListProps> = (props) => {
       valueType: 'text',
       sorter: true,
       hideInSearch: true,
+      hideInSetting: true,
       formItemProps: {
         rules: [
           {
@@ -84,16 +82,88 @@ const UserRelateList: React.FC<UserRelateListProps> = (props) => {
     },
     {
       title: '姓名',
-      dataIndex: 'name',
+      dataIndex: ['userInfo', 'name'],
       valueType: 'text',
-      sorter: true,
+      sorter: 'u.name',
       hideInSearch: true,
     },
     {
       title: '昵称',
-      dataIndex: 'nickname',
+      dataIndex: ['userInfo', 'nickname'],
       valueType: 'text',
       hideInSearch: true,
+    },
+    {
+      title: '性别',
+      dataIndex: ['userInfo', 'sex'],
+      valueType: 'text',
+      valueEnum: {
+        0: { text: '男' },
+        1: { text: '女' },
+      },
+      hideInSearch: true,
+    },
+    {
+      title: '头像',
+      dataIndex: ['userInfo', 'avatar'],
+      valueType: 'image',
+      hideInSearch: true,
+    },
+    {
+      title: '是否过期',
+      dataIndex: 'accountNonExpired',
+      hideInSearch: true,
+      render: (_, entity) => (
+        <Space>
+          {entity.accountNonExpired ? <Tag color="green">未过期</Tag> : <Tag color="red">已过期</Tag>}
+        </Space>
+      ),
+    },
+    {
+      title: '是否锁定',
+      dataIndex: 'accountNonLocked',
+      hideInSearch: true,
+      render: (_, entity) => (
+        <Space>
+          {entity.accountNonLocked ? <Tag color="green">否</Tag> : <Tag color="red">是</Tag>}
+        </Space>
+      ),
+    },
+    {
+      title: '密码过期',
+      dataIndex: 'credentialsNonExpired',
+      hideInSearch: true,
+      render: (_, entity) => (
+        <Space>
+          {entity.credentialsNonExpired ? <Tag color="green">未过期</Tag> : <Tag color="red">已过期</Tag>}
+        </Space>
+      ),
+    },
+    {
+      title: '是否禁用',
+      dataIndex: 'enabled',
+      hideInSearch: true,
+      render: (_, entity) => (
+        <Space>
+          {entity.enabled ? <Tag color="green">否</Tag> : <Tag color="red">是</Tag>}
+        </Space>
+      ),
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createdDate',
+      valueType: 'dateTime',
+      sorter: true,
+      hideInSearch: true,
+      hideInForm: true,
+    },
+    {
+      title: '修改时间',
+      dataIndex: 'lastModifiedDate',
+      valueType: 'dateTime',
+      sorter: true,
+      hideInSearch: true,
+      hideInForm: true,
     },
     // {
     //   title: '所属部门',
@@ -120,11 +190,12 @@ const UserRelateList: React.FC<UserRelateListProps> = (props) => {
               }
             }}
           >
-            修改
+            编辑
           </a>
           <Divider type="vertical" />
           <Popconfirm
             title="确定取消该用户与角色的关联关系？"
+            arrowPointAtCenter
             onConfirm={() => handleDeleteUserRelate(record)}
             okText="确定"
             cancelText="取消"
@@ -136,12 +207,40 @@ const UserRelateList: React.FC<UserRelateListProps> = (props) => {
     },
   ];
 
+  const [columnsStateMap, setColumnsStateMap] = useState<Record<string, ColumnsState>>({
+    'userInfo,sex': {
+      show: false
+    },
+    'userInfo,avatar': {
+      show: false
+    },
+    accountNonExpired: {
+      show: false
+    },
+    accountNonLocked: {
+      show: false
+    },
+    credentialsNonExpired: {
+      show: false
+    },
+    enabled: {
+      show: false
+    },
+    createdDate: {
+      show: false
+    },
+    lastModifiedDate: {
+      show: false
+    },
+  });
+
   return (
     <Drawer
       title="角色分配"
       placement="right"
       width={820}
       zIndex={500}
+      destroyOnClose
       onClose={onCancel}
       visible={userRelateListVisible}
     >
@@ -153,19 +252,42 @@ const UserRelateList: React.FC<UserRelateListProps> = (props) => {
         search={{
           labelWidth: 120,
         }}
+        columnsState={{
+          value: columnsStateMap,
+          onChange: setColumnsStateMap,
+        }}
         toolBarRender={() => [
-          <Button type="primary" onClick={() => handleCreateModalVisible(true)}>
+          <Button
+            key="add-new"
+            type="primary"
+            onClick={() => handleCreateModalVisible(true)}
+          >
             <PlusOutlined /> 新建用户
           </Button>,
           <Button
+            key="add-had"
             type="primary"
             onClick={() => {
               handleCheckBoxUserVisible(true);
             }}
           >
-            <PlusOutlined /> 已有用户
+            <CheckCircleOutlined /> 已有用户
           </Button>,
         ]}
+        tableAlertOptionRender={({ onCleanSelected }) => {
+          return (
+            <Space size={16}>
+              <a onClick={onCleanSelected}>取消选择</a>
+              <a
+                onClick={async () => {
+                  handleBatchDeleteUserRelate(selectedRowsState);
+                }}
+              >
+                批量取消关联
+              </a>
+            </Space>
+          );
+        }}
         request={async (params, sorter) => {
           const { data } = await queryList(getPageParams(params), sorter);
           return {
@@ -182,23 +304,6 @@ const UserRelateList: React.FC<UserRelateListProps> = (props) => {
           onChange: (_, selectedRows) => setSelectedRows(selectedRows),
         }}
       />
-      {selectedRowsState?.length > 0 && (
-        <FooterToolbar
-          extra={
-            <div>
-              已选择 <a style={{ fontWeight: 600 }}>{selectedRowsState.length}</a> 项&nbsp;&nbsp;
-            </div>
-          }
-        >
-          <Button
-            onClick={() => {
-              handleBatchDeleteUserRelate(selectedRowsState);
-            }}
-          >
-            批量取消关联
-          </Button>
-        </FooterToolbar>
-      )}
       <CreateForm
         createModalVisible={createModalVisible}
         handleCreateModalVisible={handleCreateModalVisible}
@@ -218,7 +323,6 @@ const UserRelateList: React.FC<UserRelateListProps> = (props) => {
         checkBoxUserVisible={checkBoxUserVisible}
         handleCheckBoxUserVisible={handleCheckBoxUserVisible}
         handleBatchAddUserRelate={handleBatchAddUserRelate}
-        values={values}
       />
     </Drawer>
   );
