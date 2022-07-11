@@ -1,3 +1,5 @@
+import type {RoleDTO, RoleVO} from "@/services/uaa/type/role";
+
 export type PermissionForm = {
   /** 主键ID */
   id: number;
@@ -18,14 +20,6 @@ export type PermissionForm = {
 };
 
 export type PermissionDTO = {
-  /** 创建人 */
-  createdBy?: number;
-  /** 创建时间 */
-  createdDate?: string;
-  /** 修改人 */
-  lastModifiedBy?: number;
-  /** 修改时间 */
-  lastModifiedDate?: string;
   /** 主键ID */
   id?: number;
   /** 权限名称 */
@@ -42,23 +36,19 @@ export type PermissionDTO = {
   description?: string;
   roles?: RoleDTO[];
   children?: PermissionDTO[];
+  /** 创建人 */
+  createdBy?: number;
+  /** 创建时间 */
+  createdDate?: string;
+  /** 修改人 */
+  lastModifiedBy?: number;
+  /** 修改时间 */
+  lastModifiedDate?: string;
 };
 
 export
 
 type PermissionVO = {
-  /** 创建人 */
-  createdBy?: number;
-  /** 创建人名称 */
-  createdByName?: string;
-  /** 创建时间 */
-  createdDate?: string;
-  /** 修改人 */
-  lastModifiedBy?: number;
-  /** 修改人名称 */
-  lastModifiedByName?: string;
-  /** 修改时间 */
-  lastModifiedDate?: string;
   /** 主键ID */
   id?: number;
   /** 权限名称 */
@@ -85,4 +75,16 @@ type PermissionVO = {
   description?: string;
   roles?: RoleVO[];
   children?: PermissionVO[];
+  /** 创建人 */
+  createdBy?: number;
+  /** 创建人名称 */
+  createdByName?: string;
+  /** 创建时间 */
+  createdDate?: string;
+  /** 修改人 */
+  lastModifiedBy?: number;
+  /** 修改人名称 */
+  lastModifiedByName?: string;
+  /** 修改时间 */
+  lastModifiedDate?: string;
 };

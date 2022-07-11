@@ -26,23 +26,43 @@
         <collection property="roles" column="id" select="org.shanzhaozhen.uaa.mapper.RoleMapper.getRoleByMenuId" />
     </resultMap>
 
+    <select id="getMenuByPId" resultType="org.shanzhaozhen.uaa.pojo.dto.MenuDTO">
+        select id, name, locale, path, pid, icon, priority,
+               hide_in_menu, hide_children_in_menu, props, description,
+               created_by, created_date, last_modified_by, last_modified_date
+        from sys_menu
+        <where>
+            <choose>
+                <when test="pid != null and pid != ''">
+                    where pid = #{pid}
+                </when>
+                <otherwise>
+                    where pid is null
+                </otherwise>
+            </choose>
+        </where>
+        order by priority
+    </select>
+
     <select id="getMenuByRoleId" resultType="org.shanzhaozhen.uaa.pojo.dto.MenuDTO">
         select m.id, m.name, m.locale, m.path, m.pid, m.icon, m.priority,
-               m.hide_in_menu, m.hide_children_in_menu, m.props, m.description
+               m.hide_in_menu, m.hide_children_in_menu, m.props, m.description,
+               m.created_by, m.created_date, m.last_modified_by, m.last_modified_date
         from sys_menu m
             inner join sys_role_menu srm on srm.role_id = #{roleId} and m.id = srm.menu_id
     </select>
 
     <select id="getAllMenus" resultType="org.shanzhaozhen.uaa.pojo.dto.MenuDTO">
         select id, name, locale, path, pid, icon, priority,
-               hide_in_menu, hide_children_in_menu, props, description
+               hide_in_menu, hide_children_in_menu, props, description,
+               created_by, created_date, last_modified_by, last_modified_date
         from sys_menu order by priority
     </select>
 
     <select id="getMenuRoleListByUserId" resultMap="MenuRoleMap">
         select distinct m.id, m.name, m.locale, m.path, m.pid, m.icon, m.priority, m.hide_in_Menu, m.hide_children_in_menu,
-        m.props, m.description,
-        m.created_by, m.created_date, m.last_modified_by, m.last_modified_date
+                        m.props, m.description,
+                        m.created_by, m.created_date, m.last_modified_by, m.last_modified_date
         from sys_menu m
         <if test="userId != null">
             inner join sys_role_menu srm on srm.menu_id = m.id

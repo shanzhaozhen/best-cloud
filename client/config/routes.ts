@@ -25,6 +25,16 @@ export default [
         path: '/system/role',
         component: './system/roleList',
       },
+      {
+        name: 'menu',
+        path: '/system/menu',
+        component: './system/menuList',
+      },
+      {
+        name: 'permission',
+        path: '/system/permission',
+        component: './system/permissionList',
+      },
     ],
   }, // {
   //   path: '/admin',

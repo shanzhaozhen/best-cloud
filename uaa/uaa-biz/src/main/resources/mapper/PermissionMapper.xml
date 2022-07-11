@@ -23,6 +23,23 @@
         </collection>
     </resultMap>
 
+    <select id="getPermissionByPid" resultType="org.shanzhaozhen.uaa.pojo.dto.PermissionDTO">
+        select id, name, path, type, pid, priority, description,
+               created_by, created_date, last_modified_by, last_modified_date
+        from sys_permission
+        <where>
+            <choose>
+                <when test="pid != null and pid != ''">
+                    pid = #{pid}
+                </when>
+                <otherwise>
+                    pid is null
+                </otherwise>
+            </choose>
+        </where>
+        order by priority
+    </select>
+
     <select id="getPermissionByRoleId" resultType="org.shanzhaozhen.uaa.pojo.dto.PermissionDTO">
         select r.id, r.name, r.path, r.type, r.pid, r.priority, r.description,
                r.created_by, r.created_date, r.last_modified_by, r.last_modified_date

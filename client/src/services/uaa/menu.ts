@@ -29,41 +29,29 @@ export async function addMenu(body: MenuForm, options?: Record<string, any>) {
 }
 
 /** 批量删除菜单接口 DELETE /menu */
-export async function batchDeleteMenu(body: number[], options?: Record<string, any>) {
+export async function batchDeleteMenu(menuIds: (number | undefined)[], options?: Record<string, any>) {
   return request<R<number[]>>(`/api/uaa/menu`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
-    data: body,
+    data: menuIds,
     ...(options || {}),
   });
 }
 
-/** 获取菜单信息（通过菜单id） GET /menu/${param0} */
-export async function getMenuById(
-  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: getMenuByIdParams,
-  options?: Record<string, any>,
-) {
-  const { menuId: param0, ...queryParams } = params;
-  return request<R<MenuVO>>(`/api/uaa/menu/${param0}`, {
+/** 获取菜单信息（通过菜单id） GET /menu/${menuId} */
+export async function getMenuById(menuId: number, options?: Record<string, any>) {
+  return request<R<MenuVO>>(`/api/uaa/menu/${menuId}`, {
     method: 'GET',
-    params: { ...queryParams },
     ...(options || {}),
   });
 }
 
 /** 删除菜单接口 DELETE /menu/${param0} */
-export async function deleteMenu(
-  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: deleteMenuParams,
-  options?: Record<string, any>,
-) {
-  const { menuId: param0, ...queryParams } = params;
-  return request<R<number>>(`/api/uaa/menu/${param0}`, {
+export async function deleteMenu(menuId: number, options?: Record<string, any>) {
+  return request<R<number>>(`/api/uaa/menu/${menuId}`, {
     method: 'DELETE',
-    params: { ...queryParams },
     ...(options || {}),
   });
 }
@@ -79,6 +67,17 @@ export async function getMenuTree(options?: Record<string, any>) {
 /** 获取所有菜单信息 GET /menu/all */
 export async function getAllMenus(options?: Record<string, any>) {
   return request<R<MenuVO[]>>(`/api/uaa/menu/all`, {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
+/** 通过父级id获取菜单列表 GET /menu/pid */
+export async function getMenuByPid(pid?: number, options?: Record<string, any>) {
+  return request<R<MenuVO[]>>(`/api/uaa/menu/pid`, {
+    params: {
+      pid
+    },
     method: 'GET',
     ...(options || {}),
   });

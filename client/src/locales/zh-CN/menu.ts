@@ -53,6 +53,7 @@ export default {
   'menu.system.menu': '菜单管理',
   'menu.system.user': '用户管理',
   'menu.system.role': '角色管理',
+  'menu.system.permission': '权限管理',
   'menu.system.resource': '资源管理',
   'menu.system.department': '部门管理',
   'menu.system.dictionary': '字典管理',

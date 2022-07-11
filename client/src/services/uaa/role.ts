@@ -40,7 +40,7 @@ export async function batchDeleteRole(roleIds: (number | undefined)[], options?:
   });
 }
 
-/** 获取角色信息（通过角色id） GET /role/${param0} */
+/** 获取角色信息（通过角色id） GET /role/${roleId} */
 export async function getRoleById(roleId: number, options?: Record<string, any>) {
   return request<R<RoleVO>>(`/api/uaa/role/${roleId}`, {
     method: 'GET',
@@ -48,7 +48,7 @@ export async function getRoleById(roleId: number, options?: Record<string, any>)
   });
 }
 
-/** 删除角色接口 DELETE /role/${param0} */
+/** 删除角色接口 DELETE /role/${roleId} */
 export async function deleteRole(roleId: number, options?: Record<string, any>) {
   return request<R<number>>(`/api/uaa/role/${roleId}`, {
     method: 'DELETE',

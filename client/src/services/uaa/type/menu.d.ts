@@ -1,3 +1,5 @@
+import type {RoleVO} from "@/services/uaa/type/role";
+
 export type MenuForm = {
   /** 主键ID */
   id: number;
@@ -55,18 +57,6 @@ type MenuDTO = {
 };
 
 export type MenuVO = {
-  /** 创建人 */
-  createdBy?: number;
-  /** 创建人名称 */
-  createdByName?: string;
-  /** 创建时间 */
-  createdDate?: string;
-  /** 修改人 */
-  lastModifiedBy?: number;
-  /** 修改人名称 */
-  lastModifiedByName?: string;
-  /** 修改时间 */
-  lastModifiedDate?: string;
   /** 主键ID */
   id?: number;
   /** 菜单名称 */
@@ -95,4 +85,16 @@ export type MenuVO = {
   children?: MenuVO[];
   /** 授权角色 */
   access?: string[];
+  /** 创建人 */
+  createdBy?: number;
+  /** 创建人名称 */
+  createdByName?: string;
+  /** 创建时间 */
+  createdDate?: string;
+  /** 修改人 */
+  lastModifiedBy?: number;
+  /** 修改人名称 */
+  lastModifiedByName?: string;
+  /** 修改时间 */
+  lastModifiedDate?: string;
 };

@@ -3,24 +3,25 @@ import React from "react";
 import {DrawerForm} from "@ant-design/pro-form";
 import type {ActionType} from "@ant-design/pro-table";
 import {message} from "antd";
-import type {RoleForm} from "@/services/uaa/type/role";
-import FormBody from "@/pages/System/RoleList/components/FormBody";
-import {addRole} from "@/services/uaa/role";
+import type {MenuForm} from "@/services/uaa/type/menu";
+import FormBody from "@/pages/System/MenuList/components/FormBody";
+import {addMenu} from "@/services/uaa/menu";
 
 interface CreateFormProps {
   createModalVisible: boolean;
   handleCreateModalVisible: Dispatch<SetStateAction<boolean>>;
   actionRef: MutableRefObject<ActionType | undefined>;
+  values: Partial<MenuForm>;
 }
 
 /**
- * 新建角色
+ * 新建菜单
  * @param fields
  */
-const handleAdd = async (fields: RoleForm) => {
+const handleAdd = async (fields: MenuForm) => {
   const hide = message.loading('添加中...');
   try {
-    await addRole({ ...fields });
+    await addMenu({ ...fields });
     hide();
     message.success('新建成功！');
     return true;
@@ -32,17 +33,18 @@ const handleAdd = async (fields: RoleForm) => {
 };
 
 const CreateForm: React.FC<CreateFormProps> = (props) => {
-  const { createModalVisible, handleCreateModalVisible, actionRef } = props;
+  const { createModalVisible, handleCreateModalVisible, actionRef, values } = props;
 
   return (
     <DrawerForm
-      title="新建角色"
+      title="新建菜单"
       width="748px"
       visible={createModalVisible}
+      initialValues={values}
       drawerProps={{ destroyOnClose: true }}
       onVisibleChange={handleCreateModalVisible}
       onFinish={async (value) => {
-        const success = await handleAdd(value as RoleForm);
+        const success = await handleAdd(value as MenuForm);
         if (success) {
           handleCreateModalVisible(false);
           if (actionRef.current) {

@@ -3,7 +3,7 @@ import {GrantedAuthority} from "@/services/common/typings";
 
 export type UserForm = {
   /** 主键ID */
-  id: number;
+  id?: number;
   /** 用户名 */
   username?: string;
   /** 密码 */

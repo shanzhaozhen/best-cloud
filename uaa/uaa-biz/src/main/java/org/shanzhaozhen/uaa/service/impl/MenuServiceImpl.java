@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import javax.annotation.Nullable;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
@@ -52,6 +53,10 @@ public class MenuServiceImpl implements MenuService {
         return menuMapper.getAllMenus();
     }
 
+    @Override
+    public List<MenuDTO> getMenuByPId(@Nullable Long pid) {
+        return menuMapper.getMenuByPId(pid);
+    }
 
     @Override
     @Cacheable(key = "#root.methodName")

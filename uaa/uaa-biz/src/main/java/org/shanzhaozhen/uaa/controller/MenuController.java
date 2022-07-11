@@ -21,6 +21,7 @@ public class MenuController {
 
     private static final String GET_ALL_MENU = "/menu/all";
     private static final String GET_ALL_MENU_TREE = "/menu/tree";
+    private static final String GET_MENU_BY_PID = "/menu/pid";
     private static final String GET_MENU_BY_ID = "/menu/{menuId}";
     private static final String ADD_MENU = "/menu";
     private static final String UPDATE_MENU = "/menu";
@@ -39,6 +40,12 @@ public class MenuController {
     @GetMapping(GET_ALL_MENU_TREE)
     public R<List<MenuVO>> getMenuTree() {
         return R.build(() -> MenuConverter.toVO(menuService.getMenuTree()));
+    }
+
+    @Operation(summary = "通过父级ID获取菜单列表")
+    @GetMapping(GET_MENU_BY_PID)
+    public R<List<MenuVO>> getMenuByPId(@Parameter(description = "父级id", example = "1") Long pid) {
+        return R.build(() -> MenuConverter.toVO(menuService.getMenuByPId(pid)));
     }
 
     @Operation(summary = "获取菜单信息（通过菜单id）")

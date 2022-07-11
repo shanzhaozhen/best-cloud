@@ -2,6 +2,7 @@ package org.shanzhaozhen.uaa.service;
 
 import org.shanzhaozhen.uaa.pojo.dto.MenuDTO;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public interface MenuService {
@@ -31,7 +32,13 @@ public interface MenuService {
      * @return
      */
     List<MenuDTO> getAllMenus();
-    
+
+    /**
+     * 通过父级ID获取菜单列表
+     * @return
+     */
+    List<MenuDTO> getMenuByPId(@Nullable Long pid);
+
     /**
      * 获取所有菜单的树形结构
      * @return
@@ -72,4 +79,5 @@ public interface MenuService {
      * @return
      */
     List<Long> batchDeleteMenu(List<Long> menuIds);
+
 }

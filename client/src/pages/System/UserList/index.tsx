@@ -1,5 +1,5 @@
-import { PlusOutlined } from '@ant-design/icons';
-import {Button, message, Popconfirm, Space, Tag} from 'antd';
+import {ExclamationCircleOutlined, PlusOutlined} from '@ant-design/icons';
+import {Button, message, Modal, Popconfirm, Space, Tag} from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
@@ -261,10 +261,19 @@ const UserList: React.FC = () => {
           <Button
             type="primary"
             danger
-            onClick={async () => {
-              await handleRemove(selectedRowsState);
-              setSelectedRows([]);
-              actionRef.current?.reloadAndRest?.();
+            onClick={() => {
+              Modal.confirm({
+                title: '请确认！',
+                icon: <ExclamationCircleOutlined />,
+                content: '确定删除选中的用户吗？',
+                onOk: async () => {
+                  await handleRemove(selectedRowsState);
+                  setSelectedRows([]);
+                  actionRef.current?.reloadAndRest?.();
+                },
+                onCancel() {
+                },
+              });
             }}
           >
             删除

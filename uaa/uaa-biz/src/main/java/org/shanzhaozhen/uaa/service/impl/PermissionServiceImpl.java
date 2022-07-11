@@ -44,6 +44,11 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
+    public List<PermissionDTO> getPermissionByPid(Long pid) {
+        return permissionMapper.getPermissionByPid(pid);
+    }
+
+    @Override
     public PermissionDTO getPermissionById(Long permissionId) {
         PermissionDO permissionDO = permissionMapper.selectById(permissionId);
         Assert.notNull(permissionDO, "获取失败：没有找到该权限或已被删除");

@@ -1,34 +1,34 @@
 import type {Dispatch, MutableRefObject, SetStateAction} from "react";
 import React from "react";
-import type {RoleForm, RoleVO} from "@/services/uaa/type/role";
-import FormBody from "@/pages/System/RoleList/components/FormBody";
+import type {MenuForm, MenuVO} from "@/services/uaa/type/menu";
+import FormBody from "@/pages/System/MenuList/components/FormBody";
 import {DrawerForm} from "@ant-design/pro-form";
 import type {ActionType} from "@ant-design/pro-table";
 import {message} from "antd";
-import {updateRole} from "@/services/uaa/role";
+import {updateMenu} from "@/services/uaa/menu";
 
 interface UpdateFormProps {
   updateModalVisible: boolean;
   handleUpdateModalVisible: Dispatch<SetStateAction<boolean>>;
   actionRef: MutableRefObject<ActionType | undefined>;
-  setCurrentRow: Dispatch<SetStateAction<RoleVO | undefined>>
-  values: Partial<RoleForm>;
+  setCurrentRow: Dispatch<SetStateAction<MenuVO | undefined>>
+  values: Partial<MenuForm>;
 }
 
 /**
- * 更新角色
+ * 更新菜单
  * @param fields
  */
-const handleUpdate = async (fields: RoleForm) => {
+const handleUpdate = async (fields: MenuForm) => {
   const hide = message.loading('更新中...');
   try {
-    await updateRole(fields);
+    await updateMenu(fields);
     hide();
-    message.success('角色更新成功');
+    message.success('菜单更新成功');
     return true;
   } catch (error) {
     hide();
-    message.error('角色更新失败，请重试!');
+    message.error('菜单更新失败，请重试!');
     return false;
   }
 };
@@ -38,7 +38,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
 
   return (
     <DrawerForm
-      title="修改角色"
+      title="修改菜单"
       width="748px"
       drawerProps={{
         destroyOnClose: true,
@@ -53,7 +53,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
       visible={updateModalVisible}
       onVisibleChange={handleUpdateModalVisible}
       onFinish={async (value) => {
-        const success = await handleUpdate(value as RoleForm);
+        const success = await handleUpdate(value as MenuForm);
         if (success) {
           handleUpdateModalVisible(false);
           setCurrentRow(undefined);

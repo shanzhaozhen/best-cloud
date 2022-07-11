@@ -14,10 +14,18 @@ public interface PermissionService {
     List<PermissionDTO> getPermissionRoleListByType(Integer type);
 
     /**
-     * 获取所有权限的树形结构
+     * 根据类型获取权限列表
+     * @param type
      * @return
      */
     List<PermissionDTO> getPermissionTreeByType(Integer type);
+
+    /**
+     * 根据父级ID获取权限列表
+     * @param pid
+     * @return
+     */
+    List<PermissionDTO> getPermissionByPid(Long pid);
 
     /**
      * 通过权限id获取权限实体

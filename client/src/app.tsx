@@ -7,13 +7,13 @@ import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
 import {BookOutlined, ExclamationCircleOutlined, LinkOutlined} from '@ant-design/icons';
 import defaultSettings from '../config/defaultSettings';
-import type { RequestConfig } from "@@/plugin-request/request";
 import type { RequestOptionsInit, ResponseError } from 'umi-request';
 import {getCurrentUserInfo} from "@/services/uaa/user";
 import type {CurrentUser} from "@/services/uaa/type/user";
 import {stringify} from "querystring";
 import {Modal, notification} from "antd";
 import {getToken} from "@/utils/common";
+import type {RequestConfig} from "@@/plugin-request/request";
 
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -74,6 +74,8 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         history.push(loginPath);
       }
     },
+    // todo: 动态菜单
+    // menuDataRender: () => initialState?.menuData || [],
     links: isDev
       ? [
           <Link key="api" to="/umi/plugin/openapi" target="_blank">
