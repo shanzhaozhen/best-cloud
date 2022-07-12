@@ -110,6 +110,7 @@ public class MenuServiceImpl implements MenuService {
     @CacheEvict(allEntries = true)
     public Long deleteMenu(Long menuId) {
         menuMapper.deleteById(menuId);
+        // todo: 删除子节点
         return menuId;
     }
 

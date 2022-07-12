@@ -63,7 +63,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public Long addRole(RoleDTO roleDTO) {
         RoleDTO roleInDB = roleMapper.getRoleByCode(roleDTO.getCode());
-        Assert.isNull(roleInDB, "创建失败：角色代码已被占用");
+        Assert.isNull(roleInDB, "创建失败：角色编码已被占用");
         RoleDO roleDO = RoleConverter.toDO(roleDTO);
         roleMapper.insert(roleDO);
         updateMenuAndPermission(roleDO.getId(), roleDTO.getMenuIds(), roleDTO.getPermissionIds());

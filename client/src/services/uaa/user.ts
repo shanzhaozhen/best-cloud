@@ -21,33 +21,31 @@ export async function getUserPage(params: PageParams, options?: Record<string, a
     },
     data: {
       ...params,
-      page: undefined,
-      ...params['page'],
     },
     ...(options || {}),
   });
 }
 
 /** 添加用户接口 POST /user */
-export async function addUser(body: UserForm, options?: Record<string, any>) {
+export async function addUser(userForm: UserForm, options?: Record<string, any>) {
   return request<R<number>>(`/api/uaa/user`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    data: body,
+    data: userForm,
     ...(options || {}),
   });
 }
 
 /** 更新用户接口 PUT /user */
-export async function updateUser(body: UserForm, options?: Record<string, any>) {
+export async function updateUser(userForm: UserForm, options?: Record<string, any>) {
   return request<R<number>>(`/api/uaa/user`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    data: body,
+    data: userForm,
     ...(options || {}),
   });
 }
@@ -80,7 +78,7 @@ export async function deleteUser(userId: number, options?: Record<string, any>) 
   });
 }
 /** 通过角色ID获取用户信息（分页） GET /user/role/page */
-export async function getUserPageByRoleId(pageParams: PageParams, roleId?: number, options?: Record<string, any>) {
+export async function getUserPageByRoleId(pageParams: PageParams, options?: Record<string, any>) {
   return request<R<Page<UserVO>>>(`/api/uaa/user/role/page`, {
     method: 'POST',
     headers: {
@@ -88,14 +86,13 @@ export async function getUserPageByRoleId(pageParams: PageParams, roleId?: numbe
     },
     data: {
       ...pageParams,
-      roleId,
     },
     ...(options || {}),
   });
 }
 
 /** 通过部门ID获取用户信息（分页） GET /user/department/page */
-export async function getUserPageByDepartmentId(pageParams: PageParams, departmentId?: number, options?: Record<string, any>,) {
+export async function getUserPageByDepartmentId(pageParams: PageParams, options?: Record<string, any>,) {
   return request<R<Page<UserVO>>>(`/api/uaa/user/department/page`, {
     method: 'POST',
     headers: {
@@ -103,7 +100,6 @@ export async function getUserPageByDepartmentId(pageParams: PageParams, departme
     },
     data: {
       ...pageParams,
-      departmentId,
     },
     ...(options || {}),
   });

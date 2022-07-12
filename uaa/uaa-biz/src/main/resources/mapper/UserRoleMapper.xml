@@ -26,7 +26,9 @@
     </select>
 
     <select id="getUserRoleByUserIdAndRoleId" resultType="org.shanzhaozhen.uaa.pojo.entity.UserRoleDO">
-        select * from sys_user_role where user_id = #{userId} and role_id = #{roleId}
+        select id, user_id, role_id, created_by, created_date, last_modified_by, last_modified_date
+        from sys_user_role
+        where user_id = #{userId} and role_id = #{roleId}
     </select>
 
     <delete id="deleteByUserId">
@@ -34,7 +36,7 @@
     </delete>
 
     <delete id="deleteByUserIdAndRoleId">
-        delete from sys_user_role where user_id = #{userId} and  role_id = #{roleId}
+        delete from sys_user_role where user_id = #{userId} and role_id = #{roleId}
     </delete>
 
 </mapper>

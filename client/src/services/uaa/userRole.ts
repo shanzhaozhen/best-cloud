@@ -6,7 +6,7 @@ import {Page, PageParams, R} from "@/services/common/typings";
 import {UserVO} from "@/services/uaa/type/user";
 
 /** 获取用户角色信息（分页） GET /user-role */
-export async function getUserPageByRoleId(pageParams: PageParams, roleId?: number, options?: Record<string, any>) {
+export async function getUserPageByRoleId(pageParams: PageParams, options?: Record<string, any>) {
   return request<R<Page<UserVO>>>(`/api/uaa/user-role`, {
     method: 'POST',
     headers: {
@@ -14,20 +14,19 @@ export async function getUserPageByRoleId(pageParams: PageParams, roleId?: numbe
     },
     data: {
       ...pageParams,
-      roleId,
     },
     ...(options || {}),
   });
 }
 
 /** 添加用户角色 POST /user-role */
-export async function addUserRole(body: UserRoleForm, options?: Record<string, any>) {
+export async function addUserRole(userRoleForm: UserRoleForm, options?: Record<string, any>) {
   return request<R<number[]>>(`/api/uaa/user-role`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    data: body,
+    data: userRoleForm,
     ...(options || {}),
   });
 }

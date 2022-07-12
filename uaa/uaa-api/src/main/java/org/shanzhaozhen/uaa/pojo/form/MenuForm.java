@@ -19,6 +19,9 @@ public class MenuForm {
     @NotNull(groups = {Update.class}, message = "资源id不能为空")
     private Long id;
 
+    @Schema(description = "上级ID")
+    private Long pid;
+
     @Schema(description = "菜单名称")
     @NotNull(groups = {Insert.class, Update.class}, message = "资源名称不能为空")
     private String name;
@@ -28,9 +31,6 @@ public class MenuForm {
 
     @Schema(description = "菜单路径")
     private String path;
-
-    @Schema(description = "上级ID")
-    private Long pid;
 
     @Schema(description = "图标")
     private String icon;

@@ -35,6 +35,11 @@ export default [
         path: '/system/permission',
         component: './system/permissionList',
       },
+      {
+        name: 'department',
+        path: '/system/department',
+        component: './system/departmentList',
+      },
     ],
   }, // {
   //   path: '/admin',

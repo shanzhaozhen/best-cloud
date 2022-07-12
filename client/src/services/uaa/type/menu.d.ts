@@ -3,14 +3,14 @@ import type {RoleVO} from "@/services/uaa/type/role";
 export type MenuForm = {
   /** 主键ID */
   id: number;
+  /** 上级ID */
+  pid?: number;
   /** 菜单名称 */
   name: string;
   /** 菜单名称（本地化） */
   locale?: string;
   /** 菜单路径 */
   path?: string;
-  /** 上级ID */
-  pid?: number;
   /** 图标 */
   icon?: string;
   /** 排序等级 */
@@ -25,19 +25,17 @@ export type MenuForm = {
   description?: string;
 };
 
-
-
-type MenuDTO = {
+export type MenuDTO = {
   /** 主键ID */
   id?: number;
+  /** 上级ID */
+  pid?: number;
   /** 菜单名称 */
   name?: string;
   /** 菜单名称（本地化） */
   locale?: string;
   /** 菜单路径 */
   path?: string;
-  /** 上级ID */
-  pid?: number;
   /** 图标 */
   icon?: string;
   /** 排序等级 */
@@ -59,14 +57,14 @@ type MenuDTO = {
 export type MenuVO = {
   /** 主键ID */
   id?: number;
+  /** 上级ID */
+  pid?: number;
   /** 菜单名称 */
   name?: string;
   /** 菜单名称（本地化） */
   locale?: string;
   /** 菜单路径 */
   path?: string;
-  /** 上级ID */
-  pid?: number;
   /** 图标 */
   icon?: string;
   /** 排序等级 */

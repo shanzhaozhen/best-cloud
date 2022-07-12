@@ -28,8 +28,8 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
           <ProFormText
             width="md"
             name="code"
-            label="角色代码"
-            rules={[{ required: true, message: '请输入角色代码' }]}
+            label="角色编码"
+            rules={[{ required: true, message: '请输入角色编码' }]}
           />
         </Col>
         <Col span={24}>

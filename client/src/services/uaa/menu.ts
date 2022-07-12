@@ -5,25 +5,25 @@ import {R} from "@/services/common/typings";
 import {MenuForm, MenuVO} from './type/menu';
 
 /** 更新菜单接口 PUT /menu */
-export async function updateMenu(body: MenuForm, options?: Record<string, any>) {
+export async function updateMenu(menuForm: MenuForm, options?: Record<string, any>) {
   return request<R<number>>(`/api/uaa/menu`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    data: body,
+    data: menuForm,
     ...(options || {}),
   });
 }
 
 /** 添加菜单接口 POST /menu */
-export async function addMenu(body: MenuForm, options?: Record<string, any>) {
+export async function addMenu(menuForm: MenuForm, options?: Record<string, any>) {
   return request<R<number>>(`/api/uaa/menu`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    data: body,
+    data: menuForm,
     ...(options || {}),
   });
 }

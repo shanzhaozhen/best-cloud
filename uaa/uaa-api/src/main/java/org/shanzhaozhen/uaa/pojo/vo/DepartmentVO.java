@@ -15,8 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Schema(description = "菜单VO实体")
-public class MenuVO extends BaseInfoVO {
+@Schema(description = "部门VO实体")
+public class DepartmentVO extends BaseInfoVO {
 
     @Schema(description = "主键ID")
     @JsonSerialize(using = ToStringSerializer.class)
@@ -26,40 +26,19 @@ public class MenuVO extends BaseInfoVO {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long pid;
 
-    @Schema(description = "菜单名称")
+    @Schema(description = "部门名称")
     private String name;
 
-    @Schema(description = "菜单名称（本地化）")
-    private String locale;
-
-    @Schema(description = "菜单路径")
-    private String path;
-
-    @Schema(description = "图标")
-    private String icon;
+    @Schema(description = "部门编码")
+    private String code;
 
     @Schema(description = "排序等级")
     private Integer priority;
 
-    @Schema(description = "菜单是否隐藏")
-    private Boolean hideInMenu;
-
-    @Schema(description = "隐藏子节点")
-    private Boolean hideChildrenInMenu;
-
-    @Schema(description = "参数")
-    private String props;
-
-    @Schema(description = "菜单描述")
+    @Schema(description = "部门描述")
     private String description;
 
-    @Schema(description = "关联的角色")
-    private List<RoleVO> roleVOList;
-
-    @Schema(description = "下级菜单")
-    private List<MenuVO> children;
-
-    @Schema(description = "授权角色")
-    private List<String> access;
+    @Schema(description = "下级部门")
+    private List<DepartmentVO> children;
 
 }

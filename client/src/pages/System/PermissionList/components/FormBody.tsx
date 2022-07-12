@@ -94,7 +94,7 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
           />
         </Col>
         <Col xl={12} lg={12} md={24}>
-          <ProFormDigit width="md" name="priority" label="排序等级" min={1} />
+          <ProFormDigit width="md" name="priority" label="排序等级" min={0} initialValue={0} />
         </Col>
         <Col span={24}>
           <ProFormTextArea name="description" label="权限描述" />

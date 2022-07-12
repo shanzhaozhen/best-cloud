@@ -19,6 +19,9 @@ public class MenuDTO implements Serializable {
     @Schema(description = "主键ID")
     private Long id;
 
+    @Schema(description = "上级ID")
+    private Long pid;
+
     @Schema(description = "菜单名称")
     private String name;
 
@@ -27,9 +30,6 @@ public class MenuDTO implements Serializable {
 
     @Schema(description = "菜单路径")
     private String path;
-
-    @Schema(description = "上级ID")
-    private Long pid;
 
     @Schema(description = "图标")
     private String icon;

@@ -1,18 +1,17 @@
 import React, { useRef, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import { Drawer, Input, message, Modal, Space } from 'antd';
+import {Drawer, Input, message, Modal, Space, Tag} from 'antd';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
+import ProTable, {ColumnsState} from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import {convertPageParams} from '@/utils/common';
-import type {RoleVO} from "@/services/uaa/type/role";
 import type {UserVO} from "@/services/uaa/type/user";
 import {getUserPage} from "@/services/uaa/user";
 
 interface CheckBoxUserProps {
   checkBoxUserVisible: boolean;
   handleCheckBoxUserVisible: Dispatch<SetStateAction<boolean>>;
-  handleBatchAddUserRelate: (selectRows: RoleVO[]) => void;
+  handleBatchAddUserRelate: (selectRows: UserVO[]) => void;
 }
 
 const CheckBoxUser: React.FC<CheckBoxUserProps> = (props) => {
@@ -46,6 +45,7 @@ const CheckBoxUser: React.FC<CheckBoxUserProps> = (props) => {
       valueType: 'text',
       sorter: true,
       hideInSearch: true,
+      hideInSetting: true,
       formItemProps: {
         rules: [
           {
@@ -57,16 +57,88 @@ const CheckBoxUser: React.FC<CheckBoxUserProps> = (props) => {
     },
     {
       title: '姓名',
-      dataIndex: 'name',
+      dataIndex: ['userInfo', 'name'],
       valueType: 'text',
-      sorter: true,
+      sorter: 'u.name',
       hideInSearch: true,
     },
     {
       title: '昵称',
-      dataIndex: 'nickname',
+      dataIndex: ['userInfo', 'nickname'],
       valueType: 'text',
       hideInSearch: true,
+    },
+    {
+      title: '性别',
+      dataIndex: ['userInfo', 'sex'],
+      valueType: 'text',
+      valueEnum: {
+        0: { text: '男' },
+        1: { text: '女' },
+      },
+      hideInSearch: true,
+    },
+    {
+      title: '头像',
+      dataIndex: ['userInfo', 'avatar'],
+      valueType: 'image',
+      hideInSearch: true,
+    },
+    {
+      title: '是否过期',
+      dataIndex: 'accountNonExpired',
+      hideInSearch: true,
+      render: (_, entity) => (
+        <Space>
+          {entity.accountNonExpired ? <Tag color="green">未过期</Tag> : <Tag color="red">已过期</Tag>}
+        </Space>
+      ),
+    },
+    {
+      title: '是否锁定',
+      dataIndex: 'accountNonLocked',
+      hideInSearch: true,
+      render: (_, entity) => (
+        <Space>
+          {entity.accountNonLocked ? <Tag color="green">否</Tag> : <Tag color="red">是</Tag>}
+        </Space>
+      ),
+    },
+    {
+      title: '密码过期',
+      dataIndex: 'credentialsNonExpired',
+      hideInSearch: true,
+      render: (_, entity) => (
+        <Space>
+          {entity.credentialsNonExpired ? <Tag color="green">未过期</Tag> : <Tag color="red">已过期</Tag>}
+        </Space>
+      ),
+    },
+    {
+      title: '是否禁用',
+      dataIndex: 'enabled',
+      hideInSearch: true,
+      render: (_, entity) => (
+        <Space>
+          {entity.enabled ? <Tag color="green">否</Tag> : <Tag color="red">是</Tag>}
+        </Space>
+      ),
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createdDate',
+      valueType: 'dateTime',
+      sorter: true,
+      hideInSearch: true,
+      hideInForm: true,
+    },
+    {
+      title: '修改时间',
+      dataIndex: 'lastModifiedDate',
+      valueType: 'dateTime',
+      sorter: true,
+      hideInSearch: true,
+      hideInForm: true,
     },
     // {
     //   title: '所属部门',
@@ -98,6 +170,33 @@ const CheckBoxUser: React.FC<CheckBoxUserProps> = (props) => {
     },
   ];
 
+  const [columnsStateMap, setColumnsStateMap] = useState<Record<string, ColumnsState>>({
+    'userInfo,sex': {
+      show: false
+    },
+    'userInfo,avatar': {
+      show: false
+    },
+    accountNonExpired: {
+      show: false
+    },
+    accountNonLocked: {
+      show: false
+    },
+    credentialsNonExpired: {
+      show: false
+    },
+    enabled: {
+      show: false
+    },
+    createdDate: {
+      show: false
+    },
+    lastModifiedDate: {
+      show: false
+    },
+  });
+
   return (
     <Modal
       title="用户选择"
@@ -117,6 +216,10 @@ const CheckBoxUser: React.FC<CheckBoxUserProps> = (props) => {
         bordered={true}
         search={{
           labelWidth: 120,
+        }}
+        columnsState={{
+          value: columnsStateMap,
+          onChange: setColumnsStateMap,
         }}
         tableAlertOptionRender={({ onCleanSelected }) => {
           return (

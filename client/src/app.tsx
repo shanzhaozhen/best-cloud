@@ -221,8 +221,6 @@ const errorHandler = async (error: ResponseError) => {
 const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
   const accessToken = getToken();
 
-  console.log('进入请求方法')
-
   if (url !== '/api/authorize/oauth2/token' && accessToken) {
     return {
       url,

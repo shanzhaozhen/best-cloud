@@ -11,7 +11,6 @@ import type {Page, R} from '@/services/common/typings';
 import type { PageParams } from '@/services/common/typings';
 import type { SortOrder } from 'antd/lib/table/interface';
 import { getPageParams } from '@/utils/common';
-import type {RoleVO} from "@/services/uaa/type/role";
 import type {UserVO} from "@/services/uaa/type/user";
 import {getUserById} from "@/services/uaa/user";
 
@@ -20,9 +19,9 @@ interface UserRelateListProps {
   handleUserRelateListVisible: Dispatch<SetStateAction<boolean>>;
   userRelateActionRef: MutableRefObject<ActionType | undefined>;
   onCancel: () => void;
-  handleBatchAddUserRelate: (selectRows: RoleVO[]) => void;
-  handleDeleteUserRelate: (record: RoleVO) => void;
-  handleBatchDeleteUserRelate: (selectRows: RoleVO[]) => void;
+  handleBatchAddUserRelate: (selectRows: UserVO[]) => void;
+  handleDeleteUserRelate: (record: UserVO) => void;
+  handleBatchDeleteUserRelate: (selectRowIds: UserVO[]) => void;
   queryList: (
     params: PageParams,
     sorter: Record<string, SortOrder>,

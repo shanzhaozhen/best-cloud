@@ -85,39 +85,4 @@ public class MenuConverter {
         return menuVOList;
     }
 
-    /**
-     * 将MenuDTO转换成MenuVO供给前端渲染使用
-     * @param menuDTO
-     * @return
-     */
-    public static MenuVO toMenuVO(MenuDTO menuDTO) {
-        MenuVO menuVO = new MenuVO();
-        BeanUtils.copyProperties(menuDTO, menuVO);
-        if (!CollectionUtils.isEmpty(menuDTO.getRoles())) {
-            List<RoleDTO> roleDTOList = menuDTO.getRoles();
-            List<String> roles = new ArrayList<>();
-            for (RoleDTO roleDTO : roleDTOList) {
-                roles.add(roleDTO.getCode());
-            }
-            menuVO.setAccess(roles);
-        }
-        if (!CollectionUtils.isEmpty(menuDTO.getChildren())) {
-            menuVO.setChildren(toMenuVO(menuDTO.getChildren()));
-        }
-        return menuVO;
-    }
-
-    /**
-     * 批量将MenuDTOList转换成MenuVO供给前端渲染使用
-     * @param menuDTOList
-     * @return
-     */
-    public static List<MenuVO> toMenuVO(List<MenuDTO> menuDTOList) {
-        List<MenuVO> menus = new ArrayList<>();
-        for (MenuDTO menuDTO : menuDTOList) {
-            menus.add(toMenuVO(menuDTO));
-        }
-        return menus;
-    }
-
 }

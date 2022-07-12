@@ -22,7 +22,7 @@ public class RoleDTO extends BaseInfo {
     @Schema(description = "名称")
     private String name;
 
-    @Schema(description = "角色代码")
+    @Schema(description = "角色编码")
     private String code;
 
     @Schema(description = "描述")

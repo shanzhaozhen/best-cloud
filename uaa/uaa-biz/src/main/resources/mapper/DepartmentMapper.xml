@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.shanzhaozhen.uaa.mapper.DepartmentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.uaa.pojo.entity.DepartmentDO">
+        <id column="id" property="id" />
+        <result column="pid" property="pid" />
+        <result column="name" property="name" />
+        <result column="code" property="code" />
+        <result column="priority" property="priority" />
+        <result column="description" property="description" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+
+    <select id="getDepartmentPage" resultType="org.shanzhaozhen.uaa.pojo.dto.DepartmentDTO">
+        select id, pid, name, code, priority, description, created_by, created_date, last_modified_by, last_modified_date
+        from sys_department
+        <if test="keyword != null and keyword != ''">
+            where name like concat ('%', #{keyword}, '%') or code like concat ('%', #{keyword}, '%') or description like concat ('%', #{keyword}, '%')
+        </if>
+    </select>
+
+    <select id="getAllDepartments" resultType="org.shanzhaozhen.uaa.pojo.dto.DepartmentDTO">
+        select id, pid, name, code, priority, description, created_by, created_date, last_modified_by, last_modified_date
+        from sys_department order by priority
+    </select>
+
+    <select id="getDepartmentByPId" resultType="org.shanzhaozhen.uaa.pojo.dto.DepartmentDTO">
+        select id, pid, name, code, priority, description, created_by, created_date, last_modified_by, last_modified_date
+        from sys_department
+        <where>
+            <choose>
+                <when test="pid != null and pid != ''">
+                    pid = #{pid}
+                </when>
+                <otherwise>
+                    pid is null
+                </otherwise>
+            </choose>
+        </where>
+        order by priority
+    </select>
+
+</mapper>

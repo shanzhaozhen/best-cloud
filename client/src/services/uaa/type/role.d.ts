@@ -3,7 +3,7 @@ export type RoleForm = {
   id: number;
   /** 名称 */
   name: string;
-  /** 角色代码 */
+  /** 角色编码 */
   code: string;
   /** 描述 */
   description?: string;
@@ -18,7 +18,7 @@ export type RoleDTO = {
   id?: number;
   /** 名称 */
   name?: string;
-  /** 角色代码 */
+  /** 角色编码 */
   code?: string;
   /** 描述 */
   description?: string;
@@ -55,7 +55,7 @@ type RoleVO = {
   id?: number;
   /** 名称 */
   name?: string;
-  /** 角色代码 */
+  /** 角色编码 */
   code?: string;
   /** 描述 */
   description?: string;

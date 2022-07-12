@@ -133,8 +133,6 @@ export type UserInfoDTO = {
   id?: number;
   /** 关联用户id */
   pid?: number;
-  /** 部门ID */
-  depId?: number;
   /** 姓名 */
   name?: string;
   /** 昵称 */

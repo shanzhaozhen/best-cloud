@@ -23,6 +23,9 @@ public class MenuDO extends BaseInfo {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
+    @Schema(description = "上级ID")
+    private Long pid;
+
     @Schema(description = "菜单名称")
     private String name;
 
@@ -31,9 +34,6 @@ public class MenuDO extends BaseInfo {
 
     @Schema(description = "菜单路径")
     private String path;
-
-    @Schema(description = "上级ID")
-    private Long pid;
 
     @Schema(description = "图标")
     private String icon;

@@ -169,7 +169,7 @@ const RoleList: React.FC = () => {
       },
     },
     {
-      title: '角色代码',
+      title: '角色编码',
       dataIndex: 'code',
       valueType: 'text',
       hideInSearch: true,
@@ -388,7 +388,7 @@ const RoleList: React.FC = () => {
           handleDeleteUserRelate={handleDeleteUserRole}
           handleBatchDeleteUserRelate={handleBatchDeleteUserRole}
           queryList={async (params: PageParams, sorter: Record<string, SortOrder>) =>
-            await getUserPageByRoleId(convertPageParams(params, sorter), currentRow.id)
+            await getUserPageByRoleId(convertPageParams(params, sorter))
           }
         />
       ) : null}

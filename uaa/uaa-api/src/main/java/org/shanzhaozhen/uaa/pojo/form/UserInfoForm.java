@@ -26,9 +26,6 @@ public class UserInfoForm extends BaseInfo {
     @NotNull(groups = {Update.class}, message = "用户关联id不能为空")
     private Long pid;
 
-    @Schema(description = "部门ID")
-    private Long depId;
-
     @Schema(description = "姓名")
     private String name;
 

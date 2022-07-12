@@ -1,32 +1,32 @@
 import {ExclamationCircleOutlined, PlusOutlined} from '@ant-design/icons';
-import {Button, message, Drawer, Popconfirm, Space, Tag, Modal} from 'antd';
+import {Button, message, Drawer, Popconfirm, Modal, Input} from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
-import type {MenuVO} from "@/services/uaa/type/menu";
+import type {DepartmentVO} from "@/services/uaa/type/department";
 import {
-  batchDeleteMenu,
-  deleteMenu,
-  getMenuById,
-  getMenuByPid,
-} from "@/services/uaa/menu";
+  batchDeleteDepartment,
+  deleteDepartment,
+  getDepartmentById,
+  getDepartmentByPid, getDepartmentPage,
+} from "@/services/uaa/department";
 import type {PageParams} from "@/services/common/typings";
-import CreateForm from "@/pages/System/MenuList/components/CreateForm";
-import UpdateForm from "@/pages/System/MenuList/components/UpdateForm";
-import * as Icon from '@ant-design/icons';
+import CreateForm from "@/pages/System/DepartmentList/components/CreateForm";
+import UpdateForm from "@/pages/System/DepartmentList/components/UpdateForm";
+import {convertPageParams} from "@/utils/common";
 
 /**
- * 删除菜单
+ * 删除部门
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: MenuVO[]) => {
+const handleRemove = async (selectedRows: DepartmentVO[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    await batchDeleteMenu(selectedRows.map((row) => row.id));
+    await batchDeleteDepartment(selectedRows.map((row) => row.id));
     hide();
     message.success('删除成功！');
     return true;
@@ -37,23 +37,25 @@ const handleRemove = async (selectedRows: MenuVO[]) => {
   }
 };
 
-const MenuList: React.FC = () => {
+const DepartmentList: React.FC = () => {
 
   const [createModalVisible, handleCreateModalVisible] = useState<boolean>(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
 
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
-  const actionRef = useRef<ActionType>();
-  const [menuData, setMenuData] = useState<MenuVO[]>([]);
-  const [currentRow, setCurrentRow] = useState<MenuVO>();
-  const [selectedRowsState, setSelectedRows] = useState<MenuVO[]>([]);
+  const [pagination, setPagination] = useState<false | undefined>(false);
 
-  const updateMenuData = (
-    list: MenuVO[],
+  const actionRef = useRef<ActionType>();
+  const [departmentData, setDepartmentData] = useState<DepartmentVO[]>([]);
+  const [currentRow, setCurrentRow] = useState<DepartmentVO>();
+  const [selectedRowsState, setSelectedRows] = useState<DepartmentVO[]>([]);
+
+  const updateDepartmentData = (
+    list: DepartmentVO[],
     key: number | undefined,
-    children: MenuVO[] | null,
-  ): MenuVO[] => {
+    children: DepartmentVO[] | null,
+  ): DepartmentVO[] => {
     return list.map((node) => {
       if (node.id === key) {
         return {
@@ -64,20 +66,20 @@ const MenuList: React.FC = () => {
       if (node.children && node.children.length > 0) {
         return {
           ...node,
-          children: updateMenuData(node.children, key, children),
+          children: updateDepartmentData(node.children, key, children),
         };
       }
       return { ...node };
     });
   };
 
-  const onLoadMenuChildren = async (expanded: boolean, entity: MenuVO) => {
-    if (expanded && entity && entity.id) {
-      const { data } = await getMenuByPid(entity.id);
-      setMenuData((menu) =>
-        updateMenuData(
-          menu,
-          entity.id,
+  const onLoadDepartmentChildren = async (expanded: boolean, record: DepartmentVO) => {
+    if (expanded && record && record.id) {
+      const { data } = await getDepartmentByPid(record.id);
+      setDepartmentData((department) =>
+        updateDepartmentData(
+          department,
+          record.id,
           data && data.length > 0 ? data.map((item) => ({
             ...item,
             children: []
@@ -87,9 +89,19 @@ const MenuList: React.FC = () => {
     }
   };
 
-  const columns: ProColumns<MenuVO>[] = [
+  const columns: ProColumns<DepartmentVO>[] = [
     {
-      title: '菜单名称',
+      title: '关键字',
+      key: 'keyword',
+      hideInTable: true,
+      hideInForm: true,
+      dataIndex: 'keyword',
+      renderFormItem: () => {
+        return <Input placeholder="请输入关键字" />;
+      },
+    },
+    {
+      title: '部门名称',
       dataIndex: 'name',
       valueType: 'text',
       hideInSearch: true,
@@ -115,26 +127,11 @@ const MenuList: React.FC = () => {
       },
     },
     {
-      title: '菜单名称（本地化）',
-      dataIndex: 'locale',
-      valueType: 'text',
-      hideInSearch: true,
-    },
-    {
-      title: '菜单路径',
-      dataIndex: 'path',
-      valueType: 'text',
-      hideInSearch: true,
-    },
-    {
-      title: '图标',
-      dataIndex: 'icon',
+      title: '部门编码',
+      dataIndex: 'code',
       valueType: 'text',
       align: 'center',
       hideInSearch: true,
-      render: (_, entity) => (
-        <Space>{entity.icon && React.createElement(Icon[entity.icon])}</Space>
-      ),
     },
     {
       title: '排序等级',
@@ -142,28 +139,6 @@ const MenuList: React.FC = () => {
       valueType: 'text',
       align: 'center',
       hideInSearch: true,
-    },
-    {
-      title: '菜单是否隐藏',
-      dataIndex: 'hideInMenu',
-      align: 'center',
-      hideInSearch: true,
-      render: (_, entity) => (
-        <Space>
-          {entity.hideInMenu ? <Tag color="default">是</Tag> : <Tag color="green">否</Tag>}
-        </Space>
-      ),
-    },
-    {
-      title: '隐藏子节点',
-      dataIndex: 'hideChildrenInMenu',
-      align: 'center',
-      hideInSearch: true,
-      render: (_, entity) => (
-        <Space>
-          {entity.hideChildrenInMenu ? <Tag color="default">是</Tag> : <Tag color="green">否</Tag>}
-        </Space>
-      ),
     },
     {
       title: '创建时间',
@@ -184,16 +159,16 @@ const MenuList: React.FC = () => {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
-      render: (_, entity) => [
+      render: (_, record) => [
         <a
           key="update"
           onClick={async () => {
-            if (entity && entity.id) {
-              const { data } = await getMenuById(entity.id);
-              setCurrentRow(data || {});
+            if (record && record.id) {
+              const { data } = await getDepartmentById(record.id);
+              setCurrentRow(data);
               handleUpdateModalVisible(true);
             } else {
-              message.warn('没有选中有效的菜单');
+              message.warn('没有选中有效的部门');
             }
           }}
         >
@@ -201,19 +176,19 @@ const MenuList: React.FC = () => {
         </a>,
         <Popconfirm
           key="delete"
-          title="确定删除该菜单节点?"
+          title="确定删除该部门节点?"
           arrowPointAtCenter
           onConfirm={async () => {
-            if (entity && entity.id) {
-              if (entity.children && entity.children.length > 0) {
-                message.warn('该菜单节点存在子节点，删除已被拒绝');
+            if (record && record.id) {
+              if (record.children && record.children.length > 0) {
+                message.warn('该部门节点存在子节点，删除已被拒绝');
                 return;
               }
-              await deleteMenu(entity.id);
+              await deleteDepartment(record.id);
               message.success('删除成功！');
               actionRef.current?.reloadAndRest?.();
             } else {
-              message.warn('没有选中有效的菜单');
+              message.warn('没有选中有效的部门');
             }
           }}
           okText="确定"
@@ -224,7 +199,7 @@ const MenuList: React.FC = () => {
         <a
           key="add-sub"
           onClick={async () => {
-            setCurrentRow({ pid: entity.id });
+            setCurrentRow({ pid: record.id });
             handleCreateModalVisible(true);
           }}
         >
@@ -236,11 +211,11 @@ const MenuList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<MenuVO, PageParams>
-        headerTitle="菜单列表"
+      <ProTable<DepartmentVO, PageParams>
+        headerTitle="部门列表"
         actionRef={actionRef}
         rowKey="id"
-        search={false}
+        pagination={pagination}
         toolBarRender={() => [
           <Button
             type="primary"
@@ -249,21 +224,28 @@ const MenuList: React.FC = () => {
               handleCreateModalVisible(true);
             }}
           >
-            <PlusOutlined /> 新建菜单
+            <PlusOutlined /> 新建部门
           </Button>,
         ]}
         expandable={{
-          onExpand: onLoadMenuChildren
+          onExpand: onLoadDepartmentChildren
         }}
-        request={async () => {
-          const { data } = await getMenuByPid();
+        request={async (params, sort) => {
+          let list: DepartmentVO[];
+          if (params.keyword) {
+            const { data } = await getDepartmentPage(convertPageParams(params, sort))
+            list = data && data.records ? data.records : [];
+            setPagination(undefined);
+          } else {
+            const { data } = await getDepartmentByPid();
+            list = data ? data.map((item) => ({
+              ...item,
+              children: [],
+            })) : [];
+            setPagination(false);
+          }
 
-          const list = data ? data.map((item) => ({
-            ...item,
-            children: [],
-          })) : [];
-
-          setMenuData(list);
+          setDepartmentData(list);
 
           return {
             // success 请返回 true，
@@ -273,9 +255,10 @@ const MenuList: React.FC = () => {
             // 不传会使用 data 的长度，如果是分页一定要传
             total: list.length,
           };
+
         }}
         columns={columns}
-        dataSource={menuData}
+        dataSource={departmentData}
         rowSelection={{
           onChange: (_, selectedRows) => {
             setSelectedRows(selectedRows);
@@ -297,7 +280,7 @@ const MenuList: React.FC = () => {
               Modal.confirm({
                 title: '请确认',
                 icon: <ExclamationCircleOutlined />,
-                content: '确定删除选中的菜单吗？（包含子节点）',
+                content: '确定删除选中的部门吗？（包含子节点）',
                 onOk: async () => {
                   await handleRemove(selectedRowsState);
                   setSelectedRows([]);
@@ -340,7 +323,7 @@ const MenuList: React.FC = () => {
         closable={false}
       >
         {currentRow?.id && (
-          <ProDescriptions<MenuVO>
+          <ProDescriptions<DepartmentVO>
             column={2}
             title={currentRow?.name}
             request={async () => ({
@@ -349,7 +332,7 @@ const MenuList: React.FC = () => {
             params={{
               id: currentRow?.id,
             }}
-            columns={columns as ProDescriptionsItemProps<MenuVO>[]}
+            columns={columns as ProDescriptionsItemProps<DepartmentVO>[]}
           />
         )}
       </Drawer>
@@ -357,4 +340,4 @@ const MenuList: React.FC = () => {
   );
 };
 
-export default MenuList;
+export default DepartmentList;

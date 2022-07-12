@@ -22,7 +22,7 @@ public class CodeGenerator {
      * 数据源配置
      */
     private static final DataSourceConfig.Builder DATA_SOURCE_CONFIG = new DataSourceConfig
-            .Builder("jdbc:mysql://localhost:3306/authorize_test?useUnicode=true&useSSL=false&characterEncoding=utf8", "root", "123456");
+            .Builder("jdbc:mysql://localhost:3306/uaa?useUnicode=true&useSSL=false&characterEncoding=utf8", "root", "123456");
 
     private static final String projectPath = System.getProperty("user.dir");
 
@@ -61,8 +61,9 @@ public class CodeGenerator {
                 })
                 .strategyConfig(builder -> {
                     builder
-//                            .addInclude("t_simple") // 设置需要生成的表名
-                            .addTablePrefix("oauth2_"); // 设置过滤表前缀
+                            .addInclude("sys_department") // 设置需要生成的表名
+                            .addInclude("sys_department_user"); // 设置需要生成的表名
+//                            .addTablePrefix("oauth2_"); // 设置过滤表前缀
                 })
                 .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
                 .execute();
