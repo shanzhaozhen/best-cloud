@@ -17,7 +17,7 @@ public interface UserMapper extends BaseMapper<UserDO> {
 
     UserDTO getUserAndRolesByUserId(@Param("id") Long id);
 
-    JWTUser getJWTUserByUserId(Long userId);
+    JWTUser getJWTUserByUserId(@Param("userId") Long userId);
 
     UserDTO getUserByUsername(@Param("username") String username);
 

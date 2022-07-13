@@ -22,22 +22,23 @@ public class DepartmentUserServiceImpl implements DepartmentUserService {
     public Long addDepartmentUser(Long departmentId, Long userId) {
         Assert.notNull(departmentId, "没有有效的部门ID！");
         Assert.notNull(userId, "没有有效的用户ID！");
-        // 先检查是否存在
-        DepartmentUserDO departmentUserDO = this.departmentUserMapper.getDepartmentUserByDepartmentIdAndUserId(userId, userId);
-        if (null == departmentUserDO) {
-            departmentUserDO = new DepartmentUserDO(null, userId, userId);
-            this.departmentUserMapper.insert(departmentUserDO);
+        // 先检查该用户是否已存在部门，若存在先删除
+        DepartmentUserDO departmentUserDO = this.departmentUserMapper.getDepartmentUserByUserId(userId);
+        if (departmentUserDO != null) {
+            departmentUserMapper.deleteById(departmentUserDO.getId());
         }
+        departmentUserDO = new DepartmentUserDO(null, departmentId, userId);
+        this.departmentUserMapper.insert(departmentUserDO);
         return departmentUserDO.getId();
     }
 
     @Override
-    public List<Long> bathAddDepartmentUser(Long departmentId, List<Long> userIds) {
+    public List<Long> batchAddDepartmentUser(Long departmentId, List<Long> userIds) {
         Assert.notNull(departmentId, "没有有效的部门ID！");
         Assert.notEmpty(userIds, "没有有效的用户ID！");
         List<Long> departmentUserIds = new ArrayList<>();
         for (Long userId : userIds) {
-            departmentUserIds.add(this.addDepartmentUser(userId, userId));
+            departmentUserIds.add(this.addDepartmentUser(departmentId, userId));
         }
         return departmentUserIds;
     }
@@ -51,7 +52,7 @@ public class DepartmentUserServiceImpl implements DepartmentUserService {
     }
 
     @Override
-    public int deleteDepartmentUser(Long departmentId, List<Long> userIds) {
+    public int batchDeleteDepartmentUser(Long departmentId, List<Long> userIds) {
         Assert.notEmpty(userIds, "没有有效的用户ID！");
         Assert.notNull(departmentId, "没有有效的用户ID！");
         for (Long userId : userIds) {

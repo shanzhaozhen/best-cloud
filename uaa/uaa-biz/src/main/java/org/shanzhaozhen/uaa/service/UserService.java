@@ -3,8 +3,6 @@ package org.shanzhaozhen.uaa.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.uaa.pojo.dto.JWTUser;
 import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
-import org.shanzhaozhen.uaa.pojo.dto.UserInfoDTO;
-import org.shanzhaozhen.uaa.pojo.form.UserDepartmentForm;
 import org.shanzhaozhen.uaa.pojo.vo.CurrentUser;
 
 import java.util.List;
@@ -110,21 +108,6 @@ public interface UserService {
      * @return
      */
     Page<UserDTO> getUserPageByDepartmentId(Page<UserDTO> page, Long departmentId, String keyword);
-
-    /**
-     * 更新用户的部门信息
-     * @param userId
-     * @param departmentId
-     * @return
-     */
-    Long updateUserDepartment(Long userId, Long departmentId);
-
-    /**
-     * 批量更新用户的部门信息
-     * @param userDepartmentForm
-     * @return
-     */
-    List<Long> batchUpdateUserDepartment(UserDepartmentForm userDepartmentForm);
 
     /**
      * 用户注销

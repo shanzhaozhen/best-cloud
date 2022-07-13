@@ -10,7 +10,6 @@ import org.shanzhaozhen.uaa.service.RoleService;
 import org.shanzhaozhen.uaa.pojo.entity.UserDO;
 import org.shanzhaozhen.uaa.pojo.dto.JWTUser;
 import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
-import org.shanzhaozhen.uaa.pojo.form.UserDepartmentForm;
 import org.shanzhaozhen.uaa.service.UserInfoService;
 import org.shanzhaozhen.uaa.service.UserRoleService;
 import org.shanzhaozhen.uaa.service.UserService;
@@ -125,7 +124,7 @@ public class UserServiceImpl implements UserService {
         userDO.setPassword(PasswordUtils.encryption(userDTO.getPassword()));
         userMapper.insert(userDO);
         if (!CollectionUtils.isEmpty(userDTO.getRoleIds())) {
-            userRoleService.bathAddUserRole(userDO.getId(), userDTO.getRoleIds());
+            userRoleService.batchAddUserRole(userDO.getId(), userDTO.getRoleIds());
         }
         return userDO.getId();
     }
@@ -156,7 +155,7 @@ public class UserServiceImpl implements UserService {
         userRoleMapper.deleteByUserId(userDO.getId());
         List<Long> roleIds = userDTO.getRoleIds();
         if (!CollectionUtils.isEmpty(roleIds)) {
-            userRoleService.bathAddUserRole(userDO.getId(), roleIds);
+            userRoleService.batchAddUserRole(userDO.getId(), roleIds);
         }
 
         return userDO.getId();
@@ -190,26 +189,6 @@ public class UserServiceImpl implements UserService {
     public Page<UserDTO> getUserPageByDepartmentId(Page<UserDTO> page, Long departmentId, String keyword) {
         Assert.notNull(departmentId, "没有有效的部门ID！");
         return userMapper.getUserPageByDepartmentId(page, departmentId, keyword);
-    }
-
-    @Override
-    @Transactional
-    public Long updateUserDepartment(Long userId, Long departmentId) {
-        UserDO userDO = userMapper.selectById(userId);
-        Assert.notNull(userDO, "没有找到对应的用户");
-        userMapper.updateById(userDO);
-        return userDO.getId();
-    }
-
-    @Override
-    @Transactional
-    public List<Long> batchUpdateUserDepartment(UserDepartmentForm userDepartmentForm) {
-        List<Long> userIds = userDepartmentForm.getUserIds();
-        Long departmentId = userDepartmentForm.getDepartmentId();
-        for (Long userId : userIds) {
-            this.updateUserDepartment(userId, departmentId);
-        }
-        return userIds;
     }
 
     @Override

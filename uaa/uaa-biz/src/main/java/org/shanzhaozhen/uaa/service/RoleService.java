@@ -83,13 +83,13 @@ public interface RoleService {
      * @param roleId
      * @param menuIds
      */
-    void bathAddRoleMenu(Long roleId, List<Long> menuIds);
+    void batchAddRoleMenu(Long roleId, List<Long> menuIds);
 
     /**
      * 批量插入角色-权限关系表
      * @param roleId
      * @param permissionIds
      */
-    void bathAddRolePermission(Long roleId, List<Long> permissionIds);
+    void batchAddRolePermission(Long roleId, List<Long> permissionIds);
 
 }

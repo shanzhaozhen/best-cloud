@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface PermissionMapper extends BaseMapper<PermissionDO> {
 
-    List<PermissionDTO> getPermissionByPid(Long pid);
+    List<PermissionDTO> getPermissionByPid(@Param("pid") Long pid);
     List<PermissionDTO> getPermissionByRoleId(@Param("roleId") Long roleId);
 
     List<PermissionDTO> getPermissionListByType(@Param("type") Integer type);

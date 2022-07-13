@@ -44,8 +44,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public List<DepartmentDTO> getDepartmentByPId(@Nullable Long pid) {
-        return departmentMapper.getDepartmentByPId(pid);
+    public List<DepartmentDTO> getDepartmentByPid(@Nullable Long pid) {
+        return departmentMapper.getDepartmentByPid(pid);
     }
 
     @Override

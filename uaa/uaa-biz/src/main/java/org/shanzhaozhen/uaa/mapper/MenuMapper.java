@@ -9,9 +9,10 @@ import java.util.List;
 
 public interface MenuMapper extends BaseMapper<MenuDO> {
 
-    List<MenuDTO> getMenuByPId(@Param("pid") Long pid);
+    List<MenuDTO> getMenuByPid(@Param("pid") Long pid);
 
     List<MenuDTO> getMenuByRoleId(@Param("roleId") Long roleId);
+
     List<MenuDTO> getAllMenus();
 
     List<MenuDTO> getMenuRoleListByUserId(@Param("userId") Long userId);

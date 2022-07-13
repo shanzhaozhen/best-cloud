@@ -25,8 +25,8 @@
 
     <resultMap autoMapping="true" type="org.shanzhaozhen.uaa.pojo.dto.UserDTO" id="UserAndInfoMap">
         <id property="id" column="id"></id>
-        <association property="userInfo" column="id" select="org.shanzhaozhen.uaa.mapper.UserInfoMapper.getUserInfoByUserId">
-        </association>
+        <association property="userInfo" column="id" select="org.shanzhaozhen.uaa.mapper.UserInfoMapper.getUserInfoByUserId" />
+        <association property="departmentInfo" column="id" select="org.shanzhaozhen.uaa.mapper.DepartmentMapper.getDepartmentByUserId" />
     </resultMap>
 
     <resultMap autoMapping="true" type="org.shanzhaozhen.uaa.pojo.dto.UserDTO" id="UserRoleMap">
@@ -86,8 +86,8 @@
         select u.id, u.username, u.account_non_expired, u.account_non_locked, u.credentials_non_expired, u.enabled,
         u.created_by, u.created_date, u.last_modified_by, u.last_modified_date
         from sys_user u
-            left join sys_user_role sur on u.id = sur.user_id
-            left join sys_role r on sur.role_id = r.id
+            left join sys_user_role sur on sur.user_id = u.id
+        left join sys_role r on r.id = sur.role_id
             left join sys_user_info i on i.pid = u.id
         where r.id = #{roleId}
         <if test="keyword != null and keyword != ''">
@@ -96,14 +96,17 @@
         </if>
     </select>
 
-    <select id="getUserPageByDepartmentId" resultType="org.shanzhaozhen.uaa.pojo.dto.UserDTO">
+    <select id="getUserPageByDepartmentId" resultMap="UserAndInfoMap">
         select u.id, u.username, u.account_non_expired, u.account_non_locked, u.credentials_non_expired, u.enabled,
                u.created_by, u.created_date, u.last_modified_by, u.last_modified_date
         from sys_user u
---         where dep_id = #{departmentId}
+            left join sys_department_user sdr on sdr.user_id = u.id
+        left join sys_department d on d.id = sdr.department_id
+            left join sys_user_info i on i.pid = u.id
+            where d.id = #{departmentId}
         <if test="keyword != null and keyword != ''">
-            and (username like concat ('%', #{keyword}, '%') or name like concat ('%', #{keyword}, '%')
-            or nickName like concat ('%', #{keyword}, '%') or introduction like concat ('%', #{keyword}, '%'))
+            and (u.username like concat ('%', #{keyword}, '%') or i.name like concat ('%', #{keyword}, '%')
+            or i.nickName like concat ('%', #{keyword}, '%') or i.introduction like concat ('%', #{keyword}, '%'))
         </if>
     </select>
 

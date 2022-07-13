@@ -89,6 +89,12 @@ const UserList: React.FC = () => {
       },
     },
     {
+      title: '所属部门',
+      dataIndex: ['departmentInfo', 'name'],
+      valueType: 'text',
+      hideInSearch: true
+    },
+    {
       title: '姓名',
       dataIndex: ['userInfo', 'name'],
       valueType: 'text',

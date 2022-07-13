@@ -14,12 +14,11 @@ import CreateForm from "@/pages/System/RoleList/components/CreateForm";
 import UpdateForm from "@/pages/System/RoleList/components/UpdateForm";
 import UserRelateList from "@/pages/System/UserRelateList";
 import {getUserPageByRoleId} from "@/services/uaa/user";
-import {addUserRole, deleteUserRoles} from "@/services/uaa/userRole";
+import {addUserRoles, deleteUserRoles} from "@/services/uaa/user-role";
 import type {UserVO} from "@/services/uaa/type/user";
 import type {SortOrder} from "antd/es/table/interface";
 
 const RoleList: React.FC = () => {
-
   const [createModalVisible, handleCreateModalVisible] = useState<boolean>(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [userRelateListVisible, handleUserRelateListVisible] = useState<boolean>(false);
@@ -57,11 +56,11 @@ const RoleList: React.FC = () => {
    * @param selectedUserRoleRows
    */
   const handleBatchAddUserRole = async (selectedUserRoleRows: UserVO[]) => {
-    const hide = message.loading('正在添加');
+    const hide = message.loading('正在添加...');
     if (!selectedUserRoleRows) return true;
     try {
       const userIds = selectedUserRoleRows.map((user) => user.id);
-      await addUserRole({
+      await addUserRoles({
         userIds,
         roleId: currentRow?.id,
       });
@@ -89,7 +88,7 @@ const RoleList: React.FC = () => {
       message.success('取消关联成功！');
       userRoleActionRef.current?.reloadAndRest?.();
     } else {
-      message.warn('没有选中有效的角色');
+      message.warn('没有选中有效的用户');
     }
   };
 
@@ -101,11 +100,11 @@ const RoleList: React.FC = () => {
     Modal.confirm({
       title: '请确认',
       icon: <ExclamationCircleOutlined />,
-      content: '确定批量取消勾选中的用户与角色的关联关系吗？',
+      content: '确定批量取消勾选中的用户与角色的关联吗？',
       okText: '确认',
       cancelText: '取消',
       onOk: async () => {
-        const hide = message.loading('正在取消关联成功');
+        const hide = message.loading('正在取消关联...');
         if (!selectedUserRoleRows) return true;
         try {
           await deleteUserRoles({
@@ -376,21 +375,31 @@ const RoleList: React.FC = () => {
       </Drawer>
 
       {currentRow && Object.keys(currentRow).length ? (
-        <UserRelateList
-          userRelateListVisible={userRelateListVisible}
-          handleUserRelateListVisible={handleUserRelateListVisible}
-          userRelateActionRef={userRoleActionRef}
-          onCancel={() => {
+        <Drawer
+          title="角色分配"
+          placement="right"
+          width={820}
+          zIndex={500}
+          destroyOnClose
+          onClose={() => {
             setCurrentRow({});
             handleUserRelateListVisible(false);
           }}
-          handleBatchAddUserRelate={handleBatchAddUserRole}
-          handleDeleteUserRelate={handleDeleteUserRole}
-          handleBatchDeleteUserRelate={handleBatchDeleteUserRole}
-          queryList={async (params: PageParams, sorter: Record<string, SortOrder>) =>
-            await getUserPageByRoleId(convertPageParams(params, sorter))
-          }
-        />
+          visible={userRelateListVisible}
+        >
+          <UserRelateList
+            userRelateActionRef={userRoleActionRef}
+            handleBatchAddUserRelate={handleBatchAddUserRole}
+            handleDeleteUserRelate={handleDeleteUserRole}
+            handleBatchDeleteUserRelate={handleBatchDeleteUserRole}
+            queryList={async (params: PageParams, sorter: Record<string, SortOrder>) =>
+              await getUserPageByRoleId({
+                ...convertPageParams(params, sorter),
+                roleId: currentRow.id
+              })
+            }
+          />
+        </Drawer>
       ) : null}
 
     </PageContainer>

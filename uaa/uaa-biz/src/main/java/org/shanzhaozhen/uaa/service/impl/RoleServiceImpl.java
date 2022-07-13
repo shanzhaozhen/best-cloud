@@ -108,18 +108,18 @@ public class RoleServiceImpl implements RoleService {
         // 添加角色-菜单关联
         if (menuIds != null && menuIds.size() > 0) {
             roleMenuMapper.deleteByRoleId(roleId);
-            this.bathAddRoleMenu(roleId, menuIds);
+            this.batchAddRoleMenu(roleId, menuIds);
         }
         // 添加角色-权限关联
         if (permissionIds != null && permissionIds.size() > 0) {
             rolePermissionMapper.deleteByRoleId(roleId);
-            this.bathAddRolePermission(roleId, permissionIds);
+            this.batchAddRolePermission(roleId, permissionIds);
         }
     }
 
     @Override
     @Transactional
-    public void bathAddRoleMenu(Long roleId, List<Long> menuIds) {
+    public void batchAddRoleMenu(Long roleId, List<Long> menuIds) {
         for (Long menuId : menuIds) {
             RoleMenuDO RoleMenuDO = new RoleMenuDO(null, roleId, menuId);
             roleMenuMapper.insert(RoleMenuDO);
@@ -128,7 +128,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public void bathAddRolePermission(Long roleId, List<Long> permissionIds) {
+    public void batchAddRolePermission(Long roleId, List<Long> permissionIds) {
         for (Long permissionId : permissionIds) {
             RolePermissionDO rolePermissionDO = new RolePermissionDO(null, roleId, permissionId);
             rolePermissionMapper.insert(rolePermissionDO);

@@ -54,8 +54,8 @@ public class DepartmentController {
 
     @Operation(summary = "通过父级ID获取部门列表")
     @GetMapping(GET_DEPARTMENT_BY_PID)
-    public R<List<DepartmentVO>> getDepartmentByPId(@Parameter(description = "父级id", example = "1") Long pid) {
-        return R.build(() -> DepartmentConverter.toVO(departmentService.getDepartmentByPId(pid)));
+    public R<List<DepartmentVO>> getDepartmentByPid(@Parameter(description = "父级id", example = "1") Long pid) {
+        return R.build(() -> DepartmentConverter.toVO(departmentService.getDepartmentByPid(pid)));
     }
 
     @Operation(summary = "获取部门信息（通过部门id）")

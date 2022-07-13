@@ -64,3 +64,10 @@ export type DepartmentVO = {
   /** 下级部门 */
   children?: DepartmentVO[];
 };
+
+export type DepartmentUserForm = {
+  /** 部门ID */
+  departmentId: number | undefined;
+  /** 用户ID */
+  userIds: (number | undefined)[];
+};

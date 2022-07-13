@@ -13,6 +13,12 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
+    <select id="getDepartmentUserByUserId" resultType="org.shanzhaozhen.uaa.pojo.entity.DepartmentUserDO">
+        select id, department_id, user_id, created_by, created_date, last_modified_by, last_modified_date
+        from sys_department_user
+        where user_id = #{userId}
+    </select>
+
     <select id="getDepartmentUserByDepartmentIdAndUserId" resultType="org.shanzhaozhen.uaa.pojo.entity.DepartmentUserDO">
         select id, department_id, user_id, created_by, created_date, last_modified_by, last_modified_date
         from sys_department_user

@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface RoleMapper extends BaseMapper<RoleDO> {
 
-    RoleDTO getRoleDetailById(Long roleId);
+    RoleDTO getRoleDetailById(@Param("roleId") Long roleId);
 
     List<RoleDTO> getRoleByMenuId(@Param("menuId") Long menuId);
 

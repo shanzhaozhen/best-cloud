@@ -26,7 +26,7 @@ public interface DepartmentService {
      * 通过父级ID获取部门列表
      * @return
      */
-    List<DepartmentDTO> getDepartmentByPId(@Nullable Long pid);
+    List<DepartmentDTO> getDepartmentByPid(@Nullable Long pid);
 
     /**
      * 获取所有部门的树形结构

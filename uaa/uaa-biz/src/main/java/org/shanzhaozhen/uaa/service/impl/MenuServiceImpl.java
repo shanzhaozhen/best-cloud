@@ -54,8 +54,8 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuDTO> getMenuByPId(@Nullable Long pid) {
-        return menuMapper.getMenuByPId(pid);
+    public List<MenuDTO> getMenuByPid(@Nullable Long pid) {
+        return menuMapper.getMenuByPid(pid);
     }
 
     @Override

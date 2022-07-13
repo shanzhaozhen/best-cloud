@@ -33,7 +33,7 @@
         order by priority
     </select>
 
-    <select id="getDepartmentByPId" resultType="org.shanzhaozhen.uaa.pojo.dto.DepartmentDTO">
+    <select id="getDepartmentByPid" resultType="org.shanzhaozhen.uaa.pojo.dto.DepartmentDTO">
         select id, pid, name, code, priority, description, created_by, created_date, last_modified_by, last_modified_date
         from sys_department
         <where>
@@ -47,6 +47,13 @@
             </choose>
         </where>
         order by priority
+    </select>
+
+    <select id="getDepartmentByUserId" resultType="org.shanzhaozhen.uaa.pojo.dto.DepartmentDTO">
+        select d.id, d.pid, d.name, d.code, d.priority, d.description, d.created_by, d.created_date, d.last_modified_by, d.last_modified_date
+        from sys_department d
+            left join sys_department_user sdu on sdu.department_id = d.id
+        where sdu.user_id = #{userId}
     </select>
 
     <select id="getDepartmentByCode" resultType="org.shanzhaozhen.uaa.pojo.dto.DepartmentDTO">

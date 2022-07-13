@@ -1,6 +1,7 @@
 package org.shanzhaozhen.uaa.converter;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.shanzhaozhen.uaa.pojo.dto.DepartmentDTO;
 import org.shanzhaozhen.uaa.pojo.dto.UserInfoDTO;
 import org.shanzhaozhen.uaa.pojo.entity.UserDO;
 import org.shanzhaozhen.uaa.pojo.dto.RoleDTO;
@@ -88,6 +89,10 @@ public class UserConverter {
         UserInfoDTO userInfoDTO = userDTO.getUserInfo();
         if (userInfoDTO != null) {
             userVO.setUserInfo(UserInfoConverter.toVO(userInfoDTO));
+        }
+        DepartmentDTO departmentInfoDTO = userDTO.getDepartmentInfo();
+        if (departmentInfoDTO != null) {
+            userVO.setDepartmentInfo(DepartmentConverter.toVO(departmentInfoDTO));
         }
         List<RoleDTO> roles = userDTO.getRoles();
         if (roles != null && roles.size() > 0) {

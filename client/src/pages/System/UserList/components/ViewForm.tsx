@@ -9,7 +9,7 @@ interface CreateFormProps {
   viewModalVisible: boolean;
   handleViewModalVisible: Dispatch<SetStateAction<boolean>>;
   setCurrentRow: Dispatch<SetStateAction<UserVO | undefined>>
-  values: Partial<UserForm>;
+  values: Partial<UserForm | UserVO>;
 }
 
 const ViewForm: React.FC<CreateFormProps> = (props) => {

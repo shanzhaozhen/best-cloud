@@ -10,11 +10,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.shanzhaozhen.common.core.entity.BaseInfoVO;
 import org.shanzhaozhen.common.core.jackson.ToStringListSerialize;
-import org.shanzhaozhen.uaa.pojo.dto.UserInfoDTO;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -52,5 +50,8 @@ public class UserVO extends BaseInfoVO {
 
     @Schema(description = "关联的用户信息")
     private UserInfoVO userInfo;
+
+    @Schema(description = "关联的部门信息")
+    private DepartmentVO departmentInfo;
 
 }

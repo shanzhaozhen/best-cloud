@@ -1,99 +1,100 @@
-import {Divider, Space, Tabs, Tree} from 'antd';
-import React, {useEffect, useState} from 'react';
+import {message, Modal, Space, Tabs} from 'antd';
+import React, {useRef, useState} from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProCard from "@ant-design/pro-card";
-import type { DataNode } from 'antd/lib/tree';
-import {getDepartmentByPid, getDepartmentList} from "@/services/uaa/department";
-import Search from "antd/es/input/Search";
 import type {DepartmentVO} from "@/services/uaa/type/department";
 import type {ProDescriptionsItemProps} from "@ant-design/pro-descriptions";
 import ProDescriptions from "@ant-design/pro-descriptions";
 import type {ProColumns} from "@ant-design/pro-table";
+import DepartmentTree from "@/pages/System/OrganizationList/components/DepartmentTree";
 import UserRelateList from "@/pages/System/UserRelateList";
+import type {PageParams} from "@/services/common/typings";
+import type {SortOrder} from "antd/es/table/interface";
+import {getUserPageByDepartmentId} from "@/services/uaa/user";
+import {convertPageParams} from "@/utils/common";
+import type {ActionType} from "@ant-design/pro-table";
+import type {UserVO} from "@/services/uaa/type/user";
+import {ExclamationCircleOutlined} from "@ant-design/icons";
+import {addDepartmentUsers, deleteDepartmentUsers} from "@/services/uaa/department-user";
 
 
 const DepartmentList: React.FC = () => {
+  const [selectDepartment, setSelectDepartment] = useState<DepartmentVO | undefined>(undefined);
 
-  const [departmentTreeData, setDepartmentTreeData] = useState<DataNode[]>([]);
-  const [selectDepartment, setSelectDepartment] = useState<DepartmentVO|undefined>(undefined);
+  const userRelateActionRef = useRef<ActionType>();
 
-
-  const updateTreeData = (list: DataNode[], key: number, children: DataNode[] | null): DataNode[] => (
-    list.map((node) => {
-      if (node.key === key) {
-        return {
-          ...node,
-          children: children && children.length > 0 ? children : undefined,
-        };
-      }
-      if (node.children && node.children.length > 0) {
-        return {
-          ...node,
-          children: updateTreeData(node.children, key, children),
-        };
-      }
-      return { ...node };
-    })
-  );
-
-  const onLoadDepartmentData = async ({ key }: any) => {
-    const { data } = await getDepartmentByPid(key);
-
-    if (data && data.length > 0) {
-      const list: DataNode[] = data.map(item => ({
-        title: item.name,
-        key: item.id || 0,
-        dataRef: { ...item }
-      }))
-
-      if (key) {
-        setDepartmentTreeData((department) =>
-          updateTreeData(department, key, list)
-        );
-      } else {
-        setDepartmentTreeData(list);
-      }
+  /**
+   * 批量添加部门用户关联
+   * @param selectedUserRoleRows
+   */
+  const handleBatchAddDepartmentUser = async (selectedUserRoleRows: UserVO[]) => {
+    const hide = message.loading('正在添加...');
+    if (!selectedUserRoleRows) return true;
+    try {
+      const userIds = selectedUserRoleRows.map((user) => user.id);
+      await addDepartmentUsers({
+        departmentId: selectDepartment?.id,
+        userIds,
+      });
+      hide();
+      message.success('添加成功');
+      userRelateActionRef.current?.reloadAndRest?.();
+      return true;
+    } catch (error) {
+      hide();
+      message.error('添加失败，请重试');
+      return false;
     }
-  }
+  };
 
-  const refreshDepartmentData = () => {
-    getDepartmentByPid().then(({ data }) => {
-      setDepartmentTreeData(data && data.length > 0 ? data.map(item => ({
-        key: item.id || 0,
-        title: item.name,
-        dataRef: { ...item }
-      })) : [])
-    }).catch(() => {
-      setDepartmentTreeData([])
-    })
-  }
-
-  const onSearchDepartment = async (keyword?: string) => {
-    setSelectDepartment(undefined);
-    if (keyword) {
-      const { data } = await getDepartmentList(keyword);
-      setDepartmentTreeData(data && data.length > 0 ? data.map(item => ({
-        key: item.id || 0,
-        title: item.name,
-        dataRef: { ...item }
-      })) : [])
+  /**
+   * 取消部门用户关联
+   * @param record
+   */
+  const handleDeleteDepartmentUser = async (record: UserVO) => {
+    if (record && record.id) {
+      await deleteDepartmentUsers({
+        departmentId: selectDepartment?.id,
+        userIds: [record.id],
+      });
+      message.success('取消关联成功！');
+      userRelateActionRef.current?.reloadAndRest?.();
     } else {
-      refreshDepartmentData();
+      message.warn('没有选中有效的用户');
     }
-  }
+  };
 
-  const onSelectDepartment = (key: any, info: any) => {
-    console.log(key)
-    if (key && key.length > 0) {
-      setSelectDepartment(info.selectedNodes[0].dataRef)
-    } else {
-      setSelectDepartment(undefined)
-    }
-  }
-
-  useEffect(() => {
-    refreshDepartmentData();
-  }, []);
+  /**
+   * 批量取消部门用户关联
+   * @param selectedUserRoleRows
+   */
+  const handleBatchDeleteDepartmentUser = (selectedUserRoleRows: UserVO[]) => {
+    Modal.confirm({
+      title: '请确认',
+      icon: <ExclamationCircleOutlined />,
+      content: '确定批量取消勾选中的用户与部门的关联吗？',
+      okText: '确认',
+      cancelText: '取消',
+      onOk: async () => {
+        const hide = message.loading('正在取消关联...');
+        if (!selectedUserRoleRows) return true;
+        try {
+          await deleteDepartmentUsers({
+            departmentId: selectDepartment?.id,
+            userIds: selectedUserRoleRows.map((selectedRow) => selectedRow.id) || [],
+          });
+          hide();
+          message.success('取消关联成功，即将刷新');
+          userRelateActionRef.current?.reloadAndRest?.();
+          return true;
+        } catch (error) {
+          hide();
+          message.error('取消关联失败，请重试');
+          return false;
+        }
+      },
+    });
+  };
 
   const columns: ProColumns<DepartmentVO>[] = [
     {
@@ -141,18 +142,12 @@ const DepartmentList: React.FC = () => {
     }
   ];
 
+
   return (
     <PageContainer>
       <ProCard gutter={24} split="vertical" ghost>
         <ProCard colSpan={{xl: 8, lg: 8, md: 24}} bordered style={{height: '100%'}}>
-          <Search size="small" placeholder="请输入部门名称" onSearch={onSearchDepartment}/>
-          <Divider style={{ margin: '12px 0' }}/>
-          <Tree
-            showLine
-            loadData={onLoadDepartmentData}
-            treeData={departmentTreeData}
-            onSelect={onSelectDepartment}
-          />
+          <DepartmentTree setSelectDepartment={setSelectDepartment} userRelateActionRef={userRelateActionRef}/>
         </ProCard>
         <ProCard
           colSpan={{xl: 16, lg: 16, md: 24}}
@@ -175,6 +170,18 @@ const DepartmentList: React.FC = () => {
                 />
               </Tabs.TabPane>
               <Tabs.TabPane tab="用户信息" key="user" forceRender>
+                <UserRelateList
+                  userRelateActionRef={userRelateActionRef}
+                  handleBatchAddUserRelate={handleBatchAddDepartmentUser}
+                  handleDeleteUserRelate={handleDeleteDepartmentUser}
+                  handleBatchDeleteUserRelate={handleBatchDeleteDepartmentUser}
+                  queryList={async (params: PageParams, sorter: Record<string, SortOrder>) =>
+                    await getUserPageByDepartmentId({
+                      ...convertPageParams(params, sorter),
+                      departmentId: selectDepartment.id
+                    })
+                  }
+                />
               </Tabs.TabPane>
             </Tabs>
           ) : <Space>请选择部门</Space> }

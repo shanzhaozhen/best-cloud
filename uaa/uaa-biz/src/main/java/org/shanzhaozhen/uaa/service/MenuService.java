@@ -37,7 +37,7 @@ public interface MenuService {
      * 通过父级ID获取菜单列表
      * @return
      */
-    List<MenuDTO> getMenuByPId(@Nullable Long pid);
+    List<MenuDTO> getMenuByPid(@Nullable Long pid);
 
     /**
      * 获取所有菜单的树形结构

@@ -18,7 +18,7 @@ public interface DepartmentUserService {
      * @param userIds
      * @return
      */
-    List<Long> bathAddDepartmentUser(Long departmentId, List<Long> userIds);
+    List<Long> batchAddDepartmentUser(Long departmentId, List<Long> userIds);
 
     /**
      * 删除部门和用户关联
@@ -34,6 +34,6 @@ public interface DepartmentUserService {
      * @param userIds
      * @return
      */
-    int deleteDepartmentUser(Long departmentId, List<Long> userIds);
+    int batchDeleteDepartmentUser(Long departmentId, List<Long> userIds);
 
 }

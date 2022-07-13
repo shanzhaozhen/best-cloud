@@ -39,7 +39,7 @@ public class PermissionController {
 
     @Operation(summary = "通过父级ID获取权限列表")
     @GetMapping(GET_PERMISSION_BY_PID)
-    public R<List<PermissionVO>> getMenuByPId(@Parameter(description = "父级id", example = "1") Long pid) {
+    public R<List<PermissionVO>> getMenuByPid(@Parameter(description = "父级id", example = "1") Long pid) {
         return R.build(() -> PermissionConverter.toVO(permissionService.getPermissionByPid(pid)));
     }
 

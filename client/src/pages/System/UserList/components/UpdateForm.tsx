@@ -12,7 +12,7 @@ interface UpdateFormProps {
   handleUpdateModalVisible: Dispatch<SetStateAction<boolean>>;
   actionRef: MutableRefObject<ActionType | undefined>;
   setCurrentRow: Dispatch<SetStateAction<UserVO | undefined>>
-  values: Partial<UserForm>;
+  values: Partial<UserForm | UserVO>;
 }
 
 /**

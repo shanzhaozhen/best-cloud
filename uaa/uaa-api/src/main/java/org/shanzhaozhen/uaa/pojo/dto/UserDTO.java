@@ -48,4 +48,7 @@ public class UserDTO extends BaseInfo {
     @Schema(description = "关联的用户信息")
     private UserInfoDTO userInfo;
 
+    @Schema(description = "关联的部门信息")
+    private DepartmentDTO departmentInfo;
+
 }

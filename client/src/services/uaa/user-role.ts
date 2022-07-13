@@ -20,7 +20,7 @@ export async function getUserPageByRoleId(pageParams: PageParams, options?: Reco
 }
 
 /** 添加用户角色 POST /user-role */
-export async function addUserRole(userRoleForm: UserRoleForm, options?: Record<string, any>) {
+export async function addUserRoles(userRoleForm: UserRoleForm, options?: Record<string, any>) {
   return request<R<number[]>>(`/api/uaa/user-role`, {
     method: 'POST',
     headers: {

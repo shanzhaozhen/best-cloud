@@ -4,10 +4,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.ibatis.annotations.Update;
-import org.shanzhaozhen.common.core.entity.BaseInfo;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -15,13 +15,13 @@ import javax.validation.constraints.NotNull;
 @Schema(description = "部门-用户关系Form实体")
 public class DepartmentUserForm {
 
-    @Schema(description = "主键ID")
-    private Long id;
-
-    @Schema(description = "部门ID")
+    @Schema(description = "角色ID")
+    @NotNull(message = "部门ID不能为空")
     private Long departmentId;
 
     @Schema(description = "用户ID")
-    private Long userId;
+    @NotEmpty(message = "用户id不能为空")
+    private List<Long> userIds;
+
 
 }

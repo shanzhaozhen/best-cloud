@@ -10,7 +10,6 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 import org.shanzhaozhen.uaa.converter.UserConverter;
 import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
-import org.shanzhaozhen.uaa.pojo.form.UserDepartmentForm;
 import org.shanzhaozhen.uaa.pojo.form.UserForm;
 import org.shanzhaozhen.uaa.pojo.form.UserPageParams;
 import org.shanzhaozhen.uaa.service.UserService;
@@ -38,7 +37,6 @@ public class UserController {
     private static final String BATCH_DELETE_USER = "/user";
     private static final String GET_USER_ROLE_PAGE = "/user/role/page";
     private static final String GET_USER_DEPARTMENT_PAGE = "/user/department/page";
-    private static final String BATCH_UPDATE_USER_DEPARTMENT = "/user/department";
 
     private final UserService userService;
 
@@ -107,12 +105,6 @@ public class UserController {
     @PostMapping(GET_USER_DEPARTMENT_PAGE)
     public R<Page<UserVO>> getUserPageByDepartmentId(@RequestBody UserPageParams<UserDTO> pageParams) {
         return R.build(() -> UserConverter.toVO(userService.getUserPageByDepartmentId(pageParams.getPage(), pageParams.getDepartmentId(), pageParams.getKeyword())));
-    }
-
-    @Operation(summary = "批量更新用户部门接口")
-    @PutMapping(BATCH_UPDATE_USER_DEPARTMENT)
-    public R<List<Long>> batchUpdateUserDepartment(@RequestBody UserDepartmentForm userDepartmentForm) {
-        return R.build(() -> userService.batchUpdateUserDepartment(userDepartmentForm));
     }
 
 }

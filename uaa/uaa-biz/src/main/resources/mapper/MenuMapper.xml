@@ -26,7 +26,7 @@
         <collection property="roles" column="id" select="org.shanzhaozhen.uaa.mapper.RoleMapper.getRoleByMenuId" />
     </resultMap>
 
-    <select id="getMenuByPId" resultType="org.shanzhaozhen.uaa.pojo.dto.MenuDTO">
+    <select id="getMenuByPid" resultType="org.shanzhaozhen.uaa.pojo.dto.MenuDTO">
         select id, name, locale, path, pid, icon, priority,
                hide_in_menu, hide_children_in_menu, props, description,
                created_by, created_date, last_modified_by, last_modified_date

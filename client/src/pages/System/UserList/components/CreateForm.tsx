@@ -11,28 +11,36 @@ interface CreateFormProps {
   createModalVisible: boolean;
   handleCreateModalVisible: Dispatch<SetStateAction<boolean>>;
   actionRef: MutableRefObject<ActionType | undefined>;
+  callBackFinish?: () => Promise<any>;
 }
 
-/**
- * 新建用户
- * @param fields
- */
-const handleAdd = async (fields: UserForm) => {
-  const hide = message.loading('添加中...');
-  try {
-    await addUser({ ...fields });
-    hide();
-    message.success('新建成功！');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('新建失败!');
-    return false;
-  }
-};
-
 const CreateForm: React.FC<CreateFormProps> = (props) => {
-  const { createModalVisible, handleCreateModalVisible, actionRef } = props;
+  const { createModalVisible, handleCreateModalVisible, actionRef, callBackFinish } = props;
+
+  /**
+   * 新建用户
+   * @param fields
+   */
+  const handleAdd = async (fields: UserForm) => {
+    const hide = message.loading('添加中...');
+    try {
+      const { data } = await addUser({ ...fields });
+      if (data) {
+        // 回调完成操作
+        if (callBackFinish) {
+          await callBackFinish();
+        }
+        message.success('添加成功！');
+        handleCreateModalVisible(false);
+        if (actionRef.current) {
+          actionRef.current.reload();
+        }
+      }
+    } catch (error) {
+      hide();
+      message.error('新建失败!');
+    }
+  };
 
   return (
     <DrawerForm
@@ -41,21 +49,7 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
       drawerProps={{ destroyOnClose: true }}
       visible={createModalVisible}
       onVisibleChange={handleCreateModalVisible}
-      onFinish={async (value) => {
-        const success = await handleAdd(value as UserForm);
-        if (success) {
-          handleCreateModalVisible(false);
-          if (actionRef.current) {
-            actionRef.current.reload();
-          }
-        }
-      }}
-      initialValues={{
-        accountNonExpired: true,
-        accountNonLocked: true,
-        credentialsNonExpired: true,
-        enabled: true,
-      }}
+      onFinish={handleAdd}
     >
       <FormBody formType="create" />
     </DrawerForm>

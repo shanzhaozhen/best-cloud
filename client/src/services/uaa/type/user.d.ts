@@ -1,5 +1,7 @@
-import type {RoleDTO} from "@/services/uaa/type/role";
-import {GrantedAuthority} from "@/services/common/typings";
+import type {RoleBase, RoleDTO} from "@/services/uaa/type/role";
+import type {GrantedAuthority} from "@/services/common/typings";
+import type {UserInfoDTO, UserInfoForm, UserInfoVO} from "@/services/uaa/type/user-info";
+import type {DepartmentDTO, DepartmentVO} from "@/services/uaa/type/department";
 
 export type UserForm = {
   /** 主键ID */
@@ -38,6 +40,8 @@ export type UserForm = {
   introduction?: string;
   /** 关联的角色id */
   roleIds?: number[];
+  /** 用户信息 */
+  userInfo?: UserInfoForm;
 };
 
 export type UserVO = {
@@ -88,6 +92,10 @@ export type UserVO = {
   lastModifiedByName?: string;
   /** 修改时间 */
   lastModifiedDate?: string;
+  /** 用户信息 */
+  userInfo?: UserInfoVO;
+  /** 部门信息 */
+  departmentInfo?: DepartmentVO;
 };
 
 export type UserDTO = {
@@ -117,42 +125,10 @@ export type UserDTO = {
   roles?: RoleDTO[];
   /** 关联的角色ID */
   roleIds?: number[];
-  userInfoDTO?: UserInfoDTO;
-};
-
-export type UserInfoDTO = {
-  /** 创建人 */
-  createdBy?: number;
-  /** 创建时间 */
-  createdDate?: string;
-  /** 修改人 */
-  lastModifiedBy?: number;
-  /** 修改时间 */
-  lastModifiedDate?: string;
-  /** 主键ID */
-  id?: number;
-  /** 关联用户id */
-  pid?: number;
-  /** 姓名 */
-  name?: string;
-  /** 昵称 */
-  nickname?: string;
-  /** 性别 */
-  sex?: number;
-  /** 生日 */
-  birthday?: string;
-  /** 头像 */
-  avatar?: string;
-  /** 邮箱 */
-  email?: string;
-  /** 手机号码 */
-  phoneNumber?: string;
-  /** 地址编号 */
-  addressCode?: string;
-  /** 详细地址 */
-  detailedAddress?: string;
-  /** 个人介绍 */
-  introduction?: string;
+  /** 用户信息 */
+  userInfo?: UserInfoDTO;
+  /** 部门信息 */
+  departmentInfo?: DepartmentDTO;
 };
 
 export type CurrentUser = {
@@ -161,43 +137,6 @@ export type CurrentUser = {
   roles?: RoleBase[];
 };
 
-export type UserInfoVO = {
-  /** 主键ID */
-  id?: number;
-  /** 关联用户ID */
-  pid?: number;
-  /** 姓名 */
-  name?: string;
-  /** 昵称 */
-  nickname?: string;
-  /** 性别 */
-  sex?: number;
-  /** 生日 */
-  birthday?: string;
-  /** 头像 */
-  avatar?: string;
-  /** 邮箱 */
-  email?: string;
-  /** 手机号码 */
-  phoneNumber?: string;
-  /** 地址编号 */
-  addressCode?: string;
-  /** 详细地址 */
-  detailedAddress?: string;
-  /** 个人介绍 */
-  introduction?: string;
-  /** 创建人 */
-  createdBy?: number;
-  /** 创建人名称 */
-  createdByName?: string;
-  /** 创建时间 */
-  createdDate?: string;
-  /** 修改人 */
-  lastModifiedBy?: number;
-  /** 修改人名称 */
-  lastModifiedByName?: string;
-  /** 修改时间 */
-  lastModifiedDate?: string;
-};
+
 
 

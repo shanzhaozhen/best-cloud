@@ -20,12 +20,6 @@ public class UserRoleServiceImpl implements UserRoleService {
     private final UserRoleMapper userRoleMapper;
 
     @Override
-    public Page<UserDTO> getUserRolePage(Page<UserDTO> page, Long roleId, String keyword) {
-        Assert.notNull(roleId, "没有有效的用户ID！");
-        return userRoleMapper.getUserRolePage(page, roleId, keyword);
-    }
-
-    @Override
     @Transactional
     public Long addUserRole(Long userId, Long roleId) {
         Assert.notNull(userId, "没有有效的用户ID！");
@@ -41,7 +35,7 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     @Transactional
-    public List<Long> bathAddUserRole(List<Long> userIds, Long roleId) {
+    public List<Long> batchAddUserRole(List<Long> userIds, Long roleId) {
         Assert.notEmpty(userIds, "没有有效的用户ID！");
         Assert.notNull(roleId, "没有有效的角色ID！");
         List<Long> userRoleIds = new ArrayList<>();
@@ -52,7 +46,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
-    public List<Long> bathAddUserRole(Long userId, List<Long> roleIds) {
+    public List<Long> batchAddUserRole(Long userId, List<Long> roleIds) {
         Assert.notNull(userId, "没有有效的用户ID！");
         Assert.notEmpty(roleIds, "没有有效的角色ID！");
         List<Long> userRoleIds = new ArrayList<>();

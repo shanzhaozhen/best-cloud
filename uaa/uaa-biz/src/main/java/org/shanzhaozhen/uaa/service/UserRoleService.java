@@ -8,15 +8,6 @@ import java.util.List;
 public interface UserRoleService {
 
     /**
-     * 通过获取角色Id获取用户
-     * @param page
-     * @param roleId
-     * @param keyword
-     * @return
-     */
-    Page<UserDTO> getUserRolePage(Page<UserDTO> page, Long roleId, String keyword);
-
-    /**
      * 添加用户和角色关联
      * @param userId
      * @param roleId
@@ -30,7 +21,7 @@ public interface UserRoleService {
      * @param roleId
      * @return
      */
-    List<Long> bathAddUserRole(List<Long> userIds, Long roleId);
+    List<Long> batchAddUserRole(List<Long> userIds, Long roleId);
 
     /**
      * 批量添加用户和角色关联
@@ -38,7 +29,7 @@ public interface UserRoleService {
      * @param roleIds
      * @return
      */
-    List<Long> bathAddUserRole(Long userId, List<Long> roleIds);
+    List<Long> batchAddUserRole(Long userId, List<Long> roleIds);
 
     /**
      * 删除用户和角色关联

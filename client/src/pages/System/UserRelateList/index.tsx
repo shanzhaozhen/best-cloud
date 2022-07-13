@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import type { Dispatch, MutableRefObject, SetStateAction } from 'react';
-import {Button, Divider, Drawer, Input, message, Popconfirm, Space, Tag} from 'antd';
+import type { MutableRefObject } from 'react';
+import {Button, Divider, Input, message, Popconfirm, Space, Tag} from 'antd';
 import type {ActionType, ColumnsState, ProColumns} from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import {CheckCircleOutlined, PlusOutlined} from '@ant-design/icons';
@@ -15,10 +15,7 @@ import type {UserVO} from "@/services/uaa/type/user";
 import {getUserById} from "@/services/uaa/user";
 
 interface UserRelateListProps {
-  userRelateListVisible: boolean;
-  handleUserRelateListVisible: Dispatch<SetStateAction<boolean>>;
   userRelateActionRef: MutableRefObject<ActionType | undefined>;
-  onCancel: () => void;
   handleBatchAddUserRelate: (selectRows: UserVO[]) => void;
   handleDeleteUserRelate: (record: UserVO) => void;
   handleBatchDeleteUserRelate: (selectRowIds: UserVO[]) => void;
@@ -26,17 +23,17 @@ interface UserRelateListProps {
     params: PageParams,
     sorter: Record<string, SortOrder>,
   ) => Promise<R<Page<UserVO>>>;
+  callBackFinish?: () => Promise<any>;
 }
 
 const UserRelateList: React.FC<UserRelateListProps> = (props) => {
   const {
-    userRelateListVisible,
     userRelateActionRef: actionRef,
     handleBatchAddUserRelate,
     handleDeleteUserRelate,
     handleBatchDeleteUserRelate,
-    onCancel,
     queryList,
+    callBackFinish,
   } = props;
 
   const [createModalVisible, handleCreateModalVisible] = useState<boolean>(false);
@@ -44,8 +41,6 @@ const UserRelateList: React.FC<UserRelateListProps> = (props) => {
   const [checkBoxUserVisible, handleCheckBoxUserVisible] = useState<boolean>(false);
   const [currentRow, setCurrentRow] = useState<UserVO>();
   const [selectedRowsState, setSelectedRows] = useState<UserVO[]>([]);
-
-  // const departmentList = useDepartmentList();
 
   const columns: ProColumns<UserVO>[] = [
     {
@@ -78,6 +73,12 @@ const UserRelateList: React.FC<UserRelateListProps> = (props) => {
           },
         ],
       },
+    },
+    {
+      title: '所属部门',
+      dataIndex: ['departmentInfo', 'name'],
+      valueType: 'text',
+      hideInSearch: true
     },
     {
       title: '姓名',
@@ -193,7 +194,7 @@ const UserRelateList: React.FC<UserRelateListProps> = (props) => {
           </a>
           <Divider type="vertical" />
           <Popconfirm
-            title="确定取消该用户与角色的关联关系？"
+            title="确定取消该用户的关联？"
             arrowPointAtCenter
             onConfirm={() => handleDeleteUserRelate(record)}
             okText="确定"
@@ -234,15 +235,7 @@ const UserRelateList: React.FC<UserRelateListProps> = (props) => {
   });
 
   return (
-    <Drawer
-      title="角色分配"
-      placement="right"
-      width={820}
-      zIndex={500}
-      destroyOnClose
-      onClose={onCancel}
-      visible={userRelateListVisible}
-    >
+    <>
       <ProTable<UserVO>
         actionRef={actionRef}
         rowKey="id"
@@ -307,13 +300,13 @@ const UserRelateList: React.FC<UserRelateListProps> = (props) => {
         createModalVisible={createModalVisible}
         handleCreateModalVisible={handleCreateModalVisible}
         actionRef={actionRef}
+        callBackFinish={callBackFinish}
       />
       {currentRow && Object.keys(currentRow).length ? (
         <UpdateForm
           updateModalVisible={updateModalVisible}
           handleUpdateModalVisible={handleUpdateModalVisible}
           values={currentRow}
-          // onCancel={() => setCurrentRow({})}
           actionRef={actionRef}
           setCurrentRow={setCurrentRow}
         />
@@ -323,7 +316,7 @@ const UserRelateList: React.FC<UserRelateListProps> = (props) => {
         handleCheckBoxUserVisible={handleCheckBoxUserVisible}
         handleBatchAddUserRelate={handleBatchAddUserRelate}
       />
-    </Drawer>
+    </>
   );
 };
 

@@ -38,7 +38,7 @@ public class UaaApplicationTests {
         RoleDTO roleDTO = new RoleDTO();
         roleDTO.setCode("TEST").setName("测试人员");
         Long roleId = roleService.addRole(roleDTO);
-        roleService.bathAddRolePermission(roleId, Collections.singletonList(permissionId));
+        roleService.batchAddRolePermission(roleId, Collections.singletonList(permissionId));
     }
 
     @Test
