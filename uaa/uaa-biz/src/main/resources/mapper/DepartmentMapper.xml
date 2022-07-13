@@ -24,9 +24,13 @@
         </if>
     </select>
 
-    <select id="getAllDepartments" resultType="org.shanzhaozhen.uaa.pojo.dto.DepartmentDTO">
+    <select id="getDepartmentList" resultType="org.shanzhaozhen.uaa.pojo.dto.DepartmentDTO">
         select id, pid, name, code, priority, description, created_by, created_date, last_modified_by, last_modified_date
-        from sys_department order by priority
+        from sys_department
+        <if test="keyword != null and keyword != ''">
+            where name like concat ('%', #{keyword}, '%') or code like concat ('%', #{keyword}, '%') or description like concat ('%', #{keyword}, '%')
+        </if>
+        order by priority
     </select>
 
     <select id="getDepartmentByPId" resultType="org.shanzhaozhen.uaa.pojo.dto.DepartmentDTO">
@@ -43,6 +47,11 @@
             </choose>
         </where>
         order by priority
+    </select>
+
+    <select id="getDepartmentByCode" resultType="org.shanzhaozhen.uaa.pojo.dto.DepartmentDTO">
+        select id, pid, name, code, priority, description, created_by, created_date, last_modified_by, last_modified_date
+        from sys_department where code = #{code}
     </select>
 
 </mapper>

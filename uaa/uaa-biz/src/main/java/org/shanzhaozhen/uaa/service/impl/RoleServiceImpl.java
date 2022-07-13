@@ -75,7 +75,7 @@ public class RoleServiceImpl implements RoleService {
     public Long updateRole(RoleDTO roleDTO) {
         Assert.notNull(roleDTO.getId(), "角色id不能为空");
         RoleDTO roleInDB = roleMapper.getRoleByCode(roleDTO.getCode());
-        Assert.isTrue(roleInDB == null || roleInDB.getId().equals(roleDTO.getId()), "创建失败：字典代码已被占用");
+        Assert.isTrue(roleInDB == null || roleInDB.getId().equals(roleDTO.getId()), "更新失败：角色编码已被占用");
         RoleDO roleDO = roleMapper.selectById(roleDTO.getId());
         Assert.notNull(roleDO, "更新失败：没有找到该角色或已被删除");
         CustomBeanUtils.copyPropertiesExcludeMeta(roleDTO, roleDO);

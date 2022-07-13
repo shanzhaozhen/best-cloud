@@ -37,7 +37,6 @@ const handleRemove = async (selectedRows: PermissionVO[]) => {
 };
 
 const PermissionList: React.FC = () => {
-
   const [createModalVisible, handleCreateModalVisible] = useState<boolean>(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
 

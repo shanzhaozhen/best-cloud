@@ -17,10 +17,10 @@ public interface DepartmentService {
     Page<DepartmentDTO> getDepartmentPage(Page<DepartmentDTO> page, String keyword);
 
     /**
-     * 获取所有部门的树形结构
+     * 获取部门列表
      * @return
      */
-    List<DepartmentDTO> getAllDepartments();
+    List<DepartmentDTO> getDepartmentList(String keyword);
 
     /**
      * 通过父级ID获取部门列表
@@ -40,6 +40,13 @@ public interface DepartmentService {
      * @return
      */
     DepartmentDTO getDepartmentById(Long departmentId);
+
+    /**
+     * 通过部门编码获取部门实体
+     * @param code
+     * @return
+     */
+    DepartmentDTO getDepartmentByCode(String code);
 
     /**
      * 增加部门

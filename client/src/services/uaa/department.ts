@@ -34,8 +34,11 @@ export async function getDepartmentTree(options?: Record<string, any>) {
 }
 
 /** 获取所有部门信息 GET /department/all */
-export async function getAllDepartments(options?: Record<string, any>) {
-  return request<R<DepartmentVO[]>>(`/api/uaa/department/all`, {
+export async function getDepartmentList(keyword?: string, options?: Record<string, any>) {
+  return request<R<DepartmentVO[]>>(`/api/uaa/department/list`, {
+    params: {
+      keyword
+    },
     method: 'GET',
     ...(options || {}),
   });

@@ -40,6 +40,11 @@ export default [
         path: '/system/department',
         component: './system/departmentList',
       },
+      {
+        name: 'organization',
+        path: '/system/organization',
+        component: './system/OrganizationList',
+      },
     ],
   }, // {
   //   path: '/admin',

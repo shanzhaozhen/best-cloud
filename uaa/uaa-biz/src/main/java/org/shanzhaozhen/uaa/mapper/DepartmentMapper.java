@@ -11,7 +11,10 @@ public interface DepartmentMapper extends BaseMapper<DepartmentDO> {
 
     Page<DepartmentDTO> getDepartmentPage(Page<DepartmentDTO> page, String keyword);
 
-    List<DepartmentDTO> getAllDepartments();
+    List<DepartmentDTO> getDepartmentList(String keyword);
 
     List<DepartmentDTO> getDepartmentByPId(Long pid);
+
+    DepartmentDTO getDepartmentByCode(String code);
+
 }

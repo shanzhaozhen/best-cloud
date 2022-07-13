@@ -23,7 +23,7 @@ import java.util.List;
 public class DepartmentController {
 
     private static final String GET_DEPARTMENT_PAGE = "/department/page";
-    private static final String GET_ALL_DEPARTMENT = "/department/all";
+    private static final String GET_DEPARTMENT_list = "/department/list";
     private static final String GET_ALL_DEPARTMENT_TREE = "/department/tree";
     private static final String GET_DEPARTMENT_BY_PID = "/department/pid";
     private static final String GET_DEPARTMENT_BY_ID = "/department/{departmentId}";
@@ -40,10 +40,10 @@ public class DepartmentController {
         return R.build(() -> DepartmentConverter.toVO(departmentService.getDepartmentPage(pageParams.getPage(), pageParams.getKeyword())));
     } 
     
-    @Operation(summary = "获取所有部门信息")
-    @GetMapping(GET_ALL_DEPARTMENT)
-    public R<List<DepartmentVO>> getAllDepartments() {
-        return R.build(() -> DepartmentConverter.toVO(departmentService.getAllDepartments()));
+    @Operation(summary = "获取部门列表")
+    @GetMapping(GET_DEPARTMENT_list)
+    public R<List<DepartmentVO>> getDepartmentList(@Parameter(description = "关键字") @RequestParam(value = "keyword", required = false) String keyword) {
+        return R.build(() -> DepartmentConverter.toVO(departmentService.getDepartmentList(keyword)));
     }
 
     @Operation(summary = "获取所有部门信息（树状结构）")

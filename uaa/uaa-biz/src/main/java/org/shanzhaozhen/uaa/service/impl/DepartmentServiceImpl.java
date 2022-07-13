@@ -5,10 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.common.core.utils.CustomBeanUtils;
 import org.shanzhaozhen.common.core.utils.TreeUtils;
 import org.shanzhaozhen.uaa.converter.DepartmentConverter;
+import org.shanzhaozhen.uaa.converter.RoleConverter;
 import org.shanzhaozhen.uaa.mapper.DepartmentMapper;
 import org.shanzhaozhen.uaa.pojo.dto.DepartmentDTO;
 import org.shanzhaozhen.uaa.pojo.dto.DepartmentDTO;
+import org.shanzhaozhen.uaa.pojo.dto.RoleDTO;
 import org.shanzhaozhen.uaa.pojo.entity.DepartmentDO;
+import org.shanzhaozhen.uaa.pojo.entity.RoleDO;
 import org.shanzhaozhen.uaa.service.DepartmentService;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -36,8 +39,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     @Cacheable(key = "#root.methodName")
-    public List<DepartmentDTO> getAllDepartments() {
-        return departmentMapper.getAllDepartments();
+    public List<DepartmentDTO> getDepartmentList(String keyword) {
+        return departmentMapper.getDepartmentList(keyword);
     }
 
     @Override
@@ -48,7 +51,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Cacheable(key = "#root.methodName")
     public List<DepartmentDTO> getDepartmentTree() {
-        List<DepartmentDTO> departmentDTOList = this.getAllDepartments();
+        List<DepartmentDTO> departmentDTOList = this.getDepartmentList(null);
         return TreeUtils.builtTree(departmentDTOList, DepartmentDTO.class);
     }
 
@@ -61,9 +64,16 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    public DepartmentDTO getDepartmentByCode(String code) {
+        return departmentMapper.getDepartmentByCode(code);
+    }
+
+    @Override
     @Transactional
     @CacheEvict(allEntries = true)
     public Long addDepartment(DepartmentDTO departmentDTO) {
+        DepartmentDTO departmentInDB = this.getDepartmentByCode(departmentDTO.getCode());
+        Assert.isNull(departmentInDB, "创建失败：部门编码已被占用");
         DepartmentDO departmentDO = DepartmentConverter.toDO(departmentDTO);
         departmentMapper.insert(departmentDO);
         return departmentDO.getId();
@@ -80,6 +90,8 @@ public class DepartmentServiceImpl implements DepartmentService {
             Assert.notNull(departmentPNode, "更新失败：没有找到该菜单的上级菜单或已被删除");
             Assert.isTrue(!departmentDTO.getId().equals(departmentPNode.getPid()), "更新失败：菜单之间不能互相引用");
         }
+        DepartmentDTO departmentInDB = departmentMapper.getDepartmentByCode(departmentDTO.getCode());
+        Assert.isTrue(departmentInDB == null || departmentInDB.getId().equals(departmentDTO.getId()), "更新失败：部门编码已被占用");
         DepartmentDO departmentDO = departmentMapper.selectById(departmentDTO.getId());
         Assert.notNull(departmentDO, "更新失败：没有找到该菜单或已被删除");
         CustomBeanUtils.copyPropertiesExcludeMeta(departmentDTO, departmentDO);
