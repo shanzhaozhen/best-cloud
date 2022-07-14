@@ -31,7 +31,7 @@ public class RoleServiceImpl implements RoleService {
     private final RolePermissionMapper rolePermissionMapper;
 
     @Override
-    public List<RoleDTO> getRolesByUserId(Long userId) {
+    public List<RoleDTO> getRolesByUserId(String userId) {
         return roleMapper.getRoleListByUserId(userId);
     }
 
@@ -46,14 +46,14 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleDTO getRoleById(Long roleId) {
+    public RoleDTO getRoleById(String roleId) {
         RoleDO roleDO = roleMapper.selectById(roleId);
         Assert.notNull(roleDO, "获取失败：没有找到该角色或已被删除");
         return RoleConverter.toDTO(roleDO);
     }
 
     @Override
-    public RoleDTO getRoleDetailById(Long roleId) {
+    public RoleDTO getRoleDetailById(String roleId) {
         RoleDTO roleDTO = roleMapper.getRoleDetailById(roleId);
         Assert.notNull(roleDTO, "获取失败：没有找到该角色或已被删除");
         return roleDTO;
@@ -61,7 +61,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public Long addRole(RoleDTO roleDTO) {
+    public String addRole(RoleDTO roleDTO) {
         RoleDTO roleInDB = roleMapper.getRoleByCode(roleDTO.getCode());
         Assert.isNull(roleInDB, "创建失败：角色编码已被占用");
         RoleDO roleDO = RoleConverter.toDO(roleDTO);
@@ -72,7 +72,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public Long updateRole(RoleDTO roleDTO) {
+    public String updateRole(RoleDTO roleDTO) {
         Assert.notNull(roleDTO.getId(), "角色id不能为空");
         RoleDTO roleInDB = roleMapper.getRoleByCode(roleDTO.getCode());
         Assert.isTrue(roleInDB == null || roleInDB.getId().equals(roleDTO.getId()), "更新失败：角色编码已被占用");
@@ -86,7 +86,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public Long deleteRole(Long roleId) {
+    public String deleteRole(String roleId) {
         roleMenuMapper.deleteByRoleId(roleId);
         rolePermissionMapper.deleteByRoleId(roleId);
         roleMapper.deleteById(roleId);
@@ -95,8 +95,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public List<Long> batchDeleteRole(@NotEmpty(message = "没有需要删除的角色") List<Long> roleIds) {
-        for (Long roleId : roleIds) {
+    public List<String> batchDeleteRole(@NotEmpty(message = "没有需要删除的角色") List<String> roleIds) {
+        for (String roleId : roleIds) {
             this.deleteRole(roleId);
         }
         return roleIds;
@@ -104,7 +104,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public void updateMenuAndPermission(@NotNull Long roleId, List<Long> menuIds, List<Long> permissionIds) {
+    public void updateMenuAndPermission(@NotNull String roleId, List<String> menuIds, List<String> permissionIds) {
         // 添加角色-菜单关联
         if (menuIds != null && menuIds.size() > 0) {
             roleMenuMapper.deleteByRoleId(roleId);
@@ -119,8 +119,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public void batchAddRoleMenu(Long roleId, List<Long> menuIds) {
-        for (Long menuId : menuIds) {
+    public void batchAddRoleMenu(String roleId, List<String> menuIds) {
+        for (String menuId : menuIds) {
             RoleMenuDO RoleMenuDO = new RoleMenuDO(null, roleId, menuId);
             roleMenuMapper.insert(RoleMenuDO);
         }
@@ -128,8 +128,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public void batchAddRolePermission(Long roleId, List<Long> permissionIds) {
-        for (Long permissionId : permissionIds) {
+    public void batchAddRolePermission(String roleId, List<String> permissionIds) {
+        for (String permissionId : permissionIds) {
             RolePermissionDO rolePermissionDO = new RolePermissionDO(null, roleId, permissionId);
             rolePermissionMapper.insert(rolePermissionDO);
         }

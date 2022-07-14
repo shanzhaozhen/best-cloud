@@ -146,11 +146,11 @@ const DepartmentList: React.FC = () => {
   return (
     <PageContainer>
       <ProCard gutter={24} split="vertical" ghost>
-        <ProCard colSpan={{xl: 8, lg: 8, md: 24}} bordered style={{height: '100%'}}>
+        <ProCard colSpan={{xl: 6, lg: 6, md: 24}} bordered style={{height: '100%'}}>
           <DepartmentTree setSelectDepartment={setSelectDepartment} userRelateActionRef={userRelateActionRef}/>
         </ProCard>
         <ProCard
-          colSpan={{xl: 16, lg: 16, md: 24}}
+          colSpan={{xl: 18, lg: 18, md: 24}}
           bordered
           layout={selectDepartment && Object.keys(selectDepartment).length > 0 ? 'default' : 'center'}
           style={{height: '100%'}}>
@@ -181,6 +181,12 @@ const DepartmentList: React.FC = () => {
                       departmentId: selectDepartment.id
                     })
                   }
+                  callBackFinish={async (userId: number) => {
+                    await addDepartmentUsers({
+                      departmentId: selectDepartment?.id,
+                      userIds: [userId],
+                    });
+                  }}
                 />
               </Tabs.TabPane>
             </Tabs>

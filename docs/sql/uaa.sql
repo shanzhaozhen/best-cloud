@@ -49,8 +49,8 @@ DROP TABLE IF EXISTS sys_user_info;
 
 CREATE TABLE sys_user_info
 (
-    id                 BIGINT NOT NULL COMMENT '主键ID',
-    pid                BIGINT NOT NULL COMMENT '关联的用户ID',
+    id                 VARCHAR(30) NOT NULL COMMENT '主键ID',
+    pid                VARCHAR(30) NOT NULL COMMENT '关联的用户ID',
     name               VARCHAR(30) NULL DEFAULT NULL COMMENT '姓名',
     nickname           VARCHAR(30) NULL DEFAULT NULL COMMENT '昵称',
     sex                INT NULL DEFAULT NULL COMMENT '性别',
@@ -76,7 +76,7 @@ DROP TABLE IF EXISTS sys_role;
 
 CREATE TABLE sys_role
 (
-    id                 BIGINT      NOT NULL COMMENT '主键ID',
+    id                 VARCHAR(30) NOT NULL COMMENT '主键ID',
     name               VARCHAR(30) NOT NULL COMMENT '名称',
     code               VARCHAR(30) NOT NULL UNIQUE COMMENT '角色编码',
     description        VARCHAR(255) COMMENT '描述',
@@ -120,11 +120,11 @@ DROP TABLE IF EXISTS sys_permission;
 
 CREATE TABLE sys_permission
 (
-    id                 BIGINT      NOT NULL COMMENT '主键ID',
+    id                 VARCHAR(30) NOT NULL COMMENT '主键ID',
     name               VARCHAR(30) NOT NULL COMMENT '权限名称',
     path               VARCHAR(255) COMMENT '权限路由',
     type               INT(11) NOT NULL COMMENT '权限类型',
-    pid                BIGINT NULL DEFAULT NULL COMMENT '上级ID',
+    pid                VARCHAR(30) NULL DEFAULT NULL COMMENT '上级ID',
     priority           INT(11) NULL DEFAULT NULL COMMENT '排序等级',
     description        VARCHAR(255) COMMENT '权限描述',
     created_by         BIGINT NULL DEFAULT NULL COMMENT '创建人',
@@ -141,9 +141,9 @@ DROP TABLE IF EXISTS sys_user_role;
 
 CREATE TABLE sys_user_role
 (
-    id                 BIGINT NOT NULL COMMENT '主键ID',
-    user_id            BIGINT NOT NULL COMMENT '用户ID',
-    role_id            BIGINT NOT NULL COMMENT '角色ID',
+    id                 VARCHAR(30) NOT NULL COMMENT '主键ID',
+    user_id            BIGINT      NOT NULL COMMENT '用户ID',
+    role_id            BIGINT      NOT NULL COMMENT '角色ID',
     created_by         BIGINT NULL DEFAULT NULL COMMENT '创建人',
     created_date       datetime NULL DEFAULT NULL COMMENT '创建时间',
     last_modified_by   BIGINT NULL DEFAULT NULL COMMENT '修改人',
@@ -158,9 +158,9 @@ DROP TABLE IF EXISTS sys_role_menu;
 
 CREATE TABLE sys_role_menu
 (
-    id                 BIGINT NOT NULL COMMENT '主键ID',
-    role_id            BIGINT NOT NULL COMMENT '角色ID',
-    menu_id            BIGINT NOT NULL COMMENT '权限ID',
+    id                 VARCHAR(30) NOT NULL COMMENT '主键ID',
+    role_id            BIGINT      NOT NULL COMMENT '角色ID',
+    menu_id            BIGINT      NOT NULL COMMENT '权限ID',
     created_by         BIGINT NULL DEFAULT NULL COMMENT '创建人',
     created_date       datetime NULL DEFAULT NULL COMMENT '创建时间',
     last_modified_by   BIGINT NULL DEFAULT NULL COMMENT '修改人',
@@ -175,9 +175,9 @@ DROP TABLE IF EXISTS sys_role_permission;
 
 CREATE TABLE sys_role_permission
 (
-    id                 BIGINT NOT NULL COMMENT '主键ID',
-    role_id            BIGINT NOT NULL COMMENT '角色ID',
-    permission_id      BIGINT NOT NULL COMMENT '权限ID',
+    id                 VARCHAR(30) NOT NULL COMMENT '主键ID',
+    role_id            BIGINT      NOT NULL COMMENT '角色ID',
+    permission_id      VARCHAR(30) NOT NULL COMMENT '权限ID',
     created_by         BIGINT NULL DEFAULT NULL COMMENT '创建人',
     created_date       datetime NULL DEFAULT NULL COMMENT '创建时间',
     last_modified_by   BIGINT NULL DEFAULT NULL COMMENT '修改人',
@@ -192,16 +192,16 @@ DROP TABLE IF EXISTS sys_department;
 
 CREATE TABLE sys_department
 (
-    id                    BIGINT      NOT NULL COMMENT '主键ID',
-    pid                   BIGINT NULL DEFAULT NULL COMMENT '上级ID',
-    name                  VARCHAR(30) NOT NULL COMMENT '部门名称',
-    code                  VARCHAR(30) NOT NULL COMMENT '部门编码',
-    priority              INT(11) NULL DEFAULT NULL COMMENT '排序等级',
-    description           VARCHAR(255) COMMENT '部门描述',
-    created_by            BIGINT NULL DEFAULT NULL COMMENT '创建人',
-    created_date          datetime NULL DEFAULT NULL COMMENT '创建时间',
-    last_modified_by      BIGINT NULL DEFAULT NULL COMMENT '修改人',
-    last_modified_date    datetime NULL DEFAULT NULL COMMENT '修改时间',
+    id                 VARCHAR(30) NOT NULL COMMENT '主键ID',
+    pid                VARCHAR(30) NULL DEFAULT NULL COMMENT '上级ID',
+    name               VARCHAR(30) NOT NULL COMMENT '部门名称',
+    code               VARCHAR(30) NOT NULL COMMENT '部门编码',
+    priority           INT(11) NULL DEFAULT NULL COMMENT '排序等级',
+    description        VARCHAR(255) COMMENT '部门描述',
+    created_by         BIGINT NULL DEFAULT NULL COMMENT '创建人',
+    created_date       datetime NULL DEFAULT NULL COMMENT '创建时间',
+    last_modified_by   BIGINT NULL DEFAULT NULL COMMENT '修改人',
+    last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (id)
 );
 
@@ -212,9 +212,9 @@ DROP TABLE IF EXISTS sys_department_user;
 
 CREATE TABLE sys_department_user
 (
-    id                 BIGINT NOT NULL COMMENT '主键ID',
-    department_id      BIGINT NOT NULL COMMENT '部门ID',
-    user_id            BIGINT NOT NULL COMMENT '用户ID',
+    id                 VARCHAR(30) NOT NULL COMMENT '主键ID',
+    department_id      VARCHAR(30) NOT NULL COMMENT '部门ID',
+    user_id            BIGINT      NOT NULL COMMENT '用户ID',
     created_by         BIGINT NULL DEFAULT NULL COMMENT '创建人',
     created_date       datetime NULL DEFAULT NULL COMMENT '创建时间',
     last_modified_by   BIGINT NULL DEFAULT NULL COMMENT '修改人',
@@ -223,7 +223,8 @@ CREATE TABLE sys_department_user
 );
 
 
-SET FOREIGN_KEY_CHECKS = 1;
+SET
+FOREIGN_KEY_CHECKS = 1;
 
 INSERT INTO `sys_user`(`id`, `username`, `password`, `account_non_expired`, `account_non_locked`,
                        `credentials_non_expired`, `enabled`, `name`, `nickname`, `sex`, `birthday`, `avatar`, `email`,

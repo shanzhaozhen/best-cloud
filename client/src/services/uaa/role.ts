@@ -6,7 +6,7 @@ import {RoleForm, RoleVO} from "@/services/uaa/type/role";
 
 /** 更新角色接口 PUT /role */
 export async function updateRole(body: RoleForm, options?: Record<string, any>) {
-  return request<R<number>>(`/api/uaa/role`, {
+  return request<R<string>>(`/api/uaa/role`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ export async function updateRole(body: RoleForm, options?: Record<string, any>) 
 
 /** 添加角色接口 POST /role */
 export async function addRole(body: RoleForm, options?: Record<string, any>) {
-  return request<R<number>>(`/api/uaa/role`, {
+  return request<R<string>>(`/api/uaa/role`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export async function getRoleById(roleId: number, options?: Record<string, any>)
 
 /** 删除角色接口 DELETE /role/${roleId} */
 export async function deleteRole(roleId: number, options?: Record<string, any>) {
-  return request<R<number>>(`/api/uaa/role/${roleId}`, {
+  return request<R<string>>(`/api/uaa/role/${roleId}`, {
     method: 'DELETE',
     ...(options || {}),
   });

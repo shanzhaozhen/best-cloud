@@ -10,7 +10,7 @@ export type PermissionForm = {
   /** 权限类型 */
   type?: number;
   /** 上级ID */
-  pid?: number;
+  pid?: string;
   /** 排序等级 */
   priority?: number;
   /** 支持Get请求 */
@@ -21,7 +21,7 @@ export type PermissionForm = {
 
 export type PermissionDTO = {
   /** 主键ID */
-  id?: number;
+  id?: string;
   /** 权限名称 */
   name?: string;
   /** 权限路由 */
@@ -29,7 +29,7 @@ export type PermissionDTO = {
   /** 权限类型 */
   type?: number;
   /** 上级ID */
-  pid?: number;
+  pid?: string;
   /** 排序等级 */
   priority?: number;
   /** 权限描述 */
@@ -50,7 +50,7 @@ export
 
 type PermissionVO = {
   /** 主键ID */
-  id?: number;
+  id?: string;
   /** 权限名称 */
   name?: string;
   /** 权限路由 */
@@ -58,7 +58,7 @@ type PermissionVO = {
   /** 权限类型 */
   type?: number;
   /** 上级ID */
-  pid?: number;
+  pid?: string;
   /** 排序等级 */
   priority?: number;
   /** 支持Get请求 */

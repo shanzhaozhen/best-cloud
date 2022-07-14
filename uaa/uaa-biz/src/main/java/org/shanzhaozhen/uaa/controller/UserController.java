@@ -66,31 +66,31 @@ public class UserController {
 
     @Operation(summary = "获取用户信息（通过用户id）")
     @GetMapping(GET_USER_BY_ID)
-    public R<UserVO> getUserById(@Parameter(description = "用户id", example = "1") @PathVariable("userId") Long userId) {
+    public R<UserVO> getUserById(@Parameter(description = "用户id", example = "1") @PathVariable("userId") String userId) {
         return R.build(() -> UserConverter.toVO(userService.getUserById(userId)));
     }
 
     @Operation(summary = "添加用户接口")
     @PostMapping(ADD_USER)
-    public R<Long> addUser(@RequestBody @Validated({Insert.class}) UserForm userForm) {
+    public R<String> addUser(@RequestBody @Validated({Insert.class}) UserForm userForm) {
         return R.build(() -> userService.addUser(UserConverter.toDTO(userForm)));
     }
 
     @Operation(summary = "更新用户接口")
     @PutMapping(UPDATE_USER)
-    public R<Long> updateUser(@RequestBody @Validated({Update.class}) UserForm userForm) {
+    public R<String> updateUser(@RequestBody @Validated({Update.class}) UserForm userForm) {
         return R.build(() -> userService.updateUser(UserConverter.toDTO(userForm)));
     }
 
     @Operation(summary = "删除用户接口")
     @DeleteMapping(DELETE_USER)
-    public R<Long> deleteUser(@Parameter(description = "用户id", example = "[1, 2]") @PathVariable("userId") Long userId) {
+    public R<String> deleteUser(@Parameter(description = "用户id", example = "[1, 2]") @PathVariable("userId") String userId) {
         return R.build(() -> userService.deleteUser(userId));
     }
 
     @Operation(summary = "批量删除用户接口")
     @DeleteMapping(BATCH_DELETE_USER)
-    public R<List<Long>> batchDeleteUser(@Parameter(description = "用户id", example = "[1, 2]") @RequestBody List<Long> userIds) {
+    public R<List<String>> batchDeleteUser(@Parameter(description = "用户id", example = "[1, 2]") @RequestBody List<String> userIds) {
         return R.build(() -> userService.batchDeleteUser(userIds));
     }
 

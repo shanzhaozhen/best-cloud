@@ -25,24 +25,24 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 
     @Override
-    public UserInfoDTO getUserInfoById(Long userInfoId) {
+    public UserInfoDTO getUserInfoById(String userInfoId) {
         return userInfoMapper.getUserInfoById(userInfoId);
     }
 
     @Override
-    public UserInfoDTO getUserInfoByUserId(Long userId) {
+    public UserInfoDTO getUserInfoByUserId(String userId) {
         return userInfoMapper.getUserInfoByUserId(userId);
     }
 
     @Override
     public UserInfoDTO getCurrentUserInfo() {
-        Long userId = JwtUtils.getUserIdWithoutError();
+        String userId = JwtUtils.getUserIdWithoutError();
         Assert.notNull(userId, "当前访问没有获取到登陆状态");
         return this.getUserInfoByUserId(userId);
     }
 
     @Override
-    public Long addUserInfo(UserInfoDTO userInfoDTO) {
+    public String addUserInfo(UserInfoDTO userInfoDTO) {
         Assert.notNull(userInfoDTO.getPid(), "关联的用户ID不能为空");
         UserInfoDO userInfoDO = UserInfoConverter.toDO(userInfoDTO);
         userInfoMapper.insert(userInfoDO);
@@ -50,7 +50,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public Long updateUserInfo(UserInfoDTO userInfoDTO) {
+    public String updateUserInfo(UserInfoDTO userInfoDTO) {
 //        Assert.notNull(userInfoDTO.getId(), "用户信息ID不能为空");
         Assert.notNull(userInfoDTO.getPid(), "关联的用户ID不能为空");
         UserInfoDO userInfoDO = userInfoMapper.selectOne(new LambdaQueryWrapper<UserInfoDO>().eq(UserInfoDO::getPid, userInfoDTO.getPid()));
@@ -64,22 +64,22 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public Long deleteUserInfo(Long userInfoId) {
+    public String deleteUserInfo(String userInfoId) {
         userInfoMapper.deleteById(userInfoId);
         return userInfoId;
     }
 
     @Override
-    public List<Long> batchDeleteUserInfo(List<Long> userInfoIds) {
+    public List<String> batchDeleteUserInfo(List<String> userInfoIds) {
         Assert.notEmpty(userInfoIds, "没有需要删除的用户信息");
-        for (Long userInfoId : userInfoIds) {
+        for (String userInfoId : userInfoIds) {
             this.deleteUserInfo(userInfoId);
         }
         return userInfoIds;
     }
 
     @Override
-    public void deleteUserInfoByUserId(Long userId) {
+    public void deleteUserInfoByUserId(String userId) {
         userInfoMapper.deleteByUserId(userId);
     }
 

@@ -23,7 +23,7 @@ public class AuthUser implements UserDetails {
     private static final long serialVersionUID = 172687743338426957L;
 
     @Schema(description = "用户")
-    private Long userId;
+    private String userId;
 
     @Schema(description = "用户名")
     private String username;

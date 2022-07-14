@@ -35,9 +35,9 @@ export type UserInfoForm = {
 
 export type UserInfoVO = {
   /** 主键ID */
-  id?: number;
+  id?: string;
   /** 关联用户ID */
-  pid?: number;
+  pid?: string;
   /** 姓名 */
   name?: string;
   /** 昵称 */
@@ -74,9 +74,9 @@ export type UserInfoVO = {
 
 export type UserInfoDTO = {
   /** 主键ID */
-  id?: number;
+  id?: string;
   /** 关联用户id */
-  pid?: number;
+  pid?: string;
   /** 姓名 */
   name?: string;
   /** 昵称 */

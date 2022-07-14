@@ -17,7 +17,7 @@ public class PermissionDTO extends BaseInfo {
     private static final long serialVersionUID = -1919471263242925847L;
 
     @Schema(description = "主键ID")
-    private Long id;
+    private String id;
 
     @Schema(description = "权限名称")
     private String name;
@@ -29,7 +29,7 @@ public class PermissionDTO extends BaseInfo {
     private Integer type;
 
     @Schema(description = "上级ID")
-    private Long pid;
+    private String pid;
 
     @Schema(description = "排序等级")
     private Integer priority;

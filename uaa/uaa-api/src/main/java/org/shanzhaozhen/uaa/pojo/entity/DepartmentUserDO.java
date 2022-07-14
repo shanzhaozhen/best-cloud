@@ -21,12 +21,12 @@ public class DepartmentUserDO extends BaseInfo {
 
     @Schema(description = "主键ID")
     @TableId(type = IdType.ASSIGN_ID)
-    private Long id;
+    private String id;
 
     @Schema(description = "部门ID")
-    private Long departmentId;
+    private String departmentId;
 
     @Schema(description = "用户ID")
-    private Long userId;
+    private String userId;
 
 }

@@ -44,12 +44,12 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public List<PermissionDTO> getPermissionByPid(Long pid) {
+    public List<PermissionDTO> getPermissionByPid(String pid) {
         return permissionMapper.getPermissionByPid(pid);
     }
 
     @Override
-    public PermissionDTO getPermissionById(Long permissionId) {
+    public PermissionDTO getPermissionById(String permissionId) {
         PermissionDO permissionDO = permissionMapper.selectById(permissionId);
         Assert.notNull(permissionDO, "获取失败：没有找到该权限或已被删除");
         return PermissionConverter.toDTO(permissionDO);
@@ -57,7 +57,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     @Transactional
-    public Long addPermission(PermissionDTO permissionDTO) {
+    public String addPermission(PermissionDTO permissionDTO) {
         PermissionDO permissionDO = PermissionConverter.toDO(permissionDTO);
         permissionMapper.insert(permissionDO);
         return permissionDO.getId();
@@ -65,7 +65,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     @Transactional
-    public Long updatePermission(PermissionDTO permissionDTO) {
+    public String updatePermission(PermissionDTO permissionDTO) {
         Assert.notNull(permissionDTO.getId(), "更新失败：权限id不能为空");
         Assert.isTrue(!permissionDTO.getId().equals(permissionDTO.getPid()), "更新失败：上级节点不能选择自己");
         if (permissionDTO.getPid() != null) {
@@ -87,15 +87,15 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     @Transactional
-    public Long deletePermission(Long permissionId) {
+    public String deletePermission(String permissionId) {
         permissionMapper.deleteById(permissionId);
         return permissionId;
     }
 
     @Override
     @Transactional
-    public List<Long> batchDeletePermission(@NotEmpty(message = "没有需要删除的权限") List<Long> permissionIds) {
-        for (Long permissionId : permissionIds) {
+    public List<String> batchDeletePermission(@NotEmpty(message = "没有需要删除的权限") List<String> permissionIds) {
+        for (String permissionId : permissionIds) {
             this.deletePermission(permissionId);
         }
         return permissionIds;

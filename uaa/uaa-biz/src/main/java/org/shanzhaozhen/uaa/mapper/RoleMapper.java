@@ -11,15 +11,15 @@ import java.util.List;
 
 public interface RoleMapper extends BaseMapper<RoleDO> {
 
-    RoleDTO getRoleDetailById(@Param("roleId") Long roleId);
+    RoleDTO getRoleDetailById(@Param("roleId") String roleId);
 
-    List<RoleDTO> getRoleByMenuId(@Param("menuId") Long menuId);
+    List<RoleDTO> getRoleByMenuId(@Param("menuId") String menuId);
 
     List<RoleDTO> getRoleByPermissionId(@Param("permissionId") Long permissionId);
 
-    List<RoleDTO> getRoleListByUserId(@Param("userId") Long userId);
+    List<RoleDTO> getRoleListByUserId(@Param("userId") String userId);
 
-    List<CustomGrantedAuthority> getAuthoritiesByUserId(@Param("userId") Long userId);
+    List<CustomGrantedAuthority> getAuthoritiesByUserId(@Param("userId") String userId);
 
     Page<RoleDTO> getRolePage(Page<RoleDTO> page, @Param("keyword") String keyword);
 

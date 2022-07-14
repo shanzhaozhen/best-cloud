@@ -33,7 +33,7 @@ export async function addUserRoles(userRoleForm: UserRoleForm, options?: Record<
 
 /** 删除用户角色 DELETE /user-role */
 export async function deleteUserRoles(userRoleForm: UserRoleForm, options?: Record<string, any>) {
-  return request<R<number>>(`/api/uaa/user-role`, {
+  return request<R<string>>(`/api/uaa/user-role`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

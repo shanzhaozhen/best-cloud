@@ -19,7 +19,7 @@ public class DepartmentUserServiceImpl implements DepartmentUserService {
 
     @Override
     @Transactional
-    public Long addDepartmentUser(Long departmentId, Long userId) {
+    public String addDepartmentUser(String departmentId, String userId) {
         Assert.notNull(departmentId, "没有有效的部门ID！");
         Assert.notNull(userId, "没有有效的用户ID！");
         // 先检查该用户是否已存在部门，若存在先删除
@@ -33,11 +33,11 @@ public class DepartmentUserServiceImpl implements DepartmentUserService {
     }
 
     @Override
-    public List<Long> batchAddDepartmentUser(Long departmentId, List<Long> userIds) {
+    public List<String> batchAddDepartmentUser(String departmentId, List<String> userIds) {
         Assert.notNull(departmentId, "没有有效的部门ID！");
         Assert.notEmpty(userIds, "没有有效的用户ID！");
-        List<Long> departmentUserIds = new ArrayList<>();
-        for (Long userId : userIds) {
+        List<String> departmentUserIds = new ArrayList<>();
+        for (String userId : userIds) {
             departmentUserIds.add(this.addDepartmentUser(departmentId, userId));
         }
         return departmentUserIds;
@@ -45,17 +45,17 @@ public class DepartmentUserServiceImpl implements DepartmentUserService {
 
     @Override
     @Transactional
-    public void deleteDepartmentUser(Long departmentId, Long userId) {
+    public void deleteDepartmentUser(String departmentId, String userId) {
         Assert.notNull(departmentId, "没有有效的部门ID！");
         Assert.notNull(userId, "没有有效的用户ID！");
         departmentUserMapper.deleteByDepartmentIdAndUserId(departmentId, userId);
     }
 
     @Override
-    public int batchDeleteDepartmentUser(Long departmentId, List<Long> userIds) {
+    public int batchDeleteDepartmentUser(String departmentId, List<String> userIds) {
         Assert.notEmpty(userIds, "没有有效的用户ID！");
         Assert.notNull(departmentId, "没有有效的用户ID！");
-        for (Long userId : userIds) {
+        for (String userId : userIds) {
             this.deleteDepartmentUser(departmentId, userId);
         }
         return userIds.size();

@@ -6,6 +6,6 @@ import org.shanzhaozhen.uaa.pojo.entity.RolePermissionDO;
 
 public interface RolePermissionMapper extends BaseMapper<RolePermissionDO> {
 
-    int deleteByRoleId(@Param("roleId") Long roleId);
+    int deleteByRoleId(@Param("roleId") String roleId);
 
 }

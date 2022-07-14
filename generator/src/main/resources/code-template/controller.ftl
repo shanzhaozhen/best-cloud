@@ -43,25 +43,25 @@ public class MenuController {
 
     @Operation(summary = "获取菜单信息（通过菜单id）")
     @GetMapping(GET_MENU_BY_ID)
-    public R<MenuVO> getMenuById(@PathVariable("menuId") @Parameter(description = "菜单id", example = "1") Long menuId) {
+    public R<MenuVO> getMenuById(@PathVariable("menuId") @Parameter(description = "菜单id", example = "1") String menuId) {
         return R.build(() -> MenuConverter.toVO(menuService.getMenuById(menuId)));
     }
 
     @Operation(summary = "添加菜单接口")
     @PostMapping(ADD_MENU)
-    public R<Long> addMenu(@RequestBody @Validated MenuForm menuForm) {
+    public R<String> addMenu(@RequestBody @Validated MenuForm menuForm) {
         return R.build(() -> menuService.addMenu(MenuConverter.toDTO(menuForm)));
     }
 
     @Operation(summary = "更新菜单接口")
     @PutMapping(UPDATE_MENU)
-    public R<Long> updateMenu(@RequestBody @Validated MenuForm menuForm) {
+    public R<String> updateMenu(@RequestBody @Validated MenuForm menuForm) {
         return R.build(() -> menuService.updateMenu(MenuConverter.toDTO(menuForm)));
     }
 
     @Operation(summary = "删除菜单接口")
     @DeleteMapping(DELETE_MENU)
-    public R<Long> deleteMenu(@PathVariable("menuId") @Parameter(description = "菜单id", example = "1") Long
+    public R<String> deleteMenu(@PathVariable("menuId") @Parameter(description = "菜单id", example = "1") Long
     menuId) {
         return R.build(() -> menuService.deleteMenu(menuId));
     }
@@ -69,7 +69,7 @@ public class MenuController {
     @Operation(summary = "批量删除菜单接口")
     @DeleteMapping(BATCH_DELETE_MENU)
     public R
-    <List<Long>> batchDeleteMenu(@Parameter(description = "菜单id", example = "[1, 2]") @RequestBody List<Long> menuIds) {
+    <List<String>> batchDeleteMenu(@Parameter(description = "菜单id", example = "[1, 2]") @RequestBody List<String> menuIds) {
         return R.build(() -> menuService.batchDeleteMenu(menuIds));
     }
 

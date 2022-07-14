@@ -17,7 +17,7 @@ public class RoleDTO extends BaseInfo {
     private static final long serialVersionUID = -4386224070617343831L;
 
     @Schema(description = "主键ID")
-    private Long id;
+    private String id;
 
     @Schema(description = "名称")
     private String name;
@@ -32,12 +32,12 @@ public class RoleDTO extends BaseInfo {
     private List<MenuDTO> menus;
 
     @Schema(description = "关联的菜单ID")
-    private List<Long> menuIds;
+    private List<String> menuIds;
 
     @Schema(description = "关联的资源")
     private List<PermissionDTO> permissions;
 
     @Schema(description = "关联的资源ID")
-    private List<Long> permissionIds;
+    private List<String> permissionIds;
 
 }

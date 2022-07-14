@@ -9,8 +9,8 @@ public interface UserInfoMapper extends BaseMapper<UserInfoDO> {
 
     UserInfoDTO getUserInfoById(@Param("userInfoId") Long userInfoId);
 
-    UserInfoDTO getUserInfoByUserId(@Param("userId") Long userId);
+    UserInfoDTO getUserInfoByUserId(@Param("userId") String userId);
 
-    int deleteByUserId(@Param("userId") Long userId);
+    int deleteByUserId(@Param("userId") String userId);
 
 }

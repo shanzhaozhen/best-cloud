@@ -20,11 +20,11 @@ public class UserInfoForm extends BaseInfo {
 
     @Schema(description = "主键ID")
     @NotNull(groups = {Update.class}, message = "用户信息id不能为空")
-    private Long id;
+    private String id;
 
     @Schema(description = "关联用户id")
     @NotNull(groups = {Update.class}, message = "用户关联id不能为空")
-    private Long pid;
+    private String pid;
 
     @Schema(description = "姓名")
     private String name;

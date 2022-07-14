@@ -20,12 +20,12 @@ public class RoleMenuDO extends BaseInfo {
 
     @Schema(description = "主键ID")
     @TableId(type = IdType.ASSIGN_ID)
-    private Long id;
+    private String id;
 
     @Schema(description = "角色ID")
-    private Long roleId;
+    private String roleId;
 
     @Schema(description = "菜单ID")
-    private Long menuId;
+    private String menuId;
 
 }

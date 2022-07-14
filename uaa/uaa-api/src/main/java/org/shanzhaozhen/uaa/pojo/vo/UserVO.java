@@ -23,8 +23,7 @@ import java.util.List;
 public class UserVO extends BaseInfoVO {
 
     @Schema(description = "主键ID")
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
+    private String id;
 
     @Schema(description = "用户名")
     private String username;
@@ -46,7 +45,7 @@ public class UserVO extends BaseInfoVO {
 
     @Schema(description = "关联的角色id")
     @JsonSerialize(using = ToStringListSerialize.class)
-    private List<Long> roleIds;
+    private List<String> roleIds;
 
     @Schema(description = "关联的用户信息")
     private UserInfoVO userInfo;

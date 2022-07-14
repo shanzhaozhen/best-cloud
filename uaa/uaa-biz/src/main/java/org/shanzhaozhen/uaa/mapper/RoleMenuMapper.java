@@ -6,6 +6,6 @@ import org.shanzhaozhen.uaa.pojo.entity.RoleMenuDO;
 
 public interface RoleMenuMapper extends BaseMapper<RoleMenuDO> {
 
-    int deleteByRoleId(@Param("roleId") Long roleId);
+    int deleteByRoleId(@Param("roleId") String roleId);
 
 }

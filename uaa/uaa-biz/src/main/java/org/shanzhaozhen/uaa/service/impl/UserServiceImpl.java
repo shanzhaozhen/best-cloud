@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
     private final UserRoleMapper userRoleMapper;
 
     @Override
-    public UserDTO getUserById(Long userId) {
+    public UserDTO getUserById(String userId) {
         UserDTO user = userMapper.getUserById(userId);
         Assert.notNull(user, "用户不存在");
         UserInfoDTO userInfo = userInfoService.getUserInfoByUserId(userId);
@@ -60,13 +60,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Cacheable(key = "#root.methodName + ':' + #userId")
-    public JWTUser getJWTUser(Long userId) {
+    public JWTUser getJWTUser(String userId) {
         return userMapper.getJWTUserByUserId(userId);
     }
 
     @Override
     public UserDTO getCurrentUser() {
-        Long userId = JwtUtils.getUserIdWithoutError();
+        String userId = JwtUtils.getUserIdWithoutError();
         Assert.notNull(userId, "请求头没有包含用户信息");
         UserDTO userDTO = userMapper.getUserAndRolesByUserId(userId);
         Assert.notNull(userDTO, "没有找到当前用户信息");
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Long register(UserDTO userDTO) {
+    public String register(UserDTO userDTO) {
         Assert.isNull(userMapper.selectUserByUsername(userDTO.getUsername()), "注册失败，该用户名已存在！");
         UserDO newUser = new UserDO();
         BeanUtils.copyProperties(userDTO, newUser, "accountNonExpired", "accountNonLocked", "credentialsNonExpired", "enabled");
@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Long addUser(UserDTO userDTO) {
+    public String addUser(UserDTO userDTO) {
         Assert.isNull(userMapper.selectUserByUsername(userDTO.getUsername()), "注册失败，该用户名已存在！");
         UserDO userDO = new UserDO();
         CustomBeanUtils.copyPropertiesExcludeMeta(userDTO, userDO, "password");
@@ -131,7 +131,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Long updateUser(UserDTO userDTO) {
+    public String updateUser(UserDTO userDTO) {
         Assert.notNull(userDTO.getId(), "用户id不能为空");
         UserDO userDO = userMapper.selectById(userDTO.getId());
         Assert.notNull(userDO, "更新失败：没有找到该用户或已被删除");
@@ -152,18 +152,18 @@ public class UserServiceImpl implements UserService {
         }
 
         // 更新用户关联角色
-        userRoleMapper.deleteByUserId(userDO.getId());
-        List<Long> roleIds = userDTO.getRoleIds();
-        if (!CollectionUtils.isEmpty(roleIds)) {
-            userRoleService.batchAddUserRole(userDO.getId(), roleIds);
-        }
+//        userRoleMapper.deleteByUserId(userDO.getId());
+//        List<String> roleIds = userDTO.getRoleIds();
+//        if (!CollectionUtils.isEmpty(roleIds)) {
+//            userRoleService.batchAddUserRole(userDO.getId(), roleIds);
+//        }
 
         return userDO.getId();
     }
 
     @Override
     @Transactional
-    public Long deleteUser(Long userId) {
+    public String deleteUser(String userId) {
         userRoleMapper.deleteByUserId(userId);
         userMapper.deleteById(userId);
         return userId;
@@ -171,29 +171,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public List<Long> batchDeleteUser(List<Long> userIds) {
+    public List<String> batchDeleteUser(List<String> userIds) {
         Assert.notEmpty(userIds, "没有需要删除的用户");
-        for (Long userId : userIds) {
+        for (String userId : userIds) {
             this.deleteUser(userId);
         }
         return userIds;
     }
 
     @Override
-    public Page<UserDTO> getUserPageByRoleId(Page<UserDTO> page, Long roleId, String keyword) {
+    public Page<UserDTO> getUserPageByRoleId(Page<UserDTO> page, String roleId, String keyword) {
         Assert.notNull(roleId, "没有有效的角色ID！");
         return userMapper.getUserPageByRoleId(page, roleId, keyword);
     }
 
     @Override
-    public Page<UserDTO> getUserPageByDepartmentId(Page<UserDTO> page, Long departmentId, String keyword) {
+    public Page<UserDTO> getUserPageByDepartmentId(Page<UserDTO> page, String departmentId, String keyword) {
         Assert.notNull(departmentId, "没有有效的部门ID！");
         return userMapper.getUserPageByDepartmentId(page, departmentId, keyword);
     }
 
     @Override
     public Boolean logout() {
-//        Long userId = UserDetailsUtils.getUserId();
+//        String userId = UserDetailsUtils.getUserId();
         return true;
     }
 

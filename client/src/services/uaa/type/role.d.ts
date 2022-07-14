@@ -15,7 +15,7 @@ export type RoleForm = {
 
 export type RoleDTO = {
   /** 主键ID */
-  id?: number;
+  id?: string;
   /** 名称 */
   name?: string;
   /** 角色编码 */
@@ -42,7 +42,7 @@ export type RoleDTO = {
 
 export type RoleBase = {
   /** 主键ID */
-  id?: number;
+  id?: string;
   /** 名称 */
   name?: string;
   /** 标识名称 */
@@ -52,7 +52,7 @@ export type RoleBase = {
 export
 type RoleVO = {
   /** 主键ID */
-  id?: number;
+  id?: string;
   /** 名称 */
   name?: string;
   /** 角色编码 */

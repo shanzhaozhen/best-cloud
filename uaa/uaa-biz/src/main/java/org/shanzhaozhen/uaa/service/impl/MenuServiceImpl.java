@@ -34,15 +34,15 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuDTO> getMenusByCurrentUser() {
-//        Long userId = UserDetailsUtils.getUserId();
-        Long userId = null;
+//        String userId = UserDetailsUtils.getUserId();
+        String userId = null;
         Assert.notNull(userId, "没有获取到当前的登录状态或为匿名用户");
         return this.getMenusByUserId(userId);
     }
 
     @Override
     @Cacheable(key = "#root.methodName + ':' + #userId")
-    public List<MenuDTO> getMenusByUserId(Long userId) {
+    public List<MenuDTO> getMenusByUserId(String userId) {
         List<MenuDTO> menuDTOList = menuMapper.getMenuRoleListByUserId(userId);
         return TreeUtils.builtTree(menuDTOList, MenuDTO.class);
     }
@@ -54,7 +54,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuDTO> getMenuByPid(@Nullable Long pid) {
+    public List<MenuDTO> getMenuByPid(@Nullable String pid) {
         return menuMapper.getMenuByPid(pid);
     }
 
@@ -67,7 +67,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     @Cacheable(key = "#root.methodName + ':' + #menuId")
-    public MenuDTO getMenuById(Long menuId) {
+    public MenuDTO getMenuById(String menuId) {
         MenuDO menuDO = menuMapper.selectById(menuId);
         Assert.notNull(menuDO, "获取失败：没有找到该菜单或已被删除");
         return MenuConverter.toDTO(menuDO);
@@ -76,7 +76,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     @Transactional
     @CacheEvict(allEntries = true)
-    public Long addMenu(MenuDTO menuDTO) {
+    public String addMenu(MenuDTO menuDTO) {
         MenuDO menuDO = MenuConverter.toDO(menuDTO);
         menuMapper.insert(menuDO);
         return menuDO.getId();
@@ -85,7 +85,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     @Transactional
     @CacheEvict(allEntries = true)
-    public Long updateMenu(MenuDTO menuDTO) {
+    public String updateMenu(MenuDTO menuDTO) {
         Assert.notNull(menuDTO.getId(), "更新失败：菜单id不能为空");
         Assert.isTrue(!menuDTO.getId().equals(menuDTO.getPid()), "更新失败：上级菜单不能选择自己");
         if (menuDTO.getPid() != null) {
@@ -108,7 +108,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     @Transactional
     @CacheEvict(allEntries = true)
-    public Long deleteMenu(Long menuId) {
+    public String deleteMenu(String menuId) {
         menuMapper.deleteById(menuId);
         // todo: 删除子节点
         return menuId;
@@ -117,8 +117,8 @@ public class MenuServiceImpl implements MenuService {
     @Override
     @Transactional
     @CacheEvict(allEntries = true)
-    public List<Long> batchDeleteMenu(@NotEmpty(message = "没有需要删除的菜单") List<Long> menuIds) {
-        for (Long menuId : menuIds) {
+    public List<String> batchDeleteMenu(@NotEmpty(message = "没有需要删除的菜单") List<String> menuIds) {
+        for (String menuId : menuIds) {
             this.deleteMenu(menuId);
         }
         return menuIds;

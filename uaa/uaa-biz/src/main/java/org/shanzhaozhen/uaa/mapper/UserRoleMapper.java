@@ -8,10 +8,10 @@ import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
 
 public interface UserRoleMapper extends BaseMapper<UserRoleDO> {
 
-    UserRoleDO getUserRoleByUserIdAndRoleId(@Param("userId") Long userId, @Param("roleId") Long roleId);
+    UserRoleDO getUserRoleByUserIdAndRoleId(@Param("userId") String userId, @Param("roleId") String roleId);
 
-    int deleteByUserId(@Param("userId") Long userId);
+    int deleteByUserId(@Param("userId") String userId);
 
-    int deleteByUserIdAndRoleId(@Param("userId") Long userId, @Param("roleId") Long roleId);
+    int deleteByUserIdAndRoleId(@Param("userId") String userId, @Param("roleId") String roleId);
 
 }

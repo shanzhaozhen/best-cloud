@@ -6,7 +6,7 @@ import {MenuForm, MenuVO} from './type/menu';
 
 /** 更新菜单接口 PUT /menu */
 export async function updateMenu(menuForm: MenuForm, options?: Record<string, any>) {
-  return request<R<number>>(`/api/uaa/menu`, {
+  return request<R<string>>(`/api/uaa/menu`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ export async function updateMenu(menuForm: MenuForm, options?: Record<string, an
 
 /** 添加菜单接口 POST /menu */
 export async function addMenu(menuForm: MenuForm, options?: Record<string, any>) {
-  return request<R<number>>(`/api/uaa/menu`, {
+  return request<R<string>>(`/api/uaa/menu`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export async function getMenuById(menuId: number, options?: Record<string, any>)
 
 /** 删除菜单接口 DELETE /menu/${param0} */
 export async function deleteMenu(menuId: number, options?: Record<string, any>) {
-  return request<R<number>>(`/api/uaa/menu/${menuId}`, {
+  return request<R<string>>(`/api/uaa/menu/${menuId}`, {
     method: 'DELETE',
     ...(options || {}),
   });
@@ -73,7 +73,7 @@ export async function getAllMenus(options?: Record<string, any>) {
 }
 
 /** 通过父级id获取菜单列表 GET /menu/pid */
-export async function getMenuByPid(pid?: number, options?: Record<string, any>) {
+export async function getMenuByPid(pid?: string, options?: Record<string, any>) {
   return request<R<MenuVO[]>>(`/api/uaa/menu/pid`, {
     params: {
       pid

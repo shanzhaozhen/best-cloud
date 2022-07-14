@@ -48,31 +48,31 @@ public class RoleController {
 
     @Operation(summary = "获取角色信息（通过角色id）")
     @GetMapping(GET_ROLE_BY_ID)
-    public R<RoleVO> getRoleById(@PathVariable("roleId") @Parameter(description = "角色id", example = "1") Long roleId) {
+    public R<RoleVO> getRoleById(@PathVariable("roleId") @Parameter(description = "角色id", example = "1") String roleId) {
         return R.build(() -> RoleConverter.toVO(roleService.getRoleById(roleId)));
     }
 
     @Operation(summary = "添加角色接口")
     @PostMapping(ADD_ROLE)
-    public R<Long> addRole(@RequestBody @Validated({Insert.class}) RoleForm roleForm) {
+    public R<String> addRole(@RequestBody @Validated({Insert.class}) RoleForm roleForm) {
         return R.build(() -> roleService.addRole(RoleConverter.toDTO(roleForm)));
     }
 
     @Operation(summary = "更新角色接口")
     @PutMapping(UPDATE_ROLE)
-    public R<Long> updateRole(@RequestBody @Validated({Update.class}) RoleForm roleForm) {
+    public R<String> updateRole(@RequestBody @Validated({Update.class}) RoleForm roleForm) {
         return R.build(() -> roleService.updateRole(RoleConverter.toDTO(roleForm)));
     }
 
     @Operation(summary = "删除角色接口")
     @DeleteMapping(DELETE_ROLE)
-    public R<Long> deleteRole(@Parameter(description = "角色id", example = "[1, 2]")  @PathVariable Long roleId) {
+    public R<String> deleteRole(@Parameter(description = "角色id", example = "[1, 2]")  @PathVariable String roleId) {
         return R.build(() -> roleService.deleteRole(roleId));
     }
 
     @Operation(summary = "批量删除角色接口")
     @DeleteMapping(BATCH_DELETE_ROLE)
-    public R<List<Long>> batchDeleteRole(@Parameter(description = "角色id", example = "[1, 2]") @RequestBody List<Long> roleIds) {
+    public R<List<String>> batchDeleteRole(@Parameter(description = "角色id", example = "[1, 2]") @RequestBody List<String> roleIds) {
         return R.build(() -> roleService.batchDeleteRole(roleIds));
     }
 

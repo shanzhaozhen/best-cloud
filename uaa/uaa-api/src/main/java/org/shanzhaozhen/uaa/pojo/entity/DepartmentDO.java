@@ -20,10 +20,10 @@ public class DepartmentDO extends BaseInfo {
 
     @Schema(description = "主键ID")
     @TableId(type = IdType.ASSIGN_ID)
-    private Long id;
+    private String id;
 
     @Schema(description = "上级ID")
-    private Long pid;
+    private String pid;
 
     @Schema(description = "部门名称")
     private String name;

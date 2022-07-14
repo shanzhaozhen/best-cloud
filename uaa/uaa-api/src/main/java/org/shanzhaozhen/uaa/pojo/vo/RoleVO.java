@@ -20,8 +20,7 @@ import java.util.List;
 public class RoleVO extends BaseInfoVO {
 
     @Schema(description = "主键ID")
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
+    private String id;
 
     @Schema(description = "名称")
     private String name;
@@ -34,10 +33,10 @@ public class RoleVO extends BaseInfoVO {
 
     @Schema(description = "关联的菜单id")
     @JsonSerialize(using = ToStringListSerialize.class)
-    private List<Long> menuIds;
+    private List<String> menuIds;
 
     @Schema(description = "关联的资源id")
     @JsonSerialize(using = ToStringListSerialize.class)
-    private List<Long> permissionIds;
+    private List<String> permissionIds;
 
 }

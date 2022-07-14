@@ -20,12 +20,12 @@ public class UserRoleDO extends BaseInfo {
 
     @Schema(description = "主键ID")
     @TableId(type = IdType.ASSIGN_ID)
-    private Long id;
+    private String id;
 
     @Schema(description = "用户ID")
-    private Long userId;
+    private String userId;
 
     @Schema(description = "角色ID")
-    private Long roleId;
+    private String roleId;
 
 }

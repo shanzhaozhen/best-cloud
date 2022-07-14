@@ -13,10 +13,10 @@ import org.shanzhaozhen.common.core.entity.BasePageParams;
 public class UserPageParams<T> extends BasePageParams<T> {
 
     @Schema(description = "角色ID")
-    Long roleId;
+    String roleId;
 
     @Schema(description = "部门ID")
-    Long departmentId;
+    String departmentId;
 
 
 }

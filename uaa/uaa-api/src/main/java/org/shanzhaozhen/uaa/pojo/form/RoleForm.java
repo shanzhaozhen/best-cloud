@@ -20,7 +20,7 @@ public class RoleForm {
 
     @Schema(description = "主键ID")
     @NotNull(groups = {Update.class}, message = "角色id不能为空")
-    private Long id;
+    private String id;
 
     @Schema(description = "名称")
     @NotEmpty(groups = {Insert.class, Update.class}, message = "角色名称不能为空")
@@ -34,9 +34,9 @@ public class RoleForm {
     private String description;
 
     @Schema(description = "关联的菜单id")
-    private List<Long> menuIds;
+    private List<String> menuIds;
 
     @Schema(description = "关联的资源id")
-    private List<Long> permissionIds;
+    private List<String> permissionIds;
 
 }

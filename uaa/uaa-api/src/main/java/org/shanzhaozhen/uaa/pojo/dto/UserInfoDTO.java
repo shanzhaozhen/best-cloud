@@ -19,10 +19,10 @@ public class UserInfoDTO extends BaseInfo {
     private static final long serialVersionUID = -7438360875495028237L;
 
     @Schema(description = "主键ID")
-    private Long id;
+    private String id;
 
     @Schema(description = "关联用户id")
-    private Long pid;
+    private String pid;
 
     @Schema(description = "姓名")
     private String name;

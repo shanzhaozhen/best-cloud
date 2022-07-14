@@ -17,10 +17,10 @@ public class MenuDTO implements Serializable {
     private static final long serialVersionUID = -6297609093568274879L;
 
     @Schema(description = "主键ID")
-    private Long id;
+    private String id;
 
     @Schema(description = "上级ID")
-    private Long pid;
+    private String pid;
 
     @Schema(description = "菜单名称")
     private String name;

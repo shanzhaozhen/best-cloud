@@ -22,10 +22,10 @@ public class UserInfoDO extends BaseInfo {
 
     @Schema(description = "主键ID")
     @TableId(type = IdType.ASSIGN_ID)
-    private Long id;
+    private String id;
 
     @Schema(description = "关联用户id")
-    private Long pid;
+    private String pid;
 
     @Schema(description = "姓名")
     private String name;

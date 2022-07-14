@@ -6,7 +6,7 @@ import {R} from "@/services/common/typings";
 
 /** 权限更新接口 PUT /permission */
 export async function updatePermission(body: PermissionForm, options?: Record<string, any>) {
-  return request<R<number>>(`/api/uaa/permission`, {
+  return request<R<string>>(`/api/uaa/permission`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ export async function updatePermission(body: PermissionForm, options?: Record<st
 
 /** 权限添加接口 POST /permission */
 export async function addPermission(body: PermissionForm, options?: Record<string, any>) {
-  return request<R<number>>(`/api/uaa/permission`, {
+  return request<R<string>>(`/api/uaa/permission`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export async function getPermissionById(permissionId: number, options?: Record<s
 
 /** 权限删除接口 DELETE /permission/${permissionId} */
 export async function deletePermission(permissionId: number, options?: Record<string, any>) {
-  return request<R<number>>(`/api/uaa/permission/${permissionId}`, {
+  return request<R<string>>(`/api/uaa/permission/${permissionId}`, {
     method: 'DELETE',
     ...(options || {}),
   });
@@ -65,7 +65,7 @@ export async function getPermissionTree(options?: Record<string, any>) {
 }
 
 /** 获取所有权限（树状结构） GET /permission/pid */
-export async function getPermissionByPid(pid?: number, options?: Record<string, any>) {
+export async function getPermissionByPid(pid?: string, options?: Record<string, any>) {
   return request<R<PermissionVO[]>>(`/api/uaa/permission/pid`, {
     params: {
       pid

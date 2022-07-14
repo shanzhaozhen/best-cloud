@@ -14,7 +14,7 @@ public interface UserService {
      * @param userId
      * @return
      */
-    UserDTO getUserById(Long userId);
+    UserDTO getUserById(String userId);
 
     /**
      * 通过用户名查找用户
@@ -28,7 +28,7 @@ public interface UserService {
      * @param userId
      * @return
      */
-    JWTUser getJWTUser(Long userId);
+    JWTUser getJWTUser(String userId);
 
     /**
      * 获取当前用户
@@ -40,7 +40,7 @@ public interface UserService {
      * @param userDTO
      * @return
      */
-    Long register(UserDTO userDTO);
+    String register(UserDTO userDTO);
 
     /**
      * 检查用户名是否已存在
@@ -68,28 +68,28 @@ public interface UserService {
      * @param userDTO
      * @return
      */
-    Long addUser(UserDTO userDTO);
+    String addUser(UserDTO userDTO);
 
     /**
      * 修改用户
      * @param userDTO
      * @return
      */
-    Long updateUser(UserDTO userDTO);
+    String updateUser(UserDTO userDTO);
 
     /**
      * 删除用户
      * @param userId
      * @return
      */
-    Long deleteUser(Long userId);
+    String deleteUser(String userId);
 
     /**
      * 批量删除用户
      * @param userIds
      * @return
      */
-    List<Long> batchDeleteUser(List<Long> userIds);
+    List<String> batchDeleteUser(List<String> userIds);
 
     /**
      * 通过获取角色Id获取用户
@@ -98,7 +98,7 @@ public interface UserService {
      * @param keyword
      * @return
      */
-    Page<UserDTO> getUserPageByRoleId(Page<UserDTO> page, Long roleId, String keyword);
+    Page<UserDTO> getUserPageByRoleId(Page<UserDTO> page, String roleId, String keyword);
 
     /**
      * 通过获取部门Id获取用户
@@ -107,7 +107,7 @@ public interface UserService {
      * @param keyword
      * @return
      */
-    Page<UserDTO> getUserPageByDepartmentId(Page<UserDTO> page, Long departmentId, String keyword);
+    Page<UserDTO> getUserPageByDepartmentId(Page<UserDTO> page, String departmentId, String keyword);
 
     /**
      * 用户注销

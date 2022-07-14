@@ -19,7 +19,7 @@ public class UserForm {
 
     @Schema(description = "主键ID")
     @NotNull(groups = {Update.class}, message = "用户id不能为空")
-    private Long id;
+    private String id;
 
     @Schema(description = "用户名")
     @Length(min = 4, max = 20, message = "用户名长度为4-20位")
@@ -42,7 +42,7 @@ public class UserForm {
     private boolean enabled;
 
     @Schema(description = "关联的角色id")
-    private List<Long> roleIds;
+    private List<String> roleIds;
 
     @Schema(description = "用户信息")
     private UserInfoForm userInfo;

@@ -21,7 +21,7 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     @Transactional
-    public Long addUserRole(Long userId, Long roleId) {
+    public String addUserRole(String userId, String roleId) {
         Assert.notNull(userId, "没有有效的用户ID！");
         Assert.notNull(roleId, "没有有效的角色ID！");
         // 先检查是否存在
@@ -35,22 +35,22 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     @Transactional
-    public List<Long> batchAddUserRole(List<Long> userIds, Long roleId) {
+    public List<String> batchAddUserRole(List<String> userIds, String roleId) {
         Assert.notEmpty(userIds, "没有有效的用户ID！");
         Assert.notNull(roleId, "没有有效的角色ID！");
-        List<Long> userRoleIds = new ArrayList<>();
-        for (Long userId : userIds) {
+        List<String> userRoleIds = new ArrayList<>();
+        for (String userId : userIds) {
             userRoleIds.add(this.addUserRole(userId, roleId));
         }
         return userRoleIds;
     }
 
     @Override
-    public List<Long> batchAddUserRole(Long userId, List<Long> roleIds) {
+    public List<String> batchAddUserRole(String userId, List<String> roleIds) {
         Assert.notNull(userId, "没有有效的用户ID！");
         Assert.notEmpty(roleIds, "没有有效的角色ID！");
-        List<Long> userRoleIds = new ArrayList<>();
-        for (Long roleId : roleIds) {
+        List<String> userRoleIds = new ArrayList<>();
+        for (String roleId : roleIds) {
             userRoleIds.add(this.addUserRole(userId, roleId));
         }
         return userRoleIds;
@@ -58,7 +58,7 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     @Transactional
-    public void deleteUserRole(Long userId, Long roleId) {
+    public void deleteUserRole(String userId, String roleId) {
         Assert.notNull(userId, "没有有效的用户ID！");
         Assert.notNull(roleId, "没有有效的角色ID！");
         userRoleMapper.deleteByUserIdAndRoleId(userId, roleId);
@@ -66,10 +66,10 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     @Transactional
-    public int batchDeleteUserRole(List<Long> userIds, Long roleId) {
+    public int batchDeleteUserRole(List<String> userIds, String roleId) {
         Assert.notEmpty(userIds, "没有有效的用户ID！");
         Assert.notNull(roleId, "没有有效的角色ID！");
-        for (Long userId : userIds) {
+        for (String userId : userIds) {
             this.deleteUserRole(userId, roleId);
         }
         return userIds.size();

@@ -28,7 +28,7 @@ export async function getUserPage(params: PageParams, options?: Record<string, a
 
 /** 添加用户接口 POST /user */
 export async function addUser(userForm: UserForm, options?: Record<string, any>) {
-  return request<R<number>>(`/api/uaa/user`, {
+  return request<R<string>>(`/api/uaa/user`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export async function addUser(userForm: UserForm, options?: Record<string, any>)
 
 /** 更新用户接口 PUT /user */
 export async function updateUser(userForm: UserForm, options?: Record<string, any>) {
-  return request<R<number>>(`/api/uaa/user`, {
+  return request<R<string>>(`/api/uaa/user`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ export async function updateUser(userForm: UserForm, options?: Record<string, an
 
 /** 批量删除用户接口 DELETE /user */
 export async function batchDeleteUser(userIds: (number | undefined)[], options?: Record<string, any>) {
-  return request<R<number>>(`/api/uaa/user`, {
+  return request<R<string>>(`/api/uaa/user`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ export async function getUserById(userId: number, options?: Record<string, any>)
 
 /** 删除用户接口 DELETE /user/${userId} */
 export async function deleteUser(userId: number, options?: Record<string, any>) {
-  return request<R<number>>(`/api/uaa/user/${userId}`, {
+  return request<R<string>>(`/api/uaa/user/${userId}`, {
     method: 'DELETE',
     ...(options || {}),
   });

@@ -20,7 +20,7 @@ public class JWTUser implements Serializable {
 
     private static final long serialVersionUID = 7599077964056596636L;
 
-    private Long id;
+    private String id;
 
     private String username;
 

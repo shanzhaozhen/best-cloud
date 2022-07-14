@@ -21,7 +21,6 @@ public class BaseInfoVO implements Serializable {
     private static final long serialVersionUID = -4890503939284694535L;
 
     @Schema(description = "创建人")
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long createdBy;
 
     @Schema(description = "创建人名称")
@@ -32,7 +31,6 @@ public class BaseInfoVO implements Serializable {
     private LocalDateTime createdDate;
 
     @Schema(description = "修改人")
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long lastModifiedBy;
 
     @Schema(description = "修改人名称")

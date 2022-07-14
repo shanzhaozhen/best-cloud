@@ -17,10 +17,10 @@ public class UserRoleForm {
 
     @Schema(description = "用户ID")
     @NotEmpty(message = "用户id不能为空")
-    private List<Long> userIds;
+    private List<String> userIds;
 
     @Schema(description = "角色ID")
     @NotNull(message = "角色ID不能为空")
-    private Long roleId;
+    private String roleId;
 
 }

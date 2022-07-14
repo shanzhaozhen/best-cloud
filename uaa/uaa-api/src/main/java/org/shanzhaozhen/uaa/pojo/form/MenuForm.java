@@ -17,10 +17,10 @@ public class MenuForm {
 
     @Schema(description = "主键ID")
     @NotNull(groups = {Update.class}, message = "资源id不能为空")
-    private Long id;
+    private String id;
 
     @Schema(description = "上级ID")
-    private Long pid;
+    private String pid;
 
     @Schema(description = "菜单名称")
     @NotNull(groups = {Insert.class, Update.class}, message = "资源名称不能为空")

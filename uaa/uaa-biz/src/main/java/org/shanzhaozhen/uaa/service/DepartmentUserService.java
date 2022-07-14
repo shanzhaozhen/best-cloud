@@ -10,7 +10,7 @@ public interface DepartmentUserService {
      * @param userId
      * @return
      */
-    Long addDepartmentUser(Long departmentId, Long userId);
+    String addDepartmentUser(String departmentId, String userId);
 
     /**
      * 批量添加部门和用户关联
@@ -18,7 +18,7 @@ public interface DepartmentUserService {
      * @param userIds
      * @return
      */
-    List<Long> batchAddDepartmentUser(Long departmentId, List<Long> userIds);
+    List<String> batchAddDepartmentUser(String departmentId, List<String> userIds);
 
     /**
      * 删除部门和用户关联
@@ -26,7 +26,7 @@ public interface DepartmentUserService {
      * @param userId
      * @return
      */
-    void deleteDepartmentUser(Long departmentId, Long userId);
+    void deleteDepartmentUser(String departmentId, String userId);
 
     /**
      * 批量删除部门和用户关联
@@ -34,6 +34,6 @@ public interface DepartmentUserService {
      * @param userIds
      * @return
      */
-    int batchDeleteDepartmentUser(Long departmentId, List<Long> userIds);
+    int batchDeleteDepartmentUser(String departmentId, List<String> userIds);
 
 }

@@ -11,7 +11,7 @@ interface CreateFormProps {
   createModalVisible: boolean;
   handleCreateModalVisible: Dispatch<SetStateAction<boolean>>;
   actionRef: MutableRefObject<ActionType | undefined>;
-  callBackFinish?: () => Promise<any>;
+  callBackFinish?: (userId: number) => Promise<any>;
 }
 
 const CreateForm: React.FC<CreateFormProps> = (props) => {
@@ -28,7 +28,8 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
       if (data) {
         // 回调完成操作
         if (callBackFinish) {
-          await callBackFinish();
+          console.log('进入回调')
+          await callBackFinish(data);
         }
         message.success('添加成功！');
         handleCreateModalVisible(false);

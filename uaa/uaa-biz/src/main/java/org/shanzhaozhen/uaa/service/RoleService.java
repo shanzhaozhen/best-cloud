@@ -13,7 +13,7 @@ public interface RoleService {
      * @param userId
      * @return
      */
-    List<RoleDTO> getRolesByUserId(Long userId);
+    List<RoleDTO> getRolesByUserId(String userId);
 
     /**
      * 获取角色的分页列表
@@ -34,62 +34,62 @@ public interface RoleService {
      * @param roleId
      * @return
      */
-    RoleDTO getRoleById(Long roleId);
+    RoleDTO getRoleById(String roleId);
 
     /**
      * 通过角色id获取（细节）
      * @param roleId
      * @return
      */
-    RoleDTO getRoleDetailById(Long roleId);
+    RoleDTO getRoleDetailById(String roleId);
 
     /**
      * 新增角色
      * @param roleDTO
      * @return
      */
-    Long addRole(RoleDTO roleDTO);
+    String addRole(RoleDTO roleDTO);
 
     /**
      * 修改角色
      * @param roleDTO
      * @return
      */
-    Long updateRole(RoleDTO roleDTO);
+    String updateRole(RoleDTO roleDTO);
 
     /**
      * 删除角色(通过角色id删除)
      * @param roleId
      * @return
      */
-    Long deleteRole(Long roleId);
+    String deleteRole(String roleId);
 
     /**
      * 批量删除角色(通过角色id删除)
      * @param roleIds
      * @return
      */
-    List<Long> batchDeleteRole(List<Long> roleIds);
+    List<String> batchDeleteRole(List<String> roleIds);
 
     /**
      * 更新角色与菜单和权限的关系表
      * @param roleId
      * @param menuIds
      */
-    void updateMenuAndPermission(@NotNull Long roleId, List<Long> menuIds, List<Long> permissionIds);
+    void updateMenuAndPermission(@NotNull String roleId, List<String> menuIds, List<String> permissionIds);
 
     /**
      * 批量插入角色-菜单关系表
      * @param roleId
      * @param menuIds
      */
-    void batchAddRoleMenu(Long roleId, List<Long> menuIds);
+    void batchAddRoleMenu(String roleId, List<String> menuIds);
 
     /**
      * 批量插入角色-权限关系表
      * @param roleId
      * @param permissionIds
      */
-    void batchAddRolePermission(Long roleId, List<Long> permissionIds);
+    void batchAddRolePermission(String roleId, List<String> permissionIds);
 
 }

@@ -13,7 +13,7 @@ public interface UserRoleService {
      * @param roleId
      * @return
      */
-    Long addUserRole(Long userId, Long roleId);
+    String addUserRole(String userId, String roleId);
 
     /**
      * 批量添加用户和角色关联
@@ -21,7 +21,7 @@ public interface UserRoleService {
      * @param roleId
      * @return
      */
-    List<Long> batchAddUserRole(List<Long> userIds, Long roleId);
+    List<String> batchAddUserRole(List<String> userIds, String roleId);
 
     /**
      * 批量添加用户和角色关联
@@ -29,7 +29,7 @@ public interface UserRoleService {
      * @param roleIds
      * @return
      */
-    List<Long> batchAddUserRole(Long userId, List<Long> roleIds);
+    List<String> batchAddUserRole(String userId, List<String> roleIds);
 
     /**
      * 删除用户和角色关联
@@ -37,7 +37,7 @@ public interface UserRoleService {
      * @param roleId
      * @return
      */
-    void deleteUserRole(Long userId, Long roleId);
+    void deleteUserRole(String userId, String roleId);
 
     /**
      * 批量删除用户和角色关联
@@ -45,5 +45,5 @@ public interface UserRoleService {
      * @param roleId
      * @return
      */
-    int batchDeleteUserRole(List<Long> userIds, Long roleId);
+    int batchDeleteUserRole(List<String> userIds, String roleId);
 }

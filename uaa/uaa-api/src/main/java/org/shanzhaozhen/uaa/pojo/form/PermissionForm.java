@@ -18,7 +18,7 @@ public class PermissionForm {
 
     @Schema(description = "主键ID")
     @NotNull(groups = {Update.class}, message = "权限id不能为空")
-    private Long id;
+    private String id;
 
     @Schema(description = "权限名称")
     @NotEmpty(groups = {Insert.class, Update.class}, message = "权限名称不能为空")
@@ -31,7 +31,7 @@ public class PermissionForm {
     private Integer type;
 
     @Schema(description = "上级ID")
-    private Long pid;
+    private String pid;
 
     @Schema(description = "排序等级")
     private Integer priority;

@@ -96,7 +96,7 @@ public class UserConverter {
         }
         List<RoleDTO> roles = userDTO.getRoles();
         if (roles != null && roles.size() > 0) {
-            List<Long> roleIds = new ArrayList<>();
+            List<String> roleIds = new ArrayList<>();
             for (RoleDTO roleDTO : roles) {
                 roleIds.add(roleDTO.getId());
             }

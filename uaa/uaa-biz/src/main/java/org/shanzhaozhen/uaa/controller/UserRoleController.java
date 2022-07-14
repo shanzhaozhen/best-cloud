@@ -22,7 +22,7 @@ public class UserRoleController {
 
     @Operation(summary = "添加用户角色")
     @PostMapping(ADD_USER_ROLE)
-    public R<List<Long>> addUserRoles(@RequestBody UserRoleForm userRoleForm) {
+    public R<List<String>> addUserRoles(@RequestBody UserRoleForm userRoleForm) {
         return R.build(() -> userRoleService.batchAddUserRole(userRoleForm.getUserIds(), userRoleForm.getRoleId()));
     }
 

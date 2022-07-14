@@ -21,7 +21,7 @@ public class PermissionDO extends BaseInfo {
 
     @Schema(description = "主键ID")
     @TableId(type = IdType.ASSIGN_ID)
-    private Long id;
+    private String id;
 
     @Schema(description = "权限名称")
     private String name;
@@ -33,7 +33,7 @@ public class PermissionDO extends BaseInfo {
     private Integer type;
 
     @Schema(description = "上级ID")
-    private Long pid;
+    private String pid;
 
     @Schema(description = "排序等级")
     private Integer priority;

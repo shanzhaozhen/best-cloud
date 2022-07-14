@@ -15,12 +15,12 @@ public class DepartmentUserDTO extends BaseInfo {
     private static final long serialVersionUID = 8762109586891523108L;
 
     @Schema(description = "主键ID")
-    private Long id;
+    private String id;
 
     @Schema(description = "部门ID")
-    private Long departmentId;
+    private String departmentId;
 
     @Schema(description = "用户ID")
-    private Long userId;
+    private String userId;
 
 }

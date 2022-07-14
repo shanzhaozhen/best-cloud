@@ -4,7 +4,7 @@ export type MenuForm = {
   /** 主键ID */
   id: number;
   /** 上级ID */
-  pid?: number;
+  pid?: string;
   /** 菜单名称 */
   name: string;
   /** 菜单名称（本地化） */
@@ -27,9 +27,9 @@ export type MenuForm = {
 
 export type MenuDTO = {
   /** 主键ID */
-  id?: number;
+  id?: string;
   /** 上级ID */
-  pid?: number;
+  pid?: string;
   /** 菜单名称 */
   name?: string;
   /** 菜单名称（本地化） */
@@ -56,9 +56,9 @@ export type MenuDTO = {
 
 export type MenuVO = {
   /** 主键ID */
-  id?: number;
+  id?: string;
   /** 上级ID */
-  pid?: number;
+  pid?: string;
   /** 菜单名称 */
   name?: string;
   /** 菜单名称（本地化） */

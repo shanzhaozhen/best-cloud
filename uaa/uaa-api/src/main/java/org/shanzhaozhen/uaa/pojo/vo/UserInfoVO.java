@@ -19,12 +19,10 @@ import java.time.LocalDate;
 public class UserInfoVO extends BaseInfoVO {
 
     @Schema(description = "主键ID")
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
+    private String id;
 
     @Schema(description = "关联用户ID")
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long pid;
+    private String pid;
 
     @Schema(description = "姓名")
     private String name;

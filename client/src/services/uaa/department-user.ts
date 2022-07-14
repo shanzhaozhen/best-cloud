@@ -18,7 +18,7 @@ export async function addDepartmentUsers(departmentUserForm: DepartmentUserForm,
 
 /** 删除用户角色 DELETE /department-user */
 export async function deleteDepartmentUsers(departmentUserForm: DepartmentUserForm, options?: Record<string, any>) {
-  return request<R<number>>(`/api/uaa/department-user`, {
+  return request<R<string>>(`/api/uaa/department-user`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class RoleBase {
 
     @Schema(description = "主键ID")
-    private Long id;
+    private String id;
 
     @Schema(description = "名称")
     private String name;

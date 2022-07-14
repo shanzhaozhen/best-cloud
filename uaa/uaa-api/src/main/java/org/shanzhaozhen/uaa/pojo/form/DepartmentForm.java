@@ -19,10 +19,10 @@ public class DepartmentForm extends BaseInfo {
 
     @Schema(description = "主键ID")
     @NotNull(groups = {Update.class}, message = "权限id不能为空")
-    private Long id;
+    private String id;
 
     @Schema(description = "上级ID")
-    private Long pid;
+    private String pid;
 
     @Schema(description = "部门名称")
     @NotEmpty(groups = {Insert.class, Update.class}, message = "部门名称不能为空")

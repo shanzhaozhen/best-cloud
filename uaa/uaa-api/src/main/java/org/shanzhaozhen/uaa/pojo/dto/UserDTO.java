@@ -19,7 +19,7 @@ public class UserDTO extends BaseInfo {
     private static final long serialVersionUID = -9022947720181781365L;
 
     @Schema(description = "主键ID")
-    private Long id;
+    private String id;
 
     @Schema(description = "用户名")
     private String username;
@@ -43,7 +43,7 @@ public class UserDTO extends BaseInfo {
     private List<RoleDTO> roles;
 
     @Schema(description = "关联的角色ID")
-    private List<Long> roleIds;
+    private List<String> roleIds;
 
     @Schema(description = "关联的用户信息")
     private UserInfoDTO userInfo;

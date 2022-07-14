@@ -13,18 +13,18 @@ public interface UserMapper extends BaseMapper<UserDO> {
 
     Integer countByUsername(@Param("username") String username);
 
-    UserDTO getUserById(@Param("id") Long id);
+    UserDTO getUserById(@Param("id") String id);
 
-    UserDTO getUserAndRolesByUserId(@Param("id") Long id);
+    UserDTO getUserAndRolesByUserId(@Param("id") String id);
 
-    JWTUser getJWTUserByUserId(@Param("userId") Long userId);
+    JWTUser getJWTUserByUserId(@Param("userId") String userId);
 
     UserDTO getUserByUsername(@Param("username") String username);
 
     Page<UserDTO> getUserPage(Page<UserDTO> page, @Param("keyword") String keyword);
 
-    Page<UserDTO> getUserPageByRoleId(Page<UserDTO>page, @Param("roleId") Long roleId, @Param("keyword") String keyword);
+    Page<UserDTO> getUserPageByRoleId(Page<UserDTO>page, @Param("roleId") String roleId, @Param("keyword") String keyword);
 
-    Page<UserDTO> getUserPageByDepartmentId(Page<UserDTO> page, @Param("departmentId") Long departmentId, @Param("keyword") String keyword);
+    Page<UserDTO> getUserPageByDepartmentId(Page<UserDTO> page, @Param("departmentId") String departmentId, @Param("keyword") String keyword);
 
 }

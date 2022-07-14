@@ -17,11 +17,11 @@ public class DepartmentUserForm {
 
     @Schema(description = "角色ID")
     @NotNull(message = "部门ID不能为空")
-    private Long departmentId;
+    private String departmentId;
 
     @Schema(description = "用户ID")
     @NotEmpty(message = "用户id不能为空")
-    private List<Long> userIds;
+    private List<String> userIds;
 
 
 }

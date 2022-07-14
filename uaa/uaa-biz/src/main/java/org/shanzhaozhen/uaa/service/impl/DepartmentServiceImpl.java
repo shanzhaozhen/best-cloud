@@ -44,7 +44,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public List<DepartmentDTO> getDepartmentByPid(@Nullable Long pid) {
+    public List<DepartmentDTO> getDepartmentByPid(@Nullable String pid) {
         return departmentMapper.getDepartmentByPid(pid);
     }
 
@@ -57,7 +57,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     @Cacheable(key = "#root.methodName + ':' + #departmentId")
-    public DepartmentDTO getDepartmentById(Long departmentId) {
+    public DepartmentDTO getDepartmentById(String departmentId) {
         DepartmentDO departmentDO = departmentMapper.selectById(departmentId);
         Assert.notNull(departmentDO, "获取失败：没有找到该菜单或已被删除");
         return DepartmentConverter.toDTO(departmentDO);
@@ -71,7 +71,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Transactional
     @CacheEvict(allEntries = true)
-    public Long addDepartment(DepartmentDTO departmentDTO) {
+    public String addDepartment(DepartmentDTO departmentDTO) {
         DepartmentDTO departmentInDB = this.getDepartmentByCode(departmentDTO.getCode());
         Assert.isNull(departmentInDB, "创建失败：部门编码已被占用");
         DepartmentDO departmentDO = DepartmentConverter.toDO(departmentDTO);
@@ -82,7 +82,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Transactional
     @CacheEvict(allEntries = true)
-    public Long updateDepartment(DepartmentDTO departmentDTO) {
+    public String updateDepartment(DepartmentDTO departmentDTO) {
         Assert.notNull(departmentDTO.getId(), "更新失败：菜单id不能为空");
         Assert.isTrue(!departmentDTO.getId().equals(departmentDTO.getPid()), "更新失败：上级菜单不能选择自己");
         if (departmentDTO.getPid() != null) {
@@ -107,7 +107,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Transactional
     @CacheEvict(allEntries = true)
-    public Long deleteDepartment(Long departmentId) {
+    public String deleteDepartment(String departmentId) {
         departmentMapper.deleteById(departmentId);
         // todo: 删除子节点
         return departmentId;
@@ -116,8 +116,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Transactional
     @CacheEvict(allEntries = true)
-    public List<Long> batchDeleteDepartment(@NotEmpty(message = "没有需要删除的菜单") List<Long> departmentIds) {
-        for (Long departmentId : departmentIds) {
+    public List<String> batchDeleteDepartment(@NotEmpty(message = "没有需要删除的菜单") List<String> departmentIds) {
+        for (String departmentId : departmentIds) {
             this.deleteDepartment(departmentId);
         }
         return departmentIds;

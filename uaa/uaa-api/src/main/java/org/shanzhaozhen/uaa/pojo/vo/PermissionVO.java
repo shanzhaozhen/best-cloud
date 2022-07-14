@@ -19,8 +19,7 @@ import java.util.List;
 public class PermissionVO extends BaseInfoVO {
 
     @Schema(description = "主键ID")
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
+    private String id;
 
     @Schema(description = "权限名称")
     private String name;
@@ -32,8 +31,7 @@ public class PermissionVO extends BaseInfoVO {
     private Integer type;
 
     @Schema(description = "上级ID")
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long pid;
+    private String pid;
 
     @Schema(description = "排序等级")
     private Integer priority;

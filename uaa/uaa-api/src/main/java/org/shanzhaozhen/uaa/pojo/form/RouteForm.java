@@ -18,7 +18,7 @@ public class RouteForm {
 
     @Schema(description = "主键ID")
     @NotNull(groups = {Update.class}, message = "资源id不能为空")
-    private Long id;
+    private String id;
 
     @Schema(description = "权限名称")
     @NotEmpty(groups = {Insert.class, Update.class}, message = "资源名称不能为空")
@@ -28,7 +28,7 @@ public class RouteForm {
     private String path;
 
     @Schema(description = "上级ID")
-    private Long pid;
+    private String pid;
 
     @Schema(description = "重定向路径")
     private String redirect;

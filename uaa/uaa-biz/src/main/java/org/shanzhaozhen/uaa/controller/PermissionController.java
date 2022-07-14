@@ -39,7 +39,7 @@ public class PermissionController {
 
     @Operation(summary = "通过父级ID获取权限列表")
     @GetMapping(GET_PERMISSION_BY_PID)
-    public R<List<PermissionVO>> getMenuByPid(@Parameter(description = "父级id", example = "1") Long pid) {
+    public R<List<PermissionVO>> getMenuByPid(@Parameter(description = "父级id", example = "1") String pid) {
         return R.build(() -> PermissionConverter.toVO(permissionService.getPermissionByPid(pid)));
     }
 
@@ -58,25 +58,25 @@ public class PermissionController {
 
     @Operation(summary = "权限添加接口")
     @PostMapping(ADD_PERMISSION)
-    public R<Long> addPermission(@RequestBody @Validated PermissionForm permissionForm) {
+    public R<String> addPermission(@RequestBody @Validated PermissionForm permissionForm) {
         return R.build(() -> permissionService.addPermission(PermissionConverter.toDTO(permissionForm)));
     }
 
     @Operation(summary = "权限更新接口")
     @PutMapping(UPDATE_PERMISSION)
-    public R<Long> updatePermission(@RequestBody @Validated PermissionForm permissionForm) {
+    public R<String> updatePermission(@RequestBody @Validated PermissionForm permissionForm) {
         return R.build(() -> permissionService.updatePermission(PermissionConverter.toDTO(permissionForm)));
     }
 
     @Operation(summary = "权限删除接口")
     @DeleteMapping(DELETE_PERMISSION)
-    public R<Long> deletePermission(@PathVariable("permissionId") @Parameter(description = "权限id", example = "1") Long permissionId) {
+    public R<String> deletePermission(@PathVariable("permissionId") @Parameter(description = "权限id", example = "1") Long permissionId) {
         return R.build(() -> permissionService.deletePermission(permissionId));
     }
 
     @Operation(summary = "批量权限删除接口")
     @DeleteMapping(BATCH_DELETE_PERMISSION)
-    public R<List<Long>> batchDeletePermission(@Parameter(description = "权限id", example = "1") @RequestBody List<Long> permissionIds) {
+    public R<List<String>> batchDeletePermission(@Parameter(description = "权限id", example = "1") @RequestBody List<String> permissionIds) {
         return R.build(() -> permissionService.batchDeletePermission(permissionIds));
     }
 

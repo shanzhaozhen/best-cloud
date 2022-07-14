@@ -25,42 +25,42 @@ public interface PermissionService {
      * @param pid
      * @return
      */
-    List<PermissionDTO> getPermissionByPid(Long pid);
+    List<PermissionDTO> getPermissionByPid(String pid);
 
     /**
      * 通过权限id获取权限实体
      * @param permissionId
      * @return
      */
-    PermissionDTO getPermissionById(Long permissionId);
+    PermissionDTO getPermissionById(String permissionId);
 
     /**
      * 增加权限
      * @param permissionDTO
      * @return
      */
-    Long addPermission(PermissionDTO permissionDTO);
+    String addPermission(PermissionDTO permissionDTO);
 
     /**
      * 修改权限
      * @param permissionDTO
      * @return
      */
-    Long updatePermission(PermissionDTO permissionDTO);
+    String updatePermission(PermissionDTO permissionDTO);
 
     /**
      * 删除权限(通过权限id删除)
      * @param permissionId
      * @return
      */
-    Long deletePermission(Long permissionId);
+    String deletePermission(String permissionId);
 
     /**
      * 批量删除权限(通过权限id删除)
      * @param permissionIds
      * @return
      */
-    List<Long> batchDeletePermission(List<Long> permissionIds);
+    List<String> batchDeletePermission(List<String> permissionIds);
 
 
     /**

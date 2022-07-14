@@ -68,7 +68,7 @@ public class RoleConverter {
         BeanUtils.copyProperties(roleDTO, roleVO);
 //        List<MenuDTO> menus = roleDTO.getMenus();
 //        if (menus != null && menus.size() > 0) {
-//            List<Long> menuIds = new ArrayList<>();
+//            List<String> menuIds = new ArrayList<>();
 //            for (MenuDTO menuDTO : menus) {
 //                menuIds.add(menuDTO.getId());
 //            }
@@ -76,7 +76,7 @@ public class RoleConverter {
 //        }
         List<PermissionDTO> permissions = roleDTO.getPermissions();
         if (permissions != null && permissions.size() > 0) {
-            List<Long> permissionIds = new ArrayList<>();
+            List<String> permissionIds = new ArrayList<>();
             for (PermissionDTO permissionDTO : permissions) {
                 permissionIds.add(permissionDTO.getId());
             }

@@ -5,7 +5,7 @@ import type {DepartmentDTO, DepartmentVO} from "@/services/uaa/type/department";
 
 export type UserForm = {
   /** 主键ID */
-  id?: number;
+  id?: string;
   /** 用户名 */
   username?: string;
   /** 密码 */
@@ -46,7 +46,7 @@ export type UserForm = {
 
 export type UserVO = {
   /** 主键ID */
-  id?: number;
+  id?: string;
   /** 用户名 */
   username?: string;
   authorities?: GrantedAuthority[];
@@ -108,7 +108,7 @@ export type UserDTO = {
   /** 修改时间 */
   lastModifiedDate?: string;
   /** 主键ID */
-  id?: number;
+  id?: string;
   /** 用户名 */
   username?: string;
   /** 密码 */

@@ -24,7 +24,7 @@ public interface MenuService {
      * 通过用户ID获取前端菜单
      * @return
      */
-    List<MenuDTO> getMenusByUserId(Long userId);
+    List<MenuDTO> getMenusByUserId(String userId);
 
 
     /**
@@ -37,7 +37,7 @@ public interface MenuService {
      * 通过父级ID获取菜单列表
      * @return
      */
-    List<MenuDTO> getMenuByPid(@Nullable Long pid);
+    List<MenuDTO> getMenuByPid(@Nullable String pid);
 
     /**
      * 获取所有菜单的树形结构
@@ -50,34 +50,34 @@ public interface MenuService {
      * @param menuId
      * @return
      */
-    MenuDTO getMenuById(Long menuId);
+    MenuDTO getMenuById(String menuId);
 
     /**
      * 增加菜单
      * @param menuDTO
      * @return
      */
-    Long addMenu(MenuDTO menuDTO);
+    String addMenu(MenuDTO menuDTO);
 
     /**
      * 修改菜单
      * @param menuDTO
      * @return
      */
-    Long updateMenu(MenuDTO menuDTO);
+    String updateMenu(MenuDTO menuDTO);
 
     /**
      * 删除菜单(通过菜单id删除)
      * @param menuId
      * @return
      */
-    Long deleteMenu(Long menuId);
+    String deleteMenu(String menuId);
 
     /**
      * 批量删除菜单
      * @param menuIds
      * @return
      */
-    List<Long> batchDeleteMenu(List<Long> menuIds);
+    List<String> batchDeleteMenu(List<String> menuIds);
 
 }

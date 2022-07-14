@@ -54,37 +54,37 @@ public class DepartmentController {
 
     @Operation(summary = "通过父级ID获取部门列表")
     @GetMapping(GET_DEPARTMENT_BY_PID)
-    public R<List<DepartmentVO>> getDepartmentByPid(@Parameter(description = "父级id", example = "1") Long pid) {
+    public R<List<DepartmentVO>> getDepartmentByPid(@Parameter(description = "父级id", example = "1") String pid) {
         return R.build(() -> DepartmentConverter.toVO(departmentService.getDepartmentByPid(pid)));
     }
 
     @Operation(summary = "获取部门信息（通过部门id）")
     @GetMapping(GET_DEPARTMENT_BY_ID)
-    public R<DepartmentVO> getDepartmentById(@PathVariable("departmentId") @Parameter(description = "部门id", example = "1") Long departmentId) {
+    public R<DepartmentVO> getDepartmentById(@PathVariable("departmentId") @Parameter(description = "部门id", example = "1") String departmentId) {
         return R.build(() -> DepartmentConverter.toVO(departmentService.getDepartmentById(departmentId)));
     }
 
     @Operation(summary = "添加部门接口")
     @PostMapping(ADD_DEPARTMENT)
-    public R<Long> addDepartment(@RequestBody @Validated DepartmentForm departmentForm) {
+    public R<String> addDepartment(@RequestBody @Validated DepartmentForm departmentForm) {
         return R.build(() -> departmentService.addDepartment(DepartmentConverter.toDTO(departmentForm)));
     }
 
     @Operation(summary = "更新部门接口")
     @PutMapping(UPDATE_DEPARTMENT)
-    public R<Long> updateDepartment(@RequestBody @Validated DepartmentForm departmentForm) {
+    public R<String> updateDepartment(@RequestBody @Validated DepartmentForm departmentForm) {
         return R.build(() -> departmentService.updateDepartment(DepartmentConverter.toDTO(departmentForm)));
     }
 
     @Operation(summary = "删除部门接口")
     @DeleteMapping(DELETE_DEPARTMENT)
-    public R<Long> deleteDepartment(@PathVariable("departmentId") @Parameter(description = "部门id", example = "1") Long departmentId) {
+    public R<String> deleteDepartment(@PathVariable("departmentId") @Parameter(description = "部门id", example = "1") String departmentId) {
         return R.build(() -> departmentService.deleteDepartment(departmentId));
     }
 
     @Operation(summary = "批量删除部门接口")
     @DeleteMapping(BATCH_DELETE_DEPARTMENT)
-    public R<List<Long>> batchDeleteDepartment(@Parameter(description = "部门id", example = "[1, 2]") @RequestBody List<Long> departmentIds) {
+    public R<List<String>> batchDeleteDepartment(@Parameter(description = "部门id", example = "[1, 2]") @RequestBody List<String> departmentIds) {
         return R.build(() -> departmentService.batchDeleteDepartment(departmentIds));
     }
 

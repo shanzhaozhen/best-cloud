@@ -14,9 +14,9 @@ public interface DepartmentMapper extends BaseMapper<DepartmentDO> {
 
     List<DepartmentDTO> getDepartmentList(@Param("keyword") String keyword);
 
-    List<DepartmentDTO> getDepartmentByPid(@Param("pid") Long pid);
+    List<DepartmentDTO> getDepartmentByPid(@Param("pid") String pid);
 
-    List<DepartmentDTO> getDepartmentByUserId(@Param("userId") Long userId);
+    List<DepartmentDTO> getDepartmentByUserId(@Param("userId") String userId);
 
     DepartmentDTO getDepartmentByCode(@Param("code") String code);
 

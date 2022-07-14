@@ -7,10 +7,10 @@ import org.shanzhaozhen.uaa.pojo.entity.DepartmentUserDO;
 
 public interface DepartmentUserMapper extends BaseMapper<DepartmentUserDO> {
 
-    DepartmentUserDO getDepartmentUserByUserId(@Param("userId") Long userId);
+    DepartmentUserDO getDepartmentUserByUserId(@Param("userId") String userId);
 
-    DepartmentUserDO getDepartmentUserByDepartmentIdAndUserId(@Param("departmentId") Long departmentId, @Param("userId") Long userId);
+    DepartmentUserDO getDepartmentUserByDepartmentIdAndUserId(@Param("departmentId") String departmentId, @Param("userId") String userId);
 
-    void deleteByDepartmentIdAndUserId(@Param("departmentId") Long departmentId, @Param("userId") Long userId);
+    void deleteByDepartmentIdAndUserId(@Param("departmentId") String departmentId, @Param("userId") String userId);
 
 }

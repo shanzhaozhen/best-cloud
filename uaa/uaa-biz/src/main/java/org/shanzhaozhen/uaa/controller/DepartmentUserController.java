@@ -22,7 +22,7 @@ public class DepartmentUserController {
 
     @Operation(summary = "添加用户角色")
     @PostMapping(ADD_DEPARTMENT_USER)
-    public R<List<Long>> addDepartmentUsers(@RequestBody DepartmentUserForm departmentUserForm) {
+    public R<List<String>> addDepartmentUsers(@RequestBody DepartmentUserForm departmentUserForm) {
         return R.build(() -> departmentUserService.batchAddDepartmentUser(departmentUserForm.getDepartmentId(), departmentUserForm.getUserIds()));
     }
 

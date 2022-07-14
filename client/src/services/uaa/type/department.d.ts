@@ -1,8 +1,8 @@
 export type DepartmentForm = {
   /** 主键ID */
-  id?: number;
+  id?: string;
   /** 上级ID */
-  pid?: number;
+  pid?: string;
   /** 部门名称 */
   name?: string;
   /** 排序等级 */
@@ -21,9 +21,9 @@ export type DepartmentForm = {
 
 export type DepartmentDTO = {
   /** 主键ID */
-  id?: number;
+  id?: string;
   /** 上级ID */
-  pid?: number;
+  pid?: string;
   /** 部门名称 */
   name?: string;
   /** 排序等级 */
@@ -44,9 +44,9 @@ export type DepartmentDTO = {
 
 export type DepartmentVO = {
   /** 主键ID */
-  id?: number;
+  id?: string;
   /** 上级ID */
-  pid?: number;
+  pid?: string;
   /** 部门名称 */
   name?: string;
   /** 排序等级 */

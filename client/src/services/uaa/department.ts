@@ -45,7 +45,7 @@ export async function getDepartmentList(keyword?: string, options?: Record<strin
 }
 
 /** 通过父级id获取部门列表 GET /department/pid */
-export async function getDepartmentByPid(pid?: number, options?: Record<string, any>) {
+export async function getDepartmentByPid(pid?: string, options?: Record<string, any>) {
   return request<R<DepartmentVO[]>>(`/api/uaa/department/pid`, {
     params: {
       pid
@@ -57,7 +57,7 @@ export async function getDepartmentByPid(pid?: number, options?: Record<string, 
 
 /** 添加部门接口 POST /department */
 export async function addDepartment(departmentForm: DepartmentForm, options?: Record<string, any>) {
-  return request<R<number>>(`/api/uaa/department`, {
+  return request<R<string>>(`/api/uaa/department`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ export async function addDepartment(departmentForm: DepartmentForm, options?: Re
 
 /** 更新部门接口 PUT /department */
 export async function updateDepartment(departmentForm: DepartmentForm, options?: Record<string, any>) {
-  return request<R<number>>(`/api/uaa/department`, {
+  return request<R<string>>(`/api/uaa/department`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ export async function updateDepartment(departmentForm: DepartmentForm, options?:
 
 /** 删除部门接口 DELETE /department/${param0} */
 export async function deleteDepartment(departmentId: number, options?: Record<string, any>) {
-  return request<R<number>>(`/api/uaa/department/${departmentId}`, {
+  return request<R<string>>(`/api/uaa/department/${departmentId}`, {
     method: 'DELETE',
     ...(options || {}),
   });

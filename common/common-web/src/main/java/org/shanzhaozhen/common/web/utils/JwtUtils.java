@@ -62,11 +62,11 @@ public class JwtUtils {
      * 解析JWT获取用户ID（处理异常）
      * @return 用户ID
      */
-    public static Long getUserIdWithoutError() {
+    public static String getUserIdWithoutError() {
         Map<String, Object> payload = getJwtPayloadWithoutError();
         if (CollectionUtils.isEmpty(payload)) return null;
         Object useId = payload.get(SecurityConstants.USER_ID_KEY);
-        return useId == null ? null : (Long) useId;
+        return useId == null ? null : (String) useId;
     }
 
 

@@ -26,7 +26,7 @@ public interface DepartmentService {
      * 通过父级ID获取部门列表
      * @return
      */
-    List<DepartmentDTO> getDepartmentByPid(@Nullable Long pid);
+    List<DepartmentDTO> getDepartmentByPid(@Nullable String pid);
 
     /**
      * 获取所有部门的树形结构
@@ -39,7 +39,7 @@ public interface DepartmentService {
      * @param departmentId
      * @return
      */
-    DepartmentDTO getDepartmentById(Long departmentId);
+    DepartmentDTO getDepartmentById(String departmentId);
 
     /**
      * 通过部门编码获取部门实体
@@ -53,27 +53,27 @@ public interface DepartmentService {
      * @param departmentDTO
      * @return
      */
-    Long addDepartment(DepartmentDTO departmentDTO);
+    String addDepartment(DepartmentDTO departmentDTO);
 
     /**
      * 修改部门
      * @param departmentDTO
      * @return
      */
-    Long updateDepartment(DepartmentDTO departmentDTO);
+    String updateDepartment(DepartmentDTO departmentDTO);
 
     /**
      * 删除部门(通过部门id删除)
      * @param departmentId
      * @return
      */
-    Long deleteDepartment(Long departmentId);
+    String deleteDepartment(String departmentId);
 
     /**
      * 批量删除部门
      * @param departmentIds
      * @return
      */
-    List<Long> batchDeleteDepartment(List<Long> departmentIds);
+    List<String> batchDeleteDepartment(List<String> departmentIds);
 
 }

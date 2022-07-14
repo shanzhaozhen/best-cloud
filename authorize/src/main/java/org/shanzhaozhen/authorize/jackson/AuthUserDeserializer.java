@@ -27,7 +27,7 @@ public class AuthUserDeserializer extends JsonDeserializer<AuthUser> {
 		Set<? extends GrantedAuthority> authorities = mapper.convertValue(jsonNode.get("authorities"),
 				SIMPLE_GRANTED_AUTHORITY_SET);
 		JsonNode passwordNode = readJsonNode(jsonNode, "password");
-		Long userId = readJsonNode(jsonNode, "userId").asLong();
+		String userId = readJsonNode(jsonNode, "userId").asLong();
 		String username = readJsonNode(jsonNode, "username").asText();
 		String password = passwordNode.asText("");
 		boolean enabled = readJsonNode(jsonNode, "enabled").asBoolean();

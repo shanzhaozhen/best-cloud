@@ -12,14 +12,14 @@ public interface UserInfoService {
      * @param userInfoId
      * @return
      */
-    UserInfoDTO getUserInfoById(Long userInfoId);
+    UserInfoDTO getUserInfoById(String userInfoId);
 
     /**
      * 通过用户 id 获取用户信息
      * @param userId
      * @return
      */
-    UserInfoDTO getUserInfoByUserId(Long userId);
+    UserInfoDTO getUserInfoByUserId(String userId);
 
     /**
      * 根据当前用户的用户信息
@@ -32,34 +32,34 @@ public interface UserInfoService {
      * @param userInfoDTO
      * @return
      */
-    Long addUserInfo(UserInfoDTO userInfoDTO);
+    String addUserInfo(UserInfoDTO userInfoDTO);
 
     /**
      * 修改用户信息
      * @param userInfoDTO
      * @return
      */
-    Long updateUserInfo(UserInfoDTO userInfoDTO);
+    String updateUserInfo(UserInfoDTO userInfoDTO);
 
     /**
      * 删除用户信息
      * @param userInfoId
      * @return
      */
-    Long deleteUserInfo(Long userInfoId);
+    String deleteUserInfo(String userInfoId);
 
     /**
      * 批量删除用户信息
      * @param userInfoIds
      * @return
      */
-    List<Long> batchDeleteUserInfo(List<Long> userInfoIds);
+    List<String> batchDeleteUserInfo(List<String> userInfoIds);
 
     /**
      * 通过用户 ID 删除用户信息
      * @param userId
      * @return
      */
-    void deleteUserInfoByUserId(Long userId);
+    void deleteUserInfoByUserId(String userId);
 
 }
