@@ -32,11 +32,9 @@ public class RoleVO extends BaseInfoVO {
     private String description;
 
     @Schema(description = "关联的菜单id")
-    @JsonSerialize(using = ToStringListSerialize.class)
     private List<String> menuIds;
 
     @Schema(description = "关联的资源id")
-    @JsonSerialize(using = ToStringListSerialize.class)
     private List<String> permissionIds;
 
 }

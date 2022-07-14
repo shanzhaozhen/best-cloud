@@ -44,7 +44,6 @@ public class UserVO extends BaseInfoVO {
     private boolean enabled;
 
     @Schema(description = "关联的角色id")
-    @JsonSerialize(using = ToStringListSerialize.class)
     private List<String> roleIds;
 
     @Schema(description = "关联的用户信息")
