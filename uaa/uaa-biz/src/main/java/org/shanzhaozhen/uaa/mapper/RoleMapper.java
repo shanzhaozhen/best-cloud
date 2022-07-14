@@ -15,7 +15,7 @@ public interface RoleMapper extends BaseMapper<RoleDO> {
 
     List<RoleDTO> getRoleByMenuId(@Param("menuId") String menuId);
 
-    List<RoleDTO> getRoleByPermissionId(@Param("permissionId") Long permissionId);
+    List<RoleDTO> getRoleByPermissionId(@Param("permissionId") String permissionId);
 
     List<RoleDTO> getRoleListByUserId(@Param("userId") String userId);
 

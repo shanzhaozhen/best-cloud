@@ -181,7 +181,7 @@ const DepartmentList: React.FC = () => {
                       departmentId: selectDepartment.id
                     })
                   }
-                  callBackFinish={async (userId: number) => {
+                  callBackFinish={async (userId: string) => {
                     await addDepartmentUsers({
                       departmentId: selectDepartment?.id,
                       userIds: [userId],

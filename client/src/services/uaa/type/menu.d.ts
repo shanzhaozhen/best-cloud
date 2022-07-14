@@ -2,7 +2,7 @@ import type {RoleVO} from "@/services/uaa/type/role";
 
 export type MenuForm = {
   /** 主键ID */
-  id: number;
+  id: string;
   /** 上级ID */
   pid?: string;
   /** 菜单名称 */

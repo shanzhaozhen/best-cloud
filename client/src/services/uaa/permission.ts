@@ -1,35 +1,34 @@
 // @ts-ignore
-/* eslint-disable */
 import { request } from 'umi';
-import {PermissionForm, PermissionVO} from './type/permission';
-import {R} from "@/services/common/typings";
+import type {PermissionForm, PermissionVO} from './type/permission';
+import type {R} from "@/services/common/typings";
 
 /** 权限更新接口 PUT /permission */
-export async function updatePermission(body: PermissionForm, options?: Record<string, any>) {
+export async function updatePermission(permissionForm: PermissionForm, options?: Record<string, any>) {
   return request<R<string>>(`/api/uaa/permission`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    data: body,
+    data: permissionForm,
     ...(options || {}),
   });
 }
 
 /** 权限添加接口 POST /permission */
-export async function addPermission(body: PermissionForm, options?: Record<string, any>) {
+export async function addPermission(permissionForm: PermissionForm, options?: Record<string, any>) {
   return request<R<string>>(`/api/uaa/permission`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    data: body,
+    data: permissionForm,
     ...(options || {}),
   });
 }
 
 /** 批量权限删除接口 DELETE /permission */
-export async function batchDeletePermission(permissionIds: (number | undefined)[], options?: Record<string, any>) {
+export async function batchDeletePermission(permissionIds: (string | undefined)[], options?: Record<string, any>) {
   return request<R<number[]>>(`/api/uaa/permission`, {
     method: 'DELETE',
     headers: {
@@ -41,7 +40,7 @@ export async function batchDeletePermission(permissionIds: (number | undefined)[
 }
 
 /** 获取权限（通过权限id） GET /permission/${permissionId} */
-export async function getPermissionById(permissionId: number, options?: Record<string, any>) {
+export async function getPermissionById(permissionId: string, options?: Record<string, any>) {
   return request<R<PermissionVO>>(`/api/uaa/permission/${permissionId}`, {
     method: 'GET',
     ...(options || {}),
@@ -49,7 +48,7 @@ export async function getPermissionById(permissionId: number, options?: Record<s
 }
 
 /** 权限删除接口 DELETE /permission/${permissionId} */
-export async function deletePermission(permissionId: number, options?: Record<string, any>) {
+export async function deletePermission(permissionId: string, options?: Record<string, any>) {
   return request<R<string>>(`/api/uaa/permission/${permissionId}`, {
     method: 'DELETE',
     ...(options || {}),

@@ -55,7 +55,7 @@ export const  convertPageParams = (param: PageParams, sorter: Record<string, Sor
  * @param labelField
  */
 export const tableFilter = (
-  key: number | undefined,
+  key: string | undefined,
   options: any[],
   defaultText = '',
   keyField = 'id',

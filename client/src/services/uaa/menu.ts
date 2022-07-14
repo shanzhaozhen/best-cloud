@@ -1,8 +1,7 @@
 // @ts-ignore
-/* eslint-disable */
 import { request } from 'umi';
-import {R} from "@/services/common/typings";
-import {MenuForm, MenuVO} from './type/menu';
+import type {R} from "@/services/common/typings";
+import type {MenuForm, MenuVO} from './type/menu';
 
 /** 更新菜单接口 PUT /menu */
 export async function updateMenu(menuForm: MenuForm, options?: Record<string, any>) {
@@ -29,7 +28,7 @@ export async function addMenu(menuForm: MenuForm, options?: Record<string, any>)
 }
 
 /** 批量删除菜单接口 DELETE /menu */
-export async function batchDeleteMenu(menuIds: (number | undefined)[], options?: Record<string, any>) {
+export async function batchDeleteMenu(menuIds: (string | undefined)[], options?: Record<string, any>) {
   return request<R<number[]>>(`/api/uaa/menu`, {
     method: 'DELETE',
     headers: {
@@ -41,7 +40,7 @@ export async function batchDeleteMenu(menuIds: (number | undefined)[], options?:
 }
 
 /** 获取菜单信息（通过菜单id） GET /menu/${menuId} */
-export async function getMenuById(menuId: number, options?: Record<string, any>) {
+export async function getMenuById(menuId: string, options?: Record<string, any>) {
   return request<R<MenuVO>>(`/api/uaa/menu/${menuId}`, {
     method: 'GET',
     ...(options || {}),
@@ -49,7 +48,7 @@ export async function getMenuById(menuId: number, options?: Record<string, any>)
 }
 
 /** 删除菜单接口 DELETE /menu/${param0} */
-export async function deleteMenu(menuId: number, options?: Record<string, any>) {
+export async function deleteMenu(menuId: string, options?: Record<string, any>) {
   return request<R<string>>(`/api/uaa/menu/${menuId}`, {
     method: 'DELETE',
     ...(options || {}),

@@ -51,7 +51,7 @@ const MenuList: React.FC = () => {
 
   const updateMenuData = (
     list: MenuVO[],
-    key: number | undefined,
+    key: string | undefined,
     children: MenuVO[] | null,
   ): MenuVO[] => {
     return list.map((node) => {

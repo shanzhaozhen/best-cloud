@@ -13,6 +13,7 @@ import org.shanzhaozhen.uaa.pojo.dto.RoleDTO;
 import org.shanzhaozhen.uaa.pojo.entity.DepartmentDO;
 import org.shanzhaozhen.uaa.pojo.entity.RoleDO;
 import org.shanzhaozhen.uaa.service.DepartmentService;
+import org.shanzhaozhen.uaa.service.DepartmentUserService;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -29,9 +30,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @CacheConfig(cacheNames = "department")
 public class DepartmentServiceImpl implements DepartmentService {
-    
+
     private final DepartmentMapper departmentMapper;
-    
+    private final DepartmentUserService departmentUserService;
+
     @Override
     public Page<DepartmentDTO> getDepartmentPage(Page<DepartmentDTO> page, String keyword) {
         return departmentMapper.getDepartmentPage(page, keyword);
@@ -109,7 +111,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     @CacheEvict(allEntries = true)
     public String deleteDepartment(String departmentId) {
         departmentMapper.deleteById(departmentId);
-        // todo: 删除子节点
+        // 删除用户的关联关系
+        departmentUserService.deleteDepartmentUserByDepartmentId(departmentId);
         return departmentId;
     }
 

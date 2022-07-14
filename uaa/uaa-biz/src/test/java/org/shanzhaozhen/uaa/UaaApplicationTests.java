@@ -33,7 +33,7 @@ public class UaaApplicationTests {
     public void loadPermission() {
         PermissionDTO permissionDTO = new PermissionDTO();
         permissionDTO.setName("测试").setPath("/test/**").setType(API.getValue());
-        Long permissionId = permissionService.addPermission(permissionDTO);
+        String permissionId = permissionService.addPermission(permissionDTO);
 
         RoleDTO roleDTO = new RoleDTO();
         roleDTO.setCode("TEST").setName("测试人员");

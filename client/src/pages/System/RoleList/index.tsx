@@ -398,6 +398,12 @@ const RoleList: React.FC = () => {
                 roleId: currentRow.id
               })
             }
+            callBackFinish={async (userId) => {
+              await addUserRoles({
+                userIds: [userId],
+                roleId: currentRow?.id,
+              });
+            }}
           />
         </Drawer>
       ) : null}

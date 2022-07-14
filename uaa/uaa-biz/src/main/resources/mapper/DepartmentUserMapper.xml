@@ -29,4 +29,8 @@
         delete from sys_department_user where department_id = #{departmentId} and user_id = #{userId}
     </delete>
 
+    <delete id="deleteByDepartmentId">
+        delete from sys_department_user where department_id = #{departmentId}
+    </delete>
+
 </mapper>

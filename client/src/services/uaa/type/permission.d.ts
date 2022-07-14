@@ -2,7 +2,7 @@ import type {RoleDTO, RoleVO} from "@/services/uaa/type/role";
 
 export type PermissionForm = {
   /** 主键ID */
-  id: number;
+  id: string;
   /** 权限名称 */
   name: string;
   /** 权限路由 */

@@ -1,8 +1,8 @@
 export type UserInfoForm = {
   /** 主键ID */
-  id: number;
+  id: string;
   /** 关联用户id */
-  pid: number;
+  pid: string;
   /** 姓名 */
   name?: string;
   /** 昵称 */

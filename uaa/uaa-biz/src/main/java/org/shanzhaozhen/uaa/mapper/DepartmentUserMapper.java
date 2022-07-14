@@ -13,4 +13,6 @@ public interface DepartmentUserMapper extends BaseMapper<DepartmentUserDO> {
 
     void deleteByDepartmentIdAndUserId(@Param("departmentId") String departmentId, @Param("userId") String userId);
 
+    void deleteByDepartmentId(String departmentId);
+
 }

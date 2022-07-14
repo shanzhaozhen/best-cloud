@@ -49,7 +49,7 @@ const PermissionList: React.FC = () => {
 
   const updatePermissionData = (
     list: PermissionVO[],
-    key: number | undefined,
+    key: string | undefined,
     children: PermissionVO[] | null,
   ): PermissionVO[] => {
     return list.map((node) => {

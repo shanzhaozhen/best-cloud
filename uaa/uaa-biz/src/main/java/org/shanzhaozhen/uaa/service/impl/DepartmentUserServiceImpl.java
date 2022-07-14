@@ -61,4 +61,9 @@ public class DepartmentUserServiceImpl implements DepartmentUserService {
         return userIds.size();
     }
 
+    @Override
+    public void deleteDepartmentUserByDepartmentId(String departmentId) {
+        departmentUserMapper.deleteByDepartmentId(departmentId);
+    }
+
 }

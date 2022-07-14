@@ -1,8 +1,7 @@
 // @ts-ignore
-/* eslint-disable */
 import { request } from 'umi';
-import {Page, PageParams, R} from "@/services/common/typings";
-import {RoleForm, RoleVO} from "@/services/uaa/type/role";
+import type {Page, PageParams, R} from "@/services/common/typings";
+import type {RoleForm, RoleVO} from "@/services/uaa/type/role";
 
 /** 更新角色接口 PUT /role */
 export async function updateRole(body: RoleForm, options?: Record<string, any>) {
@@ -29,7 +28,7 @@ export async function addRole(body: RoleForm, options?: Record<string, any>) {
 }
 
 /** 批量删除角色接口 DELETE /role */
-export async function batchDeleteRole(roleIds: (number | undefined)[], options?: Record<string, any>) {
+export async function batchDeleteRole(roleIds: (string | undefined)[], options?: Record<string, any>) {
   return request<R<number[]>>(`/api/uaa/role`, {
     method: 'DELETE',
     headers: {
@@ -41,7 +40,7 @@ export async function batchDeleteRole(roleIds: (number | undefined)[], options?:
 }
 
 /** 获取角色信息（通过角色id） GET /role/${roleId} */
-export async function getRoleById(roleId: number, options?: Record<string, any>) {
+export async function getRoleById(roleId: string, options?: Record<string, any>) {
   return request<R<RoleVO>>(`/api/uaa/role/${roleId}`, {
     method: 'GET',
     ...(options || {}),
@@ -49,7 +48,7 @@ export async function getRoleById(roleId: number, options?: Record<string, any>)
 }
 
 /** 删除角色接口 DELETE /role/${roleId} */
-export async function deleteRole(roleId: number, options?: Record<string, any>) {
+export async function deleteRole(roleId: string, options?: Record<string, any>) {
   return request<R<string>>(`/api/uaa/role/${roleId}`, {
     method: 'DELETE',
     ...(options || {}),

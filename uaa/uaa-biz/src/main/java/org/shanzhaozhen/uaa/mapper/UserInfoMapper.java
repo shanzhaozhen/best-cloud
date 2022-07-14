@@ -7,7 +7,7 @@ import org.shanzhaozhen.uaa.pojo.entity.UserInfoDO;
 
 public interface UserInfoMapper extends BaseMapper<UserInfoDO> {
 
-    UserInfoDTO getUserInfoById(@Param("userInfoId") Long userInfoId);
+    UserInfoDTO getUserInfoById(@Param("userInfoId") String userInfoId);
 
     UserInfoDTO getUserInfoByUserId(@Param("userId") String userId);
 

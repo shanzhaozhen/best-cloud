@@ -1,9 +1,9 @@
+
 // @ts-ignore
-/* eslint-disable */
-import { request } from 'umi';
-import {Page, PageParams, R} from "@/services/common/typings";
-import {DepartmentForm, DepartmentVO} from './type/department';
-import {RoleVO} from "@/services/uaa/type/role";
+import {request} from "umi";
+import type {Page, PageParams, R} from "@/services/common/typings";
+import type {DepartmentForm, DepartmentVO} from './type/department';
+import type {RoleVO} from "@/services/uaa/type/role";
 
 /** 获取部门信息（分页） GET /department/page */
 export async function getDepartmentPage(params: PageParams, options?: Record<string, any>) {
@@ -18,7 +18,7 @@ export async function getDepartmentPage(params: PageParams, options?: Record<str
 }
 
 /** 获取部门信息（通过部门id） GET /department/${departmentId} */
-export async function getDepartmentById(departmentId: number, options?: Record<string, any>) {
+export async function getDepartmentById(departmentId: string, options?: Record<string, any>) {
   return request<R<DepartmentVO>>(`/api/uaa/department/${departmentId}`, {
     method: 'GET',
     ...(options || {}),
@@ -80,7 +80,7 @@ export async function updateDepartment(departmentForm: DepartmentForm, options?:
 }
 
 /** 删除部门接口 DELETE /department/${param0} */
-export async function deleteDepartment(departmentId: number, options?: Record<string, any>) {
+export async function deleteDepartment(departmentId: string, options?: Record<string, any>) {
   return request<R<string>>(`/api/uaa/department/${departmentId}`, {
     method: 'DELETE',
     ...(options || {}),
@@ -88,7 +88,7 @@ export async function deleteDepartment(departmentId: number, options?: Record<st
 }
 
 /** 批量删除部门接口 DELETE /department */
-export async function batchDeleteDepartment(departmentIds: (number | undefined)[], options?: Record<string, any>) {
+export async function batchDeleteDepartment(departmentIds: (string | undefined)[], options?: Record<string, any>) {
   return request<R<number[]>>(`/api/uaa/department`, {
     method: 'DELETE',
     headers: {

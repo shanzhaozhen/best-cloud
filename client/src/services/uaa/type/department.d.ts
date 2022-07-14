@@ -67,7 +67,7 @@ export type DepartmentVO = {
 
 export type DepartmentUserForm = {
   /** 部门ID */
-  departmentId: number | undefined;
+  departmentId: string | undefined;
   /** 用户ID */
-  userIds: (number | undefined)[];
+  userIds: (string | undefined)[];
 };

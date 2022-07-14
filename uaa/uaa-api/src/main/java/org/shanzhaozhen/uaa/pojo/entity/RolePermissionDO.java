@@ -26,6 +26,6 @@ public class RolePermissionDO extends BaseInfo {
     private String roleId;
 
     @Schema(description = "权限ID")
-    private Long permissionId;
+    private String permissionId;
 
 }

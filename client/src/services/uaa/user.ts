@@ -1,8 +1,7 @@
 // @ts-ignore
-/* eslint-disable */
 import { request } from 'umi';
-import {Page, PageParams, R} from "@/services/common/typings";
-import {CurrentUser, UserForm, UserVO} from "@/services/uaa/type/user";
+import type {Page, PageParams, R} from "@/services/common/typings";
+import type {CurrentUser, UserForm, UserVO} from "@/services/uaa/type/user";
 
 /** 获取当前登录用户的个人和权限信息接口 GET /user/current */
 export async function getCurrentUserInfo(options?: Record<string, any>) {
@@ -51,7 +50,7 @@ export async function updateUser(userForm: UserForm, options?: Record<string, an
 }
 
 /** 批量删除用户接口 DELETE /user */
-export async function batchDeleteUser(userIds: (number | undefined)[], options?: Record<string, any>) {
+export async function batchDeleteUser(userIds: (string | undefined)[], options?: Record<string, any>) {
   return request<R<string>>(`/api/uaa/user`, {
     method: 'DELETE',
     headers: {
@@ -63,7 +62,7 @@ export async function batchDeleteUser(userIds: (number | undefined)[], options?:
 }
 
 /** 获取用户信息（通过用户id） GET /user/${userId} */
-export async function getUserById(userId: number, options?: Record<string, any>) {
+export async function getUserById(userId: string, options?: Record<string, any>) {
   return request<R<UserVO>>(`/api/uaa/user/${userId}`, {
     method: 'GET',
     ...(options || {}),
@@ -71,7 +70,7 @@ export async function getUserById(userId: number, options?: Record<string, any>)
 }
 
 /** 删除用户接口 DELETE /user/${userId} */
-export async function deleteUser(userId: number, options?: Record<string, any>) {
+export async function deleteUser(userId: string, options?: Record<string, any>) {
   return request<R<string>>(`/api/uaa/user/${userId}`, {
     method: 'DELETE',
     ...(options || {}),

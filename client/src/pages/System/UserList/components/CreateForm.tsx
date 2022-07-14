@@ -11,7 +11,7 @@ interface CreateFormProps {
   createModalVisible: boolean;
   handleCreateModalVisible: Dispatch<SetStateAction<boolean>>;
   actionRef: MutableRefObject<ActionType | undefined>;
-  callBackFinish?: (userId: number) => Promise<any>;
+  callBackFinish?: (userId: string) => Promise<any>;
 }
 
 const CreateForm: React.FC<CreateFormProps> = (props) => {

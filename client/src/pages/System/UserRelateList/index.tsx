@@ -23,7 +23,7 @@ interface UserRelateListProps {
     params: PageParams,
     sorter: Record<string, SortOrder>,
   ) => Promise<R<Page<UserVO>>>;
-  callBackFinish?: (userId: number) => Promise<any>;
+  callBackFinish?: (userId: string) => Promise<any>;
 }
 
 const UserRelateList: React.FC<UserRelateListProps> = (props) => {

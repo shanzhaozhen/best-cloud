@@ -52,7 +52,7 @@ public class PermissionController {
 
     @Operation(summary = "获取权限（通过权限id）")
     @GetMapping(GET_PERMISSION_BY_ID)
-    public R<PermissionVO> getPermissionById(@PathVariable("permissionId") @Parameter(description = "权限id", example = "1") Long permissionId) {
+    public R<PermissionVO> getPermissionById(@PathVariable("permissionId") @Parameter(description = "权限id", example = "1") String permissionId) {
         return R.build(() -> PermissionConverter.toVO(permissionService.getPermissionById(permissionId)));
     }
 
@@ -70,7 +70,7 @@ public class PermissionController {
 
     @Operation(summary = "权限删除接口")
     @DeleteMapping(DELETE_PERMISSION)
-    public R<String> deletePermission(@PathVariable("permissionId") @Parameter(description = "权限id", example = "1") Long permissionId) {
+    public R<String> deletePermission(@PathVariable("permissionId") @Parameter(description = "权限id", example = "1") String permissionId) {
         return R.build(() -> permissionService.deletePermission(permissionId));
     }
 

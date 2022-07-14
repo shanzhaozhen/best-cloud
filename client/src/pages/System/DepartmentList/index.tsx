@@ -53,7 +53,7 @@ const DepartmentList: React.FC = () => {
 
   const updateDepartmentData = (
     list: DepartmentVO[],
-    key: number | undefined,
+    key: string | undefined,
     children: DepartmentVO[] | null,
   ): DepartmentVO[] => {
     return list.map((node) => {

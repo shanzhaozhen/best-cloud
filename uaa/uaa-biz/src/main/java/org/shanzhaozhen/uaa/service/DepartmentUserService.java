@@ -36,4 +36,10 @@ public interface DepartmentUserService {
      */
     int batchDeleteDepartmentUser(String departmentId, List<String> userIds);
 
+    /**
+     * 通过部门ID删除对应部门与用户的关联关系
+     * @param departmentId
+     */
+    void deleteDepartmentUserByDepartmentId(String departmentId);
+
 }

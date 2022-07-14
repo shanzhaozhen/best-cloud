@@ -1,6 +1,6 @@
 export type RoleForm = {
   /** 主键ID */
-  id: number;
+  id: string;
   /** 名称 */
   name: string;
   /** 角色编码 */
@@ -79,7 +79,7 @@ type RoleVO = {
 
 export type UserRoleForm = {
   /** 用户ID */
-  userIds: (number | undefined)[];
+  userIds: (string | undefined)[];
   /** 角色ID */
-  roleId: number | undefined;
+  roleId: string | undefined;
 };

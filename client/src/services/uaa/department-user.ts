@@ -1,8 +1,7 @@
 // @ts-ignore
-/* eslint-disable */
 import { request } from 'umi';
-import {DepartmentUserForm} from "@/services/uaa/type/department";
-import {R} from "@/services/common/typings";
+import type {DepartmentUserForm} from "@/services/uaa/type/department";
+import type {R} from "@/services/common/typings";
 
 /** 添加用户角色 POST /department-user */
 export async function addDepartmentUsers(departmentUserForm: DepartmentUserForm, options?: Record<string, any>) {
