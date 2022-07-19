@@ -13,6 +13,8 @@ subprojects {
 //                "com.github.xiaoymin:knife4j-micro-spring-boot-starter:${knife4jVersion}",
 
                 "org.springdoc:springdoc-openapi-webmvc-core:${springDocVersion}",
+//                'org.springframework.boot:spring-boot-starter-validation',
+                'org.springframework.boot:spring-boot-starter-security'
         )
 
 
