@@ -17,8 +17,6 @@ public class PhoneAuthenticationToken extends AbstractAuthenticationToken {
 
     private Object captcha;
 
-//    private Object principal;
-
     /**
      * 此构造函数用来初始化未授信凭据
      * @param principal

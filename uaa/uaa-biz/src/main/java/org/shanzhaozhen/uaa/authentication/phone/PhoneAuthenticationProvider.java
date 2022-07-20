@@ -16,6 +16,7 @@ import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMap
 import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.util.Collection;
@@ -23,6 +24,7 @@ import java.util.Collection;
 /**
  * 手机号登陆认证
  */
+@Component
 @RequiredArgsConstructor
 @Slf4j
 public class PhoneAuthenticationProvider implements AuthenticationProvider, InitializingBean, MessageSourceAware {
@@ -50,7 +52,7 @@ public class PhoneAuthenticationProvider implements AuthenticationProvider, Init
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        Assert.isInstanceOf(UsernamePasswordAuthenticationToken.class, authentication,
+        Assert.isInstanceOf(PhoneAuthenticationToken.class, authentication,
                 () -> this.messages.getMessage("PhoneAuthenticationProvider.onlySupports",
                         "Only PhoneAuthenticationToken is supported"));
 

@@ -21,7 +21,9 @@ public class PhoneAuthenticationFilter extends AbstractAuthenticationProcessingF
 
     public static final String SPRING_SECURITY_FORM_CAPTCHA_KEY = "captcha";
 
-    private static final AntPathRequestMatcher DEFAULT_ANT_PATH_REQUEST_MATCHER = new AntPathRequestMatcher("/login/phone",
+    public static final String DEFAULT_FILTER_PROCESSES_URI = "/login/phone";
+
+    private static final AntPathRequestMatcher DEFAULT_ANT_PATH_REQUEST_MATCHER = new AntPathRequestMatcher(DEFAULT_FILTER_PROCESSES_URI,
             "POST");
 
     private String phoneParameter = SPRING_SECURITY_FORM_PHONE_KEY;
