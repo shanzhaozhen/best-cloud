@@ -10,7 +10,7 @@ public class PhoneLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
         AbstractLoginFilterConfigurer<H, PhoneLoginConfigurer<H>, PhoneAuthenticationFilter> {
 
     public PhoneLoginConfigurer() {
-        super(new PhoneAuthenticationFilter(), "/login/phone");
+        super(new PhoneAuthenticationFilter(), PhoneAuthenticationFilter.DEFAULT_FILTER_PROCESSES_URI);
         phoneParameter("phone");
         captchaParameter("captcha");
     }
@@ -81,7 +81,7 @@ public class PhoneLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
         DefaultLoginPageGeneratingFilter loginPageGeneratingFilter = http
                 .getSharedObject(DefaultLoginPageGeneratingFilter.class);
         if (loginPageGeneratingFilter != null) {
-            loginPageGeneratingFilter.setFormLoginEnabled(true);
+            loginPageGeneratingFilter.setFormLoginEnabled(false);
             loginPageGeneratingFilter.setUsernameParameter(getPhoneParameter());
             loginPageGeneratingFilter.setPasswordParameter(getCaptchaParameter());
             loginPageGeneratingFilter.setAuthenticationUrl(getLoginProcessingUrl());

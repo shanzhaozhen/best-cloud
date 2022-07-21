@@ -1,4 +1,4 @@
-package org.shanzhaozhen.uaa.authentication.password;
+package org.shanzhaozhen.uaa.authentication.account;
 
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,7 +19,9 @@ public class AccountAuthenticationFilter extends AbstractAuthenticationProcessin
 
     public static final String SPRING_SECURITY_FORM_PASSWORD_KEY = "password";
 
-    private static final AntPathRequestMatcher DEFAULT_ANT_PATH_REQUEST_MATCHER = new AntPathRequestMatcher("/login/account",
+    public static final String DEFAULT_FILTER_PROCESSES_URI = "/login/account";
+
+    private static final AntPathRequestMatcher DEFAULT_ANT_PATH_REQUEST_MATCHER = new AntPathRequestMatcher(DEFAULT_FILTER_PROCESSES_URI,
             "POST");
 
     private String usernameParameter = SPRING_SECURITY_FORM_USERNAME_KEY;

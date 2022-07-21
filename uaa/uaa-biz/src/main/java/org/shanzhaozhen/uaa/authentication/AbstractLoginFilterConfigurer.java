@@ -26,11 +26,11 @@ public abstract class AbstractLoginFilterConfigurer<B extends HttpSecurityBuilde
 
     private final SavedRequestAwareAuthenticationSuccessHandler defaultSuccessHandler = new SavedRequestAwareAuthenticationSuccessHandler();
 
-    private final ForwardAuthenticationFailureHandler defaultFailureHandler = new ForwardAuthenticationFailureHandler("/login/error");
-
     private AuthenticationSuccessHandler successHandler = this.defaultSuccessHandler;
 
-    private AuthenticationFailureHandler failureHandler = this.defaultFailureHandler;
+    private AuthenticationFailureHandler failureHandler;
+
+    public static final String DEFAULT_LOGIN_PROCESSING_URL = "/login";
 
     private String loginProcessingUrl;
 
@@ -207,12 +207,12 @@ public abstract class AbstractLoginFilterConfigurer<B extends HttpSecurityBuilde
      * @throws Exception
      */
     protected final void updateAuthenticationDefaults() {
-//        if (this.loginProcessingUrl == null) {
-//            loginProcessingUrl(this.loginPage);
-//        }
-//        if (this.failureHandler == null) {
-//            failureUrl(this.loginPage + "?error");
-//        }
+        if (this.loginProcessingUrl == null) {
+            loginProcessingUrl(DEFAULT_LOGIN_PROCESSING_URL);
+        }
+        if (this.failureHandler == null) {
+            failureHandler(new ForwardAuthenticationFailureHandler("/login/error"));
+        }
 //        LogoutConfigurer<B> logoutConfigurer = getBuilder().getConfigurer(LogoutConfigurer.class);
 //        if (logoutConfigurer != null && !logoutConfigurer.isCustomLogoutSuccess()) {
 //            logoutConfigurer.logoutSuccessUrl(this.loginPage + "?logout");
