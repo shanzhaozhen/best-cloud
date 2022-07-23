@@ -1,4 +1,4 @@
-package org.shanzhaozhen.uaa.authentication.phone;
+package org.shanzhaozhen.uaa.exception;
 
 import org.springframework.security.core.AuthenticationException;
 

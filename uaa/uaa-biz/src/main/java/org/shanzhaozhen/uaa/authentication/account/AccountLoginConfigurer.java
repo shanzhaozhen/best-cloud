@@ -14,8 +14,6 @@ public class AccountLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
 
     public AccountLoginConfigurer() {
         super(new AccountAuthenticationFilter(), AccountAuthenticationFilter.DEFAULT_FILTER_PROCESSES_URI);
-        usernameParameter("username");
-        passwordParameter("password");
     }
 
     public AccountLoginConfigurer(HttpSecurity http, UserDetailsService userDetailsService) {
@@ -23,26 +21,6 @@ public class AccountLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
         http.authenticationProvider(authenticationProvider);
-    }
-
-    /**
-     * 设置校验用户名的字段
-     * @param usernameParameter
-     * @return
-     */
-    public AccountLoginConfigurer<H> usernameParameter(String usernameParameter) {
-        getAuthenticationFilter().setUsernameParameter(usernameParameter);
-        return this;
-    }
-
-    /**
-     * 设置校验密码的字段
-     * @param passwordParameter
-     * @return
-     */
-    public AccountLoginConfigurer<H> passwordParameter(String passwordParameter) {
-        getAuthenticationFilter().setPasswordParameter(passwordParameter);
-        return this;
     }
 
     /**
@@ -68,22 +46,6 @@ public class AccountLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
     }
 
     /**
-     * 获取用户名的字段名称
-     * @return
-     */
-    private String getUsernameParameter() {
-        return getAuthenticationFilter().getUsernameParameter();
-    }
-
-    /**
-     * 获取密码的字段名称
-     * @return
-     */
-    private String getPasswordParameter() {
-        return getAuthenticationFilter().getPasswordParameter();
-    }
-
-    /**
      * 设置默认配置
      * @param http
      */
@@ -92,8 +54,6 @@ public class AccountLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
                 .getSharedObject(DefaultLoginPageGeneratingFilter.class);
         if (loginPageGeneratingFilter != null) {
             loginPageGeneratingFilter.setFormLoginEnabled(false);
-            loginPageGeneratingFilter.setUsernameParameter(getUsernameParameter());
-            loginPageGeneratingFilter.setPasswordParameter(getPasswordParameter());
             loginPageGeneratingFilter.setAuthenticationUrl(getLoginProcessingUrl());
         }
     }

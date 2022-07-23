@@ -3,6 +3,8 @@ package org.shanzhaozhen.uaa.authentication.phone;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import org.shanzhaozhen.uaa.exception.CaptchaErrorException;
+import org.shanzhaozhen.uaa.service.CaptchaService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;

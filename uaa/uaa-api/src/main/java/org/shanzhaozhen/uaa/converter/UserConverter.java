@@ -8,7 +8,6 @@ import org.shanzhaozhen.uaa.pojo.dto.RoleDTO;
 import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
 import org.shanzhaozhen.uaa.pojo.form.UserForm;
 import org.shanzhaozhen.uaa.pojo.form.UserInfoForm;
-import org.shanzhaozhen.uaa.pojo.form.UserLoginForm;
 import org.shanzhaozhen.uaa.pojo.vo.UserVO;
 import org.springframework.beans.BeanUtils;
 
@@ -26,17 +25,6 @@ public class UserConverter {
         UserDO userDO = new UserDO();
         BeanUtils.copyProperties(userDTO, userDO);
         return userDO;
-    }
-
-    /**
-     * UserLoginForm 转换 UserDTO
-     * @param userLoginForm
-     * @return
-     */
-    public static UserDTO toDTO(UserLoginForm userLoginForm) {
-        UserDTO userDTO = new UserDTO();
-        BeanUtils.copyProperties(userLoginForm, userDTO);
-        return userDTO;
     }
 
     /**

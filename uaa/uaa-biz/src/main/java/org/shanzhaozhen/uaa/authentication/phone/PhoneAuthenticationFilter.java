@@ -1,5 +1,8 @@
 package org.shanzhaozhen.uaa.authentication.phone;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.shanzhaozhen.uaa.pojo.form.AccountLogin;
+import org.shanzhaozhen.uaa.pojo.form.PhoneLogin;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -26,12 +29,6 @@ public class PhoneAuthenticationFilter extends AbstractAuthenticationProcessingF
     private static final AntPathRequestMatcher DEFAULT_ANT_PATH_REQUEST_MATCHER = new AntPathRequestMatcher(DEFAULT_FILTER_PROCESSES_URI,
             "POST");
 
-    private String phoneParameter = SPRING_SECURITY_FORM_PHONE_KEY;
-
-    private String captchaParameter = SPRING_SECURITY_FORM_CAPTCHA_KEY;
-
-    private boolean postOnly = true;
-
     public PhoneAuthenticationFilter() {
         super(DEFAULT_ANT_PATH_REQUEST_MATCHER);
     }
@@ -43,13 +40,21 @@ public class PhoneAuthenticationFilter extends AbstractAuthenticationProcessingF
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
-        if (this.postOnly && !request.getMethod().equals("POST")) {
+        if (!request.getMethod().equals("POST")) {
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         }
-        String phone = obtainPhone(request);
+
+        PhoneLogin phoneLogin;
+        try {
+            phoneLogin = new ObjectMapper().readValue(request.getInputStream(), PhoneLogin.class);
+        } catch (IOException e) {
+            throw new AuthenticationServiceException("登陆失败，手机号或验证码格式不正确");
+        }
+
+        String phone = phoneLogin.getPhone();
         phone = (phone != null) ? phone : "";
         phone = phone.trim();
-        String captcha = obtainCaptcha(request);
+        String captcha = phoneLogin.getCaptcha();
         captcha = (captcha != null) ? captcha : "";
         PhoneAuthenticationToken authRequest = new PhoneAuthenticationToken(phone, captcha);
         // Allow subclasses to set the "details" property
@@ -62,40 +67,8 @@ public class PhoneAuthenticationFilter extends AbstractAuthenticationProcessingF
         super.successfulAuthentication(request, response, chain, authResult);
     }
 
-    @Nullable
-    protected String obtainCaptcha(HttpServletRequest request) {
-        return request.getParameter(this.captchaParameter);
-    }
-
-    @Nullable
-    protected String obtainPhone(HttpServletRequest request) {
-        return request.getParameter(this.phoneParameter);
-    }
-
     protected void setDetails(HttpServletRequest request, PhoneAuthenticationToken authRequest) {
         authRequest.setDetails(this.authenticationDetailsSource.buildDetails(request));
-    }
-
-    public void setPhoneParameter(String phoneParameter) {
-        Assert.hasText(phoneParameter, "Phone parameter must not be empty or null");
-        this.phoneParameter = phoneParameter;
-    }
-
-    public void setCaptchaParameter(String captchaParameter) {
-        Assert.hasText(captchaParameter, "Captcha parameter must not be empty or null");
-        this.captchaParameter = captchaParameter;
-    }
-
-    public void setPostOnly(boolean postOnly) {
-        this.postOnly = postOnly;
-    }
-
-    public final String getPhoneParameter() {
-        return this.phoneParameter;
-    }
-
-    public final String getCaptchaParameter() {
-        return this.captchaParameter;
     }
 
 }

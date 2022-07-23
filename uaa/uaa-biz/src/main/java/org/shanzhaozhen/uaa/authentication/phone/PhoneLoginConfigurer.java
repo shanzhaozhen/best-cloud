@@ -11,28 +11,6 @@ public class PhoneLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
 
     public PhoneLoginConfigurer() {
         super(new PhoneAuthenticationFilter(), PhoneAuthenticationFilter.DEFAULT_FILTER_PROCESSES_URI);
-        phoneParameter("phone");
-        captchaParameter("captcha");
-    }
-
-    /**
-     * 设置校验手机号的字段
-     * @param phoneParameter
-     * @return
-     */
-    public PhoneLoginConfigurer<H> phoneParameter(String phoneParameter) {
-        getAuthenticationFilter().setPhoneParameter(phoneParameter);
-        return this;
-    }
-
-    /**
-     * 设置校验验证码的字段
-     * @param captchaParameter
-     * @return
-     */
-    public PhoneLoginConfigurer<H> captchaParameter(String captchaParameter) {
-        getAuthenticationFilter().setCaptchaParameter(captchaParameter);
-        return this;
     }
 
     /**
@@ -58,22 +36,6 @@ public class PhoneLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
     }
 
     /**
-     * 获取手机号的字段名称
-     * @return
-     */
-    private String getPhoneParameter() {
-        return getAuthenticationFilter().getPhoneParameter();
-    }
-
-    /**
-     * 获取验证码的字段名称
-     * @return
-     */
-    private String getCaptchaParameter() {
-        return getAuthenticationFilter().getCaptchaParameter();
-    }
-
-    /**
      * 设置默认配置
      * @param http
      */
@@ -82,8 +44,6 @@ public class PhoneLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
                 .getSharedObject(DefaultLoginPageGeneratingFilter.class);
         if (loginPageGeneratingFilter != null) {
             loginPageGeneratingFilter.setFormLoginEnabled(false);
-            loginPageGeneratingFilter.setUsernameParameter(getPhoneParameter());
-            loginPageGeneratingFilter.setPasswordParameter(getCaptchaParameter());
             loginPageGeneratingFilter.setAuthenticationUrl(getLoginProcessingUrl());
         }
     }
