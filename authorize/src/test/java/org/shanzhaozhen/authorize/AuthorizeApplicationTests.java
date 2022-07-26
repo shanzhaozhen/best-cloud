@@ -28,7 +28,7 @@ public class AuthorizeApplicationTests {
     public void testPath() throws IOException {
         LinkedHashSet<String> set = new LinkedHashSet<>();
         set.add("authorization_code");
-        set.add(" password");
+        set.add(" account");
         set.add(" client_credentials");
     }
 

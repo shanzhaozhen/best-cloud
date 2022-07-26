@@ -25,7 +25,7 @@ export default {
   'app.settings.security.medium': 'Medium',
   'app.settings.security.weak': 'Weak',
   'app.settings.security.password': 'Account Password',
-  'app.settings.security.password-description': 'Current password strength',
+  'app.settings.security.password-description': 'Current account strength',
   'app.settings.security.phone': 'Security Phone',
   'app.settings.security.phone-description': 'Bound phone',
   'app.settings.security.question': 'Security Question',

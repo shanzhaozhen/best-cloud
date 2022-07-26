@@ -20,7 +20,9 @@ dependencies {
             'org.springframework.boot:spring-boot-starter-actuator',
             'org.springframework.cloud:spring-cloud-starter-bootstrap',
 
-            "io.jsonwebtoken:jjwt:${jjwtVersion}",
+            'org.springframework.boot:spring-boot-starter-security',
+
+//            "io.jsonwebtoken:jjwt:${jjwtVersion}",
 
             'org.springframework.boot:spring-boot-starter-actuator',
 
@@ -30,6 +32,7 @@ dependencies {
 
             // minio需要
             "com.squareup.okhttp3:okhttp:${okhttpVersion}",
+
             "com.github.penggle:kaptcha:${kaptchaVersion}"
 
 

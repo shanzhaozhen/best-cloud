@@ -54,7 +54,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationConverter implements Authe
 				OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
 		}
 		
-		// password (REQUIRED)
+		// account (REQUIRED)
 		String password = parameters.getFirst(OAuth2ParameterNames.PASSWORD);
 		if (!StringUtils.hasText(password) || parameters.get(OAuth2ParameterNames.PASSWORD).size() != 1) {
 			OAuth2EndpointUtils.throwError(

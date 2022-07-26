@@ -8,7 +8,7 @@ import org.shanzhaozhen.common.core.constant.IResultCode;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public enum CodeConst implements IResultCode {
+public enum CodeConst implements IResultCode<String> {
 
     /**
      * 1001: 无权限访问
@@ -36,7 +36,7 @@ public enum CodeConst implements IResultCode {
 
     JWT_UNSUPPORTED("414", "不支持该token"),
 
-    JWT_ILLEGALARGUMENT("415", "token参数异常"),
+    JWT_ILLEGAL_ARGUMENT("415", "token参数异常"),
 
     JWT_ERROR("416", "token错误"),
 

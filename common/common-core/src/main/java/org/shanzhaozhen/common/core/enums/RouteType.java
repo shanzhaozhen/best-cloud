@@ -8,7 +8,7 @@ import org.shanzhaozhen.common.core.constant.IEnumType;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public enum RouteType implements IEnumType {
+public enum RouteType implements IEnumType<Integer> {
 
     PATH("路径" ,0),
     MENU("菜单" ,1),

@@ -21,6 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final DefaultAuthenticationSuccessHandler defaultAuthenticationSuccessHandler;
 
     private final DefaultAuthenticationFailureHandler defaultAuthenticationFailureHandler;
+
     private final UserDetailsService userDetailsService;
 
     @Override

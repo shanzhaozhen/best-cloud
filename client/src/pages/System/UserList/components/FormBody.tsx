@@ -28,7 +28,7 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
           width="md"
           label="密码"
           name="password"
-          fieldProps={{ autoComplete: 'new-password' }}
+          fieldProps={{ autoComplete: 'new-account' }}
           readonly={formType === 'view'}
           placeholder={formType === 'create' ? '请输入密码' : '留空则不更新密码'}
           rules={[

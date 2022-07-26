@@ -1,8 +1,8 @@
 package org.shanzhaozhen.common.core.constant;
 
-public interface IResultCode {
+public interface IResultCode<T> {
 
-    String getCode();
+    T getCode();
 
     String getMessage();
 

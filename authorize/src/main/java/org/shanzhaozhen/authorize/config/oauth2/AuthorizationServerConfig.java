@@ -66,7 +66,7 @@ public class AuthorizationServerConfig {
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
         OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer<>();
 
-        // 追加 password 认证方式
+        // 追加 account 认证方式
         // 这种追加方式太不优雅了，持续关注该项目的里程碑和issues https://github.com/spring-projects/spring-authorization-server/milestone/10
         // https://github.com/spring-projects/spring-authorization-server/issues/417
         http.apply(authorizationServerConfigurer.tokenEndpoint((tokenEndpoint) -> tokenEndpoint.accessTokenRequestConverter(
@@ -97,7 +97,7 @@ public class AuthorizationServerConfig {
                 .formLogin(Customizer.withDefaults()).build();
 
         // 因为 build() 后会 在 OAuth2TokenEndpointConfigurer createDefaultAuthenticationProviders 中初始化 Oauth2 认证服务器的默认配置
-        // 所以需要在 build 之后再追加 password 认证方式的鉴权
+        // 所以需要在 build 之后再追加 account 认证方式的鉴权
         addCustomOAuth2ResourceOwnerPasswordAuthenticationProvider(http);
 
         return securityFilterChain;
@@ -218,7 +218,7 @@ public class AuthorizationServerConfig {
 
 
     /**
-     * 基于默认授权服务器设置中追加 password 模式
+     * 基于默认授权服务器设置中追加 account 模式
      * @param http
      */
     private void addCustomOAuth2ResourceOwnerPasswordAuthenticationProvider(HttpSecurity http) {

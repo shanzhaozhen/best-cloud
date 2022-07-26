@@ -16,7 +16,7 @@ EXPOSE 18080
 # JAVA_OPTS 可以在外部传入java启动参数 如 docker run xxx -e "JAVA_OPTS=xxx" -e "JAVA_ARGS=xxx"
 
 
-# 可以使用的参数： -Xms64m -Xmx256m -Dsentinel.dashboard.auth.username=admin -Dsentinel.dashboard.auth.password=admin123 -Dserver.servlet.session.timeout=120
+# 可以使用的参数： -Xms64m -Xmx256m -Dsentinel.dashboard.auth.username=admin -Dsentinel.dashboard.auth.account=admin123 -Dserver.servlet.session.timeout=120
 #ENTRYPOINT ["java", " ${JAVA_OPTS} -jar", "sentinel-dashboard.jar ${JAVA_ARGS}"]
 ENTRYPOINT ["java", "-jar", "sentinel-dashboard.jar"]
 

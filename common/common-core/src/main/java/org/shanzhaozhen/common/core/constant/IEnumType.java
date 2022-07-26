@@ -1,9 +1,9 @@
 package org.shanzhaozhen.common.core.constant;
 
-public interface IEnumType {
+public interface IEnumType<T> {
 
     String getName();
 
-    Integer getValue();
+    T getValue();
 
 }
