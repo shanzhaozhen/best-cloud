@@ -1,11 +1,10 @@
-import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
-import { SettingDrawer } from '@ant-design/pro-layout';
-import { PageLoading } from '@ant-design/pro-layout';
-import type { RunTimeLayoutConfig } from 'umi';
-import { history, Link } from 'umi';
-import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
+import RightContent from '@/components/RightContent';
 import {BookOutlined, ExclamationCircleOutlined, LinkOutlined} from '@ant-design/icons';
+import type { Settings as LayoutSettings } from '@ant-design/pro-components';
+import {PageLoading, SettingDrawer} from '@ant-design/pro-components';
+import type { RunTimeLayoutConfig } from '@umijs/max';
+import { history, Link } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
 import type { RequestOptionsInit, ResponseError } from 'umi-request';
 import {getCurrentUserInfo} from "@/services/uaa/user";
@@ -18,11 +17,6 @@ import type {RequestConfig} from "@@/plugin-request/request";
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/login';
-
-/** 获取用户信息比较慢的时候会展示一个 loading */
-export const initialStateConfig = {
-  loading: <PageLoading />,
-};
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
@@ -42,10 +36,9 @@ export async function getInitialState(): Promise<{
     }
     return undefined;
   };
-  // 如果是登录页面，不执行
+  // 如果不是登录页面，执行
   if (history.location.pathname !== loginPath) {
     const currentUser = await fetchUserInfo();
-
     return {
       fetchUserInfo,
       currentUser,
@@ -69,6 +62,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     footerRender: () => <Footer />,
     onPageChange: () => {
       const { location } = history;
+      console.log(history);
       // 如果没有登录，重定向到 login
       if (!initialState?.currentUser && location.pathname !== loginPath) {
         history.push(loginPath);
@@ -78,7 +72,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     // menuDataRender: () => initialState?.menuData || [],
     links: isDev
       ? [
-          <Link key="api" to="/umi/plugin/openapi" target="_blank">
+          <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
             <LinkOutlined />
             <span>OpenAPI 文档</span>
           </Link>,
@@ -99,6 +93,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
           {children}
           {!props.location?.pathname?.includes('/login') && (
             <SettingDrawer
+              disableUrlParams
               enableDarkTheme
               settings={initialState?.settings}
               onSettingChange={(settings) => {
@@ -116,6 +111,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   };
 };
 
+/*
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
@@ -137,9 +133,9 @@ const codeMessage = {
 
 let confirmModalVisible = false;
 
-/** 异常处理程序
+/!** 异常处理程序
  * @see https://pro.ant.design/zh-CN/docs/request
- */
+ *!/
 const errorHandler = async (error: ResponseError) => {
   // if (error.message === 'Failed to fetch') {
   //   throw error;
@@ -161,7 +157,7 @@ const errorHandler = async (error: ResponseError) => {
     const res = await response.clone().json();
 
     if (status === 401) {
-      /**
+      /!**
        * (4010, "密码账号认证出错")
        * (4011, "token签名异常")
        * (4012, "token格式不正确")
@@ -169,7 +165,7 @@ const errorHandler = async (error: ResponseError) => {
        * (4014, "不支持该token")
        * (4015, "token参数异常")
        * (4016, "token错误")
-       */
+       *!/
       if (res.code >= 4011 && res.code <= 4016) {
         if (history.location.pathname !== '/login' && history.location.pathname !== '/') {
           if (!confirmModalVisible) {
@@ -212,12 +208,12 @@ const errorHandler = async (error: ResponseError) => {
   throw error;
 };
 
-/**
+/!**
  * 自动添加 AccessToken 的请求前拦截器
  * 参考 https://github.com/umijs/umi-request/issues/181#issuecomment-730794198
  * @param url
  * @param options
- */
+ *!/
 const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
   const accessToken = getToken();
 
@@ -243,5 +239,6 @@ export const request: RequestConfig = {
   // 新增自动添加AccessToken的请求前拦截器
   requestInterceptors: [authHeaderInterceptor],
 };
+*/
 
 

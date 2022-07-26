@@ -19,16 +19,18 @@ import {login} from "@/services/common/login";
 
 const LoginMessage: React.FC<{
   content: string;
-}> = ({ content }) => (
-  <Alert
-    style={{
-      marginBottom: 24,
-    }}
-    message={content}
-    type="error"
-    showIcon
-  />
-);
+}> = ({ content }) => {
+  return (
+    <Alert
+      style={{
+        marginBottom: 24,
+      }}
+      message={content}
+      type="error"
+      showIcon
+    />
+  );
+};
 
 const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<LoginResult>({});
@@ -63,11 +65,8 @@ const Login: React.FC = () => {
         });
         message.success(defaultLoginSuccessMessage);
         await fetchUserInfo();
-        /** 此方法会跳转到 redirect 参数所在的位置 */
-        if (!history) return;
-        const { query } = history.location;
-        const { redirect } = query as { redirect: string };
-        history.push(redirect || '/');
+        const urlParams = new URL(window.location.href).searchParams;
+        history.push(urlParams.get('redirect') || '/');
         return;
       }
       console.log(msg);
@@ -78,6 +77,7 @@ const Login: React.FC = () => {
         id: 'pages.login.failure',
         defaultMessage: '登录失败，请重试！',
       });
+      console.log(error);
       message.error(defaultLoginFailureMessage);
     }
   };

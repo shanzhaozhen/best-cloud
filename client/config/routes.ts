@@ -2,7 +2,7 @@ export default [
   {
     path: '/login',
     layout: false,
-    component: './common/Login',
+    component: './Common/Login',
   },
   {
     path: '/welcome',
@@ -18,32 +18,32 @@ export default [
       {
         name: 'user',
         path: '/system/user',
-        component: './system/userList',
+        component: './System/UserList',
       },
       {
         name: 'role',
         path: '/system/role',
-        component: './system/roleList',
+        component: './System/RoleList',
       },
       {
         name: 'menu',
         path: '/system/menu',
-        component: './system/menuList',
+        component: './System/MenuList',
       },
       {
         name: 'permission',
         path: '/system/permission',
-        component: './system/permissionList',
+        component: './System/PermissionList',
       },
       {
         name: 'department',
         path: '/system/department',
-        component: './system/departmentList',
+        component: './System/DepartmentList',
       },
       {
         name: 'organization',
         path: '/system/organization',
-        component: './system/OrganizationList',
+        component: './System/OrganizationList',
       },
     ],
   }, // {
@@ -142,6 +142,6 @@ export default [
   //   component: './AccountSettings',
   // },
   {
-    component: './common/errorPage/404',
+    component: './Common/ErrorPage/404',
   },
 ];
