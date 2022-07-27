@@ -1,7 +1,10 @@
 package org.shanzhaozhen.uaa.service;
 
+import org.shanzhaozhen.uaa.exception.CaptchaErrorException;
 
-import org.shanzhaozhen.uaa.authentication.phone.CaptchaErrorException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public interface CaptchaService {
 
@@ -10,7 +13,14 @@ public interface CaptchaService {
      * @param phoneNum 手机号
      * @return
      */
-    String generateCaptchaCode(String phoneNum);
+    String generateCaptchaNumber(String phone);
+
+    /**
+     * 生成验证码图片
+     * @param request
+     * @param response
+     */
+    void generateCaptchaImage(HttpServletRequest request, HttpServletResponse response) throws IOException;
 
     /**
      * 校验验证码
@@ -19,5 +29,6 @@ public interface CaptchaService {
      * @return
      */
     boolean verifyCaptcha(String phone, String rawCode) throws CaptchaErrorException;
+
 
 }

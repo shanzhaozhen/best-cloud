@@ -33,7 +33,7 @@ dependencies {
             // minio需要
             "com.squareup.okhttp3:okhttp:${okhttpVersion}",
 
-            "com.github.penggle:kaptcha:${kaptchaVersion}"
+            "cn.hutool:hutool-captcha:${hutoolVersion}",
 
 
     )

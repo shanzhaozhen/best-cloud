@@ -10,17 +10,22 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class DefaultSecurityConfig {
 
+	private final static String[] whiteUrl = {"/**/*.ico", "/**/*.css","/**/*.js", "/static/**", "/v3/**",
+			"/", "/login", "/front/**"};
+
 	@Bean
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests(authorizeRequests ->
 				authorizeRequests
-						.antMatchers("/v3/**").permitAll()
+						.antMatchers(whiteUrl).permitAll()
 //						.antMatchers("/**", "/authorize/rsa/publicKey", "/.well-known/openid-configuration").permitAll()
 						.anyRequest().authenticated()
 			)
 			.csrf().disable()
-			.formLogin(withDefaults());
+			.formLogin().disable()
+//			.formLogin(withDefaults())
+		;
 		return http.build();
 	}
 

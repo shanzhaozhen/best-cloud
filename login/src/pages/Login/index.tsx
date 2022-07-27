@@ -1,24 +1,21 @@
-import Footer from '@/components/Footer';
-import { login } from '@/services/ant-design-pro/api';
-import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 import {
-  AlipayCircleOutlined,
+  GithubOutlined,
   LockOutlined,
   MobileOutlined,
-  TaobaoCircleOutlined,
+  QqOutlined,
   UserOutlined,
+  WechatOutlined,
   WeiboCircleOutlined,
 } from '@ant-design/icons';
-import {
-  LoginForm,
-  ProFormCaptcha,
-  ProFormCheckbox,
-  ProFormText,
-} from '@ant-design/pro-components';
-import { FormattedMessage, history, SelectLang, useIntl, useModel } from '@umijs/max';
 import { Alert, message, Tabs } from 'antd';
 import React, { useState } from 'react';
+import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
+import { useIntl, history, FormattedMessage, SelectLang } from 'umi';
+import Footer from '@/components/Footer';
+import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 import styles from './index.less';
+// import type {LoginParams, LoginResult} from '@/services/common/typings';
+// import {login} from "@/services/common/login";
 
 const LoginMessage: React.FC<{
   content: string;
@@ -36,48 +33,42 @@ const LoginMessage: React.FC<{
 };
 
 const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
+  const [userLoginState, setUserLoginState] = useState<any>({});
   const [type, setType] = useState<string>('account');
-  const { initialState, setInitialState } = useModel('@@initialState');
 
   const intl = useIntl();
 
-  const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.();
-    if (userInfo) {
-      await setInitialState((s) => ({
-        ...s,
-        currentUser: userInfo,
-      }));
-    }
-  };
-
-  const handleSubmit = async (values: API.LoginParams) => {
-    try {
-      // 登录
-      const msg = await login({ ...values, type });
-      if (msg.status === 'ok') {
-        const defaultLoginSuccessMessage = intl.formatMessage({
-          id: 'pages.login.success',
-          defaultMessage: '登录成功！',
-        });
-        message.success(defaultLoginSuccessMessage);
-        await fetchUserInfo();
-        const urlParams = new URL(window.location.href).searchParams;
-        history.push(urlParams.get('redirect') || '/');
-        return;
-      }
-      console.log(msg);
-      // 如果失败去设置用户错误信息
-      setUserLoginState(msg);
-    } catch (error) {
-      const defaultLoginFailureMessage = intl.formatMessage({
-        id: 'pages.login.failure',
-        defaultMessage: '登录失败，请重试！',
-      });
-      console.log(error);
-      message.error(defaultLoginFailureMessage);
-    }
+  const handleSubmit = async (values: any) => {
+    // try {
+    //   // 登录
+    //   const msg = await login({ ...values, type });
+    //   if (!msg.error && msg.access_token) {
+    //     // 登陆成功保存 token
+    //     localStorage.setItem('TOKEN_TYPE', msg.token_type || '');
+    //     localStorage.setItem('ACCESS_TOKEN', msg.access_token || '');
+    //     localStorage.setItem('REFRESH_TOKEN', msg.refresh_token || '');
+    //
+    //     const defaultLoginSuccessMessage = intl.formatMessage({
+    //       id: 'pages.login.success',
+    //       defaultMessage: '登录成功！',
+    //     });
+    //     message.success(defaultLoginSuccessMessage);
+    //     await fetchUserInfo();
+    //     const urlParams = new URL(window.location.href).searchParams;
+    //     history.push(urlParams.get('redirect') || '/');
+    //     return;
+    //   }
+    //   console.log(msg);
+    //   // 如果失败去设置用户错误信息
+    //   setUserLoginState(msg);
+    // } catch (error) {
+    //   const defaultLoginFailureMessage = intl.formatMessage({
+    //     id: 'pages.login.failure',
+    //     defaultMessage: '登录失败，请重试！',
+    //   });
+    //   console.log(error);
+    //   message.error(defaultLoginFailureMessage);
+    // }
   };
   const { status, type: loginType } = userLoginState;
 
@@ -88,8 +79,8 @@ const Login: React.FC = () => {
       </div>
       <div className={styles.content}>
         <LoginForm
-          logo={<img alt="logo" src="/logo.svg" />}
-          title="Ant Design"
+          logo={<img alt="logo" src={process.env.NODE_ENV === 'production' ? '/front/logo.svg' : '/logo.svg'} />}
+          title="Best Cloud"
           subTitle={intl.formatMessage({ id: 'pages.layouts.userLayout.title' })}
           initialValues={{
             autoLogin: true,
@@ -100,12 +91,13 @@ const Login: React.FC = () => {
               id="pages.login.loginWith"
               defaultMessage="其他登录方式"
             />,
-            <AlipayCircleOutlined key="AlipayCircleOutlined" className={styles.icon} />,
-            <TaobaoCircleOutlined key="TaobaoCircleOutlined" className={styles.icon} />,
-            <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.icon} />,
+            <GithubOutlined key="githubOutlined" className={styles.icon} />,
+            <WechatOutlined key="wechatOutlined" className={styles.icon} />,
+            <QqOutlined key="qqOutlined" className={styles.icon} />,
+            <WeiboCircleOutlined key="weiboCircleOutlined" className={styles.icon} />,
           ]}
           onFinish={async (values) => {
-            await handleSubmit(values as API.LoginParams);
+            await handleSubmit(values as any);
           }}
         >
           <Tabs activeKey={type} onChange={setType}>
@@ -129,7 +121,7 @@ const Login: React.FC = () => {
             <LoginMessage
               content={intl.formatMessage({
                 id: 'pages.login.accountLogin.errorMessage',
-                defaultMessage: '账户或密码错误(admin/ant.design)',
+                defaultMessage: '账户或密码错误',
               })}
             />
           )}
@@ -143,7 +135,7 @@ const Login: React.FC = () => {
                 }}
                 placeholder={intl.formatMessage({
                   id: 'pages.login.username.placeholder',
-                  defaultMessage: '用户名: admin or user',
+                  defaultMessage: '用户名',
                 })}
                 rules={[
                   {
@@ -165,7 +157,7 @@ const Login: React.FC = () => {
                 }}
                 placeholder={intl.formatMessage({
                   id: 'pages.login.password.placeholder',
-                  defaultMessage: '密码: ant.design',
+                  defaultMessage: '密码',
                 })}
                 rules={[
                   {
