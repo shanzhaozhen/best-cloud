@@ -2,8 +2,9 @@ description = 'authorize'
 
 apply plugin: 'java-library'
 
-dependencies {
+processResources.dependsOn(':authorize-web:buildWeb')
 
+dependencies {
     api(
             project(':common:common-mybatis'),
             project(':common:common-redis'),
@@ -40,7 +41,6 @@ dependencies {
 //            "com.github.xiaoymin:knife4j-micro-spring-boot-starter:${knife4jVersion}",
             "org.springdoc:springdoc-openapi-security:${springDocVersion}",
             "org.springdoc:springdoc-openapi-webmvc-core:${springDocVersion}",
-
     )
 
 }

@@ -1,0 +1,42 @@
+description = 'authorize-web'
+
+apply plugin: 'com.github.node-gradle.node'
+
+node {
+  download = false
+}
+
+
+//调用npm run build命令的Gradle任务
+task npmBuild(type: NpmTask, dependsOn: npmInstall) {
+  args = ['run', 'build']
+  outputs.dir('dist')
+}
+
+// 清除编译
+task cleanBuild(type: Delete) {
+  delete "build"
+  delete "dist"
+}
+npmBuild.dependsOn(cleanBuild)
+
+
+// 清除编译及依赖包
+task cleanAll(type: Delete, dependsOn: cleanBuild) {
+  delete "node_modules"
+  delete ".gradle"
+}
+
+task buildWeb(type: Copy) {
+  delete "../authorize/src/main/resources/static/front"
+  //将webjars目录整个拷贝到build目录下的/resources/main/META-INF/resources/static/front
+  from("dist") {
+    eachFile {
+      println(getPath())
+    }
+  }
+  into "../authorize/src/main/resources/static/front"
+}
+buildWeb.dependsOn(npmBuild)
+
+

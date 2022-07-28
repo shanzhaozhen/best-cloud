@@ -10,8 +10,7 @@ include 'common:common-minio'
 
 include 'gateway'
 include 'authorize'
-
-include 'authentication-client'
+include 'authorize-web'
 
 include 'uaa:uaa-api'
 include 'uaa:uaa-biz'
