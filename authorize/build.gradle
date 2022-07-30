@@ -2,6 +2,7 @@ description = 'authorize'
 
 apply plugin: 'java-library'
 
+// 编译前端复制到后端中，前端没有修改时注销掉
 processResources.dependsOn(':authorize-web:buildWeb')
 
 dependencies {

@@ -8,7 +8,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @EnableWebSecurity
-public class DefaultSecurityConfig {
+public class WebSecurityConfig {
 
 	private final static String[] whiteUrl = {"/**/*.ico", "/**/*.css","/**/*.js", "/static/**", "/v3/**",
 			"/", "/login", "/front/**"};
@@ -23,8 +23,7 @@ public class DefaultSecurityConfig {
 						.anyRequest().authenticated()
 			)
 			.csrf().disable()
-			.formLogin().disable()
-//			.formLogin(withDefaults())
+			.formLogin(withDefaults())
 		;
 		return http.build();
 	}
