@@ -41,7 +41,7 @@ public class SpringDocConfig {
 //            swaggerUiConfigParameters.addGroup(name);
             GroupedOpenApi build = GroupedOpenApi.builder().pathsToMatch("/" + name + "/**").group(name).build();
             groups.add(build);
-            urls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl(name, "/v3/api-docs/" + name));
+            urls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl("/v3/api-docs/" + name, name, name));
 //            swaggerUiConfigParameters.addUrl(name);
         });
         swaggerUiConfigParameters.setUrls(urls);

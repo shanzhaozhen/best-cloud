@@ -2,9 +2,6 @@ package org.shanzhaozhen.authorize.config.oauth2;
 
 
 import lombok.RequiredArgsConstructor;
-import org.shanzhaozhen.authorize.config.oauth2.authentication.OAuth2ConfigurerUtils;
-import org.shanzhaozhen.authorize.config.oauth2.authentication.OAuth2ResourceOwnerPasswordAuthenticationConverter;
-import org.shanzhaozhen.authorize.config.oauth2.authentication.OAuth2ResourceOwnerPasswordAuthenticationProvider;
 import org.shanzhaozhen.authorize.jackson.SecurityJacksonConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -64,43 +61,30 @@ public class AuthorizationServerConfig {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
-        OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer<>();
-
-        // 追加 account 认证方式
-        // 这种追加方式太不优雅了，持续关注该项目的里程碑和issues https://github.com/spring-projects/spring-authorization-server/milestone/10
-        // https://github.com/spring-projects/spring-authorization-server/issues/417
-        http.apply(authorizationServerConfigurer.tokenEndpoint((tokenEndpoint) -> tokenEndpoint.accessTokenRequestConverter(
-            new DelegatingAuthenticationConverter(
-                    Arrays.asList(
-                            new OAuth2AuthorizationCodeAuthenticationConverter(),
-                            new OAuth2RefreshTokenAuthenticationConverter(),
-                            new OAuth2ClientCredentialsAuthenticationConverter(),
-                            new OAuth2ResourceOwnerPasswordAuthenticationConverter()))
-        )));
+        OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer =
+                new OAuth2AuthorizationServerConfigurer<>();
 
         // 自定义确认 scope 页面
-        authorizationServerConfigurer.authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI));
+        authorizationServerConfigurer.authorizationEndpoint(authorizationEndpoint ->
+                authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI));
+
         // 提取 确认 scope 页面的端点
         RequestMatcher endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
 
-        DefaultSecurityFilterChain securityFilterChain = http
+        http
                 .requestMatcher(endpointsMatcher)
-                .authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
-                // 开启form登录
-//                .formLogin()
-//                .and()
+                .authorizeRequests(authorizeRequests ->
+                        authorizeRequests.anyRequest().authenticated()
+                )
                 // 忽略掉相关端点的csrf
-                .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
+//                .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
+//                .exceptionHandling(exceptions ->
+//                        exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
+//                )
                 // 应用 授权服务器的配置
-                .apply(authorizationServerConfigurer)
-                .and()
-                .formLogin(Customizer.withDefaults()).build();
+                .apply(authorizationServerConfigurer);
 
-        // 因为 build() 后会 在 OAuth2TokenEndpointConfigurer createDefaultAuthenticationProviders 中初始化 Oauth2 认证服务器的默认配置
-        // 所以需要在 build 之后再追加 account 认证方式的鉴权
-        addCustomOAuth2ResourceOwnerPasswordAuthenticationProvider(http);
-
-        return securityFilterChain;
+        return http.build();
     }
 
     /**
@@ -110,7 +94,7 @@ public class AuthorizationServerConfig {
     @Bean
     public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
         // 使用内存作为客户端的信息库
-        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
+        /*RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 // 客户端id 需要唯一
                 .clientId("auth")
                 // 客户端密码
@@ -152,15 +136,15 @@ public class AuthorizationServerConfig {
                         .reuseRefreshTokens(true)
                         .build()
                 )
-                .build();
+                .build();*/
 //        return new InMemoryRegisteredClientRepository(registeredClient);
 
-//        return new JdbcRegisteredClientRepository(jdbcTemplate);
+        return new JdbcRegisteredClientRepository(jdbcTemplate);
 
 //         使用数据库作为客户端的信息库
-        JdbcRegisteredClientRepository jdbcRegisteredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
-        jdbcRegisteredClientRepository.save(registeredClient);
-        return jdbcRegisteredClientRepository;
+//        JdbcRegisteredClientRepository jdbcRegisteredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
+//        jdbcRegisteredClientRepository.save(registeredClient);
+//        return jdbcRegisteredClientRepository;
 
 //        JdbcRegisteredClientRepository jdbcRegisteredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
 //
@@ -172,6 +156,8 @@ public class AuthorizationServerConfig {
 //        return jdbcRegisteredClientRepository;
     }
 
+
+    // todo: 改成mybatis获取方式，这个序列化太恶心了
     /**
      * 保存授权信息，授权服务器给我们颁发来 token，那我们肯定需要保存吧，由这个服务来保存
      * @param jdbcTemplate
@@ -214,32 +200,6 @@ public class AuthorizationServerConfig {
 //                .tokenEndpoint("/authentication/token")
                 // 发布者的url地址,一般是本系统访问的根路径
                 .issuer("http://localhost:" + serverPort).build();
-    }
-
-
-    /**
-     * 基于默认授权服务器设置中追加 account 模式
-     * @param http
-     */
-    private void addCustomOAuth2ResourceOwnerPasswordAuthenticationProvider(HttpSecurity http) {
-        AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-
-        // 弃用JwtEncoder和关联的类以准备在0.3.0发布中删除（请参阅gh-594）。
-        // 该0.3.0版本将使用Spring Security 5.6JwtEncoder中引入的。
-        JwtEncoder jwtEncoder = OAuth2ConfigurerUtils.getJwtEncoder(http);
-        OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer = OAuth2ConfigurerUtils.getJwtCustomizer(http);
-
-        OAuth2ResourceOwnerPasswordAuthenticationProvider resourceOwnerPasswordAuthenticationProvider =
-                new OAuth2ResourceOwnerPasswordAuthenticationProvider(
-                        authenticationManager,
-                        OAuth2ConfigurerUtils.getAuthorizationService(http),
-                        jwtEncoder
-                );
-        if (jwtCustomizer != null) {
-            resourceOwnerPasswordAuthenticationProvider.setJwtCustomizer(jwtCustomizer);
-        }
-
-        http.authenticationProvider(resourceOwnerPasswordAuthenticationProvider);
     }
 
 }

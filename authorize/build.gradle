@@ -2,7 +2,8 @@ description = 'authorize'
 
 apply plugin: 'java-library'
 
-processResources.dependsOn(':authorize-web:buildWeb')
+// 编译前端复制到后端中，前端没有修改时注销掉
+//processResources.dependsOn(':authorize-web:buildWeb')
 
 dependencies {
     api(
@@ -41,6 +42,8 @@ dependencies {
 //            "com.github.xiaoymin:knife4j-micro-spring-boot-starter:${knife4jVersion}",
             "org.springdoc:springdoc-openapi-security:${springDocVersion}",
             "org.springdoc:springdoc-openapi-webmvc-core:${springDocVersion}",
+
+            "cn.hutool:hutool-captcha:${hutoolVersion}",
     )
 
 }

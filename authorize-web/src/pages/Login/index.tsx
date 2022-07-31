@@ -12,10 +12,9 @@ import React, { useState } from 'react';
 import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
 import { useIntl, history, FormattedMessage, SelectLang } from 'umi';
 import Footer from '@/components/Footer';
-import { getFakeCaptcha } from '@/services/ant-design-pro/login';
+import {getFakeCaptcha, loginByAccount, loginByPhone} from '@/services/login';
 import styles from './index.less';
-// import type {LoginParams, LoginResult} from '@/services/common/typings';
-// import {login} from "@/services/common/login";
+
 
 const LoginMessage: React.FC<{
   content: string;
@@ -39,36 +38,45 @@ const Login: React.FC = () => {
   const intl = useIntl();
 
   const handleSubmit = async (values: any) => {
-    // try {
-    //   // 登录
-    //   const msg = await login({ ...values, type });
-    //   if (!msg.error && msg.access_token) {
-    //     // 登陆成功保存 token
-    //     localStorage.setItem('TOKEN_TYPE', msg.token_type || '');
-    //     localStorage.setItem('ACCESS_TOKEN', msg.access_token || '');
-    //     localStorage.setItem('REFRESH_TOKEN', msg.refresh_token || '');
-    //
-    //     const defaultLoginSuccessMessage = intl.formatMessage({
-    //       id: 'pages.login.success',
-    //       defaultMessage: '登录成功！',
-    //     });
-    //     message.success(defaultLoginSuccessMessage);
-    //     await fetchUserInfo();
-    //     const urlParams = new URL(window.location.href).searchParams;
-    //     history.push(urlParams.get('redirect') || '/');
-    //     return;
-    //   }
-    //   console.log(msg);
-    //   // 如果失败去设置用户错误信息
-    //   setUserLoginState(msg);
-    // } catch (error) {
-    //   const defaultLoginFailureMessage = intl.formatMessage({
-    //     id: 'pages.login.failure',
-    //     defaultMessage: '登录失败，请重试！',
-    //   });
-    //   console.log(error);
-    //   message.error(defaultLoginFailureMessage);
-    // }
+    try {
+      let msg = {};
+
+      console.log(values)
+
+      if (type === 'account') { // 账号登陆
+        msg = await loginByAccount(values);
+
+      } else if (type === 'mobile') {  // 手机验证码登陆
+        msg = await loginByPhone(values);
+      }
+
+
+      if (!msg.error && msg.access_token) {
+        // 登陆成功保存 token
+
+        const defaultLoginSuccessMessage = intl.formatMessage({
+          id: 'pages.login.success',
+          defaultMessage: '登录成功！',
+        });
+        message.success(defaultLoginSuccessMessage);
+
+        const targetUrl = 'http://localhost:9000/oauth2/authorize?response_type=code&client_id=e2fa7e64-249b-46f0-ae1d-797610e88615&scope=message.read%20userinfo%20message.write&state=oQHuh3eFLlKktKPcXjJwaNT1QOkPxatI2mhA06dbeqU%3D&redirect_uri=http://127.0.0.1:8082/foo/bar'
+
+        const urlParams = new URL(window.location.href).searchParams;
+        history.push(urlParams.get('redirect') || '/');
+        return;
+      }
+      console.log(msg);
+      // 如果失败去设置用户错误信息
+      setUserLoginState(msg);
+    } catch (error) {
+      const defaultLoginFailureMessage = intl.formatMessage({
+        id: 'pages.login.failure',
+        defaultMessage: '登录失败，请重试！',
+      });
+      console.log(error);
+      message.error(defaultLoginFailureMessage);
+    }
   };
   const { status, type: loginType } = userLoginState;
 
