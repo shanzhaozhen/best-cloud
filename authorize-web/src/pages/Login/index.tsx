@@ -38,37 +38,32 @@ const Login: React.FC = () => {
   const intl = useIntl();
 
   const handleSubmit = async (values: any) => {
+    const loginForm = document.createElement('form');
     try {
       let msg = {};
+      const loginForm2 = document.getElementById('login-form') as HTMLFormElement;
 
-      console.log(values)
+      console.log('loginForm:', loginForm)
+      console.log('loginForm2：', loginForm2)
+
+      loginForm.method = 'POST';
+      loginForm.style.display = "none";
+
+      for (const key in values) {
+        const input = document.createElement('input');
+        input.name = key;
+        input.value = values[key];
+        loginForm.appendChild(input);
+      }
 
       if (type === 'account') { // 账号登陆
-        msg = await loginByAccount(values);
-
+        loginForm.action = 'http://localhost:9000/login/account';
       } else if (type === 'mobile') {  // 手机验证码登陆
-        msg = await loginByPhone(values);
+        loginForm.action = '/login/account';
       }
-
-
-      if (!msg.error && msg.access_token) {
-        // 登陆成功保存 token
-
-        const defaultLoginSuccessMessage = intl.formatMessage({
-          id: 'pages.login.success',
-          defaultMessage: '登录成功！',
-        });
-        message.success(defaultLoginSuccessMessage);
-
-        const targetUrl = 'http://localhost:9000/oauth2/authorize?response_type=code&client_id=e2fa7e64-249b-46f0-ae1d-797610e88615&scope=message.read%20userinfo%20message.write&state=oQHuh3eFLlKktKPcXjJwaNT1QOkPxatI2mhA06dbeqU%3D&redirect_uri=http://127.0.0.1:8082/foo/bar'
-
-        const urlParams = new URL(window.location.href).searchParams;
-        history.push(urlParams.get('redirect') || '/');
-        return;
-      }
-      console.log(msg);
-      // 如果失败去设置用户错误信息
-      setUserLoginState(msg);
+      console.log(loginForm)
+      document.body.appendChild(loginForm);
+      loginForm.submit();
     } catch (error) {
       const defaultLoginFailureMessage = intl.formatMessage({
         id: 'pages.login.failure',
@@ -76,6 +71,8 @@ const Login: React.FC = () => {
       });
       console.log(error);
       message.error(defaultLoginFailureMessage);
+    } finally {
+      document.body.removeChild(loginForm);
     }
   };
   const { status, type: loginType } = userLoginState;
@@ -87,6 +84,7 @@ const Login: React.FC = () => {
       </div>
       <div className={styles.content}>
         <LoginForm
+          id="login-form2"
           logo={<img alt="logo" src={process.env.NODE_ENV === 'production' ? '/front/logo.svg' : '/logo.svg'} />}
           title="Best Cloud"
           subTitle={intl.formatMessage({ id: 'pages.layouts.userLayout.title' })}
@@ -283,6 +281,7 @@ const Login: React.FC = () => {
         </LoginForm>
       </div>
       <Footer />
+      <form id="login-form"></form>
     </div>
   );
 };

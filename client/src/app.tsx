@@ -16,7 +16,7 @@ import type {RequestConfig} from "@@/plugin-request/request";
 
 
 const isDev = process.env.NODE_ENV === 'development';
-const loginPath = '/login';
+const loginPath = '/';
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state

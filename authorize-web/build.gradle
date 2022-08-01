@@ -17,6 +17,7 @@ task npmBuild(type: NpmTask, dependsOn: npmInstall) {
 task cleanBuild(type: Delete) {
   delete "build"
   delete "dist"
+  delete "../authorize/src/main/resources/static/front"
 }
 npmBuild.dependsOn(cleanBuild)
 
@@ -28,7 +29,6 @@ task cleanAll(type: Delete, dependsOn: cleanBuild) {
 }
 
 task buildWeb(type: Copy) {
-  delete "../authorize/src/main/resources/static/front"
   //将webjars目录整个拷贝到build目录下的/resources/main/META-INF/resources/static/front
   from("dist") {
     eachFile {

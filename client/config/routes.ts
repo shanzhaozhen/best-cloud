@@ -1,5 +1,10 @@
 export default [
   {
+    path: '/',
+    layout: false,
+    component: './Common/Home',
+  },
+  {
     path: '/login',
     layout: false,
     component: './Common/Login',
