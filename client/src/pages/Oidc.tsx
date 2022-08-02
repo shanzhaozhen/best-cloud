@@ -17,13 +17,16 @@ const Oidc: React.FC = () => {
   console.log(searchParams)
 
   useEffect(() => {
-    async function signinAsync() {
-      await userManager?.signinRedirectCallback()
-      // redirect user to home page
-      history.push('/')
-    }
-
-    signinAsync()
+    // async function signinAsync() {
+    //   await userManager?.signinRedirectCallback()
+    //   // redirect user to home page
+    //   history.push('/')
+    // }
+    //
+    // signinAsync()
+    userManager?.signinSilentCallback().catch(function (error) {
+      console.error(error);
+    });
   }, [])
 
 
