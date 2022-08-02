@@ -13,19 +13,26 @@ import {stringify} from "querystring";
 import {Modal, notification} from "antd";
 import {getToken} from "@/utils/common";
 import type {RequestConfig} from "@@/plugin-request/request";
+import {User, UserManager} from "oidc-client-ts";
+import OidcConfig from "../config/oidcConfig";
+
 
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/';
+
+const userManager = new UserManager(OidcConfig);
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
+  user?: User | null;
   currentUser?: CurrentUser;
   loading?: boolean;
   fetchUserInfo?: () => Promise<CurrentUser | undefined>;
+  userManager?: UserManager
 }> {
   const fetchUserInfo = async () => {
     try {
@@ -36,18 +43,25 @@ export async function getInitialState(): Promise<{
     }
     return undefined;
   };
+
+
   // 如果不是登录页面，执行
   if (history.location.pathname !== loginPath) {
-    const currentUser = await fetchUserInfo();
+    const user = await userManager.getUser()
+
+    // const currentUser = await fetchUserInfo();
     return {
       fetchUserInfo,
-      currentUser,
+      // currentUser,
+      user,
       settings: defaultSettings,
+      userManager
     };
   }
   return {
     fetchUserInfo,
     settings: defaultSettings,
+    userManager
   };
 }
 
@@ -63,10 +77,16 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     onPageChange: () => {
       const { location } = history;
       console.log(history);
-      // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
-        history.push(loginPath);
+      // // 如果没有登录，重定向到 login
+      // if (!initialState?.currentUser && location.pathname !== loginPath) {
+      //   history.push(loginPath);
+      // }
+
+      // 如果没有登录，重定向到登陆页
+      if (!initialState?.user && location.pathname !== loginPath) {
+          history.push(loginPath);
       }
+
     },
     // todo: 动态菜单
     // menuDataRender: () => initialState?.menuData || [],

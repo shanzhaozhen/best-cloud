@@ -17,7 +17,8 @@ public class WebSecurityConfig {
 
 	private final static String[] whiteUrl = {"/**/*.ico", "/**/*.css","/**/*.js", "/static/**", "/v3/**",
 			"/", "/login", "/front/**"
-//			, "/**", "/authorize/rsa/publicKey", "/.well-known/openid-configuration"
+//			, "/**", "/authorize/rsa/publicKey"
+			, "/.well-known/openid-configuration"
 	};
 
 	private final DefaultAuthenticationSuccessHandler defaultAuthenticationSuccessHandler;
@@ -33,7 +34,6 @@ public class WebSecurityConfig {
 			.authorizeRequests(authorizeRequests ->
 				authorizeRequests
 						.antMatchers(whiteUrl).permitAll()
-//						.antMatchers("/**", "/authorize/rsa/publicKey", "/.well-known/openid-configuration").permitAll()
 						.anyRequest().authenticated()
 			)
 				.csrf().disable()

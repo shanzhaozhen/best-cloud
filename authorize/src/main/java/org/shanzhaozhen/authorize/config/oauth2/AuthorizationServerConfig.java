@@ -32,6 +32,7 @@ import org.springframework.security.oauth2.server.authorization.web.authenticati
 import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2RefreshTokenAuthenticationConverter;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import java.time.Duration;
@@ -76,13 +77,16 @@ public class AuthorizationServerConfig {
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests.anyRequest().authenticated()
                 )
+                // 跨域配置
+                .cors(Customizer.withDefaults())
                 // 忽略掉相关端点的csrf
-//                .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
-//                .exceptionHandling(exceptions ->
-//                        exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
-//                )
+                .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
+                .exceptionHandling(exceptions ->
+                        exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
+                )
                 // 应用 授权服务器的配置
-                .apply(authorizationServerConfigurer);
+                .apply(authorizationServerConfigurer)
+        ;
 
         return http.build();
     }

@@ -10,9 +10,9 @@ import {
 import { Alert, message, Tabs } from 'antd';
 import React, { useState } from 'react';
 import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
-import { useIntl, history, FormattedMessage, SelectLang } from 'umi';
+import { useIntl, FormattedMessage, SelectLang } from 'umi';
 import Footer from '@/components/Footer';
-import {getFakeCaptcha, loginByAccount, loginByPhone} from '@/services/login';
+import {getFakeCaptcha} from '@/services/login';
 import styles from './index.less';
 
 
@@ -32,7 +32,7 @@ const LoginMessage: React.FC<{
 };
 
 const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<any>({});
+  const [userLoginState] = useState<any>({});
   const [type, setType] = useState<string>('account');
 
   const intl = useIntl();
@@ -40,12 +40,6 @@ const Login: React.FC = () => {
   const handleSubmit = async (values: any) => {
     const loginForm = document.createElement('form');
     try {
-      let msg = {};
-      const loginForm2 = document.getElementById('login-form') as HTMLFormElement;
-
-      console.log('loginForm:', loginForm)
-      console.log('loginForm2：', loginForm2)
-
       loginForm.method = 'POST';
       loginForm.style.display = "none";
 
@@ -57,7 +51,7 @@ const Login: React.FC = () => {
       }
 
       if (type === 'account') { // 账号登陆
-        loginForm.action = 'http://localhost:9000/login/account';
+        loginForm.action = '/login/account';
       } else if (type === 'mobile') {  // 手机验证码登陆
         loginForm.action = '/login/account';
       }
@@ -84,7 +78,6 @@ const Login: React.FC = () => {
       </div>
       <div className={styles.content}>
         <LoginForm
-          id="login-form2"
           logo={<img alt="logo" src={process.env.NODE_ENV === 'production' ? '/front/logo.svg' : '/logo.svg'} />}
           title="Best Cloud"
           subTitle={intl.formatMessage({ id: 'pages.layouts.userLayout.title' })}
@@ -281,7 +274,6 @@ const Login: React.FC = () => {
         </LoginForm>
       </div>
       <Footer />
-      <form id="login-form"></form>
     </div>
   );
 };

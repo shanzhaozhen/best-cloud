@@ -2,8 +2,14 @@ import React from 'react';
 import Footer from '@/components/Footer';
 import styles from './index.less';
 import {Button} from "antd";
+import { useModel } from '@umijs/max';
 
 const Home: React.FC = () => {
+
+  const { initialState } = useModel('@@initialState');
+
+  const { userManager } = initialState;
+
 
   return (
     <div className={styles.container}>
@@ -20,7 +26,7 @@ const Home: React.FC = () => {
           </div>
           <div className={styles.homeContent}>
             <Button type="primary" onClick={() => {
-              window.location.href = 'http://localhost:9000/login';
+              userManager.signinRedirect();
             }}>
               登陆
             </Button>
