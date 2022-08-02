@@ -13,15 +13,19 @@ import {stringify} from "querystring";
 import {Modal, notification} from "antd";
 import {getToken} from "@/utils/common";
 import type {RequestConfig} from "@@/plugin-request/request";
-import {User, UserManager} from "oidc-client-ts";
+import type {User} from "oidc-client-ts";
+import { UserManager } from "oidc-client-ts";
 import OidcConfig from "../config/oidcConfig";
-
+import { useAuth } from "react-oidc-context";
 
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/';
 
 const userManager = new UserManager(OidcConfig);
+
+console.log('userManager:', userManager)
+
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state

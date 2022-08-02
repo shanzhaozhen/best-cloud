@@ -81,9 +81,9 @@ public class AuthorizationServerConfig {
                 .cors(Customizer.withDefaults())
                 // 忽略掉相关端点的csrf
                 .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
-                .exceptionHandling(exceptions ->
-                        exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
-                )
+//                .exceptionHandling(exceptions ->
+//                        exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
+//                )
                 // 应用 授权服务器的配置
                 .apply(authorizationServerConfigurer)
         ;

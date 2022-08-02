@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -38,6 +39,10 @@ public class WebSecurityConfig {
 			)
 				.csrf().disable()
 				.formLogin().disable()
+				.exceptionHandling((exceptions) -> exceptions
+						.authenticationEntryPoint(
+								new LoginUrlAuthenticationEntryPoint("/login"))
+				)
 				.apply(new AccountLoginConfigurer<>(http, userDetailsService))
 //				.successHandler(defaultAuthenticationSuccessHandler)
 				.failureHandler(defaultAuthenticationFailureHandler)

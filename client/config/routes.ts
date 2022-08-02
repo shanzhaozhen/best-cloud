@@ -10,6 +10,11 @@ export default [
     component: './Common/Login',
   },
   {
+    path: '/oidc',
+    layout: false,
+    component: './Oidc',
+  },
+  {
     path: '/welcome',
     name: 'welcome',
     icon: 'smile',

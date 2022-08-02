@@ -34,3 +34,9 @@ jwt:
   alias: best-cloud
   password: 123456
 
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.springframework.security.oauth2: INFO
