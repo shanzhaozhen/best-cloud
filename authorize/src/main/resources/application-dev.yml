@@ -37,6 +37,8 @@ jwt:
 logging:
   level:
     root: INFO
-    org.springframework.web: INFO
-    org.springframework.security: INFO
-    org.springframework.security.oauth2: INFO
+    org.springframework.web: trace
+    org.springframework.security: trace
+    org.springframework.security.oauth2: trace
+    org.springframework.security.web.access.expression: INFO
+    org.shanzhaozhen: DEBUG

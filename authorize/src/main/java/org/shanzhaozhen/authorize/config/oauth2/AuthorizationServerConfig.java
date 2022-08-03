@@ -81,9 +81,9 @@ public class AuthorizationServerConfig {
                 .cors(Customizer.withDefaults())
                 // 忽略掉相关端点的csrf
                 .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
-//                .exceptionHandling(exceptions ->
-//                        exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
-//                )
+                .exceptionHandling(exceptions ->
+                        exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
+                )
                 // 应用 授权服务器的配置
                 .apply(authorizationServerConfigurer)
         ;
@@ -103,6 +103,7 @@ public class AuthorizationServerConfig {
                 .clientId("auth")
                 // 客户端密码
                 .clientSecret("123456")
+                .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
                 // 可以基于 basic 的方式和授权服务器进行认证
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 // 授权码
@@ -130,7 +131,8 @@ public class AuthorizationServerConfig {
                         // 是否需要用户确认一下客户端需要获取用户的哪些权限
                         // 比如：客户端需要获取用户的 用户信息、用户照片 但是此处用户可以控制只给客户端授权获取 用户信息。
                         // 配置客户端相关的配置项，包括验证密钥或者 是否需要授权页面
-                        .requireAuthorizationConsent(true).build())
+                        // .requireProofKey(true) 及 clientAuthenticationMethod(ClientAuthenticationMethod.NONE) 才可以使用 PKCE
+                        .requireAuthorizationConsent(true).requireProofKey(true).build())
                 .tokenSettings(TokenSettings.builder()
                         // accessToken 的有效期
                         .accessTokenTimeToLive(Duration.ofHours(1))

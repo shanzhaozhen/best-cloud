@@ -28,6 +28,8 @@ public class AccountAuthenticationFilter extends AbstractAuthenticationProcessin
 
     private String passwordParameter = SPRING_SECURITY_FORM_PASSWORD_KEY;
 
+    private boolean postOnly = true;
+
     public AccountAuthenticationFilter() {
         super(DEFAULT_ANT_PATH_REQUEST_MATCHER);
     }
@@ -39,7 +41,7 @@ public class AccountAuthenticationFilter extends AbstractAuthenticationProcessin
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
-        if (!request.getMethod().equals("POST")) {
+        if (this.postOnly && !request.getMethod().equals("POST")) {
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         }
         String username = obtainUsername(request);
@@ -82,6 +84,10 @@ public class AccountAuthenticationFilter extends AbstractAuthenticationProcessin
     public void setPasswordParameter(String passwordParameter) {
         Assert.hasText(passwordParameter, "Password parameter must not be empty or null");
         this.passwordParameter = passwordParameter;
+    }
+
+    public void setPostOnly(boolean postOnly) {
+        this.postOnly = postOnly;
     }
 
     public final String getUsernameParameter() {

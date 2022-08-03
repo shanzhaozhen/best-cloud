@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer;
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.PortMapper;
 import org.springframework.security.web.authentication.*;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.savedrequest.RequestCache;
@@ -26,24 +27,51 @@ public abstract class AbstractLoginFilterConfigurer<B extends HttpSecurityBuilde
 
     private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource;
 
-    private final SavedRequestAwareAuthenticationSuccessHandler defaultSuccessHandler = new SavedRequestAwareAuthenticationSuccessHandler();
+    private SavedRequestAwareAuthenticationSuccessHandler defaultSuccessHandler = new SavedRequestAwareAuthenticationSuccessHandler();
 
     private AuthenticationSuccessHandler successHandler = this.defaultSuccessHandler;
 
-    private AuthenticationFailureHandler failureHandler;
+    private LoginUrlAuthenticationEntryPoint authenticationEntryPoint;
 
-    public static final String DEFAULT_LOGIN_PROCESSING_URL = "/login";
+    private boolean customLoginPage;
+
+    public static final String DEFAULT_LOGIN_PAGE = "/login";
+
+    private String loginPage;
 
     private String loginProcessingUrl;
 
+    private AuthenticationFailureHandler failureHandler;
 
     private boolean permitAll;
 
+    private String failureUrl;
+
+
+    protected AbstractLoginFilterConfigurer() {
+        setLoginPage(DEFAULT_LOGIN_PAGE);
+    }
+
+
     protected AbstractLoginFilterConfigurer(F authenticationFilter, String defaultLoginProcessingUrl) {
+        this();
         this.authFilter = authenticationFilter;
         if (defaultLoginProcessingUrl != null) {
             loginProcessingUrl(defaultLoginProcessingUrl);
         }
+    }
+
+    public final T defaultSuccessUrl(String defaultSuccessUrl) {
+        return defaultSuccessUrl(defaultSuccessUrl, false);
+    }
+
+
+    public final T defaultSuccessUrl(String defaultSuccessUrl, boolean alwaysUse) {
+        SavedRequestAwareAuthenticationSuccessHandler handler = new SavedRequestAwareAuthenticationSuccessHandler();
+        handler.setDefaultTargetUrl(defaultSuccessUrl);
+        handler.setAlwaysUseDefaultTargetUrl(alwaysUse);
+        this.defaultSuccessHandler = handler;
+        return successHandler(handler);
     }
 
     /**
@@ -53,9 +81,7 @@ public abstract class AbstractLoginFilterConfigurer<B extends HttpSecurityBuilde
      */
     public T loginProcessingUrl(String loginProcessingUrl) {
         this.loginProcessingUrl = loginProcessingUrl;
-        if (authFilter != null) {
-            this.authFilter.setRequiresAuthenticationRequestMatcher(createLoginProcessingUrlMatcher(loginProcessingUrl));
-        }
+        this.authFilter.setRequiresAuthenticationRequestMatcher(createLoginProcessingUrlMatcher(loginProcessingUrl));
         return getSelf();
     }
 
@@ -108,11 +134,23 @@ public abstract class AbstractLoginFilterConfigurer<B extends HttpSecurityBuilde
     }
 
     /**
-     * 设置认证成功钩子
+     * 设置认证失败跳转地址
+     * @param authenticationFailureUrl
+     * @return
+     */
+    public final T failureUrl(String authenticationFailureUrl) {
+        T result = failureHandler(new SimpleUrlAuthenticationFailureHandler(authenticationFailureUrl));
+        this.failureUrl = authenticationFailureUrl;
+        return result;
+    }
+
+    /**
+     * 设置认证失败钩子
      * @param authenticationFailureHandler
      * @return
      */
     public final T failureHandler(AuthenticationFailureHandler authenticationFailureHandler) {
+        this.failureUrl = null;
         this.failureHandler = authenticationFailureHandler;
         return getSelf();
     }
@@ -126,6 +164,12 @@ public abstract class AbstractLoginFilterConfigurer<B extends HttpSecurityBuilde
     public void init(B http) throws Exception {
         updateAuthenticationDefaults();
         updateAccessDefaults(http);
+        registerDefaultAuthenticationEntryPoint(http);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected final void registerDefaultAuthenticationEntryPoint(B http) {
+        registerAuthenticationEntryPoint(http, this.authenticationEntryPoint);
     }
 
     @SuppressWarnings("unchecked")
@@ -154,6 +198,10 @@ public abstract class AbstractLoginFilterConfigurer<B extends HttpSecurityBuilde
 
     @Override
     public void configure(B http) throws Exception {
+        PortMapper portMapper = http.getSharedObject(PortMapper.class);
+        if (portMapper != null) {
+            this.authenticationEntryPoint.setPortMapper(portMapper);
+        }
         RequestCache requestCache = http.getSharedObject(RequestCache.class);
         if (requestCache != null) {
             this.defaultSuccessHandler.setRequestCache(requestCache);
@@ -169,39 +217,48 @@ public abstract class AbstractLoginFilterConfigurer<B extends HttpSecurityBuilde
         if (sessionAuthenticationStrategy != null) {
             this.authFilter.setSessionAuthenticationStrategy(sessionAuthenticationStrategy);
         }
-//        RememberMeServices rememberMeServices = http.getSharedObject(RememberMeServices.class);
-//        if (rememberMeServices != null) {
-//            this.authFilter.setRememberMeServices(rememberMeServices);
-//        }
+        RememberMeServices rememberMeServices = http.getSharedObject(RememberMeServices.class);
+        if (rememberMeServices != null) {
+            this.authFilter.setRememberMeServices(rememberMeServices);
+        }
         F filter = postProcess(this.authFilter);
-//        http.addFilter(filter);
         // 登陆跟 UsernamePasswordAuthenticationFilter 同级即可
         http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
     }
 
-    /**
-     * Gets the Authentication Filter
-     * @return the Authentication Filter
-     */
+    protected T loginPage(String loginPage) {
+        setLoginPage(loginPage);
+        updateAuthenticationDefaults();
+        this.customLoginPage = true;
+        return getSelf();
+    }
+
+    public final boolean isCustomLoginPage() {
+        return this.customLoginPage;
+    }
+
     protected final F getAuthenticationFilter() {
         return this.authFilter;
     }
 
-    /**
-     * Sets the Authentication Filter
-     * @param authFilter the Authentication Filter
-     */
     protected final void setAuthenticationFilter(F authFilter) {
         this.authFilter = authFilter;
     }
 
-    /**
-     * Gets the URL to submit an authentication request to (i.e. where username/password
-     * must be submitted)
-     * @return the URL to submit an authentication request to
-     */
+    protected final String getLoginPage() {
+        return this.loginPage;
+    }
+
+    protected final AuthenticationEntryPoint getAuthenticationEntryPoint() {
+        return this.authenticationEntryPoint;
+    }
+
     protected final String getLoginProcessingUrl() {
         return this.loginProcessingUrl;
+    }
+
+    protected final String getFailureUrl() {
+        return this.failureUrl;
     }
 
     /**
@@ -210,10 +267,10 @@ public abstract class AbstractLoginFilterConfigurer<B extends HttpSecurityBuilde
      */
     protected final void updateAuthenticationDefaults() {
         if (this.loginProcessingUrl == null) {
-            loginProcessingUrl(DEFAULT_LOGIN_PROCESSING_URL);
+            loginProcessingUrl(this.loginPage);
         }
         if (this.failureHandler == null) {
-            failureHandler(new ForwardAuthenticationFailureHandler("/login/error"));
+            failureUrl(this.loginPage + "?error");
         }
 //        LogoutConfigurer<B> logoutConfigurer = getBuilder().getConfigurer(LogoutConfigurer.class);
 //        if (logoutConfigurer != null && !logoutConfigurer.isCustomLogoutSuccess()) {
@@ -226,8 +283,13 @@ public abstract class AbstractLoginFilterConfigurer<B extends HttpSecurityBuilde
      */
     protected final void updateAccessDefaults(B http) {
         if (this.permitAll) {
-            PermitAllSupport.permitAll(http, this.loginProcessingUrl);
+            PermitAllSupport.permitAll(http, this.loginPage, this.loginProcessingUrl, this.failureUrl);
         }
+    }
+
+    private void setLoginPage(String loginPage) {
+        this.loginPage = loginPage;
+        this.authenticationEntryPoint = new LoginUrlAuthenticationEntryPoint(loginPage);
     }
 
     @SuppressWarnings("unchecked")

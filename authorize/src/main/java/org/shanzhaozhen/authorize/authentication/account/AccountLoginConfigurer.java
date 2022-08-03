@@ -1,27 +1,56 @@
 package org.shanzhaozhen.authorize.authentication.account;
 
 import org.shanzhaozhen.authorize.authentication.AbstractLoginFilterConfigurer;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.ForwardAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.ForwardAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+
+import static org.shanzhaozhen.authorize.authentication.account.AccountAuthenticationFilter.DEFAULT_FILTER_PROCESSES_URI;
 
 public class AccountLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
         AbstractLoginFilterConfigurer<H, AccountLoginConfigurer<H>, AccountAuthenticationFilter> {
 
     public AccountLoginConfigurer() {
-        super(new AccountAuthenticationFilter(), AccountAuthenticationFilter.DEFAULT_FILTER_PROCESSES_URI);
+        super(new AccountAuthenticationFilter(), DEFAULT_FILTER_PROCESSES_URI);
+        usernameParameter("username");
+        passwordParameter("password");
     }
 
-    public AccountLoginConfigurer(HttpSecurity http, UserDetailsService userDetailsService) {
-        this();
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService);
-        http.authenticationProvider(authenticationProvider);
+//    public AccountLoginConfigurer(HttpSecurity http, UserDetailsService userDetailsService) {
+//        this();
+//        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+//        authenticationProvider.setUserDetailsService(userDetailsService);
+//        http.authenticationProvider(authenticationProvider);
+//    }
+
+    @Override
+    public AccountLoginConfigurer<H> loginPage(String loginPage) {
+        return super.loginPage(loginPage);
     }
+
+    public AccountLoginConfigurer<H> usernameParameter(String usernameParameter) {
+        getAuthenticationFilter().setUsernameParameter(usernameParameter);
+        return this;
+    }
+
+    public AccountLoginConfigurer<H> passwordParameter(String passwordParameter) {
+        getAuthenticationFilter().setPasswordParameter(passwordParameter);
+        return this;
+    }
+
+    public AccountLoginConfigurer<H> failureForwardUrl(String forwardUrl) {
+        failureHandler(new ForwardAuthenticationFailureHandler(forwardUrl));
+        return this;
+    }
+
+    public AccountLoginConfigurer<H> successForwardUrl(String forwardUrl) {
+        successHandler(new ForwardAuthenticationSuccessHandler(forwardUrl));
+        return this;
+    }
+
 
     /**
      * 初始化账号登陆校验方式的配置
@@ -35,7 +64,7 @@ public class AccountLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
     }
 
     /**
-     * 设置手机登陆的验证地址
+     * 设置账号登陆的验证地址
      * @param loginProcessingUrl creates the {@link RequestMatcher} based upon the
      * loginProcessingUrl
      * @return
@@ -45,6 +74,15 @@ public class AccountLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
         return new AntPathRequestMatcher(loginProcessingUrl, "POST");
     }
 
+    private String getUsernameParameter() {
+        return getAuthenticationFilter().getUsernameParameter();
+    }
+
+    private String getPasswordParameter() {
+        return getAuthenticationFilter().getPasswordParameter();
+    }
+
+
     /**
      * 设置默认配置
      * @param http
@@ -52,8 +90,12 @@ public class AccountLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
     private void initDefaultLoginFilter(H http) {
         DefaultLoginPageGeneratingFilter loginPageGeneratingFilter = http
                 .getSharedObject(DefaultLoginPageGeneratingFilter.class);
-        if (loginPageGeneratingFilter != null) {
-            loginPageGeneratingFilter.setFormLoginEnabled(false);
+        if (loginPageGeneratingFilter != null && !isCustomLoginPage()) {
+            loginPageGeneratingFilter.setFormLoginEnabled(true);
+            loginPageGeneratingFilter.setUsernameParameter(getUsernameParameter());
+            loginPageGeneratingFilter.setPasswordParameter(getPasswordParameter());
+//            loginPageGeneratingFilter.setLoginPageUrl(getLoginPage());
+            loginPageGeneratingFilter.setFailureUrl(getFailureUrl());
             loginPageGeneratingFilter.setAuthenticationUrl(getLoginProcessingUrl());
         }
     }
