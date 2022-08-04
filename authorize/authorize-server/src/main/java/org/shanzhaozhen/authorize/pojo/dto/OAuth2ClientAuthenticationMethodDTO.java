@@ -1,6 +1,5 @@
-package org.shanzhaozhen.authorize.pojo.entity;
+package org.shanzhaozhen.authorize.pojo.dto;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,11 +10,13 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("oauth2_client_auth_method")
-@Schema(description = "oauth2客户端信息DO实体")
-public class OAuth2ClientAuthMethodDO implements Serializable {
+@Schema(description = "oauth2客户端认证方式DTO实体")
+public class OAuth2ClientAuthenticationMethodDTO implements Serializable {
 
-    private static final long serialVersionUID = -1096564364823745973L;
+    private static final long serialVersionUID = 7862959602507032396L;
+
+    @Schema(description = "主键ID")
+    private String id;
 
     @Schema(description = "oauth2客户端id")
     private String clientId;

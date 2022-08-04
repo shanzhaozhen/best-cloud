@@ -121,7 +121,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public void batchAddRoleMenu(String roleId, List<String> menuIds) {
         for (String menuId : menuIds) {
-            RoleMenuDO RoleMenuDO = new RoleMenuDO(null, roleId, menuId);
+            RoleMenuDO RoleMenuDO = new RoleMenuDO(null, roleId, menuId, null);
             roleMenuMapper.insert(RoleMenuDO);
         }
     }
@@ -130,7 +130,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public void batchAddRolePermission(String roleId, List<String> permissionIds) {
         for (String permissionId : permissionIds) {
-            RolePermissionDO rolePermissionDO = new RolePermissionDO(null, roleId, permissionId);
+            RolePermissionDO rolePermissionDO = new RolePermissionDO(null, roleId, permissionId, null);
             rolePermissionMapper.insert(rolePermissionDO);
         }
     }

@@ -27,7 +27,7 @@ public class DepartmentUserServiceImpl implements DepartmentUserService {
         if (departmentUserDO != null) {
             departmentUserMapper.deleteById(departmentUserDO.getId());
         }
-        departmentUserDO = new DepartmentUserDO(null, departmentId, userId);
+        departmentUserDO = new DepartmentUserDO(null, departmentId, userId, null);
         this.departmentUserMapper.insert(departmentUserDO);
         return departmentUserDO.getId();
     }

@@ -14,11 +14,11 @@ import org.shanzhaozhen.common.core.entity.BaseInfo;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("oauth2_redirect_uri")
-@Schema(description = "oauth2允许重定向的 uri DO实体")
-public class OAuth2RedirectUriDO extends BaseInfo {
+@TableName("oauth2_authorization_grant_type")
+@Schema(description = "oauth2客户端授权方式DO实体")
+public class OAuth2AuthorizationGrantTypeDO extends BaseInfo {
 
-    private static final long serialVersionUID = 4512441721005677882L;
+    private static final long serialVersionUID = -8892019207322733934L;
 
     @Schema(description = "主键ID")
     @TableId(type = IdType.ASSIGN_ID)
@@ -27,8 +27,8 @@ public class OAuth2RedirectUriDO extends BaseInfo {
     @Schema(description = "oauth2客户端id")
     private String clientId;
 
-    @Schema(description = "客户端允许重定向的uri")
-    private String redirectUri;
+    @Schema(description = "客户端授权方式")
+    private String grantTypeName;
 
     @Schema(description = "版本号")
     @Version

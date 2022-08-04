@@ -1,12 +1,14 @@
 package org.shanzhaozhen.authorize.pojo.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.shanzhaozhen.common.core.entity.BaseInfo;
 
-import java.io.Serializable;
 import java.time.Instant;
 
 @Data
@@ -14,11 +16,12 @@ import java.time.Instant;
 @AllArgsConstructor
 @TableName("oauth2_authorization")
 @Schema(description = "oauth2客户端信息DO实体")
-public class Oauth2AuthorizationDO implements Serializable {
+public class Oauth2AuthorizationDO extends BaseInfo {
 
     private static final long serialVersionUID = -6398242906473807795L;
 
-    @Schema(description = "id")
+    @Schema(description = "主键ID")
+    @TableId(type = IdType.ASSIGN_ID)
     private String id;
     
     @Schema(description = "oauth2客户端id")

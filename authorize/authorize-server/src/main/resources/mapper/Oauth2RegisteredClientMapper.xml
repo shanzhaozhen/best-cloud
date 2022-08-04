@@ -2,4 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.shanzhaozhen.authorize.mapper.Oauth2RegisteredClientMapper">
 
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.authorize.pojo.dto.Oauth2RegisteredClientDTO">
+        <id column="id" property="id" />
+        <result column="client_id" property="clientId" />
+        <result column="client_id_issued_at" property="clientIdIssuedAt" />
+        <result column="client_secret" property="clientSecret" />
+        <result column="client_secret_expires_at" property="clientSecretExpiresAt" />
+        <result column="client_name" property="clientName" />
+        <result column="client_authentication_methods" property="clientAuthenticationMethods" />
+        <result column="authorization_grant_types" property="authorizationGrantTypes" />
+        <result column="redirect_uris" property="redirectUris" />
+        <result column="scopes" property="scopes" />
+        <result column="client_settings" property="clientSettings" />
+        <result column="token_settings" property="tokenSettings" />
+    </resultMap>
+
+    <select id="getOauth2RegisteredClientPage" resultMap="BaseResultMap">
+        select id, client_id, client_id_issued_at, client_secret, client_secret_expires_at, client_name
+        from oauth2_registered_client
+        <if test="keyword != null and keyword != ''">
+            where client_id like concat ('%', #{keyword}, '%') or client_name like concat ('%', #{keyword}, '%')
+        </if>
+    </select>
+
+    <select id="getOauth2RegisteredClientById" resultType="org.shanzhaozhen.authorize.pojo.dto.Oauth2RegisteredClientDTO">
+        select id, client_id, client_id_issued_at, client_secret, client_secret_expires_at, client_name
+        from oauth2_registered_client
+        where id = #{id}
+    </select>
+
+    <select id="getOauth2RegisteredClientByClientId" resultType="org.shanzhaozhen.authorize.pojo.dto.Oauth2RegisteredClientDTO">
+        select id, client_id, client_id_issued_at, client_secret, client_secret_expires_at, client_name
+        from oauth2_registered_client
+        where client_id = #{clientId}
+    </select>
+
 </mapper>

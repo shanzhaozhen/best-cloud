@@ -1,6 +1,6 @@
 package org.shanzhaozhen.authorize.service.impl;
 
-import org.shanzhaozhen.authorize.service.Oauth2ClientAuthMethodService;
+import org.shanzhaozhen.authorize.service.OAuth2ClientAuthenticationMethodService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,6 +9,6 @@ import org.springframework.stereotype.Service;
  * @Description: oauth2客户端认证方式表 服务实现类
  */
 @Service
-public class Oauth2ClientAuthMethodServiceImpl implements Oauth2ClientAuthMethodService {
+public class OAuth2ClientAuthenticationMethodServiceImpl implements OAuth2ClientAuthenticationMethodService {
 
 }

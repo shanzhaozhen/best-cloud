@@ -1,6 +1,6 @@
 package org.shanzhaozhen.authorize.service.impl;
 
-import org.shanzhaozhen.authorize.service.Oauth2GrantTypeService;
+import org.shanzhaozhen.authorize.service.OAuth2AuthorizationGrantTypeService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,6 +9,6 @@ import org.springframework.stereotype.Service;
  * @Description: oauth2客户端授权方式表 服务实现类
  */
 @Service
-public class Oauth2GrantTypeServiceImpl implements Oauth2GrantTypeService {
+public class OAuth2AuthorizationGrantTypeServiceImpl implements OAuth2AuthorizationGrantTypeService {
 
 }
