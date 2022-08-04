@@ -3,6 +3,7 @@ package org.shanzhaozhen.uaa.pojo.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.Version;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,5 +40,9 @@ public class UserDO extends BaseInfo {
 
     @Schema(description = "是否被禁用,禁用的用户不能身份验证")
     private boolean enabled = true;
+
+    @Schema(description = "版本号")
+    @Version
+    private Integer version;
 
 }

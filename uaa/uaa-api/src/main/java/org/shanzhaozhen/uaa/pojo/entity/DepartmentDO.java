@@ -3,6 +3,7 @@ package org.shanzhaozhen.uaa.pojo.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.Version;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,5 +37,9 @@ public class DepartmentDO extends BaseInfo {
 
     @Schema(description = "部门描述")
     private String description;
+
+    @Schema(description = "版本号")
+    @Version
+    private Integer version;
 
 }

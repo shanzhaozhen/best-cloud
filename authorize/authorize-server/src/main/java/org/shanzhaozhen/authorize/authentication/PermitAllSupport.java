@@ -7,12 +7,6 @@ import org.springframework.util.Assert;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * Configures non-null URL's to grant access to every URL
- *
- * @author Rob Winch
- * @since 3.2
- */
 final class PermitAllSupport {
 
 	private PermitAllSupport() {

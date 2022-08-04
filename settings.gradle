@@ -9,8 +9,9 @@ include 'common:common-redis'
 include 'common:common-minio'
 
 include 'gateway'
-include 'authorize'
-include 'authorize-web'
+
+include 'authorize:authorize-server'
+include 'authorize:authorize-web'
 
 include 'uaa:uaa-api'
 include 'uaa:uaa-biz'

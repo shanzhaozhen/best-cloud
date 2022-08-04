@@ -11,7 +11,6 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
  */
 public class CustomOAuth2RegisteredClientServiceImpl implements CustomOAuth2RegisteredClientService {
 
-
     @Override
     public Page<RegisteredClient> page(Page<RegisteredClient> page, Long registeredClientId, String keyword) {
         return null;

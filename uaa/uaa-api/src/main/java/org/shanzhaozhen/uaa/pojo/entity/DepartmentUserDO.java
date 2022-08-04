@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
+
+import com.baomidou.mybatisplus.annotation.Version;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,5 +30,9 @@ public class DepartmentUserDO extends BaseInfo {
 
     @Schema(description = "用户ID")
     private String userId;
+
+    @Schema(description = "版本号")
+    @Version
+    private Integer version;
 
 }

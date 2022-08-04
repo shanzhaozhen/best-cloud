@@ -17,7 +17,7 @@ task npmBuild(type: NpmTask, dependsOn: npmInstall) {
 task cleanBuild(type: Delete) {
   delete "build"
   delete "dist"
-  delete "../authorize/src/main/resources/static/front"
+  delete "../authorize-server/src/main/resources/static/front"
 }
 npmBuild.dependsOn(cleanBuild)
 
@@ -35,7 +35,7 @@ task buildWeb(type: Copy) {
       println(getPath())
     }
   }
-  into "../authorize/src/main/resources/static/front"
+  into "../authorize-server/src/main/resources/static/front"
 }
 buildWeb.dependsOn(npmBuild)
 
