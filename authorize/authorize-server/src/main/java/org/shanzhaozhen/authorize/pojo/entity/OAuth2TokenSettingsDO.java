@@ -8,9 +8,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.shanzhaozhen.common.core.entity.BaseInfo;
+import org.shanzhaozhen.common.core.entity.BaseEntity;
 
-import java.io.Serializable;
 import java.time.Duration;
 
 @Data
@@ -18,7 +17,7 @@ import java.time.Duration;
 @AllArgsConstructor
 @TableName("oauth2_token_settings")
 @Schema(description = "oauth2 token 配置 DO实体")
-public class OAuth2TokenSettingsDO extends BaseInfo {
+public class OAuth2TokenSettingsDO extends BaseEntity {
 
     private static final long serialVersionUID = 104913821115105292L;
 

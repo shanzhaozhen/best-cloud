@@ -1,8 +1,10 @@
 package org.shanzhaozhen.authorize.service;
 
 import org.shanzhaozhen.authorize.pojo.dto.OAuth2RedirectUriDTO;
+import org.shanzhaozhen.authorize.pojo.dto.OAuth2RedirectUriDTO;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -12,8 +14,14 @@ import java.util.List;
  * @author shanzhaozhen
  * @since 2022-06-17
  */
-public interface Oauth2RedirectUriService {
+public interface OAuth2RedirectUriService {
 
-    List<OAuth2RedirectUriDTO> getOauth2RedirectUriByClientId(String clientId);
+    List<OAuth2RedirectUriDTO> getOAuth2RedirectUrisByClientId(String clientId);
+
+    void addOAuth2RedirectUris(String clientId, Set<OAuth2RedirectUriDTO> redirectUris);
+
+    void updateOAuth2RedirectUris(String clientId, Set<OAuth2RedirectUriDTO> redirectUris);
+
+    void deleteOAuth2RedirectUrisByClientId(String clientId);
 
 }

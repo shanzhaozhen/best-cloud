@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.shanzhaozhen.common.core.entity.BaseInfo;
+import org.shanzhaozhen.common.core.entity.BaseEntity;
 
 import java.time.Instant;
 
@@ -17,7 +17,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @TableName("oauth2_registered_client")
 @Schema(description = "oauth2客户端信息DO实体")
-public class Oauth2RegisteredClientDO extends BaseInfo {
+public class OAuth2RegisteredClientDO extends BaseEntity {
 
     private static final long serialVersionUID = -2932966358263161109L;
 

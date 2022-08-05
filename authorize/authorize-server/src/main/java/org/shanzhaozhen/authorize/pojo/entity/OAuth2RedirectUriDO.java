@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.shanzhaozhen.common.core.entity.BaseInfo;
+import org.shanzhaozhen.common.core.entity.BaseEntity;
 
 
 @Data
@@ -16,7 +16,7 @@ import org.shanzhaozhen.common.core.entity.BaseInfo;
 @AllArgsConstructor
 @TableName("oauth2_redirect_uri")
 @Schema(description = "oauth2允许重定向的 uri DO实体")
-public class OAuth2RedirectUriDO extends BaseInfo {
+public class OAuth2RedirectUriDO extends BaseEntity {
 
     private static final long serialVersionUID = 4512441721005677882L;
 

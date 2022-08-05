@@ -1,8 +1,10 @@
 package org.shanzhaozhen.authorize.service;
 
 import org.shanzhaozhen.authorize.pojo.dto.OAuth2ScopeDTO;
+import org.shanzhaozhen.authorize.pojo.dto.OAuth2ScopeDTO;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -12,8 +14,14 @@ import java.util.List;
  * @author shanzhaozhen
  * @since 2022-06-17
  */
-public interface Oauth2ScopeService {
+public interface OAuth2ScopeService {
 
-    List<OAuth2ScopeDTO> getOauth2ScopeByClientId(String clientId);
+    List<OAuth2ScopeDTO> getOAuth2ScopesByClientId(String clientId);
+
+    void addOAuth2Scopes(String clientId, Set<OAuth2ScopeDTO> scopes);
+
+    void updateOAuth2Scopes(String clientId, Set<OAuth2ScopeDTO> scopes);
+
+    void deleteOAuth2ScopesByClientId(String clientId);
 
 }

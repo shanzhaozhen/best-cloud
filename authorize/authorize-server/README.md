@@ -2,7 +2,7 @@
 
 ### 授权服务器
 
-### Oauth2流程
+### OAuth2流程
 
 流程可以参考该博客：https://www.cnblogs.com/huan1993/p/15416077.html
 

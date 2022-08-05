@@ -8,6 +8,6 @@ package org.shanzhaozhen.authorize.service;
  * @author shanzhaozhen
  * @since 2022-06-17
  */
-public interface Oauth2RegisteredClientService {
+public interface OAuth2RegisteredClientService {
 
 }

@@ -3,12 +3,11 @@ package org.shanzhaozhen.uaa.pojo.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.Version;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.shanzhaozhen.common.core.entity.BaseInfo;
+import org.shanzhaozhen.common.core.entity.BaseEntity;
 
 
 @Data
@@ -16,7 +15,7 @@ import org.shanzhaozhen.common.core.entity.BaseInfo;
 @AllArgsConstructor
 @TableName("sys_role")
 @Schema(description = "角色DO实体")
-public class RoleDO extends BaseInfo {
+public class RoleDO extends BaseEntity {
 
     private static final long serialVersionUID = 6203528166202612882L;
 
@@ -32,9 +31,5 @@ public class RoleDO extends BaseInfo {
 
     @Schema(description = "描述")
     private String description;
-
-    @Schema(description = "版本号")
-    @Version
-    private Integer version;
-
+    
 }

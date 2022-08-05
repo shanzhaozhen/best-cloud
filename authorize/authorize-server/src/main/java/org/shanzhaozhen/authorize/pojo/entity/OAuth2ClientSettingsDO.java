@@ -8,15 +8,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.shanzhaozhen.common.core.entity.BaseEntity;
 
-import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("oauth2_client_settings")
 @Schema(description = "oauth2客户端配置DO实体")
-public class OAuth2ClientSettingsDO implements Serializable {
+public class OAuth2ClientSettingsDO extends BaseEntity {
 
     private static final long serialVersionUID = 1339017694529471908L;
 

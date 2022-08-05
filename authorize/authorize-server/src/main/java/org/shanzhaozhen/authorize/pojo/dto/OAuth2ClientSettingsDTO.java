@@ -2,16 +2,18 @@ package org.shanzhaozhen.authorize.pojo.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.shanzhaozhen.common.core.entity.BaseInfo;
 
-import java.io.Serializable;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "oauth2客户端配置DTO实体")
-public class OAuth2ClientSettingsDTO implements Serializable {
+public class OAuth2ClientSettingsDTO extends BaseInfo {
 
     private static final long serialVersionUID = 1339017694529471908L;
 
@@ -22,10 +24,10 @@ public class OAuth2ClientSettingsDTO implements Serializable {
     private String clientId;
 
     @Schema(description = "客户端是否需要证明密钥")
-    private Boolean requireProofKey;
+    private boolean requireProofKey;
 
     @Schema(description = "客户端是否需要授权确认页面")
-    private Boolean requireAuthorizationConsent;
+    private boolean requireAuthorizationConsent;
 
     @Schema(description = "jwkSet url")
     private String jwkSetUrl;

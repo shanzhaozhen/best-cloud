@@ -27,7 +27,7 @@ public class UserRoleServiceImpl implements UserRoleService {
         // 先检查是否存在
         UserRoleDO userRoleDO = this.userRoleMapper.getUserRoleByUserIdAndRoleId(userId, roleId);
         if (null == userRoleDO) {
-            userRoleDO = new UserRoleDO(null, userId, roleId, null);
+            userRoleDO = new UserRoleDO(null, userId, roleId);
             this.userRoleMapper.insert(userRoleDO);
         }
         return userRoleDO.getId();

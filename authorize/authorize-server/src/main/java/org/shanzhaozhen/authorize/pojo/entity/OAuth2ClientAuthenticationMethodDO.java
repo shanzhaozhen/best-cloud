@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.shanzhaozhen.common.core.entity.BaseInfo;
+import org.shanzhaozhen.common.core.entity.BaseEntity;
 
 
 @Data
@@ -16,7 +16,7 @@ import org.shanzhaozhen.common.core.entity.BaseInfo;
 @AllArgsConstructor
 @TableName("oauth2_client_authentication_method")
 @Schema(description = "oauth2客户端认证方式DO实体")
-public class OAuth2ClientAuthenticationMethodDO extends BaseInfo {
+public class OAuth2ClientAuthenticationMethodDO extends BaseEntity {
 
     private static final long serialVersionUID = -1096564364823745973L;
 

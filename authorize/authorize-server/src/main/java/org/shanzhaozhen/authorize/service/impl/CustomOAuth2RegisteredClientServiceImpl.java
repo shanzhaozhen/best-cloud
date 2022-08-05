@@ -4,15 +4,14 @@ import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.authorize.converter.OAuth2RegisteredClientConverter;
-import org.shanzhaozhen.authorize.mapper.Oauth2RegisteredClientMapper;
+import org.shanzhaozhen.authorize.mapper.OAuth2RegisteredClientMapper;
 import org.shanzhaozhen.authorize.pojo.dto.*;
-import org.shanzhaozhen.authorize.pojo.entity.Oauth2RegisteredClientDO;
+import org.shanzhaozhen.authorize.pojo.entity.OAuth2RegisteredClientDO;
 import org.shanzhaozhen.authorize.service.*;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @Author: shanzhaozhen
@@ -22,50 +21,58 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CustomOAuth2RegisteredClientServiceImpl implements CustomOAuth2RegisteredClientService {
 
-    private final Oauth2RegisteredClientMapper oauth2RegisteredClientMapper;
+    private final OAuth2RegisteredClientMapper oAuth2RegisteredClientMapper;
     private final OAuth2ClientAuthenticationMethodService oAuth2ClientAuthenticationMethodService;
     private final OAuth2AuthorizationGrantTypeService oAuth2AuthorizationGrantTypeService;
-    private final Oauth2RedirectUriService oauth2RedirectUriService;
-    private final Oauth2ScopeService oauth2ScopeService;
-    private final Oauth2ClientSettingsService oauth2ClientSettingsService;
-    private final Oauth2TokenSettingsService oauth2TokenSettingsService;
+    private final OAuth2RedirectUriService oAuth2RedirectUriService;
+    private final OAuth2ScopeService oAuth2ScopeService;
+    private final OAuth2ClientSettingsService oAuth2ClientSettingsService;
+    private final OAuth2TokenSettingsService oAuth2TokenSettingsService;
 
 
     @Override
-    public Page<Oauth2RegisteredClientDTO> getOauth2RegisteredClientPage(Page<Oauth2RegisteredClientDTO> page, String keyword) {
-        return oauth2RegisteredClientMapper.getOauth2RegisteredClientPage(page, keyword);
+    public Page<OAuth2RegisteredClientDTO> getOAuth2RegisteredClientPage(Page<OAuth2RegisteredClientDTO> page, String keyword) {
+        return oAuth2RegisteredClientMapper.getOAuth2RegisteredClientPage(page, keyword);
     }
 
     @Override
-    public Oauth2RegisteredClientDTO getOauth2RegisteredClientById(String id) {
-        return oauth2RegisteredClientMapper.getOauth2RegisteredClientById(id);
+    public OAuth2RegisteredClientDTO getOAuth2RegisteredClientById(String id) {
+        OAuth2RegisteredClientDTO oAuth2RegisteredClient = oAuth2RegisteredClientMapper.getOAuth2RegisteredClientById(id);
+        if (oAuth2RegisteredClient != null) {
+            this.assembleOAuth2RegisteredClient(oAuth2RegisteredClient);
+        }
+        return oAuth2RegisteredClient;
     }
 
     @Override
-    public Oauth2RegisteredClientDTO getOauth2RegisteredClientByClientId(String clientId) {
-        return oauth2RegisteredClientMapper.getOauth2RegisteredClientByClientId(clientId);
+    public OAuth2RegisteredClientDTO getOAuth2RegisteredClientByClientId(String clientId) {
+        OAuth2RegisteredClientDTO oAuth2RegisteredClient = oAuth2RegisteredClientMapper.getOAuth2RegisteredClientByClientId(clientId);
+        if (oAuth2RegisteredClient != null) {
+            this.assembleOAuth2RegisteredClient(oAuth2RegisteredClient);
+        }
+        return oAuth2RegisteredClient;
     }
 
     @Override
-    public Oauth2RegisteredClientDTO assembleOauth2RegisteredClient(Oauth2RegisteredClientDTO oauth2RegisteredClientDTO) {
-        Assert.notNull(oauth2RegisteredClientDTO, "客户端信息不能为空");
-        Assert.notEmpty(oauth2RegisteredClientDTO.getId(), "客户端id不能为空");
-        Assert.notEmpty(oauth2RegisteredClientDTO.getClientId(), "客户端id不能为空");
+    public OAuth2RegisteredClientDTO assembleOAuth2RegisteredClient(OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO) {
+        Assert.notNull(oAuth2RegisteredClientDTO, "客户端信息不能为空");
+        Assert.notEmpty(oAuth2RegisteredClientDTO.getId(), "客户端id不能为空");
+        Assert.notEmpty(oAuth2RegisteredClientDTO.getClientId(), "客户端id不能为空");
 
         List<OAuth2ClientAuthenticationMethodDTO> clientAuthenticationMethod =
-                oAuth2ClientAuthenticationMethodService.getOAuth2ClientAuthenticationMethodByClientId(oauth2RegisteredClientDTO.getId());
+                oAuth2ClientAuthenticationMethodService.getOAuth2ClientAuthenticationMethodByClientId(oAuth2RegisteredClientDTO.getId());
         List<OAuth2AuthorizationGrantTypeDTO> authorizationGrantTypes =
-                oAuth2AuthorizationGrantTypeService.getOAuth2AuthorizationGrantTypeByClientId(oauth2RegisteredClientDTO.getId());
+                oAuth2AuthorizationGrantTypeService.getOAuth2AuthorizationGrantTypesByClientId(oAuth2RegisteredClientDTO.getId());
         List<OAuth2RedirectUriDTO> redirectUris =
-                oauth2RedirectUriService.getOauth2RedirectUriByClientId(oauth2RegisteredClientDTO.getId());
+                oAuth2RedirectUriService.getOAuth2RedirectUrisByClientId(oAuth2RegisteredClientDTO.getId());
         List<OAuth2ScopeDTO> scopes =
-                oauth2ScopeService.getOauth2ScopeByClientId(oauth2RegisteredClientDTO.getId());
+                oAuth2ScopeService.getOAuth2ScopesByClientId(oAuth2RegisteredClientDTO.getId());
         OAuth2ClientSettingsDTO clientSettings =
-                oauth2ClientSettingsService.getOauth2ClientSettingsByClientId(oauth2RegisteredClientDTO.getId());
+                oAuth2ClientSettingsService.getOAuth2ClientSettingsByClientId(oAuth2RegisteredClientDTO.getId());
         OAuth2TokenSettingsDTO tokenSetting =
-                oauth2TokenSettingsService.getOauth2TokenSettingByClientId(oauth2RegisteredClientDTO.getId());
+                oAuth2TokenSettingsService.getOAuth2TokenSettingsByClientId(oAuth2RegisteredClientDTO.getId());
 
-        oauth2RegisteredClientDTO
+        oAuth2RegisteredClientDTO
                 .setClientAuthenticationMethods(new HashSet<>(clientAuthenticationMethod))
                 .setAuthorizationGrantTypes(new HashSet<>(authorizationGrantTypes))
                 .setRedirectUris(new HashSet<>(redirectUris))
@@ -73,40 +80,54 @@ public class CustomOAuth2RegisteredClientServiceImpl implements CustomOAuth2Regi
                 .setClientSettings(clientSettings)
                 .setTokenSettings(tokenSetting);
 
-        return oauth2RegisteredClientDTO;
+        return oAuth2RegisteredClientDTO;
     }
 
     @Override
-    public String addOrUpdateOauth2RegisteredClient(Oauth2RegisteredClientDTO oauth2RegisteredClientDTO) {
+    public String addOrUpdateOAuth2RegisteredClient(OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO) {
+        String clientId = oAuth2RegisteredClientDTO.getClientId();
+        OAuth2RegisteredClientDTO oAuth2RegisteredInDB = this.oAuth2RegisteredClientMapper.getOAuth2RegisteredClientByClientId(clientId);
+        if (oAuth2RegisteredInDB == null) {
+            OAuth2RegisteredClientDO oAuth2RegisteredClientDO = OAuth2RegisteredClientConverter.toDO(oAuth2RegisteredClientDTO);
+            this.oAuth2RegisteredClientMapper.insert(oAuth2RegisteredClientDO);
+            String id = oAuth2RegisteredClientDO.getId();
+            oAuth2ClientAuthenticationMethodService.addOAuth2ClientAuthenticationMethods(id, oAuth2RegisteredClientDTO.getClientAuthenticationMethods());
+            oAuth2AuthorizationGrantTypeService.addOAuth2AuthorizationGrantTypes(id, oAuth2RegisteredClientDTO.getAuthorizationGrantTypes());
+            oAuth2RedirectUriService.addOAuth2RedirectUris(id, oAuth2RegisteredClientDTO.getRedirectUris());
+            oAuth2ScopeService.addOAuth2Scopes(id, oAuth2RegisteredClientDTO.getScopes());
+            oAuth2ClientSettingsService.addOrUpdateOAuth2ClientSettings(id, oAuth2RegisteredClientDTO.getClientSettings());
+            oAuth2TokenSettingsService.addOrUpdateOAuth2TokenSettings(id, oAuth2RegisteredClientDTO.getTokenSettings());
+        } else {
+
+        }
+
         return null;
     }
 
     @Override
-    public String deleteOauth2RegisteredClientById(String id) {
+    public String deleteOAuth2RegisteredClientById(String id) {
         return null;
     }
 
     @Override
-    public String deleteOauth2RegisteredClientByClientId(String id) {
+    public String deleteOAuth2RegisteredClientByClientId(String id) {
         return null;
     }
 
     @Override
     public void save(RegisteredClient registeredClient) {
-        addOrUpdateOauth2RegisteredClient(OAuth2RegisteredClientConverter.toDTO(registeredClient));
+        addOrUpdateOAuth2RegisteredClient(OAuth2RegisteredClientConverter.toDTO(registeredClient));
     }
 
     @Override
     public RegisteredClient findById(String id) {
-        Oauth2RegisteredClientDTO oauth2RegisteredClient = this.getOauth2RegisteredClientById(id);
-        this.assembleOauth2RegisteredClient(oauth2RegisteredClient);
-        return OAuth2RegisteredClientConverter.toRegisteredClient(oauth2RegisteredClient);
+        OAuth2RegisteredClientDTO oAuth2RegisteredClient = this.getOAuth2RegisteredClientById(id);
+        return OAuth2RegisteredClientConverter.toRegisteredClient(oAuth2RegisteredClient);
     }
 
     @Override
     public RegisteredClient findByClientId(String clientId) {
-        Oauth2RegisteredClientDTO oauth2RegisteredClient = this.getOauth2RegisteredClientByClientId(clientId);
-        this.assembleOauth2RegisteredClient(oauth2RegisteredClient);
-        return OAuth2RegisteredClientConverter.toRegisteredClient(oauth2RegisteredClient);
+        OAuth2RegisteredClientDTO oAuth2RegisteredClient = this.getOAuth2RegisteredClientByClientId(clientId);
+        return OAuth2RegisteredClientConverter.toRegisteredClient(oAuth2RegisteredClient);
     }
 }

@@ -5,19 +5,18 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 
-import com.baomidou.mybatisplus.annotation.Version;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.shanzhaozhen.common.core.entity.BaseInfo;
+import org.shanzhaozhen.common.core.entity.BaseEntity;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("sys_department_user")
 @Schema(description = "部门-用户关系DO实体")
-public class DepartmentUserDO extends BaseInfo {
+public class DepartmentUserDO extends BaseEntity {
 
     private static final long serialVersionUID = 7181393744926289326L;
 
@@ -30,9 +29,5 @@ public class DepartmentUserDO extends BaseInfo {
 
     @Schema(description = "用户ID")
     private String userId;
-
-    @Schema(description = "版本号")
-    @Version
-    private Integer version;
-
+    
 }

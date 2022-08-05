@@ -2,16 +2,18 @@ package org.shanzhaozhen.authorize.pojo.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.shanzhaozhen.common.core.entity.BaseInfo;
 
-import java.io.Serializable;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "oauth2允许重定向的 uri DTO实体")
-public class OAuth2RedirectUriDTO implements Serializable {
+public class OAuth2RedirectUriDTO extends BaseInfo {
 
     private static final long serialVersionUID = 4512441721005677882L;
 

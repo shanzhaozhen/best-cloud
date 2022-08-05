@@ -1,8 +1,10 @@
 package org.shanzhaozhen.authorize.service;
 
 import org.shanzhaozhen.authorize.pojo.dto.OAuth2AuthorizationGrantTypeDTO;
+import org.shanzhaozhen.authorize.pojo.dto.OAuth2AuthorizationGrantTypeDTO;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -14,6 +16,12 @@ import java.util.List;
  */
 public interface OAuth2AuthorizationGrantTypeService {
 
-    List<OAuth2AuthorizationGrantTypeDTO> getOAuth2AuthorizationGrantTypeByClientId(String clientId);
+    List<OAuth2AuthorizationGrantTypeDTO> getOAuth2AuthorizationGrantTypesByClientId(String clientId);
+
+    void addOAuth2AuthorizationGrantTypes(String clientId, Set<OAuth2AuthorizationGrantTypeDTO> authorizationGrantTypes);
+
+    void updateOAuth2AuthorizationGrantTypes(String clientId, Set<OAuth2AuthorizationGrantTypeDTO> authorizationGrantTypes);
+
+    void deleteOAuth2AuthorizationGrantTypesByClientId(String clientId);
 
 }

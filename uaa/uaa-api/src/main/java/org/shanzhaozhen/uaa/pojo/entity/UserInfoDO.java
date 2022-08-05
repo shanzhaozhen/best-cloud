@@ -3,12 +3,11 @@ package org.shanzhaozhen.uaa.pojo.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.Version;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.shanzhaozhen.common.core.entity.BaseInfo;
+import org.shanzhaozhen.common.core.entity.BaseEntity;
 
 import java.time.LocalDate;
 
@@ -17,7 +16,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @TableName("sys_user_info")
 @Schema(description = "用户DO实体")
-public class UserInfoDO extends BaseInfo {
+public class UserInfoDO extends BaseEntity {
 
     private static final long serialVersionUID = 239637250684871342L;
 
@@ -57,9 +56,5 @@ public class UserInfoDO extends BaseInfo {
 
     @Schema(description = "个人介绍")
     private String introduction;
-
-    @Schema(description = "版本号")
-    @Version
-    private Integer version;
-
+    
 }

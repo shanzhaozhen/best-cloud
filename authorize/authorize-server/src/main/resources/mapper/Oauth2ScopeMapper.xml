@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.shanzhaozhen.authorize.mapper.Oauth2ScopeMapper">
+<mapper namespace="org.shanzhaozhen.authorize.mapper.OAuth2ScopeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.authorize.pojo.dto.OAuth2ScopeDTO">
+        <id column="id" property="id" />
+        <result column="client_id" property="clientId" />
+        <result column="clientAuthenticationMethod" property="clientAuthenticationMethod" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+
+    <select id="getOAuth2ScopesByClientId" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2ScopeDTO">
+        select id, clientId, client_authentication_method,
+               created_by, created_date, last_modified_by, last_modified_date
+        from oauth2_scope
+        where clien_id = #{clientId}
+    </select>
+
+    <delete id="deleteOAuth2ScopesByClientId">
+        delete from oauth2_scope where clien_id = #{clientId}
+    </delete>
 
 </mapper>

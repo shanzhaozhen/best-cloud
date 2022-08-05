@@ -2,17 +2,20 @@ package org.shanzhaozhen.authorize.pojo.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.shanzhaozhen.common.core.entity.BaseInfo;
 
 import java.time.Instant;
 import java.util.Set;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "oauth2客户端信息DTO实体")
-public class Oauth2RegisteredClientDTO {
+public class OAuth2RegisteredClientDTO extends BaseInfo {
 
     private static final long serialVersionUID = 1942162986392496847L;
 

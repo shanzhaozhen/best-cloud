@@ -3,12 +3,11 @@ package org.shanzhaozhen.uaa.pojo.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.Version;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.shanzhaozhen.common.core.entity.BaseInfo;
+import org.shanzhaozhen.common.core.entity.BaseEntity;
 
 
 @Data
@@ -16,7 +15,7 @@ import org.shanzhaozhen.common.core.entity.BaseInfo;
 @AllArgsConstructor
 @TableName("sys_permission")
 @Schema(description = "权限DO实体")
-public class PermissionDO extends BaseInfo {
+public class PermissionDO extends BaseEntity {
 
     private static final long serialVersionUID = 4485640590947953262L;
 
@@ -56,9 +55,5 @@ public class PermissionDO extends BaseInfo {
 
     @Schema(description = "权限描述")
     private String description;
-
-    @Schema(description = "版本号")
-    @Version
-    private Integer version;
-
+    
 }

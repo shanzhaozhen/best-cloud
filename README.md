@@ -18,9 +18,9 @@ _没条件搞服务器都挂了_
 |          实现功能          | 是否已实现 |
 |:----------------------:|:-----:|
 |   Spring Cloud 微服务化    |   √   |
-|      整合 Oauth2.1       |   √   |
+|      整合 OAuth2.1       |   √   |
 |    增加 Password 认证方式    |   √   |
-|     Oauth2 加入JWT增强     |   √   |
+|     OAuth2 加入JWT增强     |   √   |
 |      RBAC 动态权限管理       |   √   |
 |         动态分配菜单         |   -   |
 |    整合服务熔断 Sentinel     |   -   |
@@ -28,7 +28,7 @@ _没条件搞服务器都挂了_
 |       实现分布式定时任务        |   -   |
 |        加入分布式事务         |   -   |
 |     引入分布式存储 MinIO      |   -   |
-|   加入 Oauth2 实现第三方登陆    |   -   |
+|   加入 OAuth2 实现第三方登陆    |   -   |
 | 加入Dockerfile直接打包部署到服务器 |   -   |
 |       实现低代码流程引擎        |   -   |
 
@@ -52,7 +52,7 @@ _没条件搞服务器都挂了_
 * Spring Cloud / Spring Cloud Alibaba
 * Spring Boot
 * Spring Security
-* Oauth2
+* OAuth2
 * JWT
 * React
 * Typescript & ES6

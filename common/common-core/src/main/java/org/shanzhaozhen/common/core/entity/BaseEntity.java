@@ -2,6 +2,7 @@ package org.shanzhaozhen.common.core.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.Version;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -13,9 +14,13 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Schema(description = "实体基础信息")
-public class BaseInfo implements Serializable {
+public class BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -2522409732119831350L;
+
+    @Schema(description = "版本号")
+    @Version
+    private Integer version;
 
     @TableField(fill = FieldFill.INSERT)
     @Schema(description = "创建人")
