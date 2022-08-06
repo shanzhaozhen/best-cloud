@@ -14,7 +14,7 @@
     </resultMap>
 
     <select id="getOAuth2ClientAuthenticationMethodByRegisteredClientId" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2ClientAuthenticationMethodDTO">
-        select id, clientId, client_authentication_method,
+        select id, registered_client_id, client_authentication_method,
             created_by, created_date, last_modified_by, last_modified_date
         from oauth2_client_authentication_method
         where registered_client_id = #{registeredClientId}

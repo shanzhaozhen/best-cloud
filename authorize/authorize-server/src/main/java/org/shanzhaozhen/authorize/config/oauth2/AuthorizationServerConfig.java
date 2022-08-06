@@ -2,7 +2,10 @@ package org.shanzhaozhen.authorize.config.oauth2;
 
 
 import lombok.RequiredArgsConstructor;
+import org.shanzhaozhen.authorize.converter.OAuth2RegisteredClientConverter;
 import org.shanzhaozhen.authorize.jackson.SecurityJacksonConfig;
+import org.shanzhaozhen.authorize.pojo.dto.OAuth2RegisteredClientDTO;
+import org.shanzhaozhen.authorize.service.CustomOAuth2RegisteredClientService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -90,78 +93,6 @@ public class AuthorizationServerConfig {
 
         return http.build();
     }
-
-    /**
-     * 配置客户端
-     * @return
-     */
-    @Bean
-    public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
-        // 使用内存作为客户端的信息库
-        /*RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                // 客户端id 需要唯一
-                .clientId("auth")
-                // 客户端密码
-                .clientSecret("123456")
-                .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
-                // 可以基于 basic 的方式和授权服务器进行认证
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                // 授权码
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                // 刷新token
-                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                // 客户端模式
-                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                // 密码模式
-                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
-                // 重定向url
-                // 回调地址名单，不在此列将被拒绝 而且只能使用IP或者域名  不能使用 localhost
-                .redirectUri("http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc")
-                .redirectUri("http://127.0.0.1:8080/authorized")
-                .redirectUri("http://www.baidu.com")
-                // 客户端申请的作用域，也可以理解这个客户端申请访问用户的哪些信息，比如：获取用户信息，获取用户照片等
-                // OIDC支持
-                .scope(OidcScopes.OPENID)
-                // 其它Scope
-                .scope("all")
-                .scope("message.read")
-                .scope("message.write")
-                .clientSettings(ClientSettings
-                        .builder()
-                        // 是否需要用户确认一下客户端需要获取用户的哪些权限
-                        // 比如：客户端需要获取用户的 用户信息、用户照片 但是此处用户可以控制只给客户端授权获取 用户信息。
-                        // 配置客户端相关的配置项，包括验证密钥或者 是否需要授权页面
-                        // .requireProofKey(true) 及 clientAuthenticationMethod(ClientAuthenticationMethod.NONE) 才可以使用 PKCE
-                        .requireAuthorizationConsent(true).requireProofKey(true).build())
-                .tokenSettings(TokenSettings.builder()
-                        // accessToken 的有效期
-                        .accessTokenTimeToLive(Duration.ofHours(1))
-                        // refreshToken 的有效期
-                        .refreshTokenTimeToLive(Duration.ofDays(3))
-                        // 是否可重用刷新令牌
-                        .reuseRefreshTokens(true)
-                        .build()
-                )
-                .build();*/
-//        return new InMemoryRegisteredClientRepository(registeredClient);
-
-        return new JdbcRegisteredClientRepository(jdbcTemplate);
-
-//         使用数据库作为客户端的信息库
-//        JdbcRegisteredClientRepository jdbcRegisteredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
-//        jdbcRegisteredClientRepository.save(registeredClient);
-//        return jdbcRegisteredClientRepository;
-
-//        JdbcRegisteredClientRepository jdbcRegisteredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
-//
-//        // 解决json 反序列化 白名单问题
-//        JdbcRegisteredClientRepository.RegisteredClientRowMapper registeredClientRowMapper = new JdbcRegisteredClientRepository.RegisteredClientRowMapper();
-//        registeredClientRowMapper.setObjectMapper(SecurityJacksonConfig.objectMapper);
-//        jdbcRegisteredClientRepository.setRegisteredClientRowMapper(registeredClientRowMapper);
-//
-//        return jdbcRegisteredClientRepository;
-    }
-
 
     // todo: 改成mybatis获取方式，这个序列化太恶心了
     /**

@@ -17,17 +17,6 @@ public class OAuth2RegisteredClientConverter {
 
     public static RegisteredClient toRegisteredClient(OAuth2RegisteredClientDTO oauth2RegisteredClientDTO) {
 
-        Set<OAuth2ClientAuthenticationMethodDTO> clientAuthenticationMethods = oauth2RegisteredClientDTO.getClientAuthenticationMethods();
-
-
-        Set<OAuth2ClientAuthenticationMethodDTO> oAuth2ClientAuthenticationMethodDTOS = Optional.ofNullable(clientAuthenticationMethods)
-                .map(o -> o.stream().map(authenticationMethod -> OAuth2ClientAuthenticationMethodDTO.builder()
-                        .clientId(oauth2RegisteredClientDTO.getClientId())
-                        .clientAuthenticationMethod(authenticationMethod.getClientAuthenticationMethod())
-                        .build()
-                ).collect(Collectors.toSet())).orElse(Collections.emptySet());
-
-
         RegisteredClient.Builder builder = RegisteredClient.withId(oauth2RegisteredClientDTO.getId())
                 .clientId(oauth2RegisteredClientDTO.getClientId())
                 .clientIdIssuedAt(oauth2RegisteredClientDTO.getClientIdIssuedAt())
@@ -71,7 +60,7 @@ public class OAuth2RegisteredClientConverter {
                 .clientAuthenticationMethods(
                         Optional.ofNullable(registeredClient.getClientAuthenticationMethods())
                                 .map(o -> o.stream().map(i -> OAuth2ClientAuthenticationMethodDTO.builder()
-                                        .clientId(registeredClient.getClientId())
+                                        .registeredClientId(registeredClient.getId())
                                         .clientAuthenticationMethod(i.getValue())
                                         .build()
                                 ).collect(Collectors.toSet())).orElse(Collections.emptySet())
@@ -79,7 +68,7 @@ public class OAuth2RegisteredClientConverter {
                 .authorizationGrantTypes(
                         Optional.ofNullable(registeredClient.getAuthorizationGrantTypes())
                                 .map(o -> o.stream().map(i -> OAuth2AuthorizationGrantTypeDTO.builder()
-                                        .clientId(registeredClient.getClientId())
+                                        .registeredClientId(registeredClient.getId())
                                         .grantTypeName(i.getValue())
                                         .build()
                                 ).collect(Collectors.toSet())).orElse(Collections.emptySet())
@@ -87,7 +76,7 @@ public class OAuth2RegisteredClientConverter {
                 .redirectUris(
                         Optional.ofNullable(registeredClient.getRedirectUris())
                                 .map(o -> o.stream().map(i -> OAuth2RedirectUriDTO.builder()
-                                        .clientId(registeredClient.getClientId())
+                                        .registeredClientId(registeredClient.getId())
                                         .redirectUri(i)
                                         .build()
                                 ).collect(Collectors.toSet())).orElse(Collections.emptySet())
@@ -95,18 +84,18 @@ public class OAuth2RegisteredClientConverter {
                 .scopes(
                         Optional.ofNullable(registeredClient.getScopes())
                                 .map(o -> o.stream().map(i -> OAuth2ScopeDTO.builder()
-                                        .clientId(registeredClient.getClientId())
+                                        .registeredClientId(registeredClient.getId())
                                         .scope(i)
                                         .build()
                                 ).collect(Collectors.toSet())).orElse(Collections.emptySet())
                 )
                 .clientSettings(OAuth2ClientSettingsConverter
                         .toDTO(registeredClient.getClientSettings())
-                        .setClientId(registeredClient.getClientId())
+                        .setRegisteredClientId(registeredClient.getId())
                 )
                 .tokenSettings(OAuth2TokenSettingsConverter
                         .toDTO(registeredClient.getTokenSettings())
-                        .setClientId(registeredClient.getClientId())
+                        .setRegisteredClientId(registeredClient.getId())
                 );
         return builder.build();
     }

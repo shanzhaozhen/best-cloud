@@ -8,6 +8,7 @@ import org.shanzhaozhen.authorize.pojo.dto.OAuth2RedirectUriDTO;
 import org.shanzhaozhen.authorize.pojo.entity.OAuth2RedirectUriDO;
 import org.shanzhaozhen.authorize.service.OAuth2RedirectUriService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class OAuth2RedirectUriServiceImpl implements OAuth2RedirectUriService {
     }
 
     @Override
+    @Transactional
     public void addOAuth2RedirectUris(String clientId, Set<OAuth2RedirectUriDTO> redirectUris) {
         if (CollectionUtils.isEmpty(redirectUris)) return;
 
@@ -40,12 +42,14 @@ public class OAuth2RedirectUriServiceImpl implements OAuth2RedirectUriService {
     }
 
     @Override
+    @Transactional
     public void updateOAuth2RedirectUris(String registeredClientId, Set<OAuth2RedirectUriDTO> redirectUris) {
         this.deleteOAuth2RedirectUrisByRegisteredClientId(registeredClientId);
         this.addOAuth2RedirectUris(registeredClientId, redirectUris);
     }
 
     @Override
+    @Transactional
     public void deleteOAuth2RedirectUrisByRegisteredClientId(String registeredClientId) {
         oAuth2RedirectUriMapper.deleteOAuth2RedirectUrisByRegisteredClientId(registeredClientId);
     }

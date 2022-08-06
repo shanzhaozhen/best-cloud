@@ -13,7 +13,8 @@ public class FrontEndController {
 
     @GetMapping(value={
 //            "/",
-            "/login"
+            "/login",
+            "/login/**"
     })
     public String index(){
         return "front/index";

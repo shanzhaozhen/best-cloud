@@ -7,6 +7,7 @@ import org.shanzhaozhen.authorize.pojo.dto.OAuth2AuthorizationGrantTypeDTO;
 import org.shanzhaozhen.authorize.pojo.entity.OAuth2AuthorizationGrantTypeDO;
 import org.shanzhaozhen.authorize.service.OAuth2AuthorizationGrantTypeService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class OAuth2AuthorizationGrantTypeServiceImpl implements OAuth2Authorizat
     }
 
     @Override
+    @Transactional
     public void addOAuth2AuthorizationGrantTypes(String clientId, Set<OAuth2AuthorizationGrantTypeDTO> authorizationGrantTypes) {
         if (CollectionUtils.isEmpty(authorizationGrantTypes)) return;
 
@@ -39,12 +41,14 @@ public class OAuth2AuthorizationGrantTypeServiceImpl implements OAuth2Authorizat
     }
 
     @Override
+    @Transactional
     public void updateOAuth2AuthorizationGrantTypes(String registeredClientId, Set<OAuth2AuthorizationGrantTypeDTO> authorizationGrantTypes) {
         this.deleteOAuth2AuthorizationGrantTypesByRegisteredClientId(registeredClientId);
         this.addOAuth2AuthorizationGrantTypes(registeredClientId, authorizationGrantTypes);
     }
 
     @Override
+    @Transactional
     public void deleteOAuth2AuthorizationGrantTypesByRegisteredClientId(String registeredClientId) {
         oAuth2AuthorizationGrantTypeMapper.deleteOAuth2AuthorizationGrantTypesByRegisteredClientId(registeredClientId);
     }

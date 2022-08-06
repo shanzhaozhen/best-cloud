@@ -183,17 +183,17 @@ CREATE TABLE `oauth2_scope`
 DROP TABLE IF EXISTS `oauth2_client_settings`;
 CREATE TABLE `oauth2_client_settings`
 (
-    `id`                            varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ID',
-    `registered_client_id`          varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'oauth2客户端id',
-    `require_proof_key`             tinyint(1) NULL DEFAULT 0 COMMENT '客户端是否需要证明密钥',
-    `require_authorization_consent` tinyint(1) NULL DEFAULT 0 COMMENT '客户端是否需要授权确认页面',
-    `jwk_set_url`                   varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'jwkSet url',
-    `signing_algorithm`             varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '支持的签名算法',
-    `version`                       INT NULL DEFAULT NULL COMMENT '版本号',
-    `created_by`                    VARCHAR(20) NULL DEFAULT NULL COMMENT '创建人',
-    `created_date`                  datetime NULL DEFAULT NULL COMMENT '创建时间',
-    `last_modified_by`              VARCHAR(20) NULL DEFAULT NULL COMMENT '修改人',
-    `last_modified_date`            datetime NULL DEFAULT NULL COMMENT '修改时间',
+    `id`                                              varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ID',
+    `registered_client_id`                            varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'oauth2客户端id',
+    `require_proof_key`                               tinyint(1) NULL DEFAULT 0 COMMENT '客户端是否需要证明密钥',
+    `require_authorization_consent`                   tinyint(1) NULL DEFAULT 0 COMMENT '客户端是否需要授权确认页面',
+    `jwk_set_url`                                     varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'jwkSet url',
+    `token_endpoint_authentication_signing_algorithm` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '支持的签名算法',
+    `version`                                         INT NULL DEFAULT NULL COMMENT '版本号',
+    `created_by`                                      VARCHAR(20) NULL DEFAULT NULL COMMENT '创建人',
+    `created_date`                                    datetime NULL DEFAULT NULL COMMENT '创建时间',
+    `last_modified_by`                                VARCHAR(20) NULL DEFAULT NULL COMMENT '修改人',
+    `last_modified_date`                              datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4
@@ -212,7 +212,7 @@ CREATE TABLE `oauth2_token_settings`
     `id`                           varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ID',
     `registered_client_id`         varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'oauth2客户端id',
     `access_token_time_to_live`    bigint NULL DEFAULT NULL COMMENT 'access_token 有效时间',
-    `token_format`                 varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'token 格式  jwt、opaque',
+    `access_token_format`          varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'token 格式  jwt、opaque',
     `reuse_refresh_tokens`         tinyint(1) NULL DEFAULT 1 COMMENT '是否重用 refresh_token',
     `refresh_token_time_to_live`   bigint NULL DEFAULT NULL COMMENT 'refresh_token 有效时间',
     `id_token_signature_algorithm` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'oidc id_token 签名算法',

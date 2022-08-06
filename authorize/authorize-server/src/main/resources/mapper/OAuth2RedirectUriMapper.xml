@@ -14,7 +14,7 @@
     </resultMap>
 
     <select id="getOAuth2RedirectUrisByRegisteredClientId" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2RedirectUriDTO">
-        select id, clientId, redirect_uri,
+        select id, registered_client_id, redirect_uri,
                created_by, created_date, last_modified_by, last_modified_date
         from oauth2_redirect_uri
         where registered_client_id = #{registeredClientId}

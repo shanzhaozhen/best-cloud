@@ -10,6 +10,8 @@ import org.shanzhaozhen.authorize.pojo.entity.OAuth2RegisteredClientDO;
 import org.shanzhaozhen.authorize.service.*;
 import org.shanzhaozhen.common.core.utils.CustomBeanUtils;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.List;
  * @Date: 2022-06-17
  * @Description:
  */
+@Service
 @RequiredArgsConstructor
 public class CustomOAuth2RegisteredClientServiceImpl implements CustomOAuth2RegisteredClientService {
 
@@ -84,6 +87,7 @@ public class CustomOAuth2RegisteredClientServiceImpl implements CustomOAuth2Regi
     }
 
     @Override
+    @Transactional
     public String addOrUpdateOAuth2RegisteredClient(OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO) {
         String clientId = oAuth2RegisteredClientDTO.getClientId();
         OAuth2RegisteredClientDTO oAuth2RegisteredInDB = this.oAuth2RegisteredClientMapper.getOAuth2RegisteredClientByClientId(clientId);
@@ -115,6 +119,7 @@ public class CustomOAuth2RegisteredClientServiceImpl implements CustomOAuth2Regi
     }
 
     @Override
+    @Transactional
     public void deleteOAuth2RegisteredClientById(String id) {
         this.oAuth2RegisteredClientMapper.deleteOAuth2RegisteredClientById(id);
         oAuth2ClientAuthenticationMethodService.deleteOAuth2ClientAuthenticationMethodsByRegisteredClientId(id);

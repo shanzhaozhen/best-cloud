@@ -3,7 +3,6 @@ package org.shanzhaozhen.authorize.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.shanzhaozhen.authorize.pojo.dto.OAuth2AuthorizationGrantTypeDTO;
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2ScopeDTO;
 import org.shanzhaozhen.authorize.pojo.entity.OAuth2AuthorizationGrantTypeDO;
 
 import java.util.List;

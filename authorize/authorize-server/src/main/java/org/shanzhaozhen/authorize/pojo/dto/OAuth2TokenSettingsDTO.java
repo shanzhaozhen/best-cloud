@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.shanzhaozhen.common.core.entity.BaseInfo;
 
-import java.time.Duration;
 
 @Data
 @Builder
@@ -27,7 +26,7 @@ public class OAuth2TokenSettingsDTO extends BaseInfo {
     private String registeredClientId;
 
     @Schema(description = "access_token 有效时间")
-    private Duration accessTokenTimeToLive;
+    private Long accessTokenTimeToLive;
 
     @Schema(description = "token 格式  jwt、opaque")
     private String accessTokenFormat;
@@ -36,7 +35,7 @@ public class OAuth2TokenSettingsDTO extends BaseInfo {
     private boolean reuseRefreshTokens;
 
     @Schema(description = "refresh_token 有效时间")
-    private Duration refreshTokenTimeToLive;
+    private Long refreshTokenTimeToLive;
 
     @Schema(description = "oidc id_token 签名算法")
     private String idTokenSignatureAlgorithm;

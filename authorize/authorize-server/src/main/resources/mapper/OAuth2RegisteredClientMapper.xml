@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.shanzhaozhen.authorize.mapper.OAuth2RegisteredClientMapper">
 
-
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="org.shanzhaozhen.authorize.pojo.dto.OAuth2RegisteredClientDTO">
         <id column="id" property="id" />
@@ -11,12 +10,16 @@
         <result column="client_secret" property="clientSecret" />
         <result column="client_secret_expires_at" property="clientSecretExpiresAt" />
         <result column="client_name" property="clientName" />
-        <result column="client_authentication_methods" property="clientAuthenticationMethods" />
-        <result column="authorization_grant_types" property="authorizationGrantTypes" />
-        <result column="redirect_uris" property="redirectUris" />
-        <result column="scopes" property="scopes" />
-        <result column="client_settings" property="clientSettings" />
-        <result column="token_settings" property="tokenSettings" />
+<!--        <result column="client_authentication_methods" property="clientAuthenticationMethods" />-->
+<!--        <result column="authorization_grant_types" property="authorizationGrantTypes" />-->
+<!--        <result column="redirect_uris" property="redirectUris" />-->
+<!--        <result column="scopes" property="scopes" />-->
+<!--        <result column="client_settings" property="clientSettings" />-->
+<!--        <result column="token_settings" property="tokenSettings" />-->
+        <result column="created_by" property="createdBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
     <select id="getOAuth2RegisteredClientPage" resultMap="BaseResultMap">

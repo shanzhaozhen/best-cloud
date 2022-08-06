@@ -7,6 +7,7 @@ import org.shanzhaozhen.authorize.pojo.dto.OAuth2ClientAuthenticationMethodDTO;
 import org.shanzhaozhen.authorize.pojo.entity.OAuth2ClientAuthenticationMethodDO;
 import org.shanzhaozhen.authorize.service.OAuth2ClientAuthenticationMethodService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class OAuth2ClientAuthenticationMethodServiceImpl implements OAuth2Client
     }
 
     @Override
+    @Transactional
     public void addOAuth2ClientAuthenticationMethods(String clientId, Set<OAuth2ClientAuthenticationMethodDTO> clientAuthenticationMethods) {
         if (CollectionUtils.isEmpty(clientAuthenticationMethods)) return;
 
@@ -39,12 +41,14 @@ public class OAuth2ClientAuthenticationMethodServiceImpl implements OAuth2Client
     }
 
     @Override
+    @Transactional
     public void updateOAuth2ClientAuthenticationMethods(String registeredClientId, Set<OAuth2ClientAuthenticationMethodDTO> clientAuthenticationMethods) {
         this.deleteOAuth2ClientAuthenticationMethodsByRegisteredClientId(registeredClientId);
         this.addOAuth2ClientAuthenticationMethods(registeredClientId, clientAuthenticationMethods);
     }
 
     @Override
+    @Transactional
     public void deleteOAuth2ClientAuthenticationMethodsByRegisteredClientId(String registeredClientId) {
         oAuth2ClientAuthenticationMethodMapper.deleteOAuth2ClientAuthenticationMethodsByRegisteredClientId(registeredClientId);
     }

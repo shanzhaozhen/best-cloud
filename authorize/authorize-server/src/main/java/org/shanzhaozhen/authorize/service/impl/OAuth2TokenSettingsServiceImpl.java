@@ -9,6 +9,7 @@ import org.shanzhaozhen.authorize.pojo.entity.OAuth2TokenSettingsDO;
 import org.shanzhaozhen.authorize.service.OAuth2TokenSettingsService;
 import org.shanzhaozhen.common.core.utils.CustomBeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @Author: shanzhaozhen
@@ -26,6 +27,7 @@ public class OAuth2TokenSettingsServiceImpl implements OAuth2TokenSettingsServic
     }
 
     @Override
+    @Transactional
     public void addOrUpdateOAuth2TokenSettings(String registeredClientId, OAuth2TokenSettingsDTO oAuth2TokenSettingsDTO) {
         OAuth2TokenSettingsDTO oAuth2TokenSettingsByClientIdInDB = this.getOAuth2TokenSettingsByRegisteredClientId(registeredClientId);
         if (oAuth2TokenSettingsByClientIdInDB == null) {
@@ -39,6 +41,7 @@ public class OAuth2TokenSettingsServiceImpl implements OAuth2TokenSettingsServic
     }
 
     @Override
+    @Transactional
     public void deleteOAuth2TokenSettingsByRegisteredClientId(String registeredClientId) {
         this.oAuth2TokenSettingsMapper.deleteOAuth2TokenSettingsByRegisteredClientId(registeredClientId);
     }

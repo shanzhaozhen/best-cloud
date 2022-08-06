@@ -4,6 +4,7 @@ import org.shanzhaozhen.authorize.service.CustomOAuth2AuthorizationService;
 import org.springframework.security.oauth2.core.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @Author: shanzhaozhen
@@ -14,11 +15,13 @@ import org.springframework.stereotype.Service;
 public class CustomOAuth2AuthorizationServiceImpl implements CustomOAuth2AuthorizationService {
 
     @Override
+    @Transactional
     public void save(OAuth2Authorization authorization) {
 
     }
 
     @Override
+    @Transactional
     public void remove(OAuth2Authorization authorization) {
 
     }

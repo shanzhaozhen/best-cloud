@@ -4,6 +4,7 @@ import org.shanzhaozhen.authorize.service.CustomOAuth2AuthorizationConsentServic
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsent;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @Author: shanzhaozhen
@@ -14,11 +15,13 @@ import org.springframework.stereotype.Service;
 public class CustomOAuth2AuthorizationConsentServiceImpl implements CustomOAuth2AuthorizationConsentService {
 
     @Override
+    @Transactional
     public void save(OAuth2AuthorizationConsent authorizationConsent) {
 
     }
 
     @Override
+    @Transactional
     public void remove(OAuth2AuthorizationConsent authorizationConsent) {
 
     }

@@ -10,6 +10,7 @@ import org.shanzhaozhen.authorize.pojo.entity.OAuth2ScopeDO;
 import org.shanzhaozhen.authorize.service.OAuth2ScopeService;
 import org.shanzhaozhen.authorize.service.OAuth2ScopeService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class OAuth2ScopeServiceImpl implements OAuth2ScopeService {
     }
 
     @Override
+    @Transactional
     public void addOAuth2Scopes(String clientId, Set<OAuth2ScopeDTO> scopes) {
         if (CollectionUtils.isEmpty(scopes)) return;
 
@@ -42,12 +44,14 @@ public class OAuth2ScopeServiceImpl implements OAuth2ScopeService {
     }
 
     @Override
+    @Transactional
     public void updateOAuth2Scopes(String registeredClientId, Set<OAuth2ScopeDTO> clientAuthenticationMethods) {
         this.deleteOAuth2ScopesByRegisteredClientId(registeredClientId);
         this.addOAuth2Scopes(registeredClientId, clientAuthenticationMethods);
     }
 
     @Override
+    @Transactional
     public void deleteOAuth2ScopesByRegisteredClientId(String registeredClientId) {
         oAuth2ScopeMapper.deleteOAuth2ScopesByRegisteredClientId(registeredClientId);
     }
