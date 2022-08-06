@@ -21,8 +21,8 @@ public interface CustomOAuth2RegisteredClientService extends RegisteredClientRep
 
     String addOrUpdateOAuth2RegisteredClient(OAuth2RegisteredClientDTO oauth2RegisteredClientDTO);
 
-    String deleteOAuth2RegisteredClientById(String id);
+    void deleteOAuth2RegisteredClientById(String id);
 
-    String deleteOAuth2RegisteredClientByClientId(String id);
+    void deleteOAuth2RegisteredClientByClientId(String clientId);
 
 }

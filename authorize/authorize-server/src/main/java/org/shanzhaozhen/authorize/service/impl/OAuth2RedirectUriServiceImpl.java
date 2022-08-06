@@ -25,8 +25,8 @@ public class OAuth2RedirectUriServiceImpl implements OAuth2RedirectUriService {
     private final OAuth2RedirectUriMapper oAuth2RedirectUriMapper;
 
     @Override
-    public List<OAuth2RedirectUriDTO> getOAuth2RedirectUrisByClientId(String clientId) {
-        return oAuth2RedirectUriMapper.getOAuth2RedirectUrisByClientId(clientId);
+    public List<OAuth2RedirectUriDTO> getOAuth2RedirectUrisByRegisteredClientId(String registeredClientId) {
+        return oAuth2RedirectUriMapper.getOAuth2RedirectUrisByRegisteredClientId(registeredClientId);
     }
 
     @Override
@@ -40,14 +40,14 @@ public class OAuth2RedirectUriServiceImpl implements OAuth2RedirectUriService {
     }
 
     @Override
-    public void updateOAuth2RedirectUris(String clientId, Set<OAuth2RedirectUriDTO> redirectUris) {
-        this.deleteOAuth2RedirectUrisByClientId(clientId);
-        this.addOAuth2RedirectUris(clientId, redirectUris);
+    public void updateOAuth2RedirectUris(String registeredClientId, Set<OAuth2RedirectUriDTO> redirectUris) {
+        this.deleteOAuth2RedirectUrisByRegisteredClientId(registeredClientId);
+        this.addOAuth2RedirectUris(registeredClientId, redirectUris);
     }
 
     @Override
-    public void deleteOAuth2RedirectUrisByClientId(String clientId) {
-        oAuth2RedirectUriMapper.deleteOAuth2RedirectUrisByClientId(clientId);
+    public void deleteOAuth2RedirectUrisByRegisteredClientId(String registeredClientId) {
+        oAuth2RedirectUriMapper.deleteOAuth2RedirectUrisByRegisteredClientId(registeredClientId);
     }
 
 }

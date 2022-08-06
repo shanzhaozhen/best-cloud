@@ -27,8 +27,8 @@ public class OAuth2ScopeServiceImpl implements OAuth2ScopeService {
     private final OAuth2ScopeMapper oAuth2ScopeMapper;
 
     @Override
-    public List<OAuth2ScopeDTO> getOAuth2ScopesByClientId(String clientId) {
-        return oAuth2ScopeMapper.getOAuth2ScopesByClientId(clientId);
+    public List<OAuth2ScopeDTO> getOAuth2ScopesByRegisteredClientId(String registeredClientId) {
+        return oAuth2ScopeMapper.getOAuth2ScopesByRegisteredClientId(registeredClientId);
     }
 
     @Override
@@ -42,14 +42,14 @@ public class OAuth2ScopeServiceImpl implements OAuth2ScopeService {
     }
 
     @Override
-    public void updateOAuth2Scopes(String clientId, Set<OAuth2ScopeDTO> clientAuthenticationMethods) {
-        this.deleteOAuth2ScopesByClientId(clientId);
-        this.addOAuth2Scopes(clientId, clientAuthenticationMethods);
+    public void updateOAuth2Scopes(String registeredClientId, Set<OAuth2ScopeDTO> clientAuthenticationMethods) {
+        this.deleteOAuth2ScopesByRegisteredClientId(registeredClientId);
+        this.addOAuth2Scopes(registeredClientId, clientAuthenticationMethods);
     }
 
     @Override
-    public void deleteOAuth2ScopesByClientId(String clientId) {
-        oAuth2ScopeMapper.deleteOAuth2ScopesByClientId(clientId);
+    public void deleteOAuth2ScopesByRegisteredClientId(String registeredClientId) {
+        oAuth2ScopeMapper.deleteOAuth2ScopesByRegisteredClientId(registeredClientId);
     }
 
 }

@@ -26,7 +26,7 @@ public class OAuth2TokenSettingsDO extends BaseEntity {
     private String id;
 
     @Schema(description = "oauth2客户端id")
-    private String clientId;
+    private String registeredClientId;
 
     @Schema(description = "access_token 有效时间")
     private Duration accessTokenTimeToLive;
@@ -35,16 +35,12 @@ public class OAuth2TokenSettingsDO extends BaseEntity {
     private String tokenFormat;
 
     @Schema(description = "是否重用 refresh_token")
-    private boolean reuseRefreshTokens = true;
+    private boolean reuseRefreshTokens;
 
     @Schema(description = "refresh_token 有效时间")
     private Duration refreshTokenTimeToLive;
 
     @Schema(description = "oidc id_token 签名算法")
     private String idTokenSignatureAlgorithm;
-
-    @Schema(description = "版本号")
-    @Version
-    private Integer version;
 
 }

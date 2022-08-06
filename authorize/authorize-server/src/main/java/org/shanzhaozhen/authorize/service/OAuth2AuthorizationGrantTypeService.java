@@ -16,12 +16,12 @@ import java.util.Set;
  */
 public interface OAuth2AuthorizationGrantTypeService {
 
-    List<OAuth2AuthorizationGrantTypeDTO> getOAuth2AuthorizationGrantTypesByClientId(String clientId);
+    List<OAuth2AuthorizationGrantTypeDTO> getOAuth2AuthorizationGrantTypesByRegisteredClientId(String registeredClientId);
 
     void addOAuth2AuthorizationGrantTypes(String clientId, Set<OAuth2AuthorizationGrantTypeDTO> authorizationGrantTypes);
 
     void updateOAuth2AuthorizationGrantTypes(String clientId, Set<OAuth2AuthorizationGrantTypeDTO> authorizationGrantTypes);
 
-    void deleteOAuth2AuthorizationGrantTypesByClientId(String clientId);
+    void deleteOAuth2AuthorizationGrantTypesByRegisteredClientId(String registeredClientId);
 
 }

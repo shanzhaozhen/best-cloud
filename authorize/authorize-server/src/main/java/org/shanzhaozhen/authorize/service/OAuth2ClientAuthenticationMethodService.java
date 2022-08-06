@@ -15,12 +15,12 @@ import java.util.Set;
  */
 public interface OAuth2ClientAuthenticationMethodService {
 
-    List<OAuth2ClientAuthenticationMethodDTO> getOAuth2ClientAuthenticationMethodByClientId(String clientId);
+    List<OAuth2ClientAuthenticationMethodDTO> getOAuth2ClientAuthenticationMethodsByRegisteredClientId(String registeredClientId);
 
     void addOAuth2ClientAuthenticationMethods(String clientId, Set<OAuth2ClientAuthenticationMethodDTO> clientAuthenticationMethods);
 
     void updateOAuth2ClientAuthenticationMethods(String clientId, Set<OAuth2ClientAuthenticationMethodDTO> clientAuthenticationMethods);
 
-    void deleteOAuth2ClientAuthenticationMethodsByClientId(String clientId);
+    void deleteOAuth2ClientAuthenticationMethodsByRegisteredClientId(String registeredClientId);
 
 }

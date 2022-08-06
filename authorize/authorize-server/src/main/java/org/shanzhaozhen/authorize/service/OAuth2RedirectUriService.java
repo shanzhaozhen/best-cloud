@@ -16,12 +16,12 @@ import java.util.Set;
  */
 public interface OAuth2RedirectUriService {
 
-    List<OAuth2RedirectUriDTO> getOAuth2RedirectUrisByClientId(String clientId);
+    List<OAuth2RedirectUriDTO> getOAuth2RedirectUrisByRegisteredClientId(String registeredClientId);
 
     void addOAuth2RedirectUris(String clientId, Set<OAuth2RedirectUriDTO> redirectUris);
 
     void updateOAuth2RedirectUris(String clientId, Set<OAuth2RedirectUriDTO> redirectUris);
 
-    void deleteOAuth2RedirectUrisByClientId(String clientId);
+    void deleteOAuth2RedirectUrisByRegisteredClientId(String registeredClientId);
 
 }

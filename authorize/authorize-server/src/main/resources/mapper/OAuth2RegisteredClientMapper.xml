@@ -39,4 +39,13 @@
         where client_id = #{clientId}
     </select>
 
+    <delete id="deleteOAuth2RegisteredClientById">
+        delete from oauth2_registered_client where id = #{id}
+    </delete>
+
+    <delete id="deleteOAuth2RegisteredClientByClientId">
+        delete from oauth2_registered_client where client_id = #{clientId}
+    </delete>
+
+
 </mapper>

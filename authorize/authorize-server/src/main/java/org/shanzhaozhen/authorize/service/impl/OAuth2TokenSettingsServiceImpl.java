@@ -21,13 +21,13 @@ public class OAuth2TokenSettingsServiceImpl implements OAuth2TokenSettingsServic
 
     private final OAuth2TokenSettingsMapper oAuth2TokenSettingsMapper;
     @Override
-    public OAuth2TokenSettingsDTO getOAuth2TokenSettingsByClientId(String clientId) {
-        return oAuth2TokenSettingsMapper.getOAuth2TokenSettingsByClientId();
+    public OAuth2TokenSettingsDTO getOAuth2TokenSettingsByRegisteredClientId(String registeredClientId) {
+        return oAuth2TokenSettingsMapper.getOAuth2TokenSettingsByRegisteredClientId(registeredClientId);
     }
 
     @Override
-    public void addOrUpdateOAuth2TokenSettings(String clientId, OAuth2TokenSettingsDTO oAuth2TokenSettingsDTO) {
-        OAuth2TokenSettingsDTO oAuth2TokenSettingsByClientIdInDB = this.getOAuth2TokenSettingsByClientId(clientId);
+    public void addOrUpdateOAuth2TokenSettings(String registeredClientId, OAuth2TokenSettingsDTO oAuth2TokenSettingsDTO) {
+        OAuth2TokenSettingsDTO oAuth2TokenSettingsByClientIdInDB = this.getOAuth2TokenSettingsByRegisteredClientId(registeredClientId);
         if (oAuth2TokenSettingsByClientIdInDB == null) {
             OAuth2TokenSettingsDO oAuth2TokenSettingsDO = OAuth2TokenSettingsConverter.toDO(oAuth2TokenSettingsDTO);
             this.oAuth2TokenSettingsMapper.insert(oAuth2TokenSettingsDO);
@@ -37,5 +37,10 @@ public class OAuth2TokenSettingsServiceImpl implements OAuth2TokenSettingsServic
             this.oAuth2TokenSettingsMapper.updateById(oAuth2TokenSettingsDO);
         }
     }
-    
+
+    @Override
+    public void deleteOAuth2TokenSettingsByRegisteredClientId(String registeredClientId) {
+        this.oAuth2TokenSettingsMapper.deleteOAuth2TokenSettingsByRegisteredClientId(registeredClientId);
+    }
+
 }

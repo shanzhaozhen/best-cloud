@@ -16,12 +16,12 @@ import java.util.Set;
  */
 public interface OAuth2ScopeService {
 
-    List<OAuth2ScopeDTO> getOAuth2ScopesByClientId(String clientId);
+    List<OAuth2ScopeDTO> getOAuth2ScopesByRegisteredClientId(String registeredClientId);
 
     void addOAuth2Scopes(String clientId, Set<OAuth2ScopeDTO> scopes);
 
     void updateOAuth2Scopes(String clientId, Set<OAuth2ScopeDTO> scopes);
 
-    void deleteOAuth2ScopesByClientId(String clientId);
+    void deleteOAuth2ScopesByRegisteredClientId(String registeredClientId);
 
 }

@@ -1,22 +1,4 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : localhost
- Source Server Type    : MySQL
- Source Server Version : 80027
- Source Host           : localhost:3306
- Source Schema         : authorize
-
- Target Server Type    : MySQL
- Target Server Version : 80027
- File Encoding         : 65001
-
- Date: 12/11/2021 16:24:52
-*/
-
 CREATE SCHEMA IF NOT EXISTS `authorize` DEFAULT CHARACTER SET utf8mb4;
-
-
 
 USE
 `authorize`;
@@ -58,7 +40,10 @@ CREATE TABLE `oauth2_authorization`
     `refresh_token_expires_at`      timestamp NULL DEFAULT NULL,
     `refresh_token_metadata`        varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '授权信息表'
+  ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for oauth2_authorization_consent
@@ -72,7 +57,10 @@ CREATE TABLE `oauth2_authorization_consent`
     `principal_name`       varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL,
     `authorities`          varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
     PRIMARY KEY (`registered_client_id`, `principal_name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '授权信息表'
+  ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for oauth2_registered_client
@@ -81,23 +69,163 @@ CREATE TABLE `oauth2_authorization_consent`
 DROP TABLE IF EXISTS `oauth2_registered_client`;
 CREATE TABLE `oauth2_registered_client`
 (
-    `id`                            varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL,
-    `client_id`                     varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL,
-    `client_id_issued_at`           timestamp                                                      NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `client_secret`                 varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-    `client_secret_expires_at`      timestamp NULL DEFAULT NULL,
-    `client_name`                   varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL,
-    `client_authentication_methods` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-    `authorization_grant_types`     varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-    `redirect_uris`                 varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-    `scopes`                        varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-    `client_settings`               varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-    `token_settings`                varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    `id`                       varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ID',
+    `client_id`                varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL UNIQUE COMMENT 'oauth2客户端id',
+    `client_id_issued_at`      timestamp                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '客户端创建时间',
+    `client_secret`            varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '客户端密码',
+    `client_secret_expires_at` timestamp NULL DEFAULT NULL COMMENT '客户端密码过期时间',
+    `client_name`              varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '客户端名称',
+    `version`                  INT NULL DEFAULT NULL COMMENT '版本号',
+    `created_by`               VARCHAR(20) NULL DEFAULT NULL COMMENT '创建人',
+    `created_date`             datetime NULL DEFAULT NULL COMMENT '创建时间',
+    `last_modified_by`         VARCHAR(20) NULL DEFAULT NULL COMMENT '修改人',
+    `last_modified_date`       datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = 'oauth2客户端基础信息表'
+  ROW_FORMAT = Dynamic;
+
+
+-- ----------------------------
+-- Table structure for oauth2_client_auth_method
+-- oauth2客户端认证方式表
+-- ----------------------------
+DROP TABLE IF EXISTS `oauth2_client_authentication_method`;
+CREATE TABLE `oauth2_client_authentication_method`
+(
+    `id`                           varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ID',
+    `registered_client_id`         varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'oauth2客户端id',
+    `client_authentication_method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '客户端认证方式',
+    `version`                      INT NULL DEFAULT NULL COMMENT '版本号',
+    `created_by`                   VARCHAR(20) NULL DEFAULT NULL COMMENT '创建人',
+    `created_date`                 datetime NULL DEFAULT NULL COMMENT '创建时间',
+    `last_modified_by`             VARCHAR(20) NULL DEFAULT NULL COMMENT '修改人',
+    `last_modified_date`           datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = 'oauth2客户端认证方式表'
+  ROW_FORMAT = Dynamic;
+
+
+-- ----------------------------
+-- Table structure for oauth2_grant_type
+-- oauth2客户端授权方式表
+-- ----------------------------
+DROP TABLE IF EXISTS `oauth2_authorization_grant_type`;
+CREATE TABLE `oauth2_authorization_grant_type`
+(
+    `id`                   varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ID',
+    `registered_client_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'oauth2客户端id',
+    `grant_type_name`      varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '客户端授权方式',
+    `version`              INT NULL DEFAULT NULL COMMENT '版本号',
+    `created_by`           VARCHAR(20) NULL DEFAULT NULL COMMENT '创建人',
+    `created_date`         datetime NULL DEFAULT NULL COMMENT '创建时间',
+    `last_modified_by`     VARCHAR(20) NULL DEFAULT NULL COMMENT '修改人',
+    `last_modified_date`   datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = 'oauth2客户端授权方式表'
+  ROW_FORMAT = Dynamic;
+
+
+-- ----------------------------
+-- Table structure for oauth2_redirect_uri
+-- oauth2客户端重定向uri表
+-- ----------------------------
+DROP TABLE IF EXISTS `oauth2_redirect_uri`;
+CREATE TABLE `oauth2_redirect_uri`
+(
+    `id`                   varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ID',
+    `registered_client_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'oauth2客户端id',
+    `redirect_uri`         varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '客户端允许重定向的uri',
+    `version`              INT NULL DEFAULT NULL COMMENT '版本号',
+    `created_by`           VARCHAR(20) NULL DEFAULT NULL COMMENT '创建人',
+    `created_date`         datetime NULL DEFAULT NULL COMMENT '创建时间',
+    `last_modified_by`     VARCHAR(20) NULL DEFAULT NULL COMMENT '修改人',
+    `last_modified_date`   datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = 'oauth2客户端重定向uri表'
+  ROW_FORMAT = Dynamic;
+
+
+-- ----------------------------
+-- Table structure for oauth2_scope
+-- oauth2客户端授权范围
+-- ----------------------------
+DROP TABLE IF EXISTS `oauth2_scope`;
+CREATE TABLE `oauth2_scope`
+(
+    `id`                   varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ID',
+    `registered_client_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'oauth2客户端id',
+    `scope`                varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '客户端允许的scope 来自role表',
+    `description`          varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `version`              INT NULL DEFAULT NULL COMMENT '版本号',
+    `created_by`           VARCHAR(20) NULL DEFAULT NULL COMMENT '创建人',
+    `created_date`         datetime NULL DEFAULT NULL COMMENT '创建时间',
+    `last_modified_by`     VARCHAR(20) NULL DEFAULT NULL COMMENT '修改人',
+    `last_modified_date`   datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = 'oauth2客户端授权范围'
+  ROW_FORMAT = Dynamic;
+
+
+-- ----------------------------
+-- Table structure for oauth2_client_settings
+-- oauth2客户端配置
+-- ----------------------------
+DROP TABLE IF EXISTS `oauth2_client_settings`;
+CREATE TABLE `oauth2_client_settings`
+(
+    `id`                            varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ID',
+    `registered_client_id`          varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'oauth2客户端id',
+    `require_proof_key`             tinyint(1) NULL DEFAULT 0 COMMENT '客户端是否需要证明密钥',
+    `require_authorization_consent` tinyint(1) NULL DEFAULT 0 COMMENT '客户端是否需要授权确认页面',
+    `jwk_set_url`                   varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'jwkSet url',
+    `signing_algorithm`             varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '支持的签名算法',
+    `version`                       INT NULL DEFAULT NULL COMMENT '版本号',
+    `created_by`                    VARCHAR(20) NULL DEFAULT NULL COMMENT '创建人',
+    `created_date`                  datetime NULL DEFAULT NULL COMMENT '创建时间',
+    `last_modified_by`              VARCHAR(20) NULL DEFAULT NULL COMMENT '修改人',
+    `last_modified_date`            datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = 'oauth2客户端配置'
+  ROW_FORMAT = Dynamic;
+
+
+
+-- ----------------------------
+-- Table structure for oauth2_token_settings
+-- oauth2客户端的token配置项
+-- ----------------------------
+DROP TABLE IF EXISTS `oauth2_token_settings`;
+CREATE TABLE `oauth2_token_settings`
+(
+    `id`                           varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ID',
+    `registered_client_id`         varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'oauth2客户端id',
+    `access_token_time_to_live`    bigint NULL DEFAULT NULL COMMENT 'access_token 有效时间',
+    `token_format`                 varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'token 格式  jwt、opaque',
+    `reuse_refresh_tokens`         tinyint(1) NULL DEFAULT 1 COMMENT '是否重用 refresh_token',
+    `refresh_token_time_to_live`   bigint NULL DEFAULT NULL COMMENT 'refresh_token 有效时间',
+    `id_token_signature_algorithm` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'oidc id_token 签名算法',
+    `version`                      INT NULL DEFAULT NULL COMMENT '版本号',
+    `created_by`                   VARCHAR(20) NULL DEFAULT NULL COMMENT '创建人',
+    `created_date`                 datetime NULL DEFAULT NULL COMMENT '创建时间',
+    `last_modified_by`             VARCHAR(20) NULL DEFAULT NULL COMMENT '修改人',
+    `last_modified_date`           datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = 'oauth2客户端的token配置项'
+  ROW_FORMAT = Dynamic;
 
 SET
 FOREIGN_KEY_CHECKS = 1;
-
-
-INSERT INTO `authorize`.`oauth2_registered_client` (`id`, `client_id`, `client_id_issued_at`, `client_secret`, `client_secret_expires_at`, `client_name`, `client_authentication_methods`, `authorization_grant_types`, `redirect_uris`, `scopes`, `client_settings`, `token_settings`) VALUES ('0088119e-bdba-4ccd-8f7f-7c7faa0d2479', 'auth', '2021-12-01 16:06:09', '{bcrypt}$2a$10$IGy1PVV56E71GSce5CHwLO5flTo3C0hGZ.VMa9TKKeCPhbp4Bm0u2', NULL, '0088119e-bdba-4ccd-8f7f-7c7faa0d2479', 'client_secret_basic', 'refresh_token,client_credentials,account,authorization_code,account', 'http://127.0.0.1:8080/authorized,http://www.baidu.com,http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc', 'all,openid,message.read,message.write', '{\"@class\":\"java.util.Collections$UnmodifiableMap\",\"settings.client.require-proof-key\":false,\"settings.client.require-authorization-consent\":true}', '{\"@class\":\"java.util.Collections$UnmodifiableMap\",\"settings.token.reuse-refresh-tokens\":true,\"settings.token.id-token-signature-algorithm\":[\"org.springframework.security.oauth2.jose.jws.SignatureAlgorithm\",\"RS256\"],\"settings.token.access-token-time-to-live\":[\"java.time.Duration\",3600.000000000],\"settings.token.refresh-token-time-to-live\":[\"java.time.Duration\",259200.000000000]}');

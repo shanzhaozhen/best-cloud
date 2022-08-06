@@ -24,7 +24,7 @@ public class OAuth2TokenSettingsDTO extends BaseInfo {
     private String id;
 
     @Schema(description = "oauth2客户端id")
-    private String clientId;
+    private String registeredClientId;
 
     @Schema(description = "access_token 有效时间")
     private Duration accessTokenTimeToLive;

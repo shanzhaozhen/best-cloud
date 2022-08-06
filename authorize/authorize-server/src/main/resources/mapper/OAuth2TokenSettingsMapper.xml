@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.shanzhaozhen.authorize.mapper.OAuth2TokenSettingsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.authorize.pojo.dto.OAuth2TokenSettingsDTO">
+        <id column="id" property="id" />
+        <result column="registered_client_id" property="registeredClientId" />
+        <result column="access_token_time_to_live" property="accessTokenTimeToLive" />
+        <result column="access_token_format" property="accessTokenFormat" />
+        <result column="reuse_refresh_tokens" property="reuseRefreshTokens" />
+        <result column="refresh_token_time_to_live" property="refreshTokenTimeToLive" />
+        <result column="id_token_signature_algorithm" property="idTokenSignatureAlgorithm" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+
+    <select id="getOAuth2TokenSettingsByRegisteredClientId" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2TokenSettingsDTO">
+        select id, client_id, access_token_time_to_live, access_token_format, reuse_refresh_tokens,
+               refresh_token_time_to_live, id_token_signature_algorithm,
+               created_by, created_date, last_modified_by, last_modified_date
+        from oauth2_token_settings
+        where registered_client_id = #{registeredClientId}
+    </select>
+
+    <delete id="deleteOAuth2TokenSettingsByRegisteredClientId">
+        delete from oauth2_token_settings where registered_client_id = #{registeredClientId}
+    </delete>
+
+</mapper>

@@ -15,9 +15,9 @@ import java.util.List;
  */
 public interface OAuth2AuthorizationGrantTypeMapper extends BaseMapper<OAuth2AuthorizationGrantTypeDO> {
 
-    List<OAuth2AuthorizationGrantTypeDTO> getOAuth2AuthorizationGrantTypesByClientId(@Param("clientId") String clientId);
+    List<OAuth2AuthorizationGrantTypeDTO> getOAuth2AuthorizationGrantTypesByRegisteredClientId(@Param("registeredClientId") String registeredClientId);
 
-    void deleteOAuth2AuthorizationGrantTypesByClientId(@Param("clientId") String clientId);
+    void deleteOAuth2AuthorizationGrantTypesByRegisteredClientId(@Param("registeredClientId") String registeredClientId);
 
 
 }

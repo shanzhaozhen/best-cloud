@@ -21,12 +21,11 @@ public class OAuth2ScopeDTO extends BaseInfo {
     private String id;
 
     @Schema(description = "oauth2客户端id")
-    private String clientId;
+    private String registeredClientId;
 
     @Schema(description = "客户端允许的授权范围")
     private String scope;
 
-    @Schema(description = "描述")
     private String description;
 
 }

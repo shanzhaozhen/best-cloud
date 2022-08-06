@@ -19,14 +19,15 @@ import org.springframework.stereotype.Service;
 public class OAuth2ClientSettingsServiceImpl implements OAuth2ClientSettingsService {
 
     private final OAuth2ClientSettingsMapper oAuth2ClientSettingsMapper;
+
     @Override
-    public OAuth2ClientSettingsDTO getOAuth2ClientSettingsByClientId(String clientId) {
-        return oAuth2ClientSettingsMapper.getOAuth2ClientSettingsByClientId();
+    public OAuth2ClientSettingsDTO getOAuth2ClientSettingsByRegisteredClientId(String registeredClientId) {
+        return oAuth2ClientSettingsMapper.getOAuth2ClientSettingsByRegisteredClientId(registeredClientId);
     }
 
     @Override
-    public void addOrUpdateOAuth2ClientSettings(String clientId, OAuth2ClientSettingsDTO oAuth2ClientSettingsDTO) {
-        OAuth2ClientSettingsDTO oAuth2ClientSettingsByClientIdInDB = this.getOAuth2ClientSettingsByClientId(clientId);
+    public void addOrUpdateOAuth2ClientSettings(String registeredClientId, OAuth2ClientSettingsDTO oAuth2ClientSettingsDTO) {
+        OAuth2ClientSettingsDTO oAuth2ClientSettingsByClientIdInDB = this.getOAuth2ClientSettingsByRegisteredClientId(registeredClientId);
         if (oAuth2ClientSettingsByClientIdInDB == null) {
             OAuth2ClientSettingsDO oAuth2ClientSettingsDO =  OAuth2ClientSettingsConverter.toDO(oAuth2ClientSettingsDTO);
             this.oAuth2ClientSettingsMapper.insert(oAuth2ClientSettingsDO);
@@ -35,6 +36,11 @@ public class OAuth2ClientSettingsServiceImpl implements OAuth2ClientSettingsServ
             CustomBeanUtils.copyPropertiesExcludeMeta(oAuth2ClientSettingsDTO, oAuth2ClientSettingsDO);
             this.oAuth2ClientSettingsMapper.updateById(oAuth2ClientSettingsDO);
         }
+    }
+
+    @Override
+    public void deleteOAuth2ClientSettingsByRegisteredClientId(String registeredClientId) {
+        this.oAuth2ClientSettingsMapper.deleteOAuth2ClientSettingsByRegisteredClientId(registeredClientId);
     }
 
 }

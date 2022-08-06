@@ -25,7 +25,7 @@ public class OAuth2ClientSettingsDO extends BaseEntity {
     private String id;
 
     @Schema(description = "oauth2客户端id")
-    private String clientId;
+    private String registeredClientId;
 
     @Schema(description = "客户端是否需要证明密钥")
     private boolean requireProofKey;
@@ -38,9 +38,5 @@ public class OAuth2ClientSettingsDO extends BaseEntity {
 
     @Schema(description = "支持的签名算法")
     private String signingAlgorithm;
-
-    @Schema(description = "版本号")
-    @Version
-    private Integer version;
 
 }

@@ -12,8 +12,10 @@ import org.shanzhaozhen.authorize.pojo.dto.OAuth2TokenSettingsDTO;
  */
 public interface OAuth2TokenSettingsService {
 
-    OAuth2TokenSettingsDTO getOAuth2TokenSettingsByClientId(String clientId);
+    OAuth2TokenSettingsDTO getOAuth2TokenSettingsByRegisteredClientId(String registeredClientId);
 
     void addOrUpdateOAuth2TokenSettings(String clientId, OAuth2TokenSettingsDTO oAuth2TokenSettingsDTO);
+
+    void deleteOAuth2TokenSettingsByRegisteredClientId(String registeredClientId);
 
 }

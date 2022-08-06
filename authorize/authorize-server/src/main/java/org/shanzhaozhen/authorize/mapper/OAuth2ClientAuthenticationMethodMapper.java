@@ -14,8 +14,8 @@ import java.util.List;
  */
 public interface OAuth2ClientAuthenticationMethodMapper extends BaseMapper<OAuth2ClientAuthenticationMethodDO> {
 
-    List<OAuth2ClientAuthenticationMethodDTO> getOAuth2ClientAuthenticationMethodByClientId(@Param("clientId") String clientId);
+    List<OAuth2ClientAuthenticationMethodDTO> getOAuth2ClientAuthenticationMethodByRegisteredClientId(@Param("registeredClientId") String registeredClientId);
 
-    void deleteOAuth2ClientAuthenticationMethodsByClientId(@Param("clientId") String clientId);
+    void deleteOAuth2ClientAuthenticationMethodsByRegisteredClientId(@Param("registeredClientId") String registeredClientId);
 
 }

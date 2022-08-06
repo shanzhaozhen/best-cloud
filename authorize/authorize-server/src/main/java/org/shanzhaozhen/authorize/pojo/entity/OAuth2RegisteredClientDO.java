@@ -40,8 +40,4 @@ public class OAuth2RegisteredClientDO extends BaseEntity {
     @Schema(description = "客户端名称")
     private String clientName;
 
-    @Schema(description = "版本号")
-    @Version
-    private Integer version;
-
 }

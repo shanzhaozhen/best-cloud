@@ -15,8 +15,8 @@ import java.util.List;
  */
 public interface OAuth2ScopeMapper extends BaseMapper<OAuth2ScopeDO> {
 
-    List<OAuth2ScopeDTO> getOAuth2ScopesByClientId(@Param("clientId") String clientId);
+    List<OAuth2ScopeDTO> getOAuth2ScopesByRegisteredClientId(@Param("registeredClientId") String registeredClientId);
 
-    void deleteOAuth2ScopesByClientId(@Param("clientId") String clientId);
+    void deleteOAuth2ScopesByRegisteredClientId(@Param("registeredClientId") String registeredClientId);
 
 }

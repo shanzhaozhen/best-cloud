@@ -24,8 +24,8 @@ public class OAuth2AuthorizationGrantTypeServiceImpl implements OAuth2Authorizat
     private final OAuth2AuthorizationGrantTypeMapper oAuth2AuthorizationGrantTypeMapper;
 
     @Override
-    public List<OAuth2AuthorizationGrantTypeDTO> getOAuth2AuthorizationGrantTypesByClientId(String clientId) {
-        return oAuth2AuthorizationGrantTypeMapper.getOAuth2AuthorizationGrantTypesByClientId(clientId);
+    public List<OAuth2AuthorizationGrantTypeDTO> getOAuth2AuthorizationGrantTypesByRegisteredClientId(String registeredClientId) {
+        return oAuth2AuthorizationGrantTypeMapper.getOAuth2AuthorizationGrantTypesByRegisteredClientId(registeredClientId);
     }
 
     @Override
@@ -39,13 +39,13 @@ public class OAuth2AuthorizationGrantTypeServiceImpl implements OAuth2Authorizat
     }
 
     @Override
-    public void updateOAuth2AuthorizationGrantTypes(String clientId, Set<OAuth2AuthorizationGrantTypeDTO> authorizationGrantTypes) {
-        this.deleteOAuth2AuthorizationGrantTypesByClientId(clientId);
-        this.addOAuth2AuthorizationGrantTypes(clientId, authorizationGrantTypes);
+    public void updateOAuth2AuthorizationGrantTypes(String registeredClientId, Set<OAuth2AuthorizationGrantTypeDTO> authorizationGrantTypes) {
+        this.deleteOAuth2AuthorizationGrantTypesByRegisteredClientId(registeredClientId);
+        this.addOAuth2AuthorizationGrantTypes(registeredClientId, authorizationGrantTypes);
     }
 
     @Override
-    public void deleteOAuth2AuthorizationGrantTypesByClientId(String clientId) {
-        oAuth2AuthorizationGrantTypeMapper.deleteOAuth2AuthorizationGrantTypesByClientId(clientId);
+    public void deleteOAuth2AuthorizationGrantTypesByRegisteredClientId(String registeredClientId) {
+        oAuth2AuthorizationGrantTypeMapper.deleteOAuth2AuthorizationGrantTypesByRegisteredClientId(registeredClientId);
     }
 }

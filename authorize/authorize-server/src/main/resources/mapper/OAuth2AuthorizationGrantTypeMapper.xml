@@ -5,23 +5,23 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="org.shanzhaozhen.authorize.pojo.dto.OAuth2AuthorizationGrantTypeDTO">
         <id column="id" property="id" />
-        <result column="client_id" property="clientId" />
-        <result column="clientAuthenticationMethod" property="clientAuthenticationMethod" />
+        <result column="registered_client_id" property="registeredClientId" />
+        <result column="grant_type_name" property="grantTypeName" />
         <result column="created_by" property="createdBy" />
         <result column="created_date" property="createdDate" />
         <result column="last_modified_by" property="lastModifiedBy" />
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-    <select id="getOAuth2ScopesByClientId" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2AuthorizationGrantTypeDTO">
+    <select id="getOAuth2AuthorizationGrantTypesByRegisteredClientId" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2AuthorizationGrantTypeDTO">
         select id, clientId, client_authentication_method,
                created_by, created_date, last_modified_by, last_modified_date
         from oauth2_authorization_grant_type
-        where clien_id = #{clientId}
+        where registered_client_id = #{registeredClientId}
     </select>
 
-    <delete id="deleteOAuth2ScopesByClientId">
-        delete from oauth2_authorization_grant_type where clien_id = #{clientId}
+    <delete id="deleteOAuth2AuthorizationGrantTypesByRegisteredClientId">
+        delete from oauth2_authorization_grant_type where registered_client_id = #{registeredClientId}
     </delete>
 
 </mapper>

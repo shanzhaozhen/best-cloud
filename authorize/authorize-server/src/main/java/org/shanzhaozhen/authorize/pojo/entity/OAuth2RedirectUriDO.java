@@ -25,13 +25,9 @@ public class OAuth2RedirectUriDO extends BaseEntity {
     private String id;
 
     @Schema(description = "oauth2客户端id")
-    private String clientId;
+    private String registeredClientId;
 
     @Schema(description = "客户端允许重定向的uri")
     private String redirectUri;
-
-    @Schema(description = "版本号")
-    @Version
-    private Integer version;
 
 }

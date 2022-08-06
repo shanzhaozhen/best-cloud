@@ -14,8 +14,8 @@ import java.util.List;
  */
 public interface OAuth2RedirectUriMapper extends BaseMapper<OAuth2RedirectUriDO> {
 
-    List<OAuth2RedirectUriDTO> getOAuth2RedirectUrisByClientId(@Param("clientId") String clientId);
+    List<OAuth2RedirectUriDTO> getOAuth2RedirectUrisByRegisteredClientId(@Param("registeredClientId") String registeredClientId);
 
-    void deleteOAuth2RedirectUrisByClientId(@Param("clientId") String clientId);
+    void deleteOAuth2RedirectUrisByRegisteredClientId(@Param("registeredClientId") String registeredClientId);
 
 }

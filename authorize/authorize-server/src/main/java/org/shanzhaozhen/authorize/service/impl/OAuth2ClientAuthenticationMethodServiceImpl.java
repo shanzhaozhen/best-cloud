@@ -24,8 +24,8 @@ public class OAuth2ClientAuthenticationMethodServiceImpl implements OAuth2Client
     private final OAuth2ClientAuthenticationMethodMapper oAuth2ClientAuthenticationMethodMapper;
 
     @Override
-    public List<OAuth2ClientAuthenticationMethodDTO> getOAuth2ClientAuthenticationMethodByClientId(String clientId) {
-        return oAuth2ClientAuthenticationMethodMapper.getOAuth2ClientAuthenticationMethodByClientId(clientId);
+    public List<OAuth2ClientAuthenticationMethodDTO> getOAuth2ClientAuthenticationMethodsByRegisteredClientId(String registeredClientId) {
+        return oAuth2ClientAuthenticationMethodMapper.getOAuth2ClientAuthenticationMethodByRegisteredClientId(registeredClientId);
     }
 
     @Override
@@ -39,14 +39,14 @@ public class OAuth2ClientAuthenticationMethodServiceImpl implements OAuth2Client
     }
 
     @Override
-    public void updateOAuth2ClientAuthenticationMethods(String clientId, Set<OAuth2ClientAuthenticationMethodDTO> clientAuthenticationMethods) {
-        this.deleteOAuth2ClientAuthenticationMethodsByClientId(clientId);
-        this.addOAuth2ClientAuthenticationMethods(clientId, clientAuthenticationMethods);
+    public void updateOAuth2ClientAuthenticationMethods(String registeredClientId, Set<OAuth2ClientAuthenticationMethodDTO> clientAuthenticationMethods) {
+        this.deleteOAuth2ClientAuthenticationMethodsByRegisteredClientId(registeredClientId);
+        this.addOAuth2ClientAuthenticationMethods(registeredClientId, clientAuthenticationMethods);
     }
 
     @Override
-    public void deleteOAuth2ClientAuthenticationMethodsByClientId(String clientId) {
-        oAuth2ClientAuthenticationMethodMapper.deleteOAuth2ClientAuthenticationMethodsByClientId(clientId);
+    public void deleteOAuth2ClientAuthenticationMethodsByRegisteredClientId(String registeredClientId) {
+        oAuth2ClientAuthenticationMethodMapper.deleteOAuth2ClientAuthenticationMethodsByRegisteredClientId(registeredClientId);
     }
 
 }

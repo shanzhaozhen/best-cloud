@@ -21,7 +21,7 @@ public class OAuth2AuthorizationGrantTypeDTO extends BaseInfo {
     private String id;
 
     @Schema(description = "oauth2客户端id")
-    private String clientId;
+    private String registeredClientId;
 
     @Schema(description = "客户端授权方式")
     private String grantTypeName;
