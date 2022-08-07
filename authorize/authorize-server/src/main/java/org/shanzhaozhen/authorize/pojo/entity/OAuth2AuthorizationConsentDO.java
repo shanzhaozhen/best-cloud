@@ -6,12 +6,14 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.shanzhaozhen.common.core.entity.BaseEntity;
 
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("oauth2_authorization_consent")
@@ -27,9 +29,10 @@ public class OAuth2AuthorizationConsentDO extends BaseEntity {
     @Schema(description = "oauth2客户端id")
     private String registeredClientId;
 
-    @TableField("principal_name")
+    @Schema(description = "授权用户名称")
     private String principalName;
 
+    @Schema(description = "授权权限")
     private String authorities;
 
 }

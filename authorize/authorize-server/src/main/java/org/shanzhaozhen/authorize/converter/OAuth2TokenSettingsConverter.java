@@ -34,7 +34,10 @@ public class OAuth2TokenSettingsConverter {
     public static OAuth2TokenSettingsDTO toDTO(TokenSettings tokenSettings) {
         OAuth2TokenSettingsDTO.OAuth2TokenSettingsDTOBuilder builder = OAuth2TokenSettingsDTO.builder()
                 .accessTokenTimeToLive(tokenSettings.getAccessTokenTimeToLive().getSeconds())
-                .accessTokenFormat(Optional.ofNullable(tokenSettings.getAccessTokenFormat()).map(OAuth2TokenFormat::getValue).orElse(null))
+                .accessTokenFormat(Optional.ofNullable(tokenSettings.getAccessTokenFormat())
+                        .map(OAuth2TokenFormat::getValue)
+                        .orElse(null)
+                )
                 .reuseRefreshTokens(tokenSettings.isReuseRefreshTokens())
                 .refreshTokenTimeToLive(tokenSettings.getRefreshTokenTimeToLive().getSeconds())
                 .idTokenSignatureAlgorithm(tokenSettings.getIdTokenSignatureAlgorithm().getName());

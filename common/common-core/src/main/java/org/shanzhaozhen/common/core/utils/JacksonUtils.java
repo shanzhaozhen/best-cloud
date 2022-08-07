@@ -3,10 +3,10 @@ package org.shanzhaozhen.common.core.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 public class JacksonUtils {
@@ -41,6 +41,17 @@ public class JacksonUtils {
             e.printStackTrace();
             log.error("Json转对象数组失败：Json to Object List error");
             throw new IllegalArgumentException("Json转对象数组失败：Json to Object List error");
+        }
+    }
+
+    public static <T> Set<T> toPojoSet(String json, Class<T> beanType) {
+        try {
+            JavaType javaType = objectMapper.getTypeFactory().constructParametricType(Set.class, beanType);
+            return objectMapper.readValue(json, javaType);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            log.error("Json转对象数组失败：Json to Object Set error");
+            throw new IllegalArgumentException("Json转对象数组失败：Json to Object Set error");
         }
     }
 
