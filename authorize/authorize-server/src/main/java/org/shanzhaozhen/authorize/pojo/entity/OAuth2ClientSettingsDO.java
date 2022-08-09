@@ -6,12 +6,14 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.Version;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.shanzhaozhen.common.core.entity.BaseEntity;
 
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("oauth2_client_settings")
@@ -37,6 +39,6 @@ public class OAuth2ClientSettingsDO extends BaseEntity {
     private String jwkSetUrl;
 
     @Schema(description = "支持的签名算法")
-    private String signingAlgorithm;
+    private String tokenEndpointAuthenticationSigningAlgorithm;
 
 }

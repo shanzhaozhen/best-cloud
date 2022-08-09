@@ -1,5 +1,7 @@
 package org.shanzhaozhen.authorize.service.impl;
 
+import lombok.RequiredArgsConstructor;
+import org.shanzhaozhen.authorize.mapper.OAuth2AuthorizationMapper;
 import org.shanzhaozhen.authorize.service.CustomOAuth2AuthorizationService;
 import org.springframework.security.oauth2.core.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
@@ -12,7 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
  * @Description:
  */
 //@Service
+    @RequiredArgsConstructor
 public class CustomOAuth2AuthorizationServiceImpl implements CustomOAuth2AuthorizationService {
+
+    private final OAuth2AuthorizationMapper oAuth2AuthorizationMapper;
 
     @Override
     @Transactional

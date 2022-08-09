@@ -23,6 +23,13 @@ public class CustomBeanUtils extends BeanUtils {
         copyPropertiesExcludeMeta(source, target, false, ignoreProperties);
     }
 
+    /**
+     * 复制对象，
+     * @param source
+     * @param target
+     * @param excludeNull 为 true 为不复制空值或空串
+     * @param ignoreProperties
+     */
     public static void copyPropertiesExcludeMeta(Object source, Object target, boolean excludeNull, @Nullable String... ignoreProperties) {
         List<String> newMetas = new ArrayList<>(metaList);
         if (ignoreProperties != null && ignoreProperties.length > 0) {
@@ -39,6 +46,17 @@ public class CustomBeanUtils extends BeanUtils {
         copyPropertiesExcludeNull(source, target, null, ignoreProperties);
     }
 
+    public static void copyPropertiesExcludeMetaAndNull(Object source, Object target, @Nullable String... ignoreProperties) {
+        copyPropertiesExcludeMeta(source, target, true, ignoreProperties);
+    }
+
+    /**
+     * 复制对象，但不对为空或空串字段复制
+     * @param source
+     * @param target
+     * @param editable
+     * @param ignoreProperties
+     */
     public static void copyPropertiesExcludeNull(Object source, Object target, @Nullable Class<?> editable, @Nullable String... ignoreProperties) {
 
         Assert.notNull(source, "Source must not be null");

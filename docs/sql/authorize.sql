@@ -1,11 +1,9 @@
 CREATE SCHEMA IF NOT EXISTS `authorize` DEFAULT CHARACTER SET utf8mb4;
 
-USE
-`authorize`;
+USE `authorize`;
 
 SET NAMES utf8mb4;
-SET
-FOREIGN_KEY_CHECKS = 0;
+SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
 -- Table structure for oauth2_authorization
@@ -69,112 +67,26 @@ CREATE TABLE `oauth2_authorization_consent`
 DROP TABLE IF EXISTS `oauth2_registered_client`;
 CREATE TABLE `oauth2_registered_client`
 (
-    `id`                       varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ID',
-    `client_id`                varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL UNIQUE COMMENT 'oauth2客户端id',
-    `client_id_issued_at`      timestamp                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '客户端创建时间',
-    `client_secret`            varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '客户端密码',
-    `client_secret_expires_at` timestamp NULL DEFAULT NULL COMMENT '客户端密码过期时间',
-    `client_name`              varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '客户端名称',
-    `version`                  INT NULL DEFAULT NULL COMMENT '版本号',
-    `created_by`               VARCHAR(20) NULL DEFAULT NULL COMMENT '创建人',
-    `created_date`             datetime NULL DEFAULT NULL COMMENT '创建时间',
-    `last_modified_by`         VARCHAR(20) NULL DEFAULT NULL COMMENT '修改人',
-    `last_modified_date`       datetime NULL DEFAULT NULL COMMENT '修改时间',
+    `id`                            varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ID',
+    `client_id`                     varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL UNIQUE COMMENT 'oauth2客户端id',
+    `client_id_issued_at`           timestamp                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '客户端创建时间',
+    `client_secret`                 varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '客户端密码',
+    `client_secret_expires_at`      timestamp NULL DEFAULT NULL COMMENT '客户端密码过期时间',
+    `client_name`                   varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '客户端名称',
+    `client_authentication_methods` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '客户端认证方式',
+    `authorization_grant_types`     varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '客户端授权方式',
+    `redirect_uris`                 varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '客户端允许重定向的uri',
+    `scopes`                        varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '客户端允许的scope 来自role表',
+    `version`                       INT NULL DEFAULT NULL COMMENT '版本号',
+    `created_by`                    VARCHAR(20) NULL DEFAULT NULL COMMENT '创建人',
+    `created_date`                  datetime NULL DEFAULT NULL COMMENT '创建时间',
+    `last_modified_by`              VARCHAR(20) NULL DEFAULT NULL COMMENT '修改人',
+    `last_modified_date`            datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = 'oauth2客户端基础信息表'
   ROW_FORMAT = Dynamic;
-
-
--- ----------------------------
--- Table structure for oauth2_client_auth_method
--- oauth2客户端认证方式表
--- ----------------------------
-DROP TABLE IF EXISTS `oauth2_client_authentication_method`;
-CREATE TABLE `oauth2_client_authentication_method`
-(
-    `id`                           varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ID',
-    `registered_client_id`         varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'oauth2客户端id',
-    `client_authentication_method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '客户端认证方式',
-    `version`                      INT NULL DEFAULT NULL COMMENT '版本号',
-    `created_by`                   VARCHAR(20) NULL DEFAULT NULL COMMENT '创建人',
-    `created_date`                 datetime NULL DEFAULT NULL COMMENT '创建时间',
-    `last_modified_by`             VARCHAR(20) NULL DEFAULT NULL COMMENT '修改人',
-    `last_modified_date`           datetime NULL DEFAULT NULL COMMENT '修改时间',
-    PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB
-  CHARACTER SET = utf8mb4
-  COLLATE = utf8mb4_general_ci COMMENT = 'oauth2客户端认证方式表'
-  ROW_FORMAT = Dynamic;
-
-
--- ----------------------------
--- Table structure for oauth2_grant_type
--- oauth2客户端授权方式表
--- ----------------------------
-DROP TABLE IF EXISTS `oauth2_authorization_grant_type`;
-CREATE TABLE `oauth2_authorization_grant_type`
-(
-    `id`                   varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ID',
-    `registered_client_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'oauth2客户端id',
-    `grant_type_name`      varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '客户端授权方式',
-    `version`              INT NULL DEFAULT NULL COMMENT '版本号',
-    `created_by`           VARCHAR(20) NULL DEFAULT NULL COMMENT '创建人',
-    `created_date`         datetime NULL DEFAULT NULL COMMENT '创建时间',
-    `last_modified_by`     VARCHAR(20) NULL DEFAULT NULL COMMENT '修改人',
-    `last_modified_date`   datetime NULL DEFAULT NULL COMMENT '修改时间',
-    PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB
-  CHARACTER SET = utf8mb4
-  COLLATE = utf8mb4_general_ci COMMENT = 'oauth2客户端授权方式表'
-  ROW_FORMAT = Dynamic;
-
-
--- ----------------------------
--- Table structure for oauth2_redirect_uri
--- oauth2客户端重定向uri表
--- ----------------------------
-DROP TABLE IF EXISTS `oauth2_redirect_uri`;
-CREATE TABLE `oauth2_redirect_uri`
-(
-    `id`                   varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ID',
-    `registered_client_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'oauth2客户端id',
-    `redirect_uri`         varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '客户端允许重定向的uri',
-    `version`              INT NULL DEFAULT NULL COMMENT '版本号',
-    `created_by`           VARCHAR(20) NULL DEFAULT NULL COMMENT '创建人',
-    `created_date`         datetime NULL DEFAULT NULL COMMENT '创建时间',
-    `last_modified_by`     VARCHAR(20) NULL DEFAULT NULL COMMENT '修改人',
-    `last_modified_date`   datetime NULL DEFAULT NULL COMMENT '修改时间',
-    PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB
-  CHARACTER SET = utf8mb4
-  COLLATE = utf8mb4_general_ci COMMENT = 'oauth2客户端重定向uri表'
-  ROW_FORMAT = Dynamic;
-
-
--- ----------------------------
--- Table structure for oauth2_scope
--- oauth2客户端授权范围
--- ----------------------------
-DROP TABLE IF EXISTS `oauth2_scope`;
-CREATE TABLE `oauth2_scope`
-(
-    `id`                   varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ID',
-    `registered_client_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'oauth2客户端id',
-    `scope`                varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '客户端允许的scope 来自role表',
-    `description`          varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-    `version`              INT NULL DEFAULT NULL COMMENT '版本号',
-    `created_by`           VARCHAR(20) NULL DEFAULT NULL COMMENT '创建人',
-    `created_date`         datetime NULL DEFAULT NULL COMMENT '创建时间',
-    `last_modified_by`     VARCHAR(20) NULL DEFAULT NULL COMMENT '修改人',
-    `last_modified_date`   datetime NULL DEFAULT NULL COMMENT '修改时间',
-    PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB
-  CHARACTER SET = utf8mb4
-  COLLATE = utf8mb4_general_ci COMMENT = 'oauth2客户端授权范围'
-  ROW_FORMAT = Dynamic;
-
 
 -- ----------------------------
 -- Table structure for oauth2_client_settings
@@ -227,5 +139,4 @@ CREATE TABLE `oauth2_token_settings`
   COLLATE = utf8mb4_general_ci COMMENT = 'oauth2客户端的token配置项'
   ROW_FORMAT = Dynamic;
 
-SET
-FOREIGN_KEY_CHECKS = 1;
+SET FOREIGN_KEY_CHECKS = 1;

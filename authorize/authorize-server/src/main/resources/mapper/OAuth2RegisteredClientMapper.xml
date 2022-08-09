@@ -3,7 +3,7 @@
 <mapper namespace="org.shanzhaozhen.authorize.mapper.OAuth2RegisteredClientMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.shanzhaozhen.authorize.pojo.dto.OAuth2RegisteredClientDTO">
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.authorize.pojo.vo.OAuth2RegisteredClientVO">
         <id column="id" property="id" />
         <result column="client_id" property="clientId" />
         <result column="client_id_issued_at" property="clientIdIssuedAt" />
@@ -30,14 +30,10 @@
         </if>
     </select>
 
-    <select id="getOAuth2RegisteredClientById" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2RegisteredClientDTO">
-        select id, client_id, client_id_issued_at, client_secret, client_secret_expires_at, client_name
-        from oauth2_registered_client
-        where id = #{id}
-    </select>
-
-    <select id="getOAuth2RegisteredClientByClientId" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2RegisteredClientDTO">
-        select id, client_id, client_id_issued_at, client_secret, client_secret_expires_at, client_name
+    <select id="getOAuth2RegisteredClientByClientId" resultType="org.shanzhaozhen.authorize.pojo.entity.OAuth2RegisteredClientDO">
+        select id, client_id, client_id_issued_at, client_secret, client_secret_expires_at, client_name,
+               client_authentication_methods, authorization_grant_types, redirect_uris, scopes,
+               version, created_by, created_date, last_modified_by, last_modified_date
         from oauth2_registered_client
         where client_id = #{clientId}
     </select>

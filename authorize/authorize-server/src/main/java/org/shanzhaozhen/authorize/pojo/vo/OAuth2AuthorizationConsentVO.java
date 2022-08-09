@@ -1,11 +1,11 @@
-package org.shanzhaozhen.authorize.pojo.dto;
+package org.shanzhaozhen.authorize.pojo.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.shanzhaozhen.common.core.entity.BaseInfo;
+import org.shanzhaozhen.common.core.entity.BaseInfoVO;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Set;
@@ -15,10 +15,8 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "oauth2客户端信息DO实体")
-public class OAuth2AuthorizationConsentDTO extends BaseInfo {
-
-    private static final long serialVersionUID = 7750076349280919861L;
+@Schema(description = "oauth2客户端信息VO实体")
+public class OAuth2AuthorizationConsentVO extends BaseInfoVO {
 
     @Schema(description = "主键ID")
     private String id;

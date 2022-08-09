@@ -1,7 +1,9 @@
 package org.shanzhaozhen.authorize.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2RegisteredClientDTO;
+import org.shanzhaozhen.authorize.pojo.vo.OAuth2RegisteredClientVO;
+import org.shanzhaozhen.authorize.pojo.entity.OAuth2RegisteredClientDO;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 
 /**
@@ -11,15 +13,15 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
  */
 public interface CustomOAuth2RegisteredClientService extends RegisteredClientRepository {
 
-    Page<OAuth2RegisteredClientDTO> getOAuth2RegisteredClientPage(Page<OAuth2RegisteredClientDTO> page, String keyword);
+    Page<OAuth2RegisteredClientVO> getOAuth2RegisteredClientPage(Page<OAuth2RegisteredClientVO> page, String keyword);
 
-    OAuth2RegisteredClientDTO getOAuth2RegisteredClientById(String id);
+    RegisteredClient getOAuth2RegisteredClientById(String id);
 
-    OAuth2RegisteredClientDTO getOAuth2RegisteredClientByClientId(String clientId);
+    RegisteredClient getOAuth2RegisteredClientByClientId(String clientId);
 
-    OAuth2RegisteredClientDTO assembleOAuth2RegisteredClient(OAuth2RegisteredClientDTO oauth2RegisteredClientDTO);
+    RegisteredClient assembleOAuth2RegisteredClient(OAuth2RegisteredClientDO oAuth2RegisteredClientDO);
 
-    String addOrUpdateOAuth2RegisteredClient(OAuth2RegisteredClientDTO oauth2RegisteredClientDTO);
+    String addOrUpdateOAuth2RegisteredClient(RegisteredClient registeredClient);
 
     void deleteOAuth2RegisteredClientById(String id);
 

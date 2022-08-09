@@ -96,7 +96,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         Assert.isTrue(departmentInDB == null || departmentInDB.getId().equals(departmentDTO.getId()), "更新失败：部门编码已被占用");
         DepartmentDO departmentDO = departmentMapper.selectById(departmentDTO.getId());
         Assert.notNull(departmentDO, "更新失败：没有找到该菜单或已被删除");
-        CustomBeanUtils.copyPropertiesExcludeMeta(departmentDTO, departmentDO);
+        CustomBeanUtils.copyPropertiesExcludeMetaAndNull(departmentDTO, departmentDO);
         departmentMapper.updateById(departmentDO);
         try {
             this.getDepartmentTree();

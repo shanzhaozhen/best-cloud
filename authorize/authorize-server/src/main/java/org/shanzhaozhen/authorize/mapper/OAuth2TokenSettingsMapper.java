@@ -2,7 +2,6 @@ package org.shanzhaozhen.authorize.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2TokenSettingsDTO;
 import org.shanzhaozhen.authorize.pojo.entity.OAuth2TokenSettingsDO;
 
 /**
@@ -12,7 +11,7 @@ import org.shanzhaozhen.authorize.pojo.entity.OAuth2TokenSettingsDO;
  */
 public interface OAuth2TokenSettingsMapper extends BaseMapper<OAuth2TokenSettingsDO> {
 
-    OAuth2TokenSettingsDTO getOAuth2TokenSettingsByRegisteredClientId(@Param("registeredClientId") String registeredClientId);
+    OAuth2TokenSettingsDO getOAuth2TokenSettingsByRegisteredClientId(@Param("registeredClientId") String registeredClientId);
 
     void deleteOAuth2TokenSettingsByRegisteredClientId(@Param("registeredClientId") String registeredClientId);
 

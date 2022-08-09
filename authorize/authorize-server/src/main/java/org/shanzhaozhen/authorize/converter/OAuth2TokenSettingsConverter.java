@@ -1,8 +1,6 @@
 package org.shanzhaozhen.authorize.converter;
 
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2TokenSettingsDTO;
 import org.shanzhaozhen.authorize.pojo.entity.OAuth2TokenSettingsDO;
-import org.springframework.beans.BeanUtils;
 import org.springframework.security.oauth2.core.OAuth2TokenFormat;
 import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
@@ -13,26 +11,26 @@ import java.util.Optional;
 
 public class OAuth2TokenSettingsConverter {
 
-    public static TokenSettings toTokenSettings(OAuth2TokenSettingsDTO oAuth2TokenSettingsDTO) {
+    public static TokenSettings toTokenSettings(OAuth2TokenSettingsDO oAuth2TokenSettingsDO) {
         TokenSettings.Builder builder = TokenSettings.builder()
-                .accessTokenTimeToLive(Optional.ofNullable(oAuth2TokenSettingsDTO.getAccessTokenTimeToLive())
+                .accessTokenTimeToLive(Optional.ofNullable(oAuth2TokenSettingsDO.getAccessTokenTimeToLive())
                         .map(Duration::ofSeconds)
                         .orElse(Duration.ofMinutes(5)))
-                .reuseRefreshTokens(oAuth2TokenSettingsDTO.isReuseRefreshTokens())
-                .refreshTokenTimeToLive(Optional.ofNullable(oAuth2TokenSettingsDTO.getRefreshTokenTimeToLive())
+                .reuseRefreshTokens(oAuth2TokenSettingsDO.isReuseRefreshTokens())
+                .refreshTokenTimeToLive(Optional.ofNullable(oAuth2TokenSettingsDO.getRefreshTokenTimeToLive())
                                 .map(Duration::ofSeconds)
                                 .orElse(Duration.ofMinutes(60)))
-                .idTokenSignatureAlgorithm(SignatureAlgorithm.from(oAuth2TokenSettingsDTO.getIdTokenSignatureAlgorithm()));
+                .idTokenSignatureAlgorithm(SignatureAlgorithm.from(oAuth2TokenSettingsDO.getIdTokenSignatureAlgorithm()));
 
-        if (StringUtils.hasText(oAuth2TokenSettingsDTO.getAccessTokenFormat())) {
-            builder.accessTokenFormat(new OAuth2TokenFormat(oAuth2TokenSettingsDTO.getAccessTokenFormat()));
+        if (StringUtils.hasText(oAuth2TokenSettingsDO.getAccessTokenFormat())) {
+            builder.accessTokenFormat(new OAuth2TokenFormat(oAuth2TokenSettingsDO.getAccessTokenFormat()));
         }
 
         return builder.build();
     }
 
-    public static OAuth2TokenSettingsDTO toDTO(TokenSettings tokenSettings) {
-        OAuth2TokenSettingsDTO.OAuth2TokenSettingsDTOBuilder builder = OAuth2TokenSettingsDTO.builder()
+    public static OAuth2TokenSettingsDO toDO(TokenSettings tokenSettings) {
+        OAuth2TokenSettingsDO.OAuth2TokenSettingsDOBuilder builder = OAuth2TokenSettingsDO.builder()
                 .accessTokenTimeToLive(tokenSettings.getAccessTokenTimeToLive().getSeconds())
                 .accessTokenFormat(Optional.ofNullable(tokenSettings.getAccessTokenFormat())
                         .map(OAuth2TokenFormat::getValue)
@@ -42,15 +40,7 @@ public class OAuth2TokenSettingsConverter {
                 .refreshTokenTimeToLive(tokenSettings.getRefreshTokenTimeToLive().getSeconds())
                 .idTokenSignatureAlgorithm(tokenSettings.getIdTokenSignatureAlgorithm().getName());
 
-
-
         return builder.build();
-    }
-
-    public static OAuth2TokenSettingsDO toDO(OAuth2TokenSettingsDTO oAuth2TokenSettingsDTO) {
-        OAuth2TokenSettingsDO oAuth2TokenSettingsDO = new OAuth2TokenSettingsDO();
-        BeanUtils.copyProperties(oAuth2TokenSettingsDTO, oAuth2TokenSettingsDO);
-        return oAuth2TokenSettingsDO;
     }
 
 }

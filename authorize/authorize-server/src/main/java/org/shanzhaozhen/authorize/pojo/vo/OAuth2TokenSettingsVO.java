@@ -1,4 +1,4 @@
-package org.shanzhaozhen.authorize.pojo.dto;
+package org.shanzhaozhen.authorize.pojo.vo;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.shanzhaozhen.common.core.entity.BaseInfo;
+import org.shanzhaozhen.common.core.entity.BaseInfoVO;
 
 
 @Data
@@ -14,10 +14,8 @@ import org.shanzhaozhen.common.core.entity.BaseInfo;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("oauth2_token_settings")
-@Schema(description = "oauth2 token 配置 DO实体")
-public class OAuth2TokenSettingsDTO extends BaseInfo {
-
-    private static final long serialVersionUID = 104913821115105292L;
+@Schema(description = "oauth2 token 配置 VO实体")
+public class OAuth2TokenSettingsVO extends BaseInfoVO {
 
     @Schema(description = "主键ID")
     private String id;

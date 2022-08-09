@@ -95,7 +95,7 @@ public class MenuServiceImpl implements MenuService {
         }
         MenuDO menuDO = menuMapper.selectById(menuDTO.getId());
         Assert.notNull(menuDO, "更新失败：没有找到该菜单或已被删除");
-        CustomBeanUtils.copyPropertiesExcludeMeta(menuDTO, menuDO);
+        CustomBeanUtils.copyPropertiesExcludeMetaAndNull(menuDTO, menuDO);
         menuMapper.updateById(menuDO);
         try {
             this.getMenuTree();

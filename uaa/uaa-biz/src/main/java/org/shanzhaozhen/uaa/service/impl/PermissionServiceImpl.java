@@ -75,7 +75,7 @@ public class PermissionServiceImpl implements PermissionService {
         }
         PermissionDO permissionDO = permissionMapper.selectById(permissionDTO.getId());
         Assert.notNull(permissionDO, "更新失败：没有找到该权限或已被删除");
-        CustomBeanUtils.copyPropertiesExcludeMeta(permissionDTO, permissionDO);
+        CustomBeanUtils.copyPropertiesExcludeMetaAndNull(permissionDTO, permissionDO);
         permissionMapper.updateById(permissionDO);
         try {
             this.getPermissionTreeByType(null);

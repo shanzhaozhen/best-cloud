@@ -55,7 +55,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         Assert.notNull(userInfoDTO.getPid(), "关联的用户ID不能为空");
         UserInfoDO userInfoDO = userInfoMapper.selectOne(new LambdaQueryWrapper<UserInfoDO>().eq(UserInfoDO::getPid, userInfoDTO.getPid()));
         if (userInfoDO != null) {
-            CustomBeanUtils.copyPropertiesExcludeMeta(userInfoDTO, userInfoDO, true);
+            CustomBeanUtils.copyPropertiesExcludeMetaAndNull(userInfoDTO, userInfoDO);
             userInfoMapper.updateById(userInfoDO);
             return userInfoDO.getId();
         } else {

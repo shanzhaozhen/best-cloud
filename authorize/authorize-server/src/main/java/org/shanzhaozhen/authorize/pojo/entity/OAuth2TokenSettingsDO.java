@@ -5,12 +5,14 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.shanzhaozhen.common.core.entity.BaseEntity;
 
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("oauth2_token_settings")
@@ -30,7 +32,7 @@ public class OAuth2TokenSettingsDO extends BaseEntity {
     private Long accessTokenTimeToLive;
 
     @Schema(description = "token 格式  jwt、opaque")
-    private String tokenFormat;
+    private String accessTokenFormat;
 
     @Schema(description = "是否重用 refresh_token")
     private boolean reuseRefreshTokens;

@@ -3,10 +3,10 @@ package org.shanzhaozhen.authorize.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.authorize.converter.OAuth2ClientSettingsConverter;
 import org.shanzhaozhen.authorize.mapper.OAuth2ClientSettingsMapper;
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2ClientSettingsDTO;
 import org.shanzhaozhen.authorize.pojo.entity.OAuth2ClientSettingsDO;
 import org.shanzhaozhen.authorize.service.OAuth2ClientSettingsService;
 import org.shanzhaozhen.common.core.utils.CustomBeanUtils;
+import org.springframework.security.oauth2.server.authorization.config.ClientSettings;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,21 +22,22 @@ public class OAuth2ClientSettingsServiceImpl implements OAuth2ClientSettingsServ
     private final OAuth2ClientSettingsMapper oAuth2ClientSettingsMapper;
 
     @Override
-    public OAuth2ClientSettingsDTO getOAuth2ClientSettingsByRegisteredClientId(String registeredClientId) {
-        return oAuth2ClientSettingsMapper.getOAuth2ClientSettingsByRegisteredClientId(registeredClientId);
+    public ClientSettings getOAuth2ClientSettingsByRegisteredClientId(String registeredClientId) {
+        OAuth2ClientSettingsDO oAuth2ClientSettings = oAuth2ClientSettingsMapper.getOAuth2ClientSettingsByRegisteredClientId(registeredClientId);
+        return OAuth2ClientSettingsConverter.toClientSettings(oAuth2ClientSettings);
     }
 
     @Override
     @Transactional
-    public void addOrUpdateOAuth2ClientSettings(String registeredClientId, OAuth2ClientSettingsDTO oAuth2ClientSettingsDTO) {
-        OAuth2ClientSettingsDTO oAuth2ClientSettingsByClientIdInDB = this.getOAuth2ClientSettingsByRegisteredClientId(registeredClientId);
-        if (oAuth2ClientSettingsByClientIdInDB == null) {
-            OAuth2ClientSettingsDO oAuth2ClientSettingsDO =  OAuth2ClientSettingsConverter.toDO(oAuth2ClientSettingsDTO);
+    public void addOrUpdateOAuth2ClientSettings(String registeredClientId, ClientSettings clientSettings) {
+        OAuth2ClientSettingsDO oAuth2ClientSettings = oAuth2ClientSettingsMapper.getOAuth2ClientSettingsByRegisteredClientId(registeredClientId);
+        OAuth2ClientSettingsDO oAuth2ClientSettingsDO = OAuth2ClientSettingsConverter.toDO(clientSettings);
+        if (oAuth2ClientSettings == null) {
+            oAuth2ClientSettingsDO.setRegisteredClientId(registeredClientId);
             this.oAuth2ClientSettingsMapper.insert(oAuth2ClientSettingsDO);
         } else {
-            OAuth2ClientSettingsDO oAuth2ClientSettingsDO = this.oAuth2ClientSettingsMapper.selectById(oAuth2ClientSettingsByClientIdInDB.getId());
-            CustomBeanUtils.copyPropertiesExcludeMeta(oAuth2ClientSettingsDTO, oAuth2ClientSettingsDO);
-            this.oAuth2ClientSettingsMapper.updateById(oAuth2ClientSettingsDO);
+            CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oAuth2ClientSettingsDO, oAuth2ClientSettings);
+            this.oAuth2ClientSettingsMapper.updateById(oAuth2ClientSettings);
         }
     }
 

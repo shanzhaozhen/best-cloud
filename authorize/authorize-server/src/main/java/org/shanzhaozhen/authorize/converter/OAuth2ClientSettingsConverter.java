@@ -1,38 +1,31 @@
 package org.shanzhaozhen.authorize.converter;
 
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2ClientSettingsDTO;
 import org.shanzhaozhen.authorize.pojo.entity.OAuth2ClientSettingsDO;
-import org.springframework.beans.BeanUtils;
-import org.springframework.security.oauth2.jose.JwaAlgorithm;
 import org.springframework.security.oauth2.jose.jws.JwsAlgorithm;
 import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.security.oauth2.server.authorization.config.ClientSettings;
 import org.springframework.util.StringUtils;
 
-import java.util.Optional;
-
-import static org.springframework.security.oauth2.jose.jws.JwsAlgorithms.RS256;
-
 public class OAuth2ClientSettingsConverter {
 
-    public static ClientSettings toClientSettings(OAuth2ClientSettingsDTO oAuth2ClientSettingsDTO) {
+    public static ClientSettings toClientSettings(OAuth2ClientSettingsDO oAuth2ClientSettingsDO) {
         ClientSettings.Builder builder = ClientSettings.builder()
-                .requireProofKey(oAuth2ClientSettingsDTO.isRequireProofKey())
-                .requireAuthorizationConsent(oAuth2ClientSettingsDTO.isRequireAuthorizationConsent());
+                .requireProofKey(oAuth2ClientSettingsDO.isRequireProofKey())
+                .requireAuthorizationConsent(oAuth2ClientSettingsDO.isRequireAuthorizationConsent());
 
-        if (StringUtils.hasText(oAuth2ClientSettingsDTO.getJwkSetUrl())) {
-            builder.jwkSetUrl(oAuth2ClientSettingsDTO.getJwkSetUrl());
+        if (StringUtils.hasText(oAuth2ClientSettingsDO.getJwkSetUrl())) {
+            builder.jwkSetUrl(oAuth2ClientSettingsDO.getJwkSetUrl());
         }
 
-        if (StringUtils.hasText(oAuth2ClientSettingsDTO.getTokenEndpointAuthenticationSigningAlgorithm())) {
-            builder.tokenEndpointAuthenticationSigningAlgorithm(SignatureAlgorithm.from(oAuth2ClientSettingsDTO.getTokenEndpointAuthenticationSigningAlgorithm()));
+        if (StringUtils.hasText(oAuth2ClientSettingsDO.getTokenEndpointAuthenticationSigningAlgorithm())) {
+            builder.tokenEndpointAuthenticationSigningAlgorithm(SignatureAlgorithm.from(oAuth2ClientSettingsDO.getTokenEndpointAuthenticationSigningAlgorithm()));
         }
 
         return builder.build();
     }
 
-    public static OAuth2ClientSettingsDTO toDTO(ClientSettings clientSettings) {
-        OAuth2ClientSettingsDTO.OAuth2ClientSettingsDTOBuilder builder = OAuth2ClientSettingsDTO.builder()
+    public static OAuth2ClientSettingsDO toDO(ClientSettings clientSettings) {
+        OAuth2ClientSettingsDO.OAuth2ClientSettingsDOBuilder builder = OAuth2ClientSettingsDO.builder()
                 .requireProofKey(clientSettings.isRequireProofKey())
                 .requireAuthorizationConsent(clientSettings.isRequireAuthorizationConsent())
                 .jwkSetUrl(clientSettings.getJwkSetUrl());
@@ -43,12 +36,6 @@ public class OAuth2ClientSettingsConverter {
         }
 
         return builder.build();
-    }
-
-    public static OAuth2ClientSettingsDO toDO(OAuth2ClientSettingsDTO oAuth2ClientSettingsDTO) {
-        OAuth2ClientSettingsDO oAuth2ClientSettingsDO = new OAuth2ClientSettingsDO();
-        BeanUtils.copyProperties(oAuth2ClientSettingsDTO, oAuth2ClientSettingsDO);
-        return oAuth2ClientSettingsDO;
     }
 
 }

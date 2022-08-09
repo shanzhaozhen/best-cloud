@@ -1,6 +1,6 @@
 package org.shanzhaozhen.authorize.service;
 
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2TokenSettingsDTO;
+import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
 
 /**
  * <p>
@@ -12,9 +12,9 @@ import org.shanzhaozhen.authorize.pojo.dto.OAuth2TokenSettingsDTO;
  */
 public interface OAuth2TokenSettingsService {
 
-    OAuth2TokenSettingsDTO getOAuth2TokenSettingsByRegisteredClientId(String registeredClientId);
+    TokenSettings getOAuth2TokenSettingsByRegisteredClientId(String registeredClientId);
 
-    void addOrUpdateOAuth2TokenSettings(String clientId, OAuth2TokenSettingsDTO oAuth2TokenSettingsDTO);
+    void addOrUpdateOAuth2TokenSettings(String clientId, TokenSettings tokenSettings);
 
     void deleteOAuth2TokenSettingsByRegisteredClientId(String registeredClientId);
 

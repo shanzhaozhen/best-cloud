@@ -3,11 +3,10 @@ package org.shanzhaozhen.authorize.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.authorize.converter.OAuth2TokenSettingsConverter;
 import org.shanzhaozhen.authorize.mapper.OAuth2TokenSettingsMapper;
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2TokenSettingsDTO;
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2TokenSettingsDTO;
 import org.shanzhaozhen.authorize.pojo.entity.OAuth2TokenSettingsDO;
 import org.shanzhaozhen.authorize.service.OAuth2TokenSettingsService;
 import org.shanzhaozhen.common.core.utils.CustomBeanUtils;
+import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,21 +21,22 @@ public class OAuth2TokenSettingsServiceImpl implements OAuth2TokenSettingsServic
 
     private final OAuth2TokenSettingsMapper oAuth2TokenSettingsMapper;
     @Override
-    public OAuth2TokenSettingsDTO getOAuth2TokenSettingsByRegisteredClientId(String registeredClientId) {
-        return oAuth2TokenSettingsMapper.getOAuth2TokenSettingsByRegisteredClientId(registeredClientId);
+    public TokenSettings getOAuth2TokenSettingsByRegisteredClientId(String registeredClientId) {
+        OAuth2TokenSettingsDO oAuth2TokenSettings = oAuth2TokenSettingsMapper.getOAuth2TokenSettingsByRegisteredClientId(registeredClientId);
+        return OAuth2TokenSettingsConverter.toTokenSettings(oAuth2TokenSettings);
     }
 
     @Override
     @Transactional
-    public void addOrUpdateOAuth2TokenSettings(String registeredClientId, OAuth2TokenSettingsDTO oAuth2TokenSettingsDTO) {
-        OAuth2TokenSettingsDTO oAuth2TokenSettingsByClientIdInDB = this.getOAuth2TokenSettingsByRegisteredClientId(registeredClientId);
-        if (oAuth2TokenSettingsByClientIdInDB == null) {
-            OAuth2TokenSettingsDO oAuth2TokenSettingsDO = OAuth2TokenSettingsConverter.toDO(oAuth2TokenSettingsDTO);
+    public void addOrUpdateOAuth2TokenSettings(String registeredClientId, TokenSettings tokenSettings) {
+        OAuth2TokenSettingsDO oAuth2TokenSettings = this.oAuth2TokenSettingsMapper.getOAuth2TokenSettingsByRegisteredClientId(registeredClientId);
+        OAuth2TokenSettingsDO oAuth2TokenSettingsDO = OAuth2TokenSettingsConverter.toDO(tokenSettings);
+        if (oAuth2TokenSettings == null) {
+            oAuth2TokenSettingsDO.setRegisteredClientId(registeredClientId);
             this.oAuth2TokenSettingsMapper.insert(oAuth2TokenSettingsDO);
         } else {
-            OAuth2TokenSettingsDO oAuth2TokenSettingsDO = this.oAuth2TokenSettingsMapper.selectById(oAuth2TokenSettingsByClientIdInDB.getId());
-            CustomBeanUtils.copyPropertiesExcludeMeta(oAuth2TokenSettingsDTO, oAuth2TokenSettingsDO);
-            this.oAuth2TokenSettingsMapper.updateById(oAuth2TokenSettingsDO);
+            CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oAuth2TokenSettingsDO, oAuth2TokenSettings);
+            this.oAuth2TokenSettingsMapper.updateById(oAuth2TokenSettings);
         }
     }
 

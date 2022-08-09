@@ -3,7 +3,7 @@
 <mapper namespace="org.shanzhaozhen.authorize.mapper.OAuth2AuthorizationConsentMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.shanzhaozhen.authorize.pojo.dto.OAuth2AuthorizationConsentDTO">
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.authorize.pojo.vo.OAuth2AuthorizationConsentVO">
         <id column="id" property="id" />
         <result column="registered_client_id" property="registeredClientId" />
         <result column="principal_name" property="principalName" />

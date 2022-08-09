@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
     public String addUser(UserDTO userDTO) {
         Assert.isNull(userMapper.selectUserByUsername(userDTO.getUsername()), "注册失败，该用户名已存在！");
         UserDO userDO = new UserDO();
-        CustomBeanUtils.copyPropertiesExcludeMeta(userDTO, userDO, "password");
+        CustomBeanUtils.copyPropertiesExcludeMetaAndNull(userDTO, userDO, "password");
         userDO.setPassword(PasswordUtils.encryption(userDTO.getPassword()));
         userMapper.insert(userDO);
         if (!CollectionUtils.isEmpty(userDTO.getRoleIds())) {
@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService {
         Assert.notNull(userDTO.getId(), "用户id不能为空");
         UserDO userDO = userMapper.selectById(userDTO.getId());
         Assert.notNull(userDO, "更新失败：没有找到该用户或已被删除");
-        CustomBeanUtils.copyPropertiesExcludeMeta(userDTO, userDO, "password");
+        CustomBeanUtils.copyPropertiesExcludeMetaAndNull(userDTO, userDO, "password");
         // 密码不为空则更新密码
         if (StringUtils.hasText(userDTO.getPassword())) {
             userDO.setPassword(PasswordUtils.encryption(userDTO.getPassword()));
