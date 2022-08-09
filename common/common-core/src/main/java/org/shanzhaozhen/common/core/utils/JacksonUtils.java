@@ -1,6 +1,7 @@
 package org.shanzhaozhen.common.core.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,16 @@ public class JacksonUtils {
             e.printStackTrace();
             log.error("对象转Json失败：Object to Json error");
             throw new IllegalArgumentException("对象转Json失败：Object to Json error");
+        }
+    }
+
+    public static <T> T toOPojo(String json, TypeReference<T> valueTypeRef) {
+        try {
+            return objectMapper.readValue(json, valueTypeRef);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            log.error("Json转对象失败：Json to TypeReference error");
+            throw new IllegalArgumentException("Json转对象失败：Json to TypeReference error");
         }
     }
 

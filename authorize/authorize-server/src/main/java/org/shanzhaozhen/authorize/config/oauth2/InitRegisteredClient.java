@@ -40,6 +40,7 @@ public class InitRegisteredClient implements CommandLineRunner {
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 // 客户端id 需要唯一
                 .clientId("auth")
+                .clientName("auth")
                 // 客户端密码
                 .clientSecret("123456")
                 .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
@@ -55,7 +56,8 @@ public class InitRegisteredClient implements CommandLineRunner {
                 .authorizationGrantType(AuthorizationGrantType.PASSWORD)
                 // 重定向url
                 // 回调地址名单，不在此列将被拒绝 而且只能使用IP或者域名  不能使用 localhost
-                .redirectUri("http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc")
+                .redirectUri("http://127.0.0.1:8080/login/oauth2/code/auth-oidc")
+                .redirectUri("http://127.0.0.1:4200/silent-renew.html")
                 .redirectUri("http://127.0.0.1:8000/oidc")
                 // 客户端申请的作用域，也可以理解这个客户端申请访问用户的哪些信息，比如：获取用户信息，获取用户照片等
                 // OIDC支持

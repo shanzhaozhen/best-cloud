@@ -12,10 +12,24 @@ import org.springframework.security.oauth2.server.authorization.config.TokenSett
  */
 public interface OAuth2TokenSettingsService {
 
+    /**
+     * 通过客户端 id 获得 oauth2 客户端配置
+     * @param registeredClientId
+     * @return
+     */
     TokenSettings getOAuth2TokenSettingsByRegisteredClientId(String registeredClientId);
 
+    /**
+     * 添加或更新客户端信息 oauth2 客户端配置
+     * @param clientId
+     * @param tokenSettings
+     */
     void addOrUpdateOAuth2TokenSettings(String clientId, TokenSettings tokenSettings);
 
+    /**
+     * 通过客户端 id 删除客户端信息 oauth2 客户端配置
+     * @param registeredClientId
+     */
     void deleteOAuth2TokenSettingsByRegisteredClientId(String registeredClientId);
 
 }

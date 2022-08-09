@@ -5,13 +5,16 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.shanzhaozhen.common.core.entity.BaseEntity;
 
+import java.sql.Timestamp;
 import java.time.Instant;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("oauth2_authorization")
@@ -36,8 +39,10 @@ public class OAuth2AuthorizationDO extends BaseEntity {
     @Schema(description = "")
     private String attributes;
 
+
     @Schema(description = "")
     private String state;
+
 
     @Schema(description = "")
     private String authorizationCodeValue;
@@ -50,6 +55,7 @@ public class OAuth2AuthorizationDO extends BaseEntity {
 
     @Schema(description = "")
     private String authorizationCodeMetadata;
+
 
     @Schema(description = "")
     private String accessTokenValue;
@@ -69,6 +75,7 @@ public class OAuth2AuthorizationDO extends BaseEntity {
     @Schema(description = "")
     private String accessTokenScopes;
 
+
     @Schema(description = "")
     private String refreshTokenValue;
 
@@ -76,10 +83,20 @@ public class OAuth2AuthorizationDO extends BaseEntity {
     private Instant refreshTokenIssuedAt;
 
     @Schema(description = "")
+    private Instant refreshTokenExpiresAt;
+
+    @Schema(description = "")
     private String refreshTokenMetadata;
+
 
     @Schema(description = "")
     private String oidcIdTokenValue;
+
+    @Schema(description = "")
+    private Instant oidcIdTokenIssuedAt;
+
+    @Schema(description = "")
+    private Instant oidcIdTokenExpiresAt;
 
     @Schema(description = "")
     private String oidcIdTokenMetadata;

@@ -1,9 +1,11 @@
 CREATE SCHEMA IF NOT EXISTS `authorize` DEFAULT CHARACTER SET utf8mb4;
 
-USE `authorize`;
+USE
+`authorize`;
 
 SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
+SET
+FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
 -- Table structure for oauth2_authorization
@@ -51,10 +53,16 @@ CREATE TABLE `oauth2_authorization`
 DROP TABLE IF EXISTS `oauth2_authorization_consent`;
 CREATE TABLE `oauth2_authorization_consent`
 (
+    `id`                   varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT 'ID',
     `registered_client_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL,
     `principal_name`       varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL,
     `authorities`          varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-    PRIMARY KEY (`registered_client_id`, `principal_name`) USING BTREE
+    `version`              INT NULL DEFAULT NULL COMMENT '版本号',
+    `created_by`           VARCHAR(20) NULL DEFAULT NULL COMMENT '创建人',
+    `created_date`         datetime NULL DEFAULT NULL COMMENT '创建时间',
+    `last_modified_by`     VARCHAR(20) NULL DEFAULT NULL COMMENT '修改人',
+    `last_modified_date`   datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '授权信息表'
@@ -139,4 +147,5 @@ CREATE TABLE `oauth2_token_settings`
   COLLATE = utf8mb4_general_ci COMMENT = 'oauth2客户端的token配置项'
   ROW_FORMAT = Dynamic;
 
-SET FOREIGN_KEY_CHECKS = 1;
+SET
+FOREIGN_KEY_CHECKS = 1;
