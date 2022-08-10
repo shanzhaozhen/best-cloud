@@ -98,20 +98,24 @@ public class AuthorizationConsentController {
 	}
 
 	public static class ScopeWithDescription {
-		private static final String DEFAULT_DESCRIPTION = "UNKNOWN SCOPE - We cannot provide information about this permission, use caution when granting this.";
+		private static final String DEFAULT_DESCRIPTION = "未知";
 		private static final Map<String, String> scopeDescriptions = new HashMap<>();
 		static {
 			scopeDescriptions.put(
+					"openid",
+					"用户信息"
+			);
+			scopeDescriptions.put(
 					"message.read",
-					"This application will be able to read your message."
+					"信息读取"
 			);
 			scopeDescriptions.put(
 					"message.write",
-					"This application will be able to add new messages. It will also be able to edit and delete existing messages."
+					"信息修改"
 			);
 			scopeDescriptions.put(
 					"other.scope",
-					"This is another scope example of a scope description."
+					"其他"
 			);
 		}
 

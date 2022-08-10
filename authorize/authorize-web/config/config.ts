@@ -6,6 +6,13 @@ import routes from './routes';
 
 const { REACT_APP_ENV } = process.env;
 
+const headScripts = process.env.NODE_ENV === 'production' ? (
+  [{
+    'th:inline': 'javascript',
+    content:
+      'window.consentData = [[${consentInfo}]];'
+  }]) : []
+
 export default defineConfig({
   publicPath: process.env.NODE_ENV === 'production' ? '/front/' : '/',
   hash: true,
@@ -28,9 +35,9 @@ export default defineConfig({
     baseNavigator: true,
   },
 
-  targets: {
-    ie: 11,
-  },
+  // targets: {
+  //   ie: 11,
+  // },
   // umi routes: https://umijs.org/docs/routing
   routes,
   access: {},
@@ -50,9 +57,5 @@ export default defineConfig({
   fastRefresh: true,
   presets: ['umi-presets-pro'],
   // 获取后端的model值
-  headScripts: [{
-    'th:inline': 'javascript',
-    content:
-      'const consentData = [[${consentInfo}]];'
-  }],
+  headScripts
 });

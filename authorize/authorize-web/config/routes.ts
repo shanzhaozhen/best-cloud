@@ -15,9 +15,28 @@
     layout: false,
     component: './Consent',
   },
-
-
   {
-    component: './404',
+    path: '/403',
+    layout: false,
+    component: './ErrorPage/403',
+  },
+  {
+    path: '/404',
+    layout: false,
+    component: './ErrorPage/404',
+  },
+  {
+    path: '/500',
+    layout: false,
+    component: './ErrorPage/500',
+  },
+  {
+    path: '/error',
+    layout: false,
+    component: './ErrorPage/500',
+  },
+  {
+    path: '*',
+    redirect: '/404',
   },
 ];

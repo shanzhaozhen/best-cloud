@@ -8,12 +8,13 @@ import {
   WeiboCircleOutlined,
 } from '@ant-design/icons';
 import { Alert, message, Tabs } from 'antd';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
 import { useIntl, FormattedMessage, SelectLang } from 'umi';
 import Footer from '@/components/Footer';
 import {getFakeCaptcha} from '@/services/login';
 import styles from './index.less';
+import {useLocation} from "@@/exports";
 
 
 const LoginMessage: React.FC<{
@@ -37,7 +38,13 @@ const Login: React.FC = () => {
 
   const intl = useIntl();
 
-  // todo: 拿到 url error 的错误
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.search) {
+      message.error("用户名或密码错误");
+    }
+  }, [])
 
   const handleSubmit = async (values: any) => {
     const loginForm = document.createElement('form');

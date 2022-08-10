@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import { SelectLang } from 'umi';
 import Footer from '@/components/Footer';
 import styles from './index.less';
@@ -7,69 +7,73 @@ import {ProForm, ProFormCheckbox} from '@ant-design/pro-components';
 
 const Consent: React.FC = () => {
 
-  // const consentInfo = {
-  //   authorizationEndpoint: '',
-  //   clientId: '',
-  //   clientName: '',
-  //   state: '',
-  //   scopes: '',
-  //   previouslyApprovedScopes: '',
-  //   principalName: '',
-  //   href: '',
-  // }
-
-  const [consentInfo, setConsentInfo] = useState<any>({});
-  const [scopeOptions, setScopeOptions] = useState<any[]>([]);
-  const [previouslyApprovedScopeOptions, setPreviouslyApprovedScopeOptions] = useState<any[]>([]);
-
-  useEffect(() => {
+  const consentInfo = {
     // @ts-ignore
-    setConsentInfo(window.consentData);
+    ...window.consentData
+  }
 
-    console.log(window.consentData)
-    console.log(consentInfo)
+  let scopeOptions = []
+  if (consentInfo?.scopes) {
+    scopeOptions = consentInfo.scopes.map((scope: any) => ({
+      label: scope.description,
+      value: scope.scope
+    }))
+  }
 
-    if (consentInfo?.scopes) {
-      setScopeOptions(consentInfo.scopes.map((scope: any) => ({
-        label: scope.description,
-        value: scope.scope
-      })))
-    }
+  let previouslyApprovedScopeOptions = []
+  let previouslyApprovedScopeOptionsSelected = []
+  if (consentInfo?.previouslyApprovedScopes) {
+    previouslyApprovedScopeOptions = consentInfo.previouslyApprovedScopes.map((scope: any) => ({
+      label: scope.description,
+      value: scope.scope
+    }))
 
-    if (consentInfo?.previouslyApprovedScopes) {
-      setPreviouslyApprovedScopeOptions(consentInfo.previouslyApprovedScopes.map((scope: any) => ({
-        label: scope.description,
-        value: scope.scope
-      })))
-    }
+    previouslyApprovedScopeOptionsSelected = consentInfo.previouslyApprovedScopes.map((scope: any) => scope.scope)
+  }
 
-  }, [])
-
-  const submit = () => {
-    const loginForm = document.createElement('form');
+  const submitConsent = (type: string, values: any) => {
+    const consentForm = document.createElement('form');
     try {
-      loginForm.method = 'POST';
-      loginForm.style.display = "none";
-      loginForm.action = consentInfo.authorizationEndpoint;
+      consentForm.method = 'POST';
+      consentForm.style.display = "none";
+      consentForm.action = consentInfo.authorizationEndpoint;
 
-      // const input = document.createElement('input');
-      // input.name = key;
-      // input.value = values[key];
-      // loginForm.appendChild(input);
+      const clientIdInput = document.createElement('input');
+      clientIdInput.name = 'client_id';
+      clientIdInput.value = consentInfo.clientId;
+      consentForm.appendChild(clientIdInput);
 
-      console.log(loginForm)
-      document.body.appendChild(loginForm);
-      loginForm.submit();
+      const stateInput = document.createElement('input');
+      stateInput.name = 'state';
+      stateInput.value = consentInfo.state;
+      consentForm.appendChild(stateInput);
+
+      if (type === 'confirm') {
+        for (const key in values) {
+          const input = document.createElement('input');
+          input.name = 'scope';
+          input.value = values[key];
+          consentForm.appendChild(input);
+        }
+      }
+
+      console.log(consentForm)
+      document.body.appendChild(consentForm);
+      consentForm.submit();
     } catch (error) {
       console.log(error);
-      message.error('授权失败，请重试！');
+      message.error(type === 'cancel' ? '取消失败！' : '授权失败，请重试！');
     } finally {
-      document.body.removeChild(loginForm);
+      document.body.removeChild(consentForm);
     }
   }
 
-  const cancel = () => {
+  const submit = (values: any) => {
+    submitConsent('confirm', values)
+  }
 
+  const cancel = () => {
+    submitConsent('cancel', null)
   }
 
   return (
@@ -78,14 +82,14 @@ const Consent: React.FC = () => {
         {SelectLang && <SelectLang />}
       </div>
       <div className={styles.content}>
-        <div className="ant-pro-form-login-top">
-          <div className="ant-pro-form-login-header">
-            <span className="ant-pro-form-login-logo">
+        <div className={styles.logoTop}>
+          <div className={styles.logoHeader}>
+            <span className={styles.logo}>
               <img alt="logo" src={process.env.NODE_ENV === 'production' ? '/front/logo.svg' : '/logo.svg'} />
             </span>
-            <span className="ant-pro-form-login-title">Best Cloud</span>
+            <span className={styles.logoTitle}>Best Cloud</span>
           </div>
-          <div className="ant-pro-form-login-desc">Best Cloud</div>
+          <div className={styles.logoDesc}>Best Cloud</div>
         </div>
 
         <div className={styles.consentContent}>
@@ -109,9 +113,9 @@ const Consent: React.FC = () => {
               <ProForm
                 name="consent-form"
                 submitter={{
-                  render: () => {
+                  render: ({ form }) => {
                     return [
-                      <Button key="submit" type="primary" onClick={submit}>同意</Button>,
+                      <Button key="submit" type="primary" onClick={() => submit(form?.getFieldValue('scopes'))}>同意</Button>,
                       <Button key="cancel" onClick={cancel}>取消</Button>
                     ]
                   }
@@ -119,10 +123,10 @@ const Consent: React.FC = () => {
               >
                 <ProFormCheckbox.Group name="scopes" layout="vertical" options={scopeOptions} />
                 {
-                  consentInfo?.previouslyApprovedScopes && consentInfo?.previouslyApprovedScopes.length > 0 ? (
+                  previouslyApprovedScopeOptions.length > 0 ? (
                     <>
                       <p>您已向上述应用授予以下权限：</p>
-                      <Checkbox.Group options={previouslyApprovedScopeOptions} />
+                      <Checkbox.Group options={previouslyApprovedScopeOptions} defaultValue={previouslyApprovedScopeOptionsSelected} disabled />
                     </>
                   ) : null
                 }

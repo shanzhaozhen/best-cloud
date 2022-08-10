@@ -152,6 +152,22 @@ export default [
   //   component: './AccountSettings',
   // },
   {
+    path: '/403',
+    layout: false,
+    component: './Common/ErrorPage/403',
+  },
+  {
+    path: '/404',
+    layout: false,
     component: './Common/ErrorPage/404',
+  },
+  {
+    path: '/500',
+    layout: false,
+    component: './Common/ErrorPage/500',
+  },
+  {
+    path: '*',
+    redirect: '/404',
   },
 ];
