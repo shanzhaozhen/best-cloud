@@ -10,6 +10,14 @@
     component: './Login',
   },
   {
+    name: 'consent',
+    path: '/oauth2/consent',
+    layout: false,
+    component: './Consent',
+  },
+
+
+  {
     component: './404',
   },
 ];

@@ -25,7 +25,6 @@ public class InitRegisteredClient implements CommandLineRunner {
 
     private final RegisteredClientRepository registeredClientRepository;
 
-
     /**
      * clientSettings.tokenEndpointAuthenticationSigningAlgorithm 为 SignatureAlgorithm.RS256
      * clientSettings.jwkSetUrl 必填，授权服务器在这种模式下会校验
@@ -33,13 +32,13 @@ public class InitRegisteredClient implements CommandLineRunner {
      * tokenSettings.accessTokenFormat 必须为 OAuth2TokenFormat.SELF_CONTAINED
      * clientAuthenticationMethod 为 ClientAuthenticationMethod.PRIVATE_KEY_JWT
      */
-
     @Override
     public void run(String... args) {
         // 使用内存作为客户端的信息库
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                // 客户端id 需要唯一
-                .clientId("auth")
+                // 客户端 id 需要唯一
+                .clientId("efd7527b-39d0-468c-9bd6-ff945a696982")
+                // 客户端名称
                 .clientName("auth")
                 // 客户端密码
                 .clientSecret("123456")
@@ -57,8 +56,11 @@ public class InitRegisteredClient implements CommandLineRunner {
                 // 重定向url
                 // 回调地址名单，不在此列将被拒绝 而且只能使用IP或者域名  不能使用 localhost
                 .redirectUri("http://127.0.0.1:8080/login/oauth2/code/auth-oidc")
+                .redirectUri("http://localhost:8080/login/oauth2/code/auth-oidc")
                 .redirectUri("http://127.0.0.1:4200/silent-renew.html")
+                .redirectUri("http://localhost:4200/silent-renew.html")
                 .redirectUri("http://127.0.0.1:8000/oidc")
+                .redirectUri("http://localhost:8000/oidc")
                 // 客户端申请的作用域，也可以理解这个客户端申请访问用户的哪些信息，比如：获取用户信息，获取用户照片等
                 // OIDC支持
                 .scope(OidcScopes.OPENID)

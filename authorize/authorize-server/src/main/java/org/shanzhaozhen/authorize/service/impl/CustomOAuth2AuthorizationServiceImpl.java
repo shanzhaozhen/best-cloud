@@ -47,12 +47,13 @@ public class CustomOAuth2AuthorizationServiceImpl implements CustomOAuth2Authori
     @Override
     @Transactional
     public void save(OAuth2Authorization authorization) {
-        OAuth2AuthorizationDO oAuth2AuthorizationDO = this.oAuth2AuthorizationMapper.selectById(authorization.getId());
-        OAuth2AuthorizationDO oAuth2Authorization = OAuth2AuthorizationConverter.toDO(authorization);
-        if (oAuth2AuthorizationDO == null) {
+        OAuth2AuthorizationDO oAuth2Authorization = this.oAuth2AuthorizationMapper.selectById(authorization.getId());
+        if (oAuth2Authorization == null) {
+            oAuth2Authorization = OAuth2AuthorizationConverter.toDO(authorization);
             this.oAuth2AuthorizationMapper.insert(oAuth2Authorization);
         } else {
-            CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oAuth2Authorization, oAuth2AuthorizationDO);
+            OAuth2AuthorizationDO oAuth2AuthorizationDO = OAuth2AuthorizationConverter.toDO(authorization);
+            CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oAuth2AuthorizationDO, oAuth2Authorization);
             this.oAuth2AuthorizationMapper.updateById(oAuth2Authorization);
         }
     }

@@ -49,4 +49,10 @@ export default defineConfig({
   // Fast Refresh 热更新
   fastRefresh: true,
   presets: ['umi-presets-pro'],
+  // 获取后端的model值
+  headScripts: [{
+    'th:inline': 'javascript',
+    content:
+      'const consentData = [[${consentInfo}]];'
+  }],
 });

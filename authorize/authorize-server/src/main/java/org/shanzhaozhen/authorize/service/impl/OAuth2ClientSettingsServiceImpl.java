@@ -31,11 +31,12 @@ public class OAuth2ClientSettingsServiceImpl implements OAuth2ClientSettingsServ
     @Transactional
     public void addOrUpdateOAuth2ClientSettings(String registeredClientId, ClientSettings clientSettings) {
         OAuth2ClientSettingsDO oAuth2ClientSettings = oAuth2ClientSettingsMapper.getOAuth2ClientSettingsByRegisteredClientId(registeredClientId);
-        OAuth2ClientSettingsDO oAuth2ClientSettingsDO = OAuth2ClientSettingsConverter.toDO(clientSettings);
         if (oAuth2ClientSettings == null) {
-            oAuth2ClientSettingsDO.setRegisteredClientId(registeredClientId);
-            this.oAuth2ClientSettingsMapper.insert(oAuth2ClientSettingsDO);
+            oAuth2ClientSettings = OAuth2ClientSettingsConverter.toDO(clientSettings);
+            oAuth2ClientSettings.setRegisteredClientId(registeredClientId);
+            this.oAuth2ClientSettingsMapper.insert(oAuth2ClientSettings);
         } else {
+            OAuth2ClientSettingsDO oAuth2ClientSettingsDO = OAuth2ClientSettingsConverter.toDO(clientSettings);
             CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oAuth2ClientSettingsDO, oAuth2ClientSettings);
             this.oAuth2ClientSettingsMapper.updateById(oAuth2ClientSettings);
         }

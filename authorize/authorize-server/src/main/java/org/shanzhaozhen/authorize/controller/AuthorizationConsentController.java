@@ -1,6 +1,7 @@
 package org.shanzhaozhen.authorize.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.shanzhaozhen.common.core.utils.JacksonUtils;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsent;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
@@ -10,6 +11,7 @@ import org.springframework.security.oauth2.server.authorization.config.ProviderS
 import org.springframework.security.oauth2.server.authorization.web.OAuth2AuthorizationEndpointFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,6 +51,9 @@ public class AuthorizationConsentController {
 		Set<String> scopesToApprove = new HashSet<>();
 		Set<String> previouslyApprovedScopes = new HashSet<>();
 		RegisteredClient registeredClient = this.registeredClientRepository.findByClientId(clientId);
+
+		Assert.notNull(registeredClient, "oauth2 客户端不存在");
+
 		OAuth2AuthorizationConsent currentAuthorizationConsent = this.authorizationConsentService.findById(registeredClient.getId(), principal.getName());
 		Set<String> authorizedScopes;
 		if (currentAuthorizationConsent != null) {
@@ -64,17 +69,25 @@ public class AuthorizationConsentController {
 			}
 		}
 
-		model.addAttribute("authorizationEndpoint", providerSettings.getAuthorizationEndpoint());
-		model.addAttribute("clientId", clientId);
-		model.addAttribute("clientName", registeredClient.getClientName());
-		model.addAttribute("state", state);
-		model.addAttribute("scopes", withDescription(scopesToApprove));
-		model.addAttribute("previouslyApprovedScopes", withDescription(previouslyApprovedScopes));
-		model.addAttribute("principalName", principal.getName());
+		Map<String, Object> consentInfo = new HashMap<>();
+		consentInfo.put("authorizationEndpoint", providerSettings.getAuthorizationEndpoint());
+		consentInfo.put("clientId", clientId);
+		consentInfo.put("clientName", registeredClient.getClientName());
+		consentInfo.put("state", state);
+		consentInfo.put("scopes", withDescription(scopesToApprove));
+		consentInfo.put("previouslyApprovedScopes", withDescription(previouslyApprovedScopes));
+		consentInfo.put("principalName", principal.getName());
 
-		return "consent";
+		model.addAttribute("consentInfo", consentInfo);
+		model.addAttribute("consentInfoString", JacksonUtils.toJSONString(consentInfo));
+		return "front/index";
 	}
 
+	/**
+	 * 给 scops 增加描述
+	 * @param scopes
+	 * @return
+	 */
 	private static Set<ScopeWithDescription> withDescription(Set<String> scopes) {
 		Set<ScopeWithDescription> scopeWithDescriptions = new HashSet<>();
 		for (String scope : scopes) {

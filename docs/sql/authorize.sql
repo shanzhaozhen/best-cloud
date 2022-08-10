@@ -1,7 +1,6 @@
 CREATE SCHEMA IF NOT EXISTS `authorize` DEFAULT CHARACTER SET utf8mb4;
 
-USE
-`authorize`;
+USE `authorize`;
 
 SET NAMES utf8mb4;
 SET
@@ -39,6 +38,11 @@ CREATE TABLE `oauth2_authorization`
     `refresh_token_issued_at`       timestamp NULL DEFAULT NULL,
     `refresh_token_expires_at`      timestamp NULL DEFAULT NULL,
     `refresh_token_metadata`        varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `version`              INT NULL DEFAULT NULL COMMENT '版本号',
+    `created_by`           VARCHAR(20) NULL DEFAULT NULL COMMENT '创建人',
+    `created_date`         datetime NULL DEFAULT NULL COMMENT '创建时间',
+    `last_modified_by`     VARCHAR(20) NULL DEFAULT NULL COMMENT '修改人',
+    `last_modified_date`   datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4

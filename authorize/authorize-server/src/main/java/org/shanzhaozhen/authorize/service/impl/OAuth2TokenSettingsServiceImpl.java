@@ -30,11 +30,12 @@ public class OAuth2TokenSettingsServiceImpl implements OAuth2TokenSettingsServic
     @Transactional
     public void addOrUpdateOAuth2TokenSettings(String registeredClientId, TokenSettings tokenSettings) {
         OAuth2TokenSettingsDO oAuth2TokenSettings = this.oAuth2TokenSettingsMapper.getOAuth2TokenSettingsByRegisteredClientId(registeredClientId);
-        OAuth2TokenSettingsDO oAuth2TokenSettingsDO = OAuth2TokenSettingsConverter.toDO(tokenSettings);
         if (oAuth2TokenSettings == null) {
-            oAuth2TokenSettingsDO.setRegisteredClientId(registeredClientId);
-            this.oAuth2TokenSettingsMapper.insert(oAuth2TokenSettingsDO);
+            oAuth2TokenSettings = OAuth2TokenSettingsConverter.toDO(tokenSettings);
+            oAuth2TokenSettings.setRegisteredClientId(registeredClientId);
+            this.oAuth2TokenSettingsMapper.insert(oAuth2TokenSettings);
         } else {
+            OAuth2TokenSettingsDO oAuth2TokenSettingsDO = OAuth2TokenSettingsConverter.toDO(tokenSettings);
             CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oAuth2TokenSettingsDO, oAuth2TokenSettings);
             this.oAuth2TokenSettingsMapper.updateById(oAuth2TokenSettings);
         }

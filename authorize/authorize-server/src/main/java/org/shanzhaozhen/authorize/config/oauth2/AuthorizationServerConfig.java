@@ -27,7 +27,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 @RequiredArgsConstructor
 public class AuthorizationServerConfig {
 
-    private static final String CUSTOM_CONSENT_PAGE_URI = "/authentication/consent";
+    private static final String CUSTOM_CONSENT_PAGE_URI = "/oauth2/consent";
 
     @Value("${server.port}")
     private Integer serverPort;

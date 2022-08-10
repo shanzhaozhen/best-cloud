@@ -76,6 +76,7 @@ public class CustomOAuth2RegisteredClientServiceImpl implements CustomOAuth2Regi
     }
 
     @Override
+    @Transactional
     public void deleteOAuth2RegisteredClientByClientId(String clientId) {
         OAuth2RegisteredClientDO oAuth2RegisteredClient = this.oAuth2RegisteredClientMapper.getOAuth2RegisteredClientByClientId(clientId);
         if (oAuth2RegisteredClient != null) {
@@ -84,17 +85,19 @@ public class CustomOAuth2RegisteredClientServiceImpl implements CustomOAuth2Regi
     }
 
     @Override
+    @Transactional
     public void save(RegisteredClient registeredClient) {
-        OAuth2RegisteredClientDO oAuth2RegisteredClientDO = this.oAuth2RegisteredClientMapper.getOAuth2RegisteredClientByClientId(registeredClient.getClientId());
-        OAuth2RegisteredClientDO oAuth2RegisteredClient = OAuth2RegisteredClientConverter.toDO(registeredClient);
-        if (oAuth2RegisteredClientDO == null) {
+        OAuth2RegisteredClientDO oAuth2RegisteredClient = this.oAuth2RegisteredClientMapper.getOAuth2RegisteredClientByClientId(registeredClient.getClientId());
+        if (oAuth2RegisteredClient == null) {
+            oAuth2RegisteredClient = OAuth2RegisteredClientConverter.toDO(registeredClient);
             this.oAuth2RegisteredClientMapper.insert(oAuth2RegisteredClient);
         } else {
-            CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oAuth2RegisteredClient, oAuth2RegisteredClientDO);
-            this.oAuth2RegisteredClientMapper.updateById(oAuth2RegisteredClientDO);
+            OAuth2RegisteredClientDO registeredClientDO = OAuth2RegisteredClientConverter.toDO(registeredClient);
+            CustomBeanUtils.copyPropertiesExcludeMetaAndNull(registeredClientDO, oAuth2RegisteredClient);
+            this.oAuth2RegisteredClientMapper.updateById(oAuth2RegisteredClient);
         }
-        oAuth2ClientSettingsService.addOrUpdateOAuth2ClientSettings(oAuth2RegisteredClientDO.getId(), registeredClient.getClientSettings());
-        oAuth2TokenSettingsService.addOrUpdateOAuth2TokenSettings(oAuth2RegisteredClientDO.getId(), registeredClient.getTokenSettings());
+        oAuth2ClientSettingsService.addOrUpdateOAuth2ClientSettings(oAuth2RegisteredClient.getId(), registeredClient.getClientSettings());
+        oAuth2TokenSettingsService.addOrUpdateOAuth2TokenSettings(oAuth2RegisteredClient.getId(), registeredClient.getTokenSettings());
     }
 
     @Override
