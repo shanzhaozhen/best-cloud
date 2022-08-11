@@ -14,6 +14,11 @@ public class JacksonUtils {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
+    public static ObjectMapper getObjectMapper(Object object) {
+        return objectMapper;
+    }
+
+
     public static String toJSONString(Object object) {
         try {
             return objectMapper.writeValueAsString(object);
@@ -24,7 +29,7 @@ public class JacksonUtils {
         }
     }
 
-    public static <T> T toOPojo(String json, TypeReference<T> valueTypeRef) {
+    public static <T> T toPojo(String json, TypeReference<T> valueTypeRef) {
         try {
             return objectMapper.readValue(json, valueTypeRef);
         } catch (JsonProcessingException e) {
@@ -34,7 +39,7 @@ public class JacksonUtils {
         }
     }
 
-    public static <T> T toOPojo(String json, Class<T> beanType) {
+    public static <T> T toPojo(String json, Class<T> beanType) {
         try {
             return objectMapper.readValue(json, beanType);
         } catch (JsonProcessingException e) {

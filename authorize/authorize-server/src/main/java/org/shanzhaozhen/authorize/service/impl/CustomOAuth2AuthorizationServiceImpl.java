@@ -25,7 +25,7 @@ import java.util.Optional;
  * @Date: 2022-06-17
  * @Description:
  */
-//@Service
+@Service
 @RequiredArgsConstructor
 public class CustomOAuth2AuthorizationServiceImpl implements CustomOAuth2AuthorizationService {
 

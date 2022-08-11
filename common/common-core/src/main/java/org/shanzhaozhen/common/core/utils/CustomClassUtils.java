@@ -85,7 +85,7 @@ public class CustomClassUtils {
         try {
             List<Object> params = new ArrayList<>();
             for (MethodParamInfo methodParamInfo : methodParamInfos) {
-                Object param = JacksonUtils.toOPojo(methodParamInfo.getParamValue(), Object.class);
+                Object param = JacksonUtils.toPojo(methodParamInfo.getParamValue(), Object.class);
                 params.add(param);
             }
             return params.toArray();

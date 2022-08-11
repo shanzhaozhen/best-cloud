@@ -6,7 +6,6 @@ import org.shanzhaozhen.uaa.pojo.dto.AuthUser;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.jackson2.*;
 
-@SuppressWarnings("serial")
 public class SecurityJackson2Module extends SimpleModule {
 
 	public SecurityJackson2Module() {

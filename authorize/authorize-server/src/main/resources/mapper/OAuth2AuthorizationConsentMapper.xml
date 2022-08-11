@@ -15,7 +15,7 @@
     </resultMap>
 
     <select id="findOAuth2AuthorizationConsent" resultType="org.shanzhaozhen.authorize.pojo.entity.OAuth2AuthorizationConsentDO">
-        select id, registered_client_id, principal_name,
+        select id, registered_client_id, principal_name, authorities,
                version, created_by, created_date, last_modified_by, last_modified_date
         from oauth2_authorization_consent
         where registered_client_id = #{registeredClientId} and principal_name = #{principalName}

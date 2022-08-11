@@ -78,7 +78,7 @@ public class AuthorizationServerConfig {
      * @param registeredClientRepository
      * @return
      */
-    @Bean
+    /*@Bean
     public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository) {
         JdbcOAuth2AuthorizationService jdbcOAuth2AuthorizationService = new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
 
@@ -89,7 +89,7 @@ public class AuthorizationServerConfig {
         jdbcOAuth2AuthorizationService.setAuthorizationRowMapper(authorizationRowMapper);
 
         return jdbcOAuth2AuthorizationService;
-    }
+    }*/
 
     /**
      * 配置一些断点的路径，比如：获取token、授权端点 等

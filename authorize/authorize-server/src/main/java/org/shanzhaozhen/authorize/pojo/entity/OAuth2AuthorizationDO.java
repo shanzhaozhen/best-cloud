@@ -101,7 +101,4 @@ public class OAuth2AuthorizationDO extends BaseEntity {
     @Schema(description = "")
     private String oidcIdTokenMetadata;
 
-    @Schema(description = "")
-    private String oidcIdTokenClaims;
-
 }
