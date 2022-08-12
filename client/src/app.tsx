@@ -1,31 +1,33 @@
 import Footer from '@/components/Footer';
 import RightContent from '@/components/RightContent';
-import {BookOutlined, ExclamationCircleOutlined, LinkOutlined} from '@ant-design/icons';
+import {BookOutlined, LinkOutlined} from '@ant-design/icons';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
-import {PageLoading, SettingDrawer} from '@ant-design/pro-components';
+import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
 import { history, Link } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
-import type { RequestOptionsInit, ResponseError } from 'umi-request';
 import {getCurrentUserInfo} from "@/services/uaa/user";
 import type {CurrentUser} from "@/services/uaa/type/user";
-import {stringify} from "querystring";
-import {Modal, notification} from "antd";
 import {getToken} from "@/utils/common";
-import type {RequestConfig} from "@@/plugin-request/request";
 import type {User} from "oidc-client-ts";
 import { UserManager } from "oidc-client-ts";
 import OidcConfig from "../config/oidcConfig";
-import { useAuth } from "react-oidc-context";
+import type {RequestConfig} from "@@/plugin-request/request";
 
 
 const isDev = process.env.NODE_ENV === 'development';
-const loginPath = '/';
+const loginPath = '/home';
 
 const userManager = new UserManager(OidcConfig);
 
-console.log('userManager:', userManager)
 
+const whiteList = [
+  '/home',
+  '/oidc',
+]
+
+// 是否白名单
+const isWhiteAllow = (): boolean => whiteList.some(i => history.location.pathname.startsWith(i))
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
@@ -48,12 +50,23 @@ export async function getInitialState(): Promise<{
     return undefined;
   };
 
-
-  // 如果不是登录页面，执行
-  if (history.location.pathname !== loginPath) {
-    const user = await userManager.getUser()
-
+  // 如果不是白名单，执行
+  if (!isWhiteAllow()) {
     // const currentUser = await fetchUserInfo();
+
+    const user = await userManager.getUser();
+    if (user) {
+      localStorage.setItem("token_type", user.token_type);
+      localStorage.setItem("access_token", user.access_token);
+      localStorage.setItem("refresh_token", user.refresh_token || '');
+      localStorage.setItem("id_token", user.id_token || '');
+    } else {
+      localStorage.removeItem("token_type");
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      localStorage.removeItem("id_token");
+    }
+
     return {
       fetchUserInfo,
       // currentUser,
@@ -74,23 +87,17 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   return {
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
+    // 水印
     waterMarkProps: {
       content: initialState?.currentUser?.userInfo?.name,
     },
     footerRender: () => <Footer />,
     onPageChange: () => {
-      const { location } = history;
-      console.log(history);
-      // // 如果没有登录，重定向到 login
-      // if (!initialState?.currentUser && location.pathname !== loginPath) {
-      //   history.push(loginPath);
-      // }
-
       // 如果没有登录，重定向到登陆页
-      if (!initialState?.user && location.pathname !== loginPath) {
-          history.push(loginPath);
+      if (!isWhiteAllow() && !initialState?.user) {
+        history.push(loginPath);
+        // userManager.signinRedirect().then();
       }
-
     },
     // todo: 动态菜单
     // menuDataRender: () => initialState?.menuData || [],
@@ -115,7 +122,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       return (
         <>
           {children}
-          {!props.location?.pathname?.includes('/login') && (
+          {!props.location?.pathname?.includes('/oidc') && (
             <SettingDrawer
               disableUrlParams
               enableDarkTheme
@@ -232,16 +239,16 @@ const errorHandler = async (error: ResponseError) => {
   throw error;
 };
 
-/!**
+/**
  * 自动添加 AccessToken 的请求前拦截器
  * 参考 https://github.com/umijs/umi-request/issues/181#issuecomment-730794198
  * @param url
  * @param options
- *!/
-const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
+ */
+const authHeaderInterceptor = (url: string, options: RequestConfig) => {
   const accessToken = getToken();
 
-  if (url !== '/api/authorize/oauth2/token' && accessToken) {
+  if (accessToken) {
     return {
       url,
       options: {
@@ -259,10 +266,8 @@ const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
 };
 
 export const request: RequestConfig = {
-  errorHandler,
+  // errorHandler,
   // 新增自动添加AccessToken的请求前拦截器
   requestInterceptors: [authHeaderInterceptor],
 };
-*/
-
 

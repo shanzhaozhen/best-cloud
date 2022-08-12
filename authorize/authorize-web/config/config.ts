@@ -10,7 +10,7 @@ const headScripts = process.env.NODE_ENV === 'production' ? (
   [{
     'th:inline': 'javascript',
     content:
-      'window.consentData = [[${consentInfo}]];'
+      'window.mvcModel = [[${mvcModel}]];'
   }]) : []
 
 export default defineConfig({

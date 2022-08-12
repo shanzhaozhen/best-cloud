@@ -35,6 +35,8 @@ public class ResourceServerConfig {
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http.oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter());
+        http.oauth2ResourceServer().jwt().jwkSetUri("");
+        ;
         // 1、自定义处理JWT请求头过期或签名错误的结果
         http.oauth2ResourceServer().authenticationEntryPoint(authenticationEntryPoint());
         // 2、对白名单路径，直接移除JWT请求头

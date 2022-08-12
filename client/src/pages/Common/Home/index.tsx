@@ -8,8 +8,7 @@ const Home: React.FC = () => {
 
   const { initialState } = useModel('@@initialState');
 
-  const { userManager } = initialState;
-
+  const userManager = initialState?.userManager;
 
   return (
     <div className={styles.container}>
@@ -26,7 +25,7 @@ const Home: React.FC = () => {
           </div>
           <div className={styles.homeContent}>
             <Button type="primary" onClick={() => {
-              userManager.signinRedirect();
+              userManager?.signinRedirect();
             }}>
               登陆
             </Button>

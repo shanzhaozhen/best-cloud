@@ -1,13 +1,8 @@
 export default [
   {
-    path: '/',
+    path: '/home',
     layout: false,
     component: './Common/Home',
-  },
-  {
-    path: '/login',
-    layout: false,
-    component: './Common/Login',
   },
   {
     path: '/oidc',

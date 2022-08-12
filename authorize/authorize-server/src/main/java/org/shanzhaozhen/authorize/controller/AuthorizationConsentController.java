@@ -78,8 +78,7 @@ public class AuthorizationConsentController {
 		consentInfo.put("previouslyApprovedScopes", withDescription(previouslyApprovedScopes));
 		consentInfo.put("principalName", principal.getName());
 
-		model.addAttribute("consentInfo", consentInfo);
-		model.addAttribute("consentInfoString", JacksonUtils.toJSONString(consentInfo));
+		model.addAttribute("mvcModel", consentInfo);
 		return "front/index";
 	}
 

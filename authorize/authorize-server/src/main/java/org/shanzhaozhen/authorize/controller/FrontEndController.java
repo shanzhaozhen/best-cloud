@@ -6,15 +6,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class FrontEndController {
 
-//    @RequestMapping("/api/**")
-//    public ApiResult api(HttpServletRequest request, HttpServletResponse response){
-//        return apiProxy.proxy(request, response);
-//    }
-
     @GetMapping(value={
 //            "/",
             "/login",
             "/login/**",
+            "/error",
             "/error/**",
             "/404",
             "/403",

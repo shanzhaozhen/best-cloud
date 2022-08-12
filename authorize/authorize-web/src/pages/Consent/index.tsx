@@ -2,14 +2,14 @@ import React from 'react';
 import { SelectLang } from 'umi';
 import Footer from '@/components/Footer';
 import styles from './index.less';
-import {Button, Checkbox, message} from "antd";
+import {Button, message} from "antd";
 import {ProForm, ProFormCheckbox} from '@ant-design/pro-components';
 
 const Consent: React.FC = () => {
 
   const consentInfo = {
     // @ts-ignore
-    ...window.consentData
+    ...window.mvcModel
   }
 
   let scopeOptions = []
@@ -29,6 +29,7 @@ const Consent: React.FC = () => {
     }))
 
     previouslyApprovedScopeOptionsSelected = consentInfo.previouslyApprovedScopes.map((scope: any) => scope.scope)
+    console.log(previouslyApprovedScopeOptionsSelected)
   }
 
   const submitConsent = (type: string, values: any) => {
@@ -104,10 +105,16 @@ const Consent: React.FC = () => {
               <span className="font-weight-bold">{consentInfo?.principalName}</span>
             </p>
           </div>
-          <div className="row pb-3">
-            <div className="col text-center"><p>上述应用程序请求以下权限。<br/>请看
-              如果您同意，请勾选这些文件并予以同意。</p></div>
-          </div>
+          {
+            scopeOptions.length > 0 ? (
+              <div>
+                <div>
+                  <p>上述应用程序请求以下权限<br/>
+                    如果您同意，请勾选这些选项并予以同意。</p>
+                </div>
+              </div>
+            ):null
+          }
           <div className="row">
             <div className="col text-center">
               <ProForm
@@ -121,12 +128,25 @@ const Consent: React.FC = () => {
                   }
                 }}
               >
-                <ProFormCheckbox.Group name="scopes" layout="vertical" options={scopeOptions} />
+                {
+                  scopeOptions.length > 0 ? (
+                    <>
+                      <ProFormCheckbox.Group name="scopes" layout="vertical" options={scopeOptions} />
+                    </>
+                  ):null
+                }
                 {
                   previouslyApprovedScopeOptions.length > 0 ? (
                     <>
                       <p>您已向上述应用授予以下权限：</p>
-                      <Checkbox.Group options={previouslyApprovedScopeOptions} defaultValue={previouslyApprovedScopeOptionsSelected} disabled />
+                      <ProFormCheckbox.Group
+                        layout="vertical"
+                        options={previouslyApprovedScopeOptions}
+                        fieldProps={{
+                          defaultValue: previouslyApprovedScopeOptionsSelected
+                        }}
+                        disabled
+                      />
                     </>
                   ) : null
                 }

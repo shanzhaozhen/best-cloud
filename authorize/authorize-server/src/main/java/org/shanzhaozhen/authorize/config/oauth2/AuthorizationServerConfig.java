@@ -59,7 +59,7 @@ public class AuthorizationServerConfig {
                 )
                 // 跨域配置
                 .cors(Customizer.withDefaults())
-                // 忽略掉相关端点的csrf
+                // 忽略掉相关端点的 csrf
                 .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
                 .exceptionHandling(exceptions ->
                         exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
@@ -71,26 +71,6 @@ public class AuthorizationServerConfig {
         return http.build();
     }
 
-    // todo: 改成mybatis获取方式，这个序列化太恶心了
-    /**
-     * 保存授权信息，授权服务器给我们颁发来 token，那我们肯定需要保存吧，由这个服务来保存
-     * @param jdbcTemplate
-     * @param registeredClientRepository
-     * @return
-     */
-    /*@Bean
-    public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository) {
-        JdbcOAuth2AuthorizationService jdbcOAuth2AuthorizationService = new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
-
-        // 解决json 反序列化 白名单问题
-        JdbcOAuth2AuthorizationService.OAuth2AuthorizationRowMapper authorizationRowMapper = new JdbcOAuth2AuthorizationService.OAuth2AuthorizationRowMapper(registeredClientRepository);
-//        authorizationRowMapper.setLobHandler(new DefaultLobHandler());
-        authorizationRowMapper.setObjectMapper(SecurityJacksonConfig.objectMapper);
-        jdbcOAuth2AuthorizationService.setAuthorizationRowMapper(authorizationRowMapper);
-
-        return jdbcOAuth2AuthorizationService;
-    }*/
-
     /**
      * 配置一些断点的路径，比如：获取token、授权端点 等
      * 配置 OAuth2.0 provider元信息
@@ -99,9 +79,9 @@ public class AuthorizationServerConfig {
     @Bean
     public ProviderSettings providerSettings() {
         return ProviderSettings.builder()
-                // 配置获取token的端点路径
+                // 配置获取 token 的端点路径
 //                .tokenEndpoint("/authentication/token")
-                // 发布者的url地址,一般是本系统访问的根路径
+                // 发布者的 url 地址,一般是本系统访问的根路径
                 .issuer("http://localhost:" + serverPort).build();
     }
 
