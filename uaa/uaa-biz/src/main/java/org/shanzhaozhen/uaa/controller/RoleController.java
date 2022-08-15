@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Update;
 import org.shanzhaozhen.common.core.entity.BasePageParams;
 import org.shanzhaozhen.common.core.result.R;
 import org.shanzhaozhen.uaa.converter.RoleConverter;
+import org.shanzhaozhen.uaa.pojo.dto.RoleAuthorizedData;
 import org.shanzhaozhen.uaa.pojo.dto.RoleDTO;
 import org.shanzhaozhen.uaa.pojo.form.RoleForm;
 import org.shanzhaozhen.uaa.service.RoleService;
@@ -31,6 +32,8 @@ public class RoleController {
     private static final String UPDATE_ROLE = "/role";
     private static final String DELETE_ROLE = "/role/{roleId}";
     private static final String BATCH_DELETE_ROLE = "/role";
+
+    private static final String GET_ROLE_AUTHORIZE = "/role/authorize/{roleId}";
 
     private final RoleService roleService;
 
@@ -74,6 +77,12 @@ public class RoleController {
     @DeleteMapping(BATCH_DELETE_ROLE)
     public R<List<String>> batchDeleteRole(@Parameter(description = "角色id", example = "[1, 2]") @RequestBody List<String> roleIds) {
         return R.build(() -> roleService.batchDeleteRole(roleIds));
+    }
+
+    @Operation(summary = "批量删除角色接口")
+    @GetMapping(GET_ROLE_AUTHORIZE)
+    public R<RoleAuthorizedData> getRoleAuthorizedData(@Parameter(description = "角色id", example = "1") @PathVariable String roleId) {
+        return R.build(() -> roleService.getRoleAuthorizedData(roleId));
     }
 
 }

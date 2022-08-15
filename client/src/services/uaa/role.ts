@@ -2,6 +2,7 @@
 import { request } from 'umi';
 import type {Page, PageParams, R} from "@/services/common/typings";
 import type {RoleForm, RoleVO} from "@/services/uaa/type/role";
+import {RoleAuthorizeData} from "@/services/uaa/type/role";
 
 /** 更新角色接口 PUT /role */
 export async function updateRole(body: RoleForm, options?: Record<string, any>) {
@@ -74,3 +75,11 @@ export async function getAllRoles(options?: Record<string, any>) {
     ...(options || {}),
   });
 }
+
+export async function getRoleAuthorizeById(roleId: string, options?: Record<string, any>) {
+  return request<R<RoleAuthorizeData>>(`/api/uaa/role/authorize/${roleId}`, {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+

@@ -50,26 +50,31 @@ export async function getInitialState(): Promise<{
     return undefined;
   };
 
-  // 如果不是白名单，执行
-  if (!isWhiteAllow()) {
-    // const currentUser = await fetchUserInfo();
-
+  const refreshToken = async () => {
     const user = await userManager.getUser();
     if (user) {
       localStorage.setItem("token_type", user.token_type);
       localStorage.setItem("access_token", user.access_token);
       localStorage.setItem("refresh_token", user.refresh_token || '');
       localStorage.setItem("id_token", user.id_token || '');
+      return user
     } else {
       localStorage.removeItem("token_type");
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
       localStorage.removeItem("id_token");
+      return undefined;
     }
+  };
+
+  // 如果不是白名单，执行
+  if (!isWhiteAllow()) {
+    const user = await refreshToken();
+    const currentUser = await fetchUserInfo();
 
     return {
       fetchUserInfo,
-      // currentUser,
+      currentUser,
       user,
       settings: defaultSettings,
       userManager

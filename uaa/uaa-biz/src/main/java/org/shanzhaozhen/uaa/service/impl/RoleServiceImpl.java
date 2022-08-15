@@ -3,6 +3,7 @@ package org.shanzhaozhen.uaa.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.common.core.utils.CustomBeanUtils;
 import org.shanzhaozhen.uaa.converter.RoleConverter;
+import org.shanzhaozhen.uaa.pojo.dto.RoleAuthorizedData;
 import org.shanzhaozhen.uaa.pojo.entity.RoleDO;
 import org.shanzhaozhen.uaa.pojo.entity.RoleMenuDO;
 import org.shanzhaozhen.uaa.pojo.entity.RolePermissionDO;
@@ -133,6 +134,22 @@ public class RoleServiceImpl implements RoleService {
             RolePermissionDO rolePermissionDO = new RolePermissionDO(null, roleId, permissionId);
             rolePermissionMapper.insert(rolePermissionDO);
         }
+    }
+
+    @Override
+    public RoleAuthorizedData getRoleAuthorizedData(String roleId) {
+        Assert.hasText(roleId, "角色ID不能为空");
+        RoleDO roleDO = this.roleMapper.selectById(roleId);
+        Assert.notNull(roleDO, "没有找到对应的角色");
+
+        List<String> permissionIds = rolePermissionMapper.getPermissionIdsByRoleId(roleId);
+        List<String> menuIds = roleMenuMapper.getMenuIdsByRoleId(roleId);
+
+        return RoleAuthorizedData.builder()
+                .roleId(roleId)
+                .permissionIds(permissionIds)
+                .menuIds(menuIds)
+                .build();
     }
 
 }

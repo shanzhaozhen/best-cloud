@@ -49,8 +49,7 @@ export type RoleBase = {
   identification?: string;
 };
 
-export
-type RoleVO = {
+export type RoleVO = {
   /** 主键ID */
   id?: string;
   /** 名称 */
@@ -83,3 +82,12 @@ export type UserRoleForm = {
   /** 角色ID */
   roleId: string | undefined;
 };
+
+export type RoleAuthorizeData = {
+  /** 角色ID */
+  roleId: string;
+  /** 关联的权限ID */
+  permissionIds: string[];
+  /** 关联的菜单ID */
+  menuIds: string[];
+}

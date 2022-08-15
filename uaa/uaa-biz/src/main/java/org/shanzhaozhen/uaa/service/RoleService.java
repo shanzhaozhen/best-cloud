@@ -1,6 +1,7 @@
 package org.shanzhaozhen.uaa.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.shanzhaozhen.uaa.pojo.dto.RoleAuthorizedData;
 import org.shanzhaozhen.uaa.pojo.dto.RoleDTO;
 
 import javax.validation.constraints.NotNull;
@@ -92,4 +93,5 @@ public interface RoleService {
      */
     void batchAddRolePermission(String roleId, List<String> permissionIds);
 
+    RoleAuthorizedData getRoleAuthorizedData(String roleId);
 }

@@ -82,8 +82,8 @@ export const checkHasKey = (obj: any, keys: (string | number)[]): boolean => {
 };
 
 export const getToken = () => {
-  const tokenType = localStorage.getItem('TOKEN_TYPE') || '';
-  const accessToken = localStorage.getItem('ACCESS_TOKEN') || '';
+  const tokenType = localStorage.getItem('token_type') || '';
+  const accessToken = localStorage.getItem('access_token') || '';
 
   return `${tokenType} ${accessToken}`;
 }
