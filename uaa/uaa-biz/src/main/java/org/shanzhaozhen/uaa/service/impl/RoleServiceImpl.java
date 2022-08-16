@@ -106,13 +106,13 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public void updateMenuAndPermission(@NotNull String roleId, List<String> menuIds, List<String> permissionIds) {
         // 添加角色-菜单关联
+        roleMenuMapper.deleteByRoleId(roleId);
         if (menuIds != null && menuIds.size() > 0) {
-            roleMenuMapper.deleteByRoleId(roleId);
             this.batchAddRoleMenu(roleId, menuIds);
         }
         // 添加角色-权限关联
+        rolePermissionMapper.deleteByRoleId(roleId);
         if (permissionIds != null && permissionIds.size() > 0) {
-            rolePermissionMapper.deleteByRoleId(roleId);
             this.batchAddRolePermission(roleId, permissionIds);
         }
     }

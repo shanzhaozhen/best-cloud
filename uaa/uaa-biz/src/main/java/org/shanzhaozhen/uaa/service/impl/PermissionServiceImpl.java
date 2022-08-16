@@ -18,11 +18,10 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import javax.validation.constraints.NotEmpty;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.shanzhaozhen.common.core.constant.SecurityConstants.AUTHORITY_PREFIX;
 import static org.shanzhaozhen.common.core.enums.PermissionType.API;
 
 @Service
@@ -119,7 +118,9 @@ public class PermissionServiceImpl implements PermissionService {
             Map<String, List<String>> urlMatchRole = new HashMap<>();
             permissionList.forEach(permission -> {
                 List<RoleDTO> rolesBody = permission.getRoles();
-                List<String> roles = CollectionUtils.isEmpty(rolesBody) ? null : rolesBody.stream().map(RoleDTO::getCode).collect(Collectors.toList());
+                List<String> roles = CollectionUtils.isEmpty(rolesBody) ?
+                        Collections.emptyList() :
+                        rolesBody.stream().map(role -> AUTHORITY_PREFIX + role.getCode()).collect(Collectors.toList());
                 urlMatchRole.put(permission.getPath(), roles);
             });
             redisTemplate.opsForHash().putAll(GlobalConstants.URL_PERM_ROLES_KEY, urlMatchRole);

@@ -33,25 +33,31 @@
         select r.id, r.name, r.code, r.description,
                r.created_by, r.created_date, r.last_modified_by, r.last_modified_date
         from sys_role r
-                 inner join sys_role_menu srm on srm.menu_id = #{menuId} and r.id = srm.role_id
+                 inner join sys_role_menu srm on r.id = srm.role_id
+        where srm.menu_id = #{menuId}
     </select>
 
     <select id="getRoleByPermissionId" resultType="org.shanzhaozhen.uaa.pojo.dto.RoleDTO">
         select distinct r.id, r.name, r.code, r.description,
                r.created_by, r.created_date, r.last_modified_by, r.last_modified_date
         from sys_role r
-            left join sys_role_permission srr on srr.permission_id = #{permissionId} and r.id = srr.role_id
+            left join sys_role_permission srr on r.id = srr.role_id
+        where srr.permission_id = #{permissionId}
     </select>
 
     <select id="getRoleListByUserId" resultType="org.shanzhaozhen.uaa.pojo.dto.RoleDTO">
         select DISTINCT r.id, r.name, r.code, r.description,
                r.created_by, r.created_date, r.last_modified_by, r.last_modified_date
         from sys_role r
-            left join sys_user_role sur on sur.user_id = #{userId} and r.id = sur.role_id
+            left join sys_user_role sur on r.id = sur.role_id
+        where sur.user_id = #{userId}
     </select>
 
     <select id="getAuthoritiesByUserId" resultType="org.shanzhaozhen.uaa.pojo.dto.CustomGrantedAuthority">
-        select r.code role from sys_role r inner join sys_user_role sur on sur.user_id = #{userId} and r.id = sur.role_id
+        select r.code role
+        from sys_role r
+            inner join sys_user_role sur on r.id = sur.role_id
+        where sur.user_id = #{userId}
     </select>
 
     <select id="getRolePage" resultType="org.shanzhaozhen.uaa.pojo.dto.RoleDTO">

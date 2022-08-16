@@ -49,7 +49,8 @@
                m.hide_in_menu, m.hide_children_in_menu, m.props, m.description,
                m.created_by, m.created_date, m.last_modified_by, m.last_modified_date
         from sys_menu m
-            inner join sys_role_menu srm on srm.role_id = #{roleId} and m.id = srm.menu_id
+            inner join sys_role_menu srm on m.id = srm.menu_id
+        where srm.role_id = #{roleId}
     </select>
 
     <select id="getAllMenus" resultType="org.shanzhaozhen.uaa.pojo.dto.MenuDTO">
@@ -67,7 +68,8 @@
         <if test="userId != null">
             inner join sys_role_menu srm on srm.menu_id = m.id
             inner join sys_role r on r.id = srm.role_id
-            inner join sys_user_role sur on sur.user_id = #{userId} and r.id = sur.role_id
+            inner join sys_user_role sur on r.id = sur.role_id
+        where sur.user_id = #{userId}
         </if>
     </select>
 

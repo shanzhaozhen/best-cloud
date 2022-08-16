@@ -79,7 +79,10 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
         for (Map.Entry<String, List<String>> permRoles : urlMatchRole.entrySet()) {
             String permission = permRoles.getKey();
             if (pathMatcher.match(permission, path)) {
-                authorizedRoles.addAll(permRoles.getValue());
+                List<String> roles = permRoles.getValue();
+                if (!CollectionUtils.isEmpty(roles)) {
+                    authorizedRoles.addAll(roles);
+                }
                 if (!requireCheck) {
                     requireCheck = true;
                 }

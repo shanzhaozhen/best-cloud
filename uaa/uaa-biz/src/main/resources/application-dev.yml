@@ -19,6 +19,10 @@ spring:
     ## Redis服务器连接密码（默认为空）
     password: 123456
 
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启SQL语句打印
+
 minio:
   endpoint: http://192.168.56.10:9100
   access-key: minioadmin

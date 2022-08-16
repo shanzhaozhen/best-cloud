@@ -44,7 +44,8 @@
         select r.id, r.name, r.path, r.type, r.pid, r.priority, r.description,
                r.created_by, r.created_date, r.last_modified_by, r.last_modified_date
         from sys_permission r
-                 inner join sys_role_permission srr on srr.role_id = #{roleId} and r.id = srr.permission_id
+                 inner join sys_role_permission srr on r.id = srr.permission_id
+        where srr.role_id = #{roleId}
     </select>
 
     <select id="getPermissionListByType" resultType="org.shanzhaozhen.uaa.pojo.dto.PermissionDTO">
@@ -63,11 +64,18 @@
         <if test="userId != null">
             inner join sys_role_permission srp on srp.permission_id = p.id
             inner join sys_role ro on ro.id = srp.role_id
-            inner join sys_user_role sur on sur.user_id = #{userId} and ro.id = sur.role_id
+            inner join sys_user_role sur on ro.id = sur.role_id
+        where
         </if>
-        <if test="type != null">
-            where p.type = #{type}
-        </if>
+
+        <where>
+            <if test="userId != null">
+                sur.user_id = #{userId}
+            </if>
+            <if test="type != null">
+                and p.type = #{type}
+            </if>
+        </where>
         group by p.id
     </select>
 

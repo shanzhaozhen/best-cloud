@@ -9,14 +9,19 @@ import lombok.SneakyThrows;
 import org.shanzhaozhen.uaa.pojo.dto.AuthUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
+import org.springframework.util.CollectionUtils;
 
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Collection;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * JWT：指的是 JSON Web Token，由 header.payload.signture 组成。不存在签名的JWT是不安全的，存在签名的JWT是不可窜改的。
@@ -54,7 +59,12 @@ public class Jwks {
 				AuthUser authUser = (AuthUser) principal;
 				claims.claim("userId", authUser.getUserId());
 				claims.claim("username", authUser.getUsername());
-//				claims.claim("authorities", authUser.getAuthorities());
+
+				Collection<? extends GrantedAuthority> authorities = authUser.getAuthorities();
+				if (!CollectionUtils.isEmpty(authorities)) {
+					claims.claim("authorities", authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet()));
+				}
+
 			}
 			JwtEncodingContext.with(context.getHeaders(), claims);
 		};
