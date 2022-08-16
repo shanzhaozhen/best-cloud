@@ -1,6 +1,6 @@
-import {UserManagerSettings} from "oidc-client-ts";
+import {UserManager, UserManagerSettings} from "oidc-client-ts";
 
-const OidcConfig: UserManagerSettings = {
+export const OidcConfig: UserManagerSettings = {
   authority: "http://localhost:9000",
   client_id: "efd7527b-39d0-468c-9bd6-ff945a696982",
   redirect_uri: 'http://127.0.0.1:8000/oidc',
@@ -12,4 +12,7 @@ const OidcConfig: UserManagerSettings = {
   // autoUserInfo: false
 };
 
-export default OidcConfig;
+// export default OidcConfig;
+
+export const userManager = new UserManager(OidcConfig);
+

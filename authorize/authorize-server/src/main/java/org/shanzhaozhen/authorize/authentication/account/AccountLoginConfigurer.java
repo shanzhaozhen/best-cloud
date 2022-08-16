@@ -95,7 +95,7 @@ public class AccountLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
             loginPageGeneratingFilter.setUsernameParameter(getUsernameParameter());
             loginPageGeneratingFilter.setPasswordParameter(getPasswordParameter());
 //            loginPageGeneratingFilter.setLoginPageUrl(getLoginPage());
-            loginPageGeneratingFilter.setFailureUrl(getFailureUrl());
+//            loginPageGeneratingFilter.setFailureUrl(getFailureUrl());
             loginPageGeneratingFilter.setAuthenticationUrl(getLoginProcessingUrl());
         }
     }

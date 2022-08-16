@@ -9,15 +9,12 @@ import defaultSettings from '../config/defaultSettings';
 import {getCurrentUserInfo} from "@/services/uaa/user";
 import type {CurrentUser} from "@/services/uaa/type/user";
 import type {User} from "oidc-client-ts";
-import { UserManager } from "oidc-client-ts";
-import OidcConfig from "../config/oidcConfig";
 import {errorConfig} from "@/requestErrorConfig";
+import {userManager} from "../config/oidcConfig";
 
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/home';
-
-const userManager = new UserManager(OidcConfig);
 
 
 const whiteList = [
@@ -32,12 +29,10 @@ const isWhiteAllow = (): boolean => whiteList.some(i => history.location.pathnam
  * */
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
-  user?: User | null;
   currentUser?: CurrentUser;
   loading?: boolean;
   refreshToken?: () => Promise<User | undefined>;
   fetchUserInfo?: () => Promise<CurrentUser | undefined>;
-  userManager?: UserManager
 }> {
   const fetchUserInfo = async () => {
     try {
@@ -51,16 +46,17 @@ export async function getInitialState(): Promise<{
 
   // oauth2 返回页则刷新 token
   if (history.location.pathname.startsWith("/oidc")) {
-    userManager.signinRedirectCallback().then(user => {
+    const user = await userManager.signinRedirectCallback();
+    if (user) {
       localStorage.setItem("token_type", user.token_type);
       localStorage.setItem("access_token", user.access_token);
       localStorage.setItem("refresh_token", user.refresh_token || '');
       localStorage.setItem("id_token", user.id_token || '');
-    }).catch(() => {
+    } else {
       localStorage.clear();
       sessionStorage.clear();
       history.push(loginPath);
-    })
+    }
   }
 
   // 如果不是白名单，执行
@@ -71,16 +67,12 @@ export async function getInitialState(): Promise<{
       fetchUserInfo,
       currentUser,
       settings: defaultSettings,
-      userManager
     };
   }
-
-  console.log("ccccc")
 
   return {
     fetchUserInfo,
     settings: defaultSettings,
-    userManager
   };
 }
 
