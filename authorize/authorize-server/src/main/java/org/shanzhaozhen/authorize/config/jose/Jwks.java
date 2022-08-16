@@ -54,6 +54,7 @@ public class Jwks {
 				AuthUser authUser = (AuthUser) principal;
 				claims.claim("userId", authUser.getUserId());
 				claims.claim("username", authUser.getUsername());
+//				claims.claim("authorities", authUser.getAuthorities());
 			}
 			JwtEncodingContext.with(context.getHeaders(), claims);
 		};

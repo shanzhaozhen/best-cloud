@@ -71,7 +71,7 @@ public class PermissionController {
     @Operation(summary = "权限删除接口")
     @DeleteMapping(DELETE_PERMISSION)
     public R<String> deletePermission(@PathVariable("permissionId") @Parameter(description = "权限id", example = "1") String permissionId) {
-        return R.build(() -> permissionService.deletePermission(permissionId));
+        return R.build(() -> permissionService.deletePermission(permissionId, false));
     }
 
     @Operation(summary = "批量权限删除接口")

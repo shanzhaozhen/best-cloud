@@ -9,6 +9,7 @@ import org.shanzhaozhen.uaa.pojo.entity.RoleMenuDO;
 import org.shanzhaozhen.uaa.pojo.entity.RolePermissionDO;
 import org.shanzhaozhen.uaa.pojo.dto.RoleDTO;
 import org.shanzhaozhen.uaa.mapper.RolePermissionMapper;
+import org.shanzhaozhen.uaa.service.PermissionService;
 import org.shanzhaozhen.uaa.service.RoleService;
 import org.shanzhaozhen.uaa.mapper.RoleMapper;
 import org.shanzhaozhen.uaa.mapper.RoleMenuMapper;
@@ -26,10 +27,9 @@ import java.util.List;
 public class RoleServiceImpl implements RoleService {
 
     private final RoleMapper roleMapper;
-
     private final RoleMenuMapper roleMenuMapper;
-
     private final RolePermissionMapper rolePermissionMapper;
+    private final PermissionService permissionService;
 
     @Override
     public List<RoleDTO> getRolesByUserId(String userId) {
@@ -67,7 +67,6 @@ public class RoleServiceImpl implements RoleService {
         Assert.isNull(roleInDB, "创建失败：角色编码已被占用");
         RoleDO roleDO = RoleConverter.toDO(roleDTO);
         roleMapper.insert(roleDO);
-        updateMenuAndPermission(roleDO.getId(), roleDTO.getMenuIds(), roleDTO.getPermissionIds());
         return roleDO.getId();
     }
 
@@ -81,7 +80,6 @@ public class RoleServiceImpl implements RoleService {
         Assert.notNull(roleDO, "更新失败：没有找到该角色或已被删除");
         CustomBeanUtils.copyPropertiesExcludeMetaAndNull(roleDTO, roleDO);
         roleMapper.updateById(roleDO);
-        updateMenuAndPermission(roleDO.getId(), roleDTO.getMenuIds(), roleDTO.getPermissionIds());
         return roleDO.getId();
     }
 
@@ -91,6 +89,7 @@ public class RoleServiceImpl implements RoleService {
         roleMenuMapper.deleteByRoleId(roleId);
         rolePermissionMapper.deleteByRoleId(roleId);
         roleMapper.deleteById(roleId);
+        permissionService.refreshPermissionCache();
         return roleId;
     }
 
@@ -122,8 +121,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public void batchAddRoleMenu(String roleId, List<String> menuIds) {
         for (String menuId : menuIds) {
-            RoleMenuDO RoleMenuDO = new RoleMenuDO(null, roleId, menuId);
-            roleMenuMapper.insert(RoleMenuDO);
+            roleMenuMapper.insert(new RoleMenuDO(null, roleId, menuId));
         }
     }
 
@@ -131,8 +129,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public void batchAddRolePermission(String roleId, List<String> permissionIds) {
         for (String permissionId : permissionIds) {
-            RolePermissionDO rolePermissionDO = new RolePermissionDO(null, roleId, permissionId);
-            rolePermissionMapper.insert(rolePermissionDO);
+            rolePermissionMapper.insert(new RolePermissionDO(null, roleId, permissionId));
         }
     }
 
@@ -150,6 +147,19 @@ public class RoleServiceImpl implements RoleService {
                 .permissionIds(permissionIds)
                 .menuIds(menuIds)
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public void updateRoleAuthorizedData(RoleAuthorizedData roleAuthorizedData) {
+        Assert.notNull(roleAuthorizedData, "没有接收到有限得角色关联信息");
+        String roleId = roleAuthorizedData.getRoleId();
+        Assert.notNull(roleId, "角色ID不能为空");
+        // 检查角色是否存在
+        RoleDO roleDO = this.roleMapper.selectById(roleAuthorizedData.getRoleId());
+        Assert.notNull(roleDO, "角色不存在");
+        this.updateMenuAndPermission(roleId, roleAuthorizedData.getMenuIds(), roleAuthorizedData.getPermissionIds());
+        permissionService.refreshPermissionCache();
     }
 
 }

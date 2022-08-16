@@ -51,9 +51,10 @@ public interface PermissionService {
     /**
      * 删除权限(通过权限id删除)
      * @param permissionId
+     * @param isBatch 是否批量处理
      * @return
      */
-    String deletePermission(String permissionId);
+    String deletePermission(String permissionId, boolean isBatch);
 
     /**
      * 批量删除权限(通过权限id删除)

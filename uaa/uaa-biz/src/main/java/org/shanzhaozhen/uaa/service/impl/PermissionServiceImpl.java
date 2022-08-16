@@ -60,6 +60,7 @@ public class PermissionServiceImpl implements PermissionService {
     public String addPermission(PermissionDTO permissionDTO) {
         PermissionDO permissionDO = PermissionConverter.toDO(permissionDTO);
         permissionMapper.insert(permissionDO);
+        this.refreshPermissionCache();
         return permissionDO.getId();
     }
 
@@ -82,13 +83,17 @@ public class PermissionServiceImpl implements PermissionService {
         } catch (StackOverflowError e) {
             throw new IllegalArgumentException("更新失败：请检查权限的节点设置是否有问题");
         }
+        this.refreshPermissionCache();
         return permissionDO.getId();
     }
 
     @Override
     @Transactional
-    public String deletePermission(String permissionId) {
+    public String deletePermission(String permissionId, boolean isBatch) {
         permissionMapper.deleteById(permissionId);
+        if (!isBatch) {
+            this.refreshPermissionCache();
+        }
         return permissionId;
     }
 
@@ -96,8 +101,9 @@ public class PermissionServiceImpl implements PermissionService {
     @Transactional
     public List<String> batchDeletePermission(@NotEmpty(message = "没有需要删除的权限") List<String> permissionIds) {
         for (String permissionId : permissionIds) {
-            this.deletePermission(permissionId);
+            this.deletePermission(permissionId, true);
         }
+        this.refreshPermissionCache();
         return permissionIds;
     }
 

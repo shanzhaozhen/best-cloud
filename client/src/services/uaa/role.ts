@@ -76,10 +76,24 @@ export async function getAllRoles(options?: Record<string, any>) {
   });
 }
 
+/** 获取所有角色 GET /api/uaa/role/authorize/${roleId} */
 export async function getRoleAuthorizeById(roleId: string, options?: Record<string, any>) {
   return request<R<RoleAuthorizeData>>(`/api/uaa/role/authorize/${roleId}`, {
     method: 'GET',
     ...(options || {}),
   });
 }
+
+export async function updateRoleAuthorize(roleAuthorizeData: RoleAuthorizeData, options?: Record<string, any>) {
+  return request<R<string>>(`/api/uaa/role/authorize`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: roleAuthorizeData,
+    ...(options || {}),
+  });
+}
+
+
 

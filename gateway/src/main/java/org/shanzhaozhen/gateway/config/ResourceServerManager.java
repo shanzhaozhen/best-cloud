@@ -18,6 +18,7 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.PathMatcher;
 import org.springframework.util.StringUtils;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
@@ -77,7 +78,7 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
 
         for (Map.Entry<String, List<String>> permRoles : urlMatchRole.entrySet()) {
             String permission = permRoles.getKey();
-            if (pathMatcher.match(permission, restfulPath)) {
+            if (pathMatcher.match(permission, path)) {
                 authorizedRoles.addAll(permRoles.getValue());
                 if (!requireCheck) {
                     requireCheck = true;
@@ -90,9 +91,9 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
         }
 
         // 判断JWT中携带的用户角色是否有权限访问
-        return authentication
-                .filter(Authentication::isAuthenticated)
-                .flatMapIterable(Authentication::getAuthorities)
+        return authentication.log()
+                .filter(Authentication::isAuthenticated).log()
+                .flatMapIterable(Authentication::getAuthorities).log()
                 .map(GrantedAuthority::getAuthority)
                 .any(authority -> {
                     String roleCode = authority.substring(SecurityConstants.AUTHORITY_PREFIX.length()); // 用户的角色

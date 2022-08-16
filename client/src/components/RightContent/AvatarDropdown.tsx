@@ -20,9 +20,9 @@ const loginOut = async () => {
 
   // todo: 后台注销 token
 
-  localStorage.removeItem('TOKEN_TYPE');
-  localStorage.removeItem('ACCESS_TOKEN');
-  localStorage.removeItem('REFRESH_TOKEN');
+  localStorage.removeItem('token_type');
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
 
   const { search, pathname } = history.location;
   const urlParams = new URL(window.location.href).searchParams;
@@ -73,7 +73,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
 
   const { currentUser } = initialState;
 
-  if (!currentUser || !currentUser.userInfo) {
+  if (!currentUser) {
     return loading;
   }
 
@@ -109,8 +109,8 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>
-        <Avatar size="small" className={styles.avatar} src={currentUser.userInfo.avatar || '/default-avatar.png'} alt="avatar" />
-        <span className={`${styles.name} anticon`}>{currentUser.userInfo.name}</span>
+        <Avatar size="small" className={styles.avatar} src={currentUser?.userInfo?.avatar || '/default-avatar.png'} alt="avatar" />
+        <span className={`${styles.name} anticon`}>{currentUser?.userInfo?.name || '（未命名）'}</span>
       </span>
     </HeaderDropdown>
   );

@@ -32,8 +32,8 @@ public class RoleController {
     private static final String UPDATE_ROLE = "/role";
     private static final String DELETE_ROLE = "/role/{roleId}";
     private static final String BATCH_DELETE_ROLE = "/role";
-
     private static final String GET_ROLE_AUTHORIZE = "/role/authorize/{roleId}";
+    private static final String UPDATE_ROLE_AUTHORIZE = "/role/authorize";
 
     private final RoleService roleService;
 
@@ -79,10 +79,17 @@ public class RoleController {
         return R.build(() -> roleService.batchDeleteRole(roleIds));
     }
 
-    @Operation(summary = "批量删除角色接口")
+    @Operation(summary = "获取角色授权信息接口")
     @GetMapping(GET_ROLE_AUTHORIZE)
     public R<RoleAuthorizedData> getRoleAuthorizedData(@Parameter(description = "角色id", example = "1") @PathVariable String roleId) {
         return R.build(() -> roleService.getRoleAuthorizedData(roleId));
+    }
+
+    @Operation(summary = "获取角色授权信息接口")
+    @PostMapping(UPDATE_ROLE_AUTHORIZE)
+    public R<RoleAuthorizedData> updateRoleAuthorizedData(@Parameter(description = "角色授权信息") @RequestBody RoleAuthorizedData roleAuthorizedData) {
+        roleService.updateRoleAuthorizedData(roleAuthorizedData);
+        return R.ok();
     }
 
 }

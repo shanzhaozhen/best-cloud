@@ -1,12 +1,14 @@
 import type {Dispatch, MutableRefObject, SetStateAction} from "react";
 import React from "react";
-import type {RoleForm} from "@/services/uaa/type/role";
-import {DrawerForm} from "@ant-design/pro-form";
+import {DrawerForm, ProFormText} from "@ant-design/pro-form";
 import type {ActionType} from "@ant-design/pro-table";
-import {Col, message, Tree} from "antd";
-import {updateRole} from "@/services/uaa/role";
+import {Col, message} from "antd";
 import {ProFormItem} from "@ant-design/pro-components";
 import type {RoleAuthorizeData} from "@/services/uaa/type/role";
+import FormTree from "@/components/FormTree";
+import {useMenuTree} from "@/utils/menu";
+import {usePermissionTree} from "@/utils/permission";
+import {updateRoleAuthorize} from "@/services/uaa/role";
 
 interface AuthorizeFormProps {
   roleAuthorizeVisible: boolean;
@@ -21,16 +23,16 @@ interface AuthorizeFormProps {
  * 更新角色授权信息
  * @param fields
  */
-const handleUpdate = async (fields: RoleForm) => {
+const handleUpdate = async (fields: RoleAuthorizeData) => {
   const hide = message.loading('更新中...');
   try {
-    await updateRole(fields);
+    await updateRoleAuthorize(fields);
     hide();
-    message.success('角色更新成功');
+    message.success('角色授权更新成功');
     return true;
   } catch (error) {
     hide();
-    message.error('角色更新失败，请重试!');
+    message.error('角色授权更新失败，请重试!');
     return false;
   }
 };
@@ -39,10 +41,15 @@ const RoleAuthorize: React.FC<AuthorizeFormProps> = (props) => {
 
   const {roleAuthorizeVisible, handleRoleAuthorizeVisible, actionRef, setRoleAuthorizeData, values} = props;
 
+  // const [loading, setLoading] = useState<boolean>(false);
+
+  const menuTree = useMenuTree();
+  const permissionTree = usePermissionTree();
+
   return (
     <DrawerForm
       title="角色授权"
-      width="748px"
+      width="548px"
       drawerProps={{
         destroyOnClose: true,
         onClose: () => {
@@ -56,7 +63,7 @@ const RoleAuthorize: React.FC<AuthorizeFormProps> = (props) => {
       visible={roleAuthorizeVisible}
       onVisibleChange={handleRoleAuthorizeVisible}
       onFinish={async (value) => {
-        const success = await handleUpdate(value as RoleForm);
+        const success = await handleUpdate(value as RoleAuthorizeData);
         if (success) {
           handleRoleAuthorizeVisible(false);
           setRoleAuthorizeData(undefined);
@@ -66,14 +73,27 @@ const RoleAuthorize: React.FC<AuthorizeFormProps> = (props) => {
         }
       }}
     >
+      <ProFormText name="roleId" label="角色id" hidden={true} />
       <Col span={24}>
         <ProFormItem name="permissionIds" label="权限分配">
-          <Tree/>
+          { permissionTree && permissionTree.length > 0 ? (
+            <FormTree treeData={permissionTree} />
+          ) : (
+            <div style={{textAlign: "center"}}>
+              <span>（无）</span>
+            </div>
+          ) }
         </ProFormItem>
       </Col>
       <Col span={24}>
         <ProFormItem name="menuIds" label="菜单分配">
-          <Tree/>
+          { menuTree && menuTree.length > 0 ? (
+            <FormTree treeData={menuTree} />
+          ) : (
+            <div style={{textAlign: "center"}}>
+              <span>（无）</span>
+            </div>
+          ) }
         </ProFormItem>
       </Col>
     </DrawerForm>
@@ -81,3 +101,5 @@ const RoleAuthorize: React.FC<AuthorizeFormProps> = (props) => {
 };
 
 export default RoleAuthorize;
+
+
