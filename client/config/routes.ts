@@ -63,7 +63,32 @@ export default [
         component: './System/OrganizationList',
       },
     ],
-  }, // {
+  },
+  {
+    path: '/oauth',
+    name: 'oauth',
+    icon: 'crown',
+    routes: [
+      {
+        name: 'registeredClient',
+        path: '/oauth/registered-client',
+        component: './OAuth/RegisteredClientList',
+      },
+    ],
+  },
+  {
+    path: '/review',
+    name: 'review',
+    icon: 'crown',
+    routes: [
+      {
+        name: 'flow',
+        path: '/review/flow',
+        component: './Review/FlowList',
+      },
+    ],
+  },
+  // {
   //   path: '/admin',
   //   name: 'admin',
   //   icon: 'crown',

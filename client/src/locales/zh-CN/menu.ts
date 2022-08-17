@@ -82,4 +82,8 @@ export default {
   'menu.recruit.maintain': '招聘维护',
   'menu.mobile': '移动端',
   'menu.mobile.ResumeFill': '简历填写',
+  'menu.oauth': 'oauth认证管理',
+  'menu.oauth.registeredClient': 'oauth客户端管理',
+  'menu.review': '流程管理',
+  'menu.review.flow': '流程列表',
 };

@@ -20,8 +20,10 @@ const Welcome: React.FC = () => {
             <div className={styles.homeDesc}>欢迎使用 Best Cloud，点击下方登陆开启使用</div>
           </div>
           <div className={styles.homeContent}>
-            <Button type="primary" onClick={() => {
-              userManager.signinRedirect();
+            <Button type="primary" onClick={async () => {
+              await localStorage.clear();
+              await sessionStorage.clear();
+              await userManager.signinRedirect();
             }}>
               登陆
             </Button>

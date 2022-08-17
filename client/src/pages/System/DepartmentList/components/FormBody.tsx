@@ -22,7 +22,9 @@ const loopDepartmentData = (departmentData: DepartmentVO[]): any =>
     children: children && loopDepartmentData(children),
   }));
 
-const FormBody: React.FC<FormBodyProps> = () => {
+const FormBody: React.FC<FormBodyProps> = (props) => {
+
+  const { formType } = props;
 
   return (
     <>
@@ -73,7 +75,13 @@ const FormBody: React.FC<FormBodyProps> = () => {
           />
         </Col>
         <Col xl={12} lg={12} md={24}>
-          <ProFormDigit width="md" name="priority" label="排序等级" min={0} initialValue={0} />
+          {
+            formType === 'update' ? (
+              <ProFormDigit width="md" name="priority" label="排序等级"  min={0} />
+            ) : (
+              <ProFormDigit width="md" name="priority" label="排序等级"  min={0} initialValue={0} />
+            )
+          }
         </Col>
         <Col span={24}>
           <ProFormTextArea name="description" label="部门描述" />
