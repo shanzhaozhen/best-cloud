@@ -288,22 +288,19 @@ const UserList: React.FC = () => {
         </FooterToolbar>
       )}
 
-
       <CreateForm
         createModalVisible={createModalVisible}
         handleCreateModalVisible={handleCreateModalVisible}
         actionRef={actionRef}
       />
 
-      {currentRow && Object.keys(currentRow).length ? (
-        <UpdateForm
-          updateModalVisible={updateModalVisible}
-          handleUpdateModalVisible={handleUpdateModalVisible}
-          actionRef={actionRef}
-          setCurrentRow={setCurrentRow}
-          values={currentRow || {}}
-        />
-      ) : null}
+      <UpdateForm
+        updateModalVisible={updateModalVisible}
+        handleUpdateModalVisible={handleUpdateModalVisible}
+        actionRef={actionRef}
+        setCurrentRow={setCurrentRow}
+        currentRow={currentRow}
+      />
 
       {currentRow && Object.keys(currentRow).length ? (
         <ViewForm

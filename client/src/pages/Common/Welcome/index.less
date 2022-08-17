@@ -1,8 +1,79 @@
-@import (reference) '../../../../node_modules/antd/es/style/themes/index';
+@import (reference) '~antd/es/style/themes/index';
 
-.pre {
-  margin: 12px 0;
-  padding: 12px 20px;
-  background: @input-bg;
-  box-shadow: @card-shadow;
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: auto;
+  background: @layout-body-background;
 }
+
+.content {
+  flex: 1;
+  padding: 172px 0;
+}
+
+@media (min-width: @screen-md-min) {
+  .container {
+    background-image: url('/background.png');
+    background-size: cover;
+  }
+
+  .content {
+    padding: 172px 0 24px;
+  }
+}
+
+@media (min-width: 768px) {
+  .homeContainer {
+    padding: 32px 0 24px;
+    background-repeat: no-repeat;
+    background-position: center 110px;
+    background-size: 100%;
+  }
+}
+.homeTop {
+  text-align: center;
+}
+.homeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  line-height: 44px;
+}
+.homeHeader a {
+  text-decoration: none;
+}
+.homeHeaderTitle {
+  position: relative;
+  top: 2px;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 600;
+  font-size: 33px;
+}
+.homeHeaderLogo {
+  width: 44px;
+  height: 44px;
+  margin-right: 16px;
+  vertical-align: top;
+}
+.homeHeaderLogo img {
+  width: 100%;
+}
+.homeDesc {
+  margin-top: 12px;
+  margin-bottom: 40px;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 14px;
+}
+.homeContent {
+  text-align: center;
+
+  margin-top: 12px;
+  margin-bottom: 40px;
+}
+
+
+
+

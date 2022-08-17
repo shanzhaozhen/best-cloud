@@ -7,7 +7,7 @@ import ProTable, {TableDropdown} from '@ant-design/pro-table';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import type {RoleVO} from "@/services/uaa/type/role";
-import {batchDeleteRole, deleteRole, getRoleAuthorizeById, getRoleById, getRolePage} from "@/services/uaa/role";
+import {batchDeleteRole, deleteRole, getRolePage} from "@/services/uaa/role";
 import type {PageParams} from "@/services/common/typings";
 import {convertPageParams} from "@/utils/common";
 import CreateForm from "@/pages/System/RoleList/components/CreateForm";
@@ -18,7 +18,6 @@ import {addUserRoles, deleteUserRoles} from "@/services/uaa/user-role";
 import type {UserVO} from "@/services/uaa/type/user";
 import type {SortOrder} from "antd/es/table/interface";
 import RoleAuthorize from "@/pages/System/RoleList/components/RoleAuthorize";
-import type {RoleAuthorizeData} from "@/services/uaa/type/role";
 
 const RoleList: React.FC = () => {
   const [createModalVisible, handleCreateModalVisible] = useState<boolean>(false);
@@ -33,7 +32,6 @@ const RoleList: React.FC = () => {
 
   const [currentRow, setCurrentRow] = useState<RoleVO>();
   const [selectedRowsState, setSelectedRows] = useState<RoleVO[]>([]);
-  const [roleAuthorizeData, setRoleAuthorizeData] = useState<RoleAuthorizeData>();
 
 
   /**
@@ -222,8 +220,7 @@ const RoleList: React.FC = () => {
           key="grant"
           onClick={async () => {
             if (entity && entity.id) {
-              const { data } = await getRoleAuthorizeById(entity.id);
-              setRoleAuthorizeData(data);
+              setCurrentRow(entity)
               handleRoleAuthorizeVisible(true);
               // message.error(res.message || `没有获取到角色信息（id:${entity.id}）`);
             } else {
@@ -239,8 +236,7 @@ const RoleList: React.FC = () => {
             if (key === 'edit') {
               setShowDetail(false);
               if (entity && entity.id) {
-                const { data } = await getRoleById(entity.id);
-                setCurrentRow(data || {});
+                setCurrentRow(entity);
                 handleUpdateModalVisible(true);
                 // message.error(res.message || `没有获取到角色信息（id:${entity.id}）`);
               } else {
@@ -352,15 +348,13 @@ const RoleList: React.FC = () => {
         actionRef={actionRef}
       />
 
-      {currentRow && Object.keys(currentRow).length ? (
-        <UpdateForm
-          updateModalVisible={updateModalVisible}
-          handleUpdateModalVisible={handleUpdateModalVisible}
-          actionRef={actionRef}
-          setCurrentRow={setCurrentRow}
-          values={currentRow || {}}
-        />
-      ) : null}
+      <UpdateForm
+        updateModalVisible={updateModalVisible}
+        handleUpdateModalVisible={handleUpdateModalVisible}
+        actionRef={actionRef}
+        setCurrentRow={setCurrentRow}
+        currentRow={currentRow}
+      />
 
       <Drawer
         width={600}
@@ -420,15 +414,13 @@ const RoleList: React.FC = () => {
         </Drawer>
       ) : null}
 
-      {roleAuthorizeData && Object.keys(roleAuthorizeData).length ? (
-        <RoleAuthorize
-          roleAuthorizeVisible={roleAuthorizeVisible}
-          handleRoleAuthorizeVisible={handleRoleAuthorizeVisible}
-          actionRef={actionRef}
-          setRoleAuthorizeData={setRoleAuthorizeData}
-          values={roleAuthorizeData || {}}
-        />
-      ) : null}
+      <RoleAuthorize
+        roleAuthorizeVisible={roleAuthorizeVisible}
+        handleRoleAuthorizeVisible={handleRoleAuthorizeVisible}
+        actionRef={actionRef}
+        setCurrentRow={setCurrentRow}
+        currentRow={currentRow}
+      />
 
     </PageContainer>
   );

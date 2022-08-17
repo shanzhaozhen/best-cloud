@@ -57,7 +57,6 @@ public class JwtUtils {
         return useId == null ? null : (Long) useId;
     }
 
-
     /**
      * 解析JWT获取用户ID（处理异常）
      * @return 用户ID
@@ -69,7 +68,6 @@ public class JwtUtils {
         return useId == null ? null : (String) useId;
     }
 
-
     /**
      * 解析JWT获取获取用户名
      * @return 用户名
@@ -78,7 +76,6 @@ public class JwtUtils {
         Object username = getJwtPayload().get(SecurityConstants.USER_NAME_KEY);
         return username == null ? null : (String) username;
     }
-
 
     /**
      * 解析JWT获取获取用户名（处理异常）
@@ -90,7 +87,6 @@ public class JwtUtils {
         Object useId = payload.get(SecurityConstants.USER_NAME_KEY);
         return useId == null ? null : (String) useId;
     }
-
 
     /**
      * JWT获取用户角色列表
@@ -116,4 +112,5 @@ public class JwtUtils {
         List<String> roles = getRoles();
         return !CollectionUtils.isEmpty(roles) && roles.contains("ROOT");
     }
+
 }

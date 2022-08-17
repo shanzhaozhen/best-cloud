@@ -10,7 +10,6 @@ import type {PermissionVO} from "@/services/uaa/type/permission";
 import {
   batchDeletePermission,
   deletePermission,
-  getPermissionById,
   getPermissionByPid,
 } from "@/services/uaa/permission";
 import type {PageParams} from "@/services/common/typings";
@@ -153,8 +152,7 @@ const PermissionList: React.FC = () => {
           key="update"
           onClick={async () => {
             if (record && record.id) {
-              const { data } = await getPermissionById(record.id);
-              setCurrentRow(data || {});
+              setCurrentRow(record);
               handleUpdateModalVisible(true);
             } else {
               message.warn('没有选中有效的权限');
@@ -284,15 +282,13 @@ const PermissionList: React.FC = () => {
         values={currentRow || {}}
       />
 
-      {currentRow && Object.keys(currentRow).length ? (
-        <UpdateForm
-          updateModalVisible={updateModalVisible}
-          handleUpdateModalVisible={handleUpdateModalVisible}
-          actionRef={actionRef}
-          setCurrentRow={setCurrentRow}
-          values={currentRow || {}}
-        />
-      ) : null}
+      <UpdateForm
+        updateModalVisible={updateModalVisible}
+        handleUpdateModalVisible={handleUpdateModalVisible}
+        actionRef={actionRef}
+        setCurrentRow={setCurrentRow}
+        currentRow={currentRow}
+      />
 
       <Drawer
         width={600}

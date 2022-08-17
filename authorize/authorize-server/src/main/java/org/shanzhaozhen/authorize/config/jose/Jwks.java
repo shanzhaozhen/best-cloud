@@ -18,9 +18,7 @@ import org.springframework.util.CollectionUtils;
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
-import java.util.Collection;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -59,12 +57,9 @@ public class Jwks {
 				AuthUser authUser = (AuthUser) principal;
 				claims.claim("userId", authUser.getUserId());
 				claims.claim("username", authUser.getUsername());
-
-				Collection<? extends GrantedAuthority> authorities = authUser.getAuthorities();
-				if (!CollectionUtils.isEmpty(authorities)) {
-					claims.claim("authorities", authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet()));
-				}
-
+				claims.claim("authorities", Optional.ofNullable(authUser.getAuthorities())
+						.map(o -> o.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet()))
+						.orElse(Collections.emptySet()));
 			}
 			JwtEncodingContext.with(context.getHeaders(), claims);
 		};

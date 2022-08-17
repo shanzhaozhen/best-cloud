@@ -23,9 +23,7 @@ const loopPermissionData = (permissionData: PermissionVO[]): any =>
     children: children && loopPermissionData(children),
   }));
 
-const FormBody: React.FC<FormBodyProps> = (props) => {
-
-  console.log(props)
+const FormBody: React.FC<FormBodyProps> = () => {
 
   return (
     <>

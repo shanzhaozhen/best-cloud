@@ -4,6 +4,7 @@ package org.shanzhaozhen.uaa.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.common.core.utils.CustomBeanUtils;
 import org.shanzhaozhen.common.core.utils.TreeUtils;
+import org.shanzhaozhen.common.web.utils.JwtUtils;
 import org.shanzhaozhen.uaa.converter.MenuConverter;
 import org.shanzhaozhen.uaa.pojo.entity.MenuDO;
 import org.shanzhaozhen.uaa.pojo.dto.MenuDTO;
@@ -34,8 +35,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuDTO> getMenusByCurrentUser() {
-//        String userId = UserDetailsUtils.getUserId();
-        String userId = null;
+        String userId = JwtUtils.getUserIdWithoutError();
         Assert.notNull(userId, "没有获取到当前的登录状态或为匿名用户");
         return this.getMenusByUserId(userId);
     }

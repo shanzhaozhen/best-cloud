@@ -11,7 +11,6 @@ interface CreateFormProps {
   createModalVisible: boolean;
   handleCreateModalVisible: Dispatch<SetStateAction<boolean>>;
   actionRef: MutableRefObject<ActionType | undefined>;
-  values: Partial<MenuForm>;
 }
 
 /**
@@ -33,14 +32,13 @@ const handleAdd = async (fields: MenuForm) => {
 };
 
 const CreateForm: React.FC<CreateFormProps> = (props) => {
-  const { createModalVisible, handleCreateModalVisible, actionRef, values } = props;
+  const { createModalVisible, handleCreateModalVisible, actionRef } = props;
 
   return (
     <DrawerForm
       title="新建菜单"
       width="748px"
       visible={createModalVisible}
-      initialValues={values}
       drawerProps={{ destroyOnClose: true }}
       onVisibleChange={handleCreateModalVisible}
       onFinish={async (value) => {

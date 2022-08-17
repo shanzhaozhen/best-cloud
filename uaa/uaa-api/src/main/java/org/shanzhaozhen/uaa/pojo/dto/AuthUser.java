@@ -54,12 +54,8 @@ public class AuthUser implements UserDetails {
         this.accountNonLocked = user.isAccountNonExpired();
         this.credentialsNonExpired = user.isCredentialsNonExpired();
         this.enabled = user.isEnabled();
-
-        if (!CollectionUtils.isEmpty(user.getRoles())) {
-            this.authorities = user.getRoles().stream().map(
-                    r -> new SimpleGrantedAuthority(r.getCode())
-            ).collect(Collectors.toSet());
-        }
-
+        this.authorities = Optional.ofNullable(user.getRoles())
+                .map(o -> o.stream().map(r -> new SimpleGrantedAuthority(r.getCode())).collect(Collectors.toSet()))
+                .orElse(Collections.emptySet());
     }
 }

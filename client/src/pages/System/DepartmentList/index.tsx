@@ -10,7 +10,6 @@ import type {DepartmentVO} from "@/services/uaa/type/department";
 import {
   batchDeleteDepartment,
   deleteDepartment,
-  getDepartmentById,
   getDepartmentByPid, getDepartmentPage,
 } from "@/services/uaa/department";
 import type {PageParams} from "@/services/common/typings";
@@ -164,8 +163,7 @@ const DepartmentList: React.FC = () => {
           key="update"
           onClick={async () => {
             if (record && record.id) {
-              const { data } = await getDepartmentById(record.id);
-              setCurrentRow(data);
+              setCurrentRow(record);
               handleUpdateModalVisible(true);
             } else {
               message.warn('没有选中有效的部门');
@@ -303,15 +301,13 @@ const DepartmentList: React.FC = () => {
         values={currentRow || {}}
       />
 
-      {currentRow && Object.keys(currentRow).length ? (
-        <UpdateForm
-          updateModalVisible={updateModalVisible}
-          handleUpdateModalVisible={handleUpdateModalVisible}
-          actionRef={actionRef}
-          setCurrentRow={setCurrentRow}
-          values={currentRow || {}}
-        />
-      ) : null}
+      <UpdateForm
+        updateModalVisible={updateModalVisible}
+        handleUpdateModalVisible={handleUpdateModalVisible}
+        actionRef={actionRef}
+        setCurrentRow={setCurrentRow}
+        currentRow={currentRow}
+      />
 
       <Drawer
         width={600}

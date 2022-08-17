@@ -2,6 +2,7 @@ import type {RoleBase, RoleDTO} from "@/services/uaa/type/role";
 import type {GrantedAuthority} from "@/services/common/typings";
 import type {UserInfoDTO, UserInfoForm, UserInfoVO} from "@/services/uaa/type/user-info";
 import type {DepartmentDTO, DepartmentVO} from "@/services/uaa/type/department";
+import {MenuDataItem} from "@ant-design/pro-components";
 
 export type UserForm = {
   /** 主键ID */
@@ -132,9 +133,12 @@ export type UserDTO = {
 };
 
 export type CurrentUser = {
+  /** 用户信息 */
   userInfo?: UserInfoVO;
-  /** 角色 */
+  /** 用户角色 */
   roles?: RoleBase[];
+  /** 用户所能访问菜单 */
+  menus: MenuDataItem[];
 };
 
 

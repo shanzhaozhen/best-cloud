@@ -10,20 +10,22 @@
  */
 export default [
   {
-    path: '/home',
+    path: '/welcome',
+    name: 'welcome',
     layout: false,
-    component: './Common/Home',
+    component: './Common/Welcome',
   },
   {
     path: '/oidc',
+    name: 'oidc',
     layout: false,
     component: './Common/Oidc',
   },
   {
-    path: '/welcome',
-    name: 'welcome',
+    path: '/home',
+    name: 'home',
     icon: 'smile',
-    component: './Common/Welcome',
+    component: './Common/Home',
   },
   {
     path: '/system',
@@ -148,7 +150,7 @@ export default [
   // },
   {
     path: '/',
-    redirect: '/welcome',
+    redirect: '/home',
   },
   // {
   //   name: '个人设置',

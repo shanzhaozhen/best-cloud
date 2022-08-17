@@ -4,15 +4,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.common.core.utils.CustomBeanUtils;
 import org.shanzhaozhen.common.core.utils.PasswordUtils;
 import org.shanzhaozhen.common.web.utils.JwtUtils;
+import org.shanzhaozhen.uaa.converter.MenuConverter;
 import org.shanzhaozhen.uaa.converter.UserInfoConverter;
 import org.shanzhaozhen.uaa.pojo.dto.UserInfoDTO;
-import org.shanzhaozhen.uaa.service.RoleService;
+import org.shanzhaozhen.uaa.pojo.vo.MenuVO;
+import org.shanzhaozhen.uaa.service.*;
 import org.shanzhaozhen.uaa.pojo.entity.UserDO;
 import org.shanzhaozhen.uaa.pojo.dto.JWTUser;
 import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
-import org.shanzhaozhen.uaa.service.UserInfoService;
-import org.shanzhaozhen.uaa.service.UserRoleService;
-import org.shanzhaozhen.uaa.service.UserService;
 import org.shanzhaozhen.uaa.mapper.UserMapper;
 import org.shanzhaozhen.uaa.mapper.UserRoleMapper;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +36,7 @@ public class UserServiceImpl implements UserService {
     private final UserRoleService userRoleService;
     private final UserInfoService userInfoService;
     private final UserMapper userMapper;
-//    private final MenuService menuService;
+    private final MenuService menuService;
     private final UserRoleMapper userRoleMapper;
 
     @Override
@@ -103,10 +102,12 @@ public class UserServiceImpl implements UserService {
 
         // todo: 获取用户角色
 
-        // todo: 获取用户所拥有的的菜单
+
+        // 获取用户所拥有的的菜单
+        List<MenuVO> menuData = MenuConverter.toVO(menuService.getMenusByCurrentUser());
+        currentUser.setMenus(menuData);
 
         return currentUser;
-
     }
 
     @Override

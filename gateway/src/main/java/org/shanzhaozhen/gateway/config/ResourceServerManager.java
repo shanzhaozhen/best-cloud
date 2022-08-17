@@ -99,11 +99,11 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
                 .flatMapIterable(Authentication::getAuthorities).log()
                 .map(GrantedAuthority::getAuthority)
                 .any(authority -> {
-                    String roleCode = authority.substring(SecurityConstants.AUTHORITY_PREFIX.length()); // 用户的角色
-                    if (GlobalConstants.ROOT_ROLE_CODE.equals(roleCode)) {
+//                    String roleCode = authority.substring(SecurityConstants.AUTHORITY_PREFIX.length()); // 用户的角色
+                    if (GlobalConstants.ROOT_ROLE_CODE.equals(authority)) {
                         return true; // 如果是超级管理员则放行
                     }
-                    return !CollectionUtils.isEmpty(authorizedRoles) && authorizedRoles.contains(roleCode);
+                    return !CollectionUtils.isEmpty(authorizedRoles) && authorizedRoles.contains(authority);
                 })
                 .map(AuthorizationDecision::new)
                 .defaultIfEmpty(new AuthorizationDecision(false));

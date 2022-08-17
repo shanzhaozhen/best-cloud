@@ -23,7 +23,7 @@ public class CurrentUser {
     @Schema(description = "角色")
     private List<RoleBase> roles;
 
-//    @Schema(description = "菜单")
-//    private List<MenuVO> menus;
+    @Schema(description = "菜单")
+    private List<MenuVO> menus;
 
 }

@@ -27,7 +27,7 @@ const loopMenuData = (menuData: MenuVO[]): any =>
 
 const FormBody: React.FC<FormBodyProps> = (props) => {
 
-  console.log(props)
+  const { formType } = props;
 
   return (
     <>
@@ -92,7 +92,13 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
             options={IconOption} />
         </Col>
         <Col xl={12} lg={12} md={24}>
-          <ProFormDigit width="md" name="priority" label="排序等级"  min={0} initialValue={0} />
+          {
+            formType === 'update' ? (
+              <ProFormDigit width="md" name="priority" label="排序等级"  min={0} />
+            ) : (
+              <ProFormDigit width="md" name="priority" label="排序等级"  min={0} initialValue={0} />
+            )
+          }
         </Col>
         <Col xl={12} md={12} sm={24}>
           <ProFormSwitch

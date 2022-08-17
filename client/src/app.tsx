@@ -8,17 +8,16 @@ import { history, Link } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
 import {getCurrentUserInfo} from "@/services/uaa/user";
 import type {CurrentUser} from "@/services/uaa/type/user";
-import type {User} from "oidc-client-ts";
 import {errorConfig} from "@/requestErrorConfig";
-import {userManager} from "../config/oidcConfig";
+import {menuDataRender} from "@/dynamicMenu";
+import userManager from "../config/oidcConfig";
 
 
 const isDev = process.env.NODE_ENV === 'development';
-const loginPath = '/home';
-
+const loginPath = '/welcome';
 
 const whiteList = [
-  '/home',
+  loginPath,
 ]
 
 // 是否白名单
@@ -31,7 +30,6 @@ export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
   currentUser?: CurrentUser;
   loading?: boolean;
-  refreshToken?: () => Promise<User | undefined>;
   fetchUserInfo?: () => Promise<CurrentUser | undefined>;
 }> {
   const fetchUserInfo = async () => {
@@ -92,8 +90,8 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         history.push(loginPath);
       }
     },
-    // todo: 动态菜单
-    // menuDataRender: () => initialState?.menuData || [],
+    // 动态菜单
+    menuDataRender: () => menuDataRender(initialState?.currentUser?.menus),
     layoutBgImgList: [
       {
         src: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/D2LWSqNny4sAAAAAAAAAAAAAFl94AQBr',

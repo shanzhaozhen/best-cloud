@@ -8,14 +8,15 @@ import type {RoleAuthorizeData} from "@/services/uaa/type/role";
 import FormTree from "@/components/FormTree";
 import {useMenuTree} from "@/utils/menu";
 import {usePermissionTree} from "@/utils/permission";
-import {updateRoleAuthorize} from "@/services/uaa/role";
+import {getRoleAuthorizeById, updateRoleAuthorize} from "@/services/uaa/role";
+import type {RoleForm, RoleVO} from "@/services/uaa/type/role";
 
 interface AuthorizeFormProps {
   roleAuthorizeVisible: boolean;
   handleRoleAuthorizeVisible: Dispatch<SetStateAction<boolean>>;
   actionRef: MutableRefObject<ActionType | undefined>;
-  setRoleAuthorizeData: Dispatch<SetStateAction<RoleAuthorizeData | undefined>>
-  values: Partial<RoleAuthorizeData>;
+  setCurrentRow: Dispatch<SetStateAction<RoleVO | undefined>>
+  currentRow: Partial<RoleForm | undefined>;
 }
 
 
@@ -39,7 +40,7 @@ const handleUpdate = async (fields: RoleAuthorizeData) => {
 
 const RoleAuthorize: React.FC<AuthorizeFormProps> = (props) => {
 
-  const {roleAuthorizeVisible, handleRoleAuthorizeVisible, actionRef, setRoleAuthorizeData, values} = props;
+  const {roleAuthorizeVisible, handleRoleAuthorizeVisible, actionRef, setCurrentRow, currentRow} = props;
 
   // const [loading, setLoading] = useState<boolean>(false);
 
@@ -55,18 +56,32 @@ const RoleAuthorize: React.FC<AuthorizeFormProps> = (props) => {
         onClose: () => {
           handleRoleAuthorizeVisible(false);
           if (!roleAuthorizeVisible) {
-            setRoleAuthorizeData(undefined);
+            setCurrentRow(undefined);
           }
         }
       }}
-      initialValues={values}
+      request={async () => {
+        try {
+          if (currentRow?.id) {
+            const { data } = await getRoleAuthorizeById(currentRow?.id);
+            return data;
+          } else {
+            message.warn("权限id不能为空");
+            handleRoleAuthorizeVisible(false);
+          }
+        } catch (e) {
+          message.warn("远程获取数据失败！");
+          handleRoleAuthorizeVisible(false);
+        }
+        return undefined;
+      }}
       visible={roleAuthorizeVisible}
       onVisibleChange={handleRoleAuthorizeVisible}
       onFinish={async (value) => {
         const success = await handleUpdate(value as RoleAuthorizeData);
         if (success) {
           handleRoleAuthorizeVisible(false);
-          setRoleAuthorizeData(undefined);
+          setCurrentRow(undefined);
           if (actionRef.current) {
             actionRef.current.reload();
           }

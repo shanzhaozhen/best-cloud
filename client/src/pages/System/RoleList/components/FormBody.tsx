@@ -8,9 +8,7 @@ interface FormBodyProps {
   readonly?: boolean;
 }
 
-const FormBody: React.FC<FormBodyProps> = (props) => {
-
-  console.log(props)
+const FormBody: React.FC<FormBodyProps> = () => {
 
   return (
     <>

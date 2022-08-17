@@ -10,7 +10,6 @@ import type {MenuVO} from "@/services/uaa/type/menu";
 import {
   batchDeleteMenu,
   deleteMenu,
-  getMenuById,
   getMenuByPid,
 } from "@/services/uaa/menu";
 import type {PageParams} from "@/services/common/typings";
@@ -189,8 +188,9 @@ const MenuList: React.FC = () => {
           key="update"
           onClick={async () => {
             if (entity && entity.id) {
-              const { data } = await getMenuById(entity.id);
-              setCurrentRow(data || {});
+              // const { data } = await getMenuById(entity.id);
+              // setCurrentRow(data || {});
+              setCurrentRow(entity);
               handleUpdateModalVisible(true);
             } else {
               message.warn('没有选中有效的菜单');
@@ -317,18 +317,15 @@ const MenuList: React.FC = () => {
         createModalVisible={createModalVisible}
         handleCreateModalVisible={handleCreateModalVisible}
         actionRef={actionRef}
-        values={currentRow || {}}
       />
 
-      {currentRow && Object.keys(currentRow).length ? (
-        <UpdateForm
-          updateModalVisible={updateModalVisible}
-          handleUpdateModalVisible={handleUpdateModalVisible}
-          actionRef={actionRef}
-          setCurrentRow={setCurrentRow}
-          values={currentRow || {}}
-        />
-      ) : null}
+      <UpdateForm
+        updateModalVisible={updateModalVisible}
+        handleUpdateModalVisible={handleUpdateModalVisible}
+        actionRef={actionRef}
+        setCurrentRow={setCurrentRow}
+        currentRow={currentRow}
+      />
 
       <Drawer
         width={600}
