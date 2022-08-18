@@ -88,6 +88,12 @@ export default [
       },
     ],
   },
+  {
+    name: 'flow',
+    path: '/flow',
+    layout: false,
+    component: './Review/FlowList',
+  },
   // {
   //   path: '/admin',
   //   name: 'admin',

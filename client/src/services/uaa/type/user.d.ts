@@ -139,6 +139,8 @@ export type CurrentUser = {
   roles?: RoleBase[];
   /** 用户所能访问菜单 */
   menus: MenuDataItem[];
+  /** 未读数 */
+  unreadCount: number;
 };
 
 

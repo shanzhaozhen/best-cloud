@@ -18,6 +18,7 @@ const loginPath = '/welcome';
 
 const whiteList = [
   loginPath,
+  '/flow'
 ]
 
 // 是否白名单
