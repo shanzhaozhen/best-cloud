@@ -3,7 +3,8 @@ package org.shanzhaozhen.authorize.converter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.shanzhaozhen.authorize.jackson.SecurityJacksonConfig;
-import org.shanzhaozhen.authorize.pojo.entity.OAuth2AuthorizationDO;
+import org.shanzhaozhen.uaa.pojo.dto.OAuth2AuthorizationDTO;
+import org.shanzhaozhen.uaa.pojo.entity.OAuth2AuthorizationDO;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
@@ -19,49 +20,49 @@ public class OAuth2AuthorizationConverter {
     // 还是逃不开这个反序列化的问题
     private static final ObjectMapper objectMapper = SecurityJacksonConfig.objectMapper;
 
-    public static OAuth2Authorization toOAuth2Authorization(OAuth2AuthorizationDO oAuth2AuthorizationDO, RegisteredClient registeredClient) {
+    public static OAuth2Authorization toOAuth2Authorization(OAuth2AuthorizationDTO oAuth2AuthorizationDTO, RegisteredClient registeredClient) {
         OAuth2Authorization.Builder builder = OAuth2Authorization.withRegisteredClient(registeredClient);
-        String id = oAuth2AuthorizationDO.getId();
-        String principalName = oAuth2AuthorizationDO.getPrincipalName();
-        String authorizationGrantType = oAuth2AuthorizationDO.getAuthorizationGrantType();
+        String id = oAuth2AuthorizationDTO.getId();
+        String principalName = oAuth2AuthorizationDTO.getPrincipalName();
+        String authorizationGrantType = oAuth2AuthorizationDTO.getAuthorizationGrantType();
 
-        Map<String, Object> attributes = parseMap(oAuth2AuthorizationDO.getAttributes());
+        Map<String, Object> attributes = parseMap(oAuth2AuthorizationDTO.getAttributes());
 
         builder.id(id)
                 .principalName(principalName)
                 .authorizationGrantType(new AuthorizationGrantType(authorizationGrantType))
                 .attributes((attrs) -> attrs.putAll(attributes));
 
-        String state = oAuth2AuthorizationDO.getState();
+        String state = oAuth2AuthorizationDTO.getState();
         if (StringUtils.hasText(state)) {
             builder.attribute(OAuth2ParameterNames.STATE, state);
         }
 
         Instant tokenIssuedAt;
         Instant tokenExpiresAt;
-        String authorizationCodeValue = oAuth2AuthorizationDO.getAuthorizationCodeValue();
+        String authorizationCodeValue = oAuth2AuthorizationDTO.getAuthorizationCodeValue();
 
         if (StringUtils.hasText(authorizationCodeValue)) {
-            tokenIssuedAt = oAuth2AuthorizationDO.getAuthorizationCodeIssuedAt();
-            tokenExpiresAt = oAuth2AuthorizationDO.getAuthorizationCodeExpiresAt();
-            Map<String, Object> authorizationCodeMetadata = parseMap(oAuth2AuthorizationDO.getAuthorizationCodeMetadata());
+            tokenIssuedAt = oAuth2AuthorizationDTO.getAuthorizationCodeIssuedAt();
+            tokenExpiresAt = oAuth2AuthorizationDTO.getAuthorizationCodeExpiresAt();
+            Map<String, Object> authorizationCodeMetadata = parseMap(oAuth2AuthorizationDTO.getAuthorizationCodeMetadata());
             OAuth2AuthorizationCode authorizationCode = new OAuth2AuthorizationCode(authorizationCodeValue, tokenIssuedAt, tokenExpiresAt);
             builder.token(authorizationCode, (metadata) -> metadata.putAll(authorizationCodeMetadata));
         }
 
-        String accessTokenValue = oAuth2AuthorizationDO.getAccessTokenValue();
+        String accessTokenValue = oAuth2AuthorizationDTO.getAccessTokenValue();
         if (StringUtils.hasText(accessTokenValue)) {
-            tokenIssuedAt = oAuth2AuthorizationDO.getAccessTokenIssuedAt();
-            tokenExpiresAt = oAuth2AuthorizationDO.getAccessTokenExpiresAt();
-            Map<String, Object> accessTokenMetadata = parseMap(oAuth2AuthorizationDO.getAccessTokenMetadata());
+            tokenIssuedAt = oAuth2AuthorizationDTO.getAccessTokenIssuedAt();
+            tokenExpiresAt = oAuth2AuthorizationDTO.getAccessTokenExpiresAt();
+            Map<String, Object> accessTokenMetadata = parseMap(oAuth2AuthorizationDTO.getAccessTokenMetadata());
 
             OAuth2AccessToken.TokenType tokenType = null;
-            if (OAuth2AccessToken.TokenType.BEARER.getValue().equalsIgnoreCase(oAuth2AuthorizationDO.getAccessTokenType())) {
+            if (OAuth2AccessToken.TokenType.BEARER.getValue().equalsIgnoreCase(oAuth2AuthorizationDTO.getAccessTokenType())) {
                 tokenType = OAuth2AccessToken.TokenType.BEARER;
             }
 
             Set<String> scopes = Collections.emptySet();
-            String accessTokenScopes = oAuth2AuthorizationDO.getAccessTokenScopes();
+            String accessTokenScopes = oAuth2AuthorizationDTO.getAccessTokenScopes();
             if (accessTokenScopes != null) {
                 scopes = StringUtils.commaDelimitedListToSet(accessTokenScopes);
             }
@@ -69,27 +70,27 @@ public class OAuth2AuthorizationConverter {
             builder.token(accessToken, (metadata) -> metadata.putAll(accessTokenMetadata));
         }
 
-        String oidcIdTokenValue = oAuth2AuthorizationDO.getOidcIdTokenValue();
+        String oidcIdTokenValue = oAuth2AuthorizationDTO.getOidcIdTokenValue();
         if (StringUtils.hasText(oidcIdTokenValue)) {
-            tokenIssuedAt = oAuth2AuthorizationDO.getOidcIdTokenIssuedAt();
-            tokenExpiresAt = oAuth2AuthorizationDO.getOidcIdTokenExpiresAt();
-            Map<String, Object> oidcTokenMetadata = parseMap(oAuth2AuthorizationDO.getOidcIdTokenMetadata());
+            tokenIssuedAt = oAuth2AuthorizationDTO.getOidcIdTokenIssuedAt();
+            tokenExpiresAt = oAuth2AuthorizationDTO.getOidcIdTokenExpiresAt();
+            Map<String, Object> oidcTokenMetadata = parseMap(oAuth2AuthorizationDTO.getOidcIdTokenMetadata());
 
             OidcIdToken oidcToken = new OidcIdToken(
                     oidcIdTokenValue, tokenIssuedAt, tokenExpiresAt, (Map<String, Object>) oidcTokenMetadata.get(OAuth2Authorization.Token.CLAIMS_METADATA_NAME));
             builder.token(oidcToken, (metadata) -> metadata.putAll(oidcTokenMetadata));
         }
 
-        String refreshTokenValue = oAuth2AuthorizationDO.getRefreshTokenValue();
+        String refreshTokenValue = oAuth2AuthorizationDTO.getRefreshTokenValue();
         if (StringUtils.hasText(refreshTokenValue)) {
-            tokenIssuedAt = oAuth2AuthorizationDO.getRefreshTokenIssuedAt();
+            tokenIssuedAt = oAuth2AuthorizationDTO.getRefreshTokenIssuedAt();
             tokenExpiresAt = null;
 
-            Instant refreshTokenExpiresAt = oAuth2AuthorizationDO.getRefreshTokenExpiresAt();
+            Instant refreshTokenExpiresAt = oAuth2AuthorizationDTO.getRefreshTokenExpiresAt();
             if (refreshTokenExpiresAt != null) {
                 tokenExpiresAt = refreshTokenExpiresAt;
             }
-            Map<String, Object> refreshTokenMetadata = parseMap(oAuth2AuthorizationDO.getRefreshTokenMetadata());
+            Map<String, Object> refreshTokenMetadata = parseMap(oAuth2AuthorizationDTO.getRefreshTokenMetadata());
             OAuth2RefreshToken refreshToken = new OAuth2RefreshToken(
                     refreshTokenValue, tokenIssuedAt, tokenExpiresAt);
             builder.token(refreshToken, (metadata) -> metadata.putAll(refreshTokenMetadata));
@@ -98,8 +99,8 @@ public class OAuth2AuthorizationConverter {
     }
 
 
-    public static OAuth2AuthorizationDO toDO(OAuth2Authorization oAuth2Authorization) {
-        OAuth2AuthorizationDO.OAuth2AuthorizationDOBuilder builder = OAuth2AuthorizationDO.builder()
+    public static OAuth2AuthorizationDTO toDTO(OAuth2Authorization oAuth2Authorization) {
+        OAuth2AuthorizationDTO.OAuth2AuthorizationDTOBuilder builder = OAuth2AuthorizationDTO.builder()
                 .id(oAuth2Authorization.getId())
                 .registeredClientId(oAuth2Authorization.getRegisteredClientId())
                 .principalName(oAuth2Authorization.getPrincipalName())
@@ -176,5 +177,6 @@ public class OAuth2AuthorizationConverter {
             throw new IllegalArgumentException(ex.getMessage(), ex);
         }
     }
+
 
 }

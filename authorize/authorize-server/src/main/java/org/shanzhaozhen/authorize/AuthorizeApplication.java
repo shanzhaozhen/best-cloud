@@ -13,7 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @EnableDiscoveryClient
 @ComponentScan("org.shanzhaozhen.*")
-@MapperScan("org.shanzhaozhen.authorize.mapper")
+@MapperScan("org.shanzhaozhen.uaa.mapper")
 @EnableFeignClients("org.shanzhaozhen.uaa.feign")
 @OpenAPIDefinition(info =
     @Info(title = "${springdoc.title}", version = "${springdoc.version}", description = "${springdoc.description}")

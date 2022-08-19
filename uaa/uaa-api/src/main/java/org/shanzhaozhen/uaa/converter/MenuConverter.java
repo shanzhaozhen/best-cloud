@@ -3,7 +3,6 @@ package org.shanzhaozhen.uaa.converter;
 
 import org.shanzhaozhen.uaa.pojo.entity.MenuDO;
 import org.shanzhaozhen.uaa.pojo.dto.MenuDTO;
-import org.shanzhaozhen.uaa.pojo.dto.RoleDTO;
 import org.shanzhaozhen.uaa.pojo.form.MenuForm;
 import org.shanzhaozhen.uaa.pojo.vo.MenuVO;
 import org.springframework.beans.BeanUtils;

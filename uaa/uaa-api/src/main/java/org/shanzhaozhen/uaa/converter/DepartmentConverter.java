@@ -3,10 +3,8 @@ package org.shanzhaozhen.uaa.converter;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.uaa.pojo.dto.DepartmentDTO;
-import org.shanzhaozhen.uaa.pojo.dto.DepartmentDTO;
 import org.shanzhaozhen.uaa.pojo.entity.DepartmentDO;
 import org.shanzhaozhen.uaa.pojo.form.DepartmentForm;
-import org.shanzhaozhen.uaa.pojo.vo.DepartmentVO;
 import org.shanzhaozhen.uaa.pojo.vo.DepartmentVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
