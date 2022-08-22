@@ -7,7 +7,7 @@ apply plugin: 'java-library'
 
 dependencies {
     api(
-            project(':common:common-mybatis'),
+//            project(':common:common-mybatis'),
             project(':common:common-redis'),
             project(':uaa:uaa-api')
     )
@@ -34,9 +34,10 @@ dependencies {
 //            'org.springframework.cloud:spring-cloud-starter-authentication',
 //            'org.springframework.cloud:spring-cloud-starter-security',
 
-            'mysql:mysql-connector-java',
-            "com.alibaba:druid-spring-boot-starter:${druidVersion}",
-            "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}",
+//            'mysql:mysql-connector-java',
+//            "com.alibaba:druid-spring-boot-starter:${druidVersion}",
+//            "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}",
+            'org.springframework.boot:spring-boot-starter-jdbc',
             'org.springframework.boot:spring-boot-starter-data-redis',
 
 //            "com.github.xiaoymin:knife4j-micro-spring-boot-starter:${knife4jVersion}",

@@ -3,8 +3,8 @@ package org.shanzhaozhen.uaa.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
+import org.shanzhaozhen.uaa.pojo.dto.OAuth2RegisteredClientDTO;
 import org.shanzhaozhen.uaa.pojo.entity.OAuth2RegisteredClientDO;
-import org.shanzhaozhen.uaa.pojo.vo.OAuth2RegisteredClientVO;
 
 /**
  * @Author: shanzhaozhen
@@ -13,7 +13,7 @@ import org.shanzhaozhen.uaa.pojo.vo.OAuth2RegisteredClientVO;
  */
 public interface OAuth2RegisteredClientMapper extends BaseMapper<OAuth2RegisteredClientDO> {
 
-    Page<OAuth2RegisteredClientVO> getOAuth2RegisteredClientPage(Page<OAuth2RegisteredClientVO> page, @Param("keyword") String keyword);
+    Page<OAuth2RegisteredClientDTO> getOAuth2RegisteredClientPage(Page<OAuth2RegisteredClientDTO> page, @Param("keyword") String keyword);
 
     OAuth2RegisteredClientDO getOAuth2RegisteredClientByClientId(@Param("clientId") String clientId);
 

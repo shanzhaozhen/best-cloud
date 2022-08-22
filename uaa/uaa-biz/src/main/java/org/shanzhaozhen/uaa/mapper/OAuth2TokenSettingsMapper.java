@@ -2,6 +2,7 @@ package org.shanzhaozhen.uaa.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
+import org.shanzhaozhen.uaa.pojo.dto.OAuth2TokenSettingsDTO;
 import org.shanzhaozhen.uaa.pojo.entity.OAuth2TokenSettingsDO;
 
 /**
@@ -11,7 +12,7 @@ import org.shanzhaozhen.uaa.pojo.entity.OAuth2TokenSettingsDO;
  */
 public interface OAuth2TokenSettingsMapper extends BaseMapper<OAuth2TokenSettingsDO> {
 
-    OAuth2TokenSettingsDO getOAuth2TokenSettingsByRegisteredClientId(@Param("registeredClientId") String registeredClientId);
+    OAuth2TokenSettingsDTO getOAuth2TokenSettingsByRegisteredClientId(@Param("registeredClientId") String registeredClientId);
 
     void deleteOAuth2TokenSettingsByRegisteredClientId(@Param("registeredClientId") String registeredClientId);
 

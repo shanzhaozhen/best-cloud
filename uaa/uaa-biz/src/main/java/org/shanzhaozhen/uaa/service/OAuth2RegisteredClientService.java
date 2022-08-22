@@ -2,7 +2,6 @@ package org.shanzhaozhen.uaa.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.uaa.pojo.dto.OAuth2RegisteredClientDTO;
-import org.shanzhaozhen.uaa.pojo.vo.OAuth2RegisteredClientVO;
 
 /**
  * @Author: shanzhaozhen
@@ -17,7 +16,7 @@ public interface OAuth2RegisteredClientService {
      * @param keyword
      * @return
      */
-    Page<OAuth2RegisteredClientVO> getOAuth2RegisteredClientPage(Page<OAuth2RegisteredClientVO> page, String keyword);
+    Page<OAuth2RegisteredClientDTO> getOAuth2RegisteredClientPage(Page<OAuth2RegisteredClientDTO> page, String keyword);
 
     /**
      * 通过 id 获取 oauth2 客户端信息

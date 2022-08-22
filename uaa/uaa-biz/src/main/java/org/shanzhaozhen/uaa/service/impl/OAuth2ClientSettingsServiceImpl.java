@@ -23,24 +23,22 @@ public class OAuth2ClientSettingsServiceImpl implements OAuth2ClientSettingsServ
 
     @Override
     public OAuth2ClientSettingsDTO getOAuth2ClientSettingsByRegisteredClientId(String registeredClientId) {
-        OAuth2ClientSettingsDO oAuth2ClientSettingsDO = oAuth2ClientSettingsMapper.getOAuth2ClientSettingsByRegisteredClientId(registeredClientId);
-        OAuth2ClientSettingsDTO oAuth2ClientSettingsDTO = new OAuth2ClientSettingsDTO();
-        BeanUtils.copyProperties(oAuth2ClientSettingsDO, oAuth2ClientSettingsDTO);
-        return oAuth2ClientSettingsDTO;
+        return oAuth2ClientSettingsMapper.getOAuth2ClientSettingsByRegisteredClientId(registeredClientId);
     }
 
     @Override
     @Transactional
     public void addOrUpdateOAuth2ClientSettings(String registeredClientId, OAuth2ClientSettingsDTO oAuth2ClientSettingsDTO) {
-        OAuth2ClientSettingsDO oAuth2ClientSettings = oAuth2ClientSettingsMapper.getOAuth2ClientSettingsByRegisteredClientId(registeredClientId);
-        if (oAuth2ClientSettings == null) {
-            oAuth2ClientSettings = new OAuth2ClientSettingsDO();
-            BeanUtils.copyProperties(oAuth2ClientSettingsDTO, oAuth2ClientSettings);
-            oAuth2ClientSettings.setRegisteredClientId(registeredClientId);
-            this.oAuth2ClientSettingsMapper.insert(oAuth2ClientSettings);
+        OAuth2ClientSettingsDTO oAuth2ClientSettingsInDB = oAuth2ClientSettingsMapper.getOAuth2ClientSettingsByRegisteredClientId(registeredClientId);
+        if (oAuth2ClientSettingsInDB == null) {
+            OAuth2ClientSettingsDO oAuth2ClientSettingsDO = new OAuth2ClientSettingsDO();
+            BeanUtils.copyProperties(oAuth2ClientSettingsDTO, oAuth2ClientSettingsDO);
+            oAuth2ClientSettingsDO.setRegisteredClientId(registeredClientId);
+            this.oAuth2ClientSettingsMapper.insert(oAuth2ClientSettingsDO);
         } else {
-            CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oAuth2ClientSettingsDTO, oAuth2ClientSettings);
-            this.oAuth2ClientSettingsMapper.updateById(oAuth2ClientSettings);
+            OAuth2ClientSettingsDO oAuth2ClientSettingsDO = oAuth2ClientSettingsMapper.selectById(oAuth2ClientSettingsInDB.getId());
+            CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oAuth2ClientSettingsDTO, oAuth2ClientSettingsDO);
+            this.oAuth2ClientSettingsMapper.updateById(oAuth2ClientSettingsDO);
         }
     }
 

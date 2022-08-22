@@ -39,7 +39,7 @@ public class OAuth2RegisteredClientServiceImpl implements OAuth2RegisteredClient
     private final OAuth2TokenSettingsService oAuth2TokenSettingsService;
 
     @Override
-    public Page<OAuth2RegisteredClientVO> getOAuth2RegisteredClientPage(Page<OAuth2RegisteredClientVO> page, String keyword) {
+    public Page<OAuth2RegisteredClientDTO> getOAuth2RegisteredClientPage(Page<OAuth2RegisteredClientDTO> page, String keyword) {
         return oAuth2RegisteredClientMapper.getOAuth2RegisteredClientPage(page, keyword);
     }
 
@@ -65,7 +65,8 @@ public class OAuth2RegisteredClientServiceImpl implements OAuth2RegisteredClient
         if (oAuth2RegisteredClientDO != null) {
             OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO = new OAuth2RegisteredClientDTO();
             BeanUtils.copyProperties(oAuth2RegisteredClientDO, oAuth2RegisteredClientDTO);
-            return this.assembleOAuth2RegisteredClient(oAuth2RegisteredClientDTO);
+            OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO1 = this.assembleOAuth2RegisteredClient(oAuth2RegisteredClientDTO);
+            return oAuth2RegisteredClientDTO1;
         }
         return null;
     }

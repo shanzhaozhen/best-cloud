@@ -1,6 +1,5 @@
 package org.shanzhaozhen.uaa.pojo.vo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +12,6 @@ import org.shanzhaozhen.common.core.entity.BaseInfoVO;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("oauth2_token_settings")
 @Schema(description = "oauth2 token 配置 VO实体")
 public class OAuth2TokenSettingsVO extends BaseInfoVO {
 

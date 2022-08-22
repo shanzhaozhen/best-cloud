@@ -17,10 +17,10 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-    <select id="getOAuth2TokenSettingsByRegisteredClientId" resultType="org.shanzhaozhen.uaa.pojo.entity.OAuth2TokenSettingsDO">
+    <select id="getOAuth2TokenSettingsByRegisteredClientId" resultType="org.shanzhaozhen.uaa.pojo.dto.OAuth2TokenSettingsDTO">
         select id, registered_client_id, access_token_time_to_live, access_token_format, reuse_refresh_tokens,
                refresh_token_time_to_live, id_token_signature_algorithm,
-               version, created_by, created_date, last_modified_by, last_modified_date
+               created_by, created_date, last_modified_by, last_modified_date
         from oauth2_token_settings
         where registered_client_id = #{registeredClientId}
     </select>

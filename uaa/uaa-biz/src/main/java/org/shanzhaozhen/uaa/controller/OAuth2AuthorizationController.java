@@ -21,19 +21,19 @@ public class OAuth2AuthorizationController {
     private final OAuth2AuthorizationService oAuth2AuthorizationService;
 
     @Operation(summary = "通过 token 获取用户授权信息")
-    @GetMapping(GET_OAUTH2_AUTHORIZATION_BY_ID)
+    @GetMapping(value = GET_OAUTH2_AUTHORIZATION_BY_ID, params = { "id" })
     public OAuth2AuthorizationDTO getOAuth2AuthorizationById(@RequestParam("id") String id) {
         return oAuth2AuthorizationService.getOAuth2AuthorizationById(id);
     }
 
     @Operation(summary = "通过 token 获取用户授权信息")
-    @GetMapping(GET_OAUTH2_AUTHORIZATION_BY_TOKEN)
+    @GetMapping(value = GET_OAUTH2_AUTHORIZATION_BY_TOKEN, params = { "token" })
     public OAuth2AuthorizationDTO getOAuth2AuthorizationByToken(@RequestParam("token") String token, @RequestParam("tokenType") String tokenType) {
         return oAuth2AuthorizationService.getOAuth2AuthorizationByToken(token, tokenType);
     }
 
     @Operation(summary = "保存用户授权信息")
-    @GetMapping(value = SAVE_OAUTH2_AUTHORIZATION)
+    @PostMapping(value = SAVE_OAUTH2_AUTHORIZATION)
     public R<?> saveOAuth2Authorization(@RequestBody OAuth2AuthorizationDTO oAuth2AuthorizationDTO) {
         oAuth2AuthorizationService.saveOAuth2Authorization(oAuth2AuthorizationDTO);
         return R.ok();

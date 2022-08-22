@@ -56,7 +56,7 @@ public class OAuth2AuthorizationServiceImpl implements OAuth2AuthorizationServic
     }
 
     @Operation(summary = "保存用户授权信息")
-    @GetMapping(value = SAVE_OAUTH2_AUTHORIZATION)
+    @PostMapping(value = SAVE_OAUTH2_AUTHORIZATION)
     public void saveOAuth2Authorization(@RequestBody OAuth2AuthorizationDTO oAuth2AuthorizationDTO) {
         OAuth2AuthorizationDO oAuth2Authorization = this.oAuth2AuthorizationMapper.selectById(oAuth2AuthorizationDTO.getId());
         if (oAuth2Authorization == null) {
