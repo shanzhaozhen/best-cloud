@@ -1,8 +1,13 @@
 import type { RequestConfig } from '@umijs/max';
 // import { message, notification } from 'antd';
 import {getToken} from "@/utils/common";
+import {message, Modal, notification} from 'antd';
+import {stringify} from "querystring";
+import {history} from '@umijs/max';
+import {ExclamationCircleOutlined} from "@ant-design/icons";
 
-/*const codeMessage = {
+
+const codeMessage = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
   202: '一个请求已经进入后台排队（异步任务）。',
@@ -19,7 +24,7 @@ import {getToken} from "@/utils/common";
   502: '网关错误。',
   503: '服务不可用，服务器暂时过载或维护。',
   504: '网关超时。',
-};*/
+};
 
 
 // 错误处理方案： 错误类型
@@ -67,7 +72,7 @@ const authHeaderInterceptor = (url: string, options: RequestConfig) => {
 };
 
 
-
+let confirmModalVisible = false;
 
 /**
  * @name 错误处理
@@ -89,11 +94,12 @@ export const errorConfig: RequestConfig = {
       }
     },
     // 错误接收及处理
-    /*errorHandler: (error: any, opts: any) => {
+    errorHandler: async (error: any, opts: any) => {
       if (opts?.skipErrorHandler) throw error;
       // 我们的 errorThrower 抛出的错误。
       if (error.name === 'BizError') {
         const errorInfo: ResponseStructure | undefined = error.info;
+        console.log('errorInfo', errorInfo)
         if (errorInfo) {
           const { errorMessage, errorCode } = errorInfo;
           switch (errorInfo.showType) {
@@ -116,13 +122,70 @@ export const errorConfig: RequestConfig = {
               // TODO: redirect
               break;
             default:
-              message.error(errorMessage);
+            // TODO: 处理对应的业务
+            // message.error(errorMessage);
           }
         }
       } else if (error.response) {
         // Axios 的错误
         // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
-        message.error('Response status:', error.response.status);
+        const { response } = error;
+        if (response.status) {
+          const errorText = codeMessage[response.status] || response.statusText;
+          const { status, url } = response;
+          const res = response.data;
+          if (status === 401) {
+            /**
+            * (4010, "密码账号认证出错")
+            * (4011, "token签名异常")
+            * (4012, "token格式不正确")
+            * (4013, "token已过期")
+            * (4014, "不支持该token")
+            * (4015, "token参数异常")
+            * (4016, "token错误")
+            */
+            if (res.code >= 4011 && res.code <= 4016) {
+              console.log(history.location)
+              if (history.location.pathname !== '/welcome' && history.location.pathname !== '/') {
+                if (!confirmModalVisible) {
+                  confirmModalVisible = true;
+                  Modal.confirm({
+                    title: '登陆超时',
+                    icon: <ExclamationCircleOutlined />,
+                    content: '您已被登出，可以取消继续留在该页面，或者重新登录。',
+                    okText: '重新登陆',
+                    cancelText: '留在此页',
+                    onOk() {
+                      confirmModalVisible = false;
+                      // 将跳转链接记录到 localStage 中
+                      localStorage.setItem('redirect', history.location.pathname)
+                      history.replace({
+                        pathname: '/welcome',
+                        search: stringify({
+                          redirect: history.location.pathname,
+                        }),
+                      });
+                    },
+                    onCancel() {
+                      confirmModalVisible = false;
+                    },
+                  });
+                }
+              }
+            } else {
+              notification.error({
+                message: '鉴权失败',
+                description: res.message || '您的网络发生异常，无法连接服务器',
+              });
+            }
+          } else {
+            notification.error({
+              message: `请求错误 ${status}: ${url}`,
+              description: res.message || errorText,
+            });
+          }
+        }
+        // message.error('Response status:', error.response.status);
       } else if (error.request) {
         // 请求已经成功发起，但没有收到响应
         // \`error.request\` 在浏览器中是 XMLHttpRequest 的实例，
@@ -132,7 +195,7 @@ export const errorConfig: RequestConfig = {
         // 发送请求时出了点问题
         message.error('Request error, please retry.');
       }
-    },*/
+    },
   },
 
   // 请求拦截器
@@ -151,85 +214,3 @@ export const errorConfig: RequestConfig = {
   ],
 };
 
-
-
-
-
-/*
-let confirmModalVisible = false;
-
-/!** 异常处理程序
- * @see https://pro.ant.design/zh-CN/docs/request
- *!/
-const errorHandler = async (error: ResponseError) => {
-  // if (error.message === 'Failed to fetch') {
-  //   throw error;
-  // }
-
-  const { response } = error;
-
-  if (!response) {
-    notification.error({
-      description: '您的网络发生异常，无法连接服务器',
-      message: '网络异常',
-    });
-  }
-
-  if (response.status) {
-    const errorText = codeMessage[response.status] || response.statusText;
-    const { status, url } = response;
-
-    const res = await response.clone().json();
-
-    if (status === 401) {
-      /!**
-       * (4010, "密码账号认证出错")
-       * (4011, "token签名异常")
-       * (4012, "token格式不正确")
-       * (4013, "token已过期")
-       * (4014, "不支持该token")
-       * (4015, "token参数异常")
-       * (4016, "token错误")
-       *!/
-      if (res.code >= 4011 && res.code <= 4016) {
-        if (history.location.pathname !== '/login' && history.location.pathname !== '/') {
-          if (!confirmModalVisible) {
-            confirmModalVisible = true;
-            Modal.confirm({
-              title: '登陆超时',
-              icon: <ExclamationCircleOutlined />,
-              content: '您已被登出，可以取消继续留在该页面，或者重新登录。',
-              okText: '重新登陆',
-              cancelText: '留在此页',
-              onOk() {
-                confirmModalVisible = false;
-                history.replace({
-                  pathname: '/login',
-                  search: stringify({
-                    redirect: history.location.pathname,
-                  }),
-                });
-              },
-              onCancel() {
-                confirmModalVisible = false;
-              },
-            });
-          }
-        }
-      } else {
-        notification.error({
-          message: '鉴权失败',
-          description: res.message || '您的网络发生异常，无法连接服务器',
-        });
-      }
-    } else {
-      notification.error({
-        message: `请求错误 ${status}: ${url}`,
-        description: res.message || errorText,
-      });
-    }
-  }
-
-  throw error;
-};
-*/

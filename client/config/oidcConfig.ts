@@ -1,4 +1,5 @@
 import {UserManager, UserManagerSettings} from "oidc-client-ts";
+import {history} from "@@/core/history";
 
 const OidcConfig: UserManagerSettings = {
   authority: "http://localhost:9000",
@@ -15,9 +16,27 @@ const OidcConfig: UserManagerSettings = {
 
 // export default OidcConfig;
 
-const userManager = new UserManager(OidcConfig);
+export const userManager = new UserManager(OidcConfig);
 
-export default userManager;
+export const oauth2Login = async () => {
+  await localStorage.clear();
+  await sessionStorage.clear();
+  await userManager.signinRedirect();
+}
+
+export const refreshToken = async (loginPath: string) => {
+  const user = await userManager.signinRedirectCallback();
+  if (user) {
+    localStorage.setItem("token_type", user.token_type);
+    localStorage.setItem("access_token", user.access_token);
+    localStorage.setItem("refresh_token", user.refresh_token || '');
+    localStorage.setItem("id_token", user.id_token || '');
+  } else {
+    localStorage.clear();
+    sessionStorage.clear();
+    history.push(loginPath);
+  }
+}
 
 
 

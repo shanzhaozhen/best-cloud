@@ -2,7 +2,8 @@ import React from 'react';
 import Footer from '@/components/Footer';
 import styles from './index.less';
 import {Button} from "antd";
-import userManager from "../../../../config/oidcConfig";
+import {oauth2Login} from "../../../../config/oidcConfig";
+
 
 const Welcome: React.FC = () => {
 
@@ -20,11 +21,7 @@ const Welcome: React.FC = () => {
             <div className={styles.homeDesc}>欢迎使用 Best Cloud，点击下方登陆开启使用</div>
           </div>
           <div className={styles.homeContent}>
-            <Button type="primary" onClick={async () => {
-              await localStorage.clear();
-              await sessionStorage.clear();
-              await userManager.signinRedirect();
-            }}>
+            <Button type="primary" onClick={oauth2Login}>
               登陆
             </Button>
           </div>

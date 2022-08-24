@@ -2,33 +2,70 @@ import React, {useRef, useState} from 'react';
 import {FooterToolbar, PageContainer} from '@ant-design/pro-layout';
 import type {ActionType, ProColumns} from "@ant-design/pro-table";
 import ProTable from "@ant-design/pro-table";
-import type {RegisteredClientVO} from "@/services/uaa/type/registered-client";
-import {Button, Drawer, Input, message, Modal} from "antd";
-import {batchDeleteRegisteredClient, deleteRegisteredClient, getRegisteredClientPage} from "@/services/uaa/registered-client";
+import {Button, Input, message, Modal} from "antd";
+import {
+  batchDeleteRegisteredClient,
+  deleteRegisteredClient,
+  getRegisteredClientById,
+  getRegisteredClientPage
+} from "@/services/uaa/registered-client";
 import {ExclamationCircleOutlined, PlusOutlined} from "@ant-design/icons";
 import type {PageParams} from "@/services/common/typings";
-import {convertPageParams} from "@/utils/common";
-import type {ProDescriptionsItemProps} from "@ant-design/pro-descriptions";
-import ProDescriptions from "@ant-design/pro-descriptions";
+import {arrayJoinToString, convertPageParams, stringSplitToArray} from "@/utils/common";
 import UpdateForm from "@/pages/OAuth/RegisteredClientList/components/UpdateForm";
 import CreateForm from "@/pages/OAuth/RegisteredClientList/components/CreateForm";
+import type {OAuth2RegisteredClientDTO} from "@/services/uaa/type/registered-client";
+import ViewForm from "@/pages/OAuth/RegisteredClientList/components/ViewForm";
+import type {OAuth2RegisteredClientForm} from "@/services/uaa/type/registered-client";
+
+export const convertRegisteredClient = (fields: OAuth2RegisteredClientForm) => {
+  if (fields) {
+    fields.clientAuthenticationMethods = arrayJoinToString(fields.clientAuthenticationMethodList);
+    fields.authorizationGrantTypes = arrayJoinToString(fields.authorizationGrantTypeList);
+    fields.scopes = arrayJoinToString(fields.scopeList);
+    if (fields.redirectUriList && fields.redirectUriList.length > 0) {
+      fields.redirectUris = arrayJoinToString(fields.redirectUriList.map(item => (item.uri)));
+    }
+  }
+}
 
 const RegisteredClientList: React.FC = () => {
   const [createModalVisible, handleCreateModalVisible] = useState<boolean>(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
-
-  const [showDetail, setShowDetail] = useState<boolean>(false);
+  const [viewModalVisible, handleViewModalVisible] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
 
-  const [currentRow, setCurrentRow] = useState<RegisteredClientVO>();
-  const [selectedRowsState, setSelectedRows] = useState<RegisteredClientVO[]>([]);
+  const [currentRow, setCurrentRow] = useState<OAuth2RegisteredClientDTO>();
+  const [selectedRowsState, setSelectedRows] = useState<OAuth2RegisteredClientDTO[]>([]);
+
+  const loadOauth2RegisteredClient = async (id?: string): Promise<OAuth2RegisteredClientDTO | undefined> => {
+    try {
+      if (id) {
+        const { data } = await getRegisteredClientById(id);
+        if (data) {
+          data.clientAuthenticationMethodList = stringSplitToArray(data.clientAuthenticationMethods);
+          data.authorizationGrantTypeList = stringSplitToArray(data.authorizationGrantTypes);
+          data.redirectUriList = data.redirectUris ? data.redirectUris.split(',').map(item => ({ uri: item })) : [];
+          data.scopeList = stringSplitToArray(data.scopes);
+        }
+        return data;
+      } else {
+        message.warn("客户端id不能为空");
+        handleUpdateModalVisible(false);
+      }
+    } catch (e) {
+      message.warn("远程获取数据失败！");
+      handleUpdateModalVisible(false);
+    }
+    return undefined;
+  }
 
   /**
    * 删除客户端
    * @param selectedRows
    */
-  const handleRemove = async (selectedRows: RegisteredClientVO[]) => {
+  const handleRemove = async (selectedRows: OAuth2RegisteredClientDTO[]) => {
     const hide = message.loading('正在删除');
     if (!selectedRows) return true;
     try {
@@ -43,7 +80,7 @@ const RegisteredClientList: React.FC = () => {
     }
   };
 
-  const columns: ProColumns<RegisteredClientVO>[] = [
+  const columns: ProColumns<OAuth2RegisteredClientDTO>[] = [
     {
       title: '关键字',
       key: 'keyword',
@@ -60,8 +97,8 @@ const RegisteredClientList: React.FC = () => {
       width: 48,
     },
     {
-      title: '客户端名称',
-      dataIndex: 'name',
+      title: '客户端id',
+      dataIndex: 'clientId',
       valueType: 'text',
       sorter: true,
       hideInSearch: true,
@@ -78,7 +115,7 @@ const RegisteredClientList: React.FC = () => {
           <a
             onClick={() => {
               setCurrentRow(entity);
-              setShowDetail(true);
+              handleViewModalVisible(true);
             }}
           >
             {dom}
@@ -87,17 +124,24 @@ const RegisteredClientList: React.FC = () => {
       },
     },
     {
-      title: '客户端编码',
-      dataIndex: 'code',
-      valueType: 'text',
+      title: '客户端名称',
+      dataIndex: 'clientName',
       hideInSearch: true,
-      sorter: true,
+      valueType: 'text',
     },
     {
-      title: '描述',
-      dataIndex: 'description',
+      title: '客户端到期时间',
+      dataIndex: 'clientIdIssuedAt',
+      valueType: 'dateTime',
       hideInSearch: true,
-      valueType: 'text',
+      hideInForm: true,
+    },
+    {
+      title: '客户端密码到期时间',
+      dataIndex: 'clientSecretExpiresAt',
+      valueType: 'dateTime',
+      hideInSearch: true,
+      hideInForm: true,
     },
     {
       title: '创建时间',
@@ -123,7 +167,7 @@ const RegisteredClientList: React.FC = () => {
         <a
           key="edit"
           onClick={async () => {
-            setShowDetail(false);
+            handleViewModalVisible(false);
             if (entity && entity.id) {
               setCurrentRow(entity);
               handleUpdateModalVisible(true);
@@ -164,7 +208,7 @@ const RegisteredClientList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<RegisteredClientVO, PageParams>
+      <ProTable<OAuth2RegisteredClientDTO, PageParams>
         headerTitle="客户端列表"
         actionRef={actionRef}
         rowKey="id"
@@ -242,32 +286,17 @@ const RegisteredClientList: React.FC = () => {
         handleUpdateModalVisible={handleUpdateModalVisible}
         actionRef={actionRef}
         setCurrentRow={setCurrentRow}
-        currentRow={currentRow}
+        loadData={() => loadOauth2RegisteredClient(currentRow?.id)}
       />
 
-      <Drawer
-        width={600}
-        visible={showDetail}
-        onClose={() => {
-          setCurrentRow(undefined);
-          setShowDetail(false);
-        }}
-        closable={false}
-      >
-        {currentRow?.id && (
-          <ProDescriptions<RegisteredClientVO>
-            column={2}
-            title={currentRow?.name}
-            request={async () => ({
-              data: currentRow || {},
-            })}
-            params={{
-              id: currentRow?.id,
-            }}
-            columns={columns as ProDescriptionsItemProps<RegisteredClientVO>[]}
-          />
-        )}
-      </Drawer>
+      <ViewForm
+        viewModalVisible={viewModalVisible}
+        handleViewModalVisible={handleViewModalVisible}
+        actionRef={actionRef}
+        setCurrentRow={setCurrentRow}
+        loadData={() => loadOauth2RegisteredClient(currentRow?.id)}
+      />
+
     </PageContainer>
   );
 };

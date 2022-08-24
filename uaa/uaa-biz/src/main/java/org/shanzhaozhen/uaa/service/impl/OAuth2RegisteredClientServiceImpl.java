@@ -8,16 +8,23 @@ import org.shanzhaozhen.uaa.pojo.dto.OAuth2ClientSettingsDTO;
 import org.shanzhaozhen.uaa.pojo.dto.OAuth2RegisteredClientDTO;
 import org.shanzhaozhen.uaa.pojo.dto.OAuth2TokenSettingsDTO;
 import org.shanzhaozhen.uaa.pojo.entity.OAuth2RegisteredClientDO;
-import org.shanzhaozhen.uaa.pojo.vo.OAuth2RegisteredClientVO;
+import org.shanzhaozhen.uaa.pojo.form.OAuth2ClientSettingsForm;
+import org.shanzhaozhen.uaa.pojo.form.OAuth2RegisteredClientForm;
+import org.shanzhaozhen.uaa.pojo.form.OAuth2TokenSettingsForm;
 import org.shanzhaozhen.common.core.utils.CustomBeanUtils;
 import org.shanzhaozhen.uaa.service.OAuth2ClientSettingsService;
 import org.shanzhaozhen.uaa.service.OAuth2RegisteredClientService;
 import org.shanzhaozhen.uaa.service.OAuth2TokenSettingsService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+import java.util.UUID;
 
 
 /**
@@ -37,6 +44,7 @@ public class OAuth2RegisteredClientServiceImpl implements OAuth2RegisteredClient
     private final OAuth2RegisteredClientMapper oAuth2RegisteredClientMapper;
     private final OAuth2ClientSettingsService oAuth2ClientSettingsService;
     private final OAuth2TokenSettingsService oAuth2TokenSettingsService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Page<OAuth2RegisteredClientDTO> getOAuth2RegisteredClientPage(Page<OAuth2RegisteredClientDTO> page, String keyword) {
@@ -88,21 +96,67 @@ public class OAuth2RegisteredClientServiceImpl implements OAuth2RegisteredClient
     }
 
     @Override
+    public void addOrUpdateOAuth2RegisteredClient(OAuth2RegisteredClientForm oAuth2RegisteredClientForm) {
+        OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO = new OAuth2RegisteredClientDTO();
+        BeanUtils.copyProperties(oAuth2RegisteredClientForm, oAuth2RegisteredClientDTO);
+
+        OAuth2ClientSettingsForm clientSettings = oAuth2RegisteredClientForm.getClientSettings();
+        OAuth2TokenSettingsForm tokenSettings = oAuth2RegisteredClientForm.getTokenSettings();
+
+        oAuth2RegisteredClientDTO.setClientSettings(Optional.ofNullable(clientSettings).map(o -> {
+            OAuth2ClientSettingsDTO oAuth2ClientSettingsDTO = new OAuth2ClientSettingsDTO();
+            BeanUtils.copyProperties(clientSettings, oAuth2ClientSettingsDTO);
+            return oAuth2ClientSettingsDTO;
+        }).orElse(null));
+
+        oAuth2RegisteredClientDTO.setTokenSettings(Optional.ofNullable(tokenSettings).map(o -> {
+            OAuth2TokenSettingsDTO oAuth2TokenSettingsDTO = new OAuth2TokenSettingsDTO();
+            BeanUtils.copyProperties(tokenSettings, oAuth2TokenSettingsDTO);
+            return oAuth2TokenSettingsDTO;
+        }).orElse(null));
+
+        this.addOrUpdateOAuth2RegisteredClient(oAuth2RegisteredClientDTO);
+    }
+
+    @Override
     @Transactional
     @Operation(summary = "保存 OAuth2 客户端信息")
     @PostMapping( SAVE_OAUTH2_REGISTERED_CLIENT)
     public void addOrUpdateOAuth2RegisteredClient(@RequestBody OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO) {
-        OAuth2RegisteredClientDO oAuth2RegisteredClient = this.oAuth2RegisteredClientMapper.getOAuth2RegisteredClientByClientId(oAuth2RegisteredClientDTO.getClientId());
+        String clientId = oAuth2RegisteredClientDTO.getClientId();
+        OAuth2RegisteredClientDO oAuth2RegisteredClient;
+        if (StringUtils.hasText(clientId)) {
+            oAuth2RegisteredClient = this.oAuth2RegisteredClientMapper.getOAuth2RegisteredClientByClientId(clientId);
+        } else {
+            clientId = UUID.randomUUID().toString();
+            oAuth2RegisteredClient = null;
+        }
+
         if (oAuth2RegisteredClient == null) {
             oAuth2RegisteredClient = new OAuth2RegisteredClientDO();
             BeanUtils.copyProperties(oAuth2RegisteredClientDTO, oAuth2RegisteredClient);
+            oAuth2RegisteredClient.setClientId(clientId);
+            String encodePassword = passwordEncoder.encode(oAuth2RegisteredClientDTO.getClientSecret());
+            oAuth2RegisteredClient.setClientSecret(encodePassword);
             this.oAuth2RegisteredClientMapper.insert(oAuth2RegisteredClient);
         } else {
-            CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oAuth2RegisteredClientDTO, oAuth2RegisteredClient);
+            if (StringUtils.hasText(oAuth2RegisteredClientDTO.getClientSecret())) {
+                String encodePassword = passwordEncoder.encode(oAuth2RegisteredClientDTO.getClientSecret());
+                CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oAuth2RegisteredClientDTO, oAuth2RegisteredClient);
+                oAuth2RegisteredClient.setClientSecret(encodePassword);
+            } else {        // 为空不修改密码
+                CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oAuth2RegisteredClientDTO, oAuth2RegisteredClient);
+            }
             this.oAuth2RegisteredClientMapper.updateById(oAuth2RegisteredClient);
         }
-        oAuth2ClientSettingsService.addOrUpdateOAuth2ClientSettings(oAuth2RegisteredClient.getId(), oAuth2RegisteredClientDTO.getClientSettings());
-        oAuth2TokenSettingsService.addOrUpdateOAuth2TokenSettings(oAuth2RegisteredClient.getId(), oAuth2RegisteredClientDTO.getTokenSettings());
+        if (oAuth2RegisteredClientDTO.getClientSettings() != null) {
+            oAuth2ClientSettingsService.addOrUpdateOAuth2ClientSettings(oAuth2RegisteredClient.getId(), oAuth2RegisteredClientDTO.getClientSettings());
+        }
+
+        if (oAuth2RegisteredClientDTO.getTokenSettings() != null) {
+            oAuth2TokenSettingsService.addOrUpdateOAuth2TokenSettings(oAuth2RegisteredClient.getId(), oAuth2RegisteredClientDTO.getTokenSettings());
+        }
+
     }
 
     @Override

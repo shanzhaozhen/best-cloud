@@ -90,6 +90,7 @@ CREATE TABLE `oauth2_registered_client`
     `authorization_grant_types`     varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '客户端授权方式',
     `redirect_uris`                 varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '客户端允许重定向的uri',
     `scopes`                        varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '客户端允许的scope 来自role表',
+    `description`                   varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '描述',
     `version`                       INT NULL DEFAULT NULL COMMENT '版本号',
     `created_by`                    VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
     `created_date`                  datetime NULL DEFAULT NULL COMMENT '创建时间',

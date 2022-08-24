@@ -7,8 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.common.core.entity.BasePageParams;
 import org.shanzhaozhen.common.core.result.R;
 import org.shanzhaozhen.uaa.pojo.dto.OAuth2RegisteredClientDTO;
-import org.shanzhaozhen.uaa.pojo.dto.RoleDTO;
-import org.shanzhaozhen.uaa.pojo.vo.OAuth2RegisteredClientVO;
+import org.shanzhaozhen.uaa.pojo.form.OAuth2RegisteredClientForm;
 import org.shanzhaozhen.uaa.service.OAuth2RegisteredClientService;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,8 +43,15 @@ public class OAuth2RegisteredClientController {
 
     @Operation(summary = "保存 OAuth2 客户端信息")
     @PostMapping( SAVE_OAUTH2_REGISTERED_CLIENT)
-    public R<?> saveOAuth2RegisteredClient(@RequestBody OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO) {
-        oAuth2RegisteredClientService.addOrUpdateOAuth2RegisteredClient(oAuth2RegisteredClientDTO);
+    public R<?> addOAuth2RegisteredClient(@RequestBody OAuth2RegisteredClientForm oAuth2RegisteredClientForm) {
+        oAuth2RegisteredClientService.addOrUpdateOAuth2RegisteredClient(oAuth2RegisteredClientForm);
+        return R.ok();
+    }
+
+    @Operation(summary = "保存 OAuth2 客户端信息")
+    @PutMapping( SAVE_OAUTH2_REGISTERED_CLIENT)
+    public R<?> updateOAuth2RegisteredClient(@RequestBody OAuth2RegisteredClientForm oAuth2RegisteredClientForm) {
+        oAuth2RegisteredClientService.addOrUpdateOAuth2RegisteredClient(oAuth2RegisteredClientForm);
         return R.ok();
     }
 

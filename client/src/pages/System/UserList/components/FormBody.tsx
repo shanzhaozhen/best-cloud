@@ -4,17 +4,12 @@ import {ProFormDatePicker, ProFormSelect, ProFormSwitch, ProFormText, ProFormTex
 import AvatarView from "@/components/AvatarView";
 import ProFormItem from '@ant-design/pro-form/lib/components/FormItem';
 import type { FormType } from '@/services/common/typings';
-// import { getAllRoles } from '@/services/role/role';
-// import type { RoleVO } from '@/services/role/typings';
-// import FormTreeSelect from '@/components/FormTreeSelect';
-// import { useDepartmentTree } from '@/utils/department';
+
 
 interface FormBodyProps {
   formType?: FormType;
   readonly?: boolean;
 }
-
-
 
 const FormBody: React.FC<FormBodyProps> = (props) => {
   const { formType } = props;

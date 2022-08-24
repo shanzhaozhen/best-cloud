@@ -1,41 +1,34 @@
-package org.shanzhaozhen.uaa.pojo.entity;
+package org.shanzhaozhen.uaa.pojo.form;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.shanzhaozhen.common.core.entity.BaseEntity;
 
 import java.time.LocalDateTime;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("oauth2_registered_client")
-@Schema(description = "oauth2客户端信息DO实体")
-public class OAuth2RegisteredClientDO extends BaseEntity {
-
-    private static final long serialVersionUID = 1914056921456851028L;
+@Schema(description = "oauth2客户端信息Form实体")
+public class OAuth2RegisteredClientForm {
 
     @Schema(description = "主键ID")
-    @TableId(type = IdType.ASSIGN_ID)
     private String id;
 
     @Schema(description = "客户端id")
     private String clientId;
 
     @Schema(description = "客户端到期时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime clientIdIssuedAt;
 
     @Schema(description = "客户端密码")
     private String clientSecret;
 
     @Schema(description = "客户端密码到期时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime clientSecretExpiresAt;
 
     @Schema(description = "客户端名称")
@@ -52,6 +45,12 @@ public class OAuth2RegisteredClientDO extends BaseEntity {
 
     @Schema(description = "客户端允许的授权范围")
     private String scopes;
+
+    @Schema(description = "客户端配置")
+    private OAuth2ClientSettingsForm clientSettings;
+
+    @Schema(description = "token配置")
+    private OAuth2TokenSettingsForm tokenSettings;
 
     @Schema(description = "描述")
     private String description;

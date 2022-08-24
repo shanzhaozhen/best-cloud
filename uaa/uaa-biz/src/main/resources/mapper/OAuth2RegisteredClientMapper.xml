@@ -14,6 +14,7 @@
         <result column="authorization_grant_types" property="authorizationGrantTypes" />
         <result column="redirect_uris" property="redirectUris" />
         <result column="scopes" property="scopes" />
+        <result column="description" property="description" />
         <result column="created_by" property="createdBy" />
         <result column="created_date" property="createdDate" />
         <result column="last_modified_by" property="lastModifiedBy" />
@@ -24,7 +25,7 @@
 
     <select id="getOAuth2RegisteredClientPage" resultMap="OAuth2RegisteredClientDTOMap">
         select id, client_id, client_id_issued_at, client_secret, client_secret_expires_at, client_name,
-               client_authentication_methods, authorization_grant_types, redirect_uris, scopes,
+               client_authentication_methods, authorization_grant_types, redirect_uris, scopes, description,
                created_by, created_date, last_modified_by, last_modified_date
         from oauth2_registered_client
         <if test="keyword != null and keyword != ''">
@@ -34,7 +35,7 @@
 
     <select id="getOAuth2RegisteredClientByClientId" resultType="org.shanzhaozhen.uaa.pojo.entity.OAuth2RegisteredClientDO">
         select id, client_id, client_id_issued_at, client_secret, client_secret_expires_at, client_name,
-               client_authentication_methods, authorization_grant_types, redirect_uris, scopes,
+               client_authentication_methods, authorization_grant_types, redirect_uris, scopes, description,
                version, created_by, created_date, last_modified_by, last_modified_date
         from oauth2_registered_client
         where client_id = #{clientId}

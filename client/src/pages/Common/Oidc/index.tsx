@@ -6,7 +6,9 @@ import {history} from "@@/core/history";
 const Index: React.FC = () => {
 
   useEffect(() => {
-    history.push('/');
+    const redirect = localStorage.getItem('redirect');
+    localStorage.removeItem('redirect');
+    history.push(redirect || '/');
   }, [])
 
   return (<div>

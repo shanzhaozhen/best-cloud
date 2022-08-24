@@ -6,6 +6,10 @@ import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.util.StringUtils;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,9 +23,11 @@ public class OAuth2RegisteredClientConverter {
 
         RegisteredClient.Builder builder = RegisteredClient.withId(oAuth2RegisteredClientDTO.getId())
                 .clientId(oAuth2RegisteredClientDTO.getClientId())
-                .clientIdIssuedAt(oAuth2RegisteredClientDTO.getClientIdIssuedAt())
+                .clientIdIssuedAt(Optional.ofNullable(oAuth2RegisteredClientDTO.getClientIdIssuedAt())
+                        .map(o -> o.toInstant(ZoneOffset.UTC)).orElse(null))
                 .clientSecret(oAuth2RegisteredClientDTO.getClientSecret())
-                .clientSecretExpiresAt(oAuth2RegisteredClientDTO.getClientSecretExpiresAt())
+                .clientSecretExpiresAt(Optional.ofNullable(oAuth2RegisteredClientDTO.getClientSecretExpiresAt())
+                        .map(o -> o.toInstant(ZoneOffset.UTC)).orElse(null))
                 .clientName(oAuth2RegisteredClientDTO.getClientName())
                 .clientAuthenticationMethods(authenticationMethods ->
                         clientAuthenticationMethods.forEach(authenticationMethod ->
@@ -41,9 +47,11 @@ public class OAuth2RegisteredClientConverter {
         OAuth2RegisteredClientDTO.OAuth2RegisteredClientDTOBuilder builder = OAuth2RegisteredClientDTO.builder()
                 .id(registeredClient.getId())
                 .clientId(registeredClient.getClientId())
-                .clientIdIssuedAt(registeredClient.getClientIdIssuedAt())
+                .clientIdIssuedAt(Optional.ofNullable(registeredClient.getClientIdIssuedAt())
+                        .map(o -> LocalDateTime.ofInstant(o, ZoneId.systemDefault())).orElse(null))
                 .clientSecret(registeredClient.getClientSecret())
-                .clientSecretExpiresAt(registeredClient.getClientSecretExpiresAt())
+                .clientSecretExpiresAt(Optional.ofNullable(registeredClient.getClientSecretExpiresAt())
+                        .map(o -> LocalDateTime.ofInstant(o, ZoneId.systemDefault())).orElse(null))
                 .clientName(registeredClient.getClientName())
                 .clientAuthenticationMethods(StringUtils.collectionToCommaDelimitedString(
                         registeredClient.getClientAuthenticationMethods().stream().map(ClientAuthenticationMethod::getValue).collect(Collectors.toSet())

@@ -10,7 +10,7 @@ import {getCurrentUserInfo} from "@/services/uaa/user";
 import type {CurrentUser} from "@/services/uaa/type/user";
 import {errorConfig} from "@/requestErrorConfig";
 import {menuDataRender} from "@/dynamicMenu";
-import userManager from "../config/oidcConfig";
+import {refreshToken} from "../config/oidcConfig";
 
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -45,17 +45,7 @@ export async function getInitialState(): Promise<{
 
   // oauth2 返回页则刷新 token
   if (history.location.pathname.startsWith("/oidc")) {
-    const user = await userManager.signinRedirectCallback();
-    if (user) {
-      localStorage.setItem("token_type", user.token_type);
-      localStorage.setItem("access_token", user.access_token);
-      localStorage.setItem("refresh_token", user.refresh_token || '');
-      localStorage.setItem("id_token", user.id_token || '');
-    } else {
-      localStorage.clear();
-      sessionStorage.clear();
-      history.push(loginPath);
-    }
+    await refreshToken(loginPath);
   }
 
   // 如果不是白名单，执行

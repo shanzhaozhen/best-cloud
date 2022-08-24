@@ -2,6 +2,7 @@ package org.shanzhaozhen.uaa.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.uaa.pojo.dto.OAuth2RegisteredClientDTO;
+import org.shanzhaozhen.uaa.pojo.form.OAuth2RegisteredClientForm;
 
 /**
  * @Author: shanzhaozhen
@@ -41,11 +42,17 @@ public interface OAuth2RegisteredClientService {
 
     /**
      * 添加或更新 OAuth2 客户端信息
+     * @param oAuth2RegisteredClientForm
+     */
+    void addOrUpdateOAuth2RegisteredClient(OAuth2RegisteredClientForm oAuth2RegisteredClientForm);
+
+    /**
+     * 添加或更新 OAuth2 客户端信息
      * @param oAuth2RegisteredClientDTO
      */
     void addOrUpdateOAuth2RegisteredClient(OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO);
 
-        /**
+    /**
          * 通过id删除客户端信息
          * @param id
          */

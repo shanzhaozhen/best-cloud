@@ -1,6 +1,20 @@
 import type { SortOrder } from 'antd/lib/table/interface';
 import type {OrderItem, PageParams} from '@/services/common/typings';
 
+export const stringSplitToArray = (value?: string, separator = ','): string[] => {
+  if (value) {
+    return value.split(separator);
+  }
+  return [];
+}
+
+export const arrayJoinToString = (values?: string[], separator = ','): string => {
+  if (values && values.length) {
+    return values.join(separator);
+  }
+  return '';
+}
+
 export const copyObject = (A: any, B: any) => {
   const res = {};
 
@@ -87,6 +101,8 @@ export const getToken = () => {
 
   return `${tokenType} ${accessToken}`;
 }
+
+
 
 // export const targetUrl = REACT_APP_ENV ? proxy[REACT_APP_ENV]['/hrs-api/'].target : '';
 // export const targetUrlNotDiagonal = targetUrl.substr(0, targetUrl.length - 1);

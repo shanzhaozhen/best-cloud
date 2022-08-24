@@ -65,7 +65,6 @@ public class InitRegisteredClient implements CommandLineRunner {
                 // OIDC支持
                 .scope(OidcScopes.OPENID)
                 // 其它Scope
-                .scope("all")
                 .scope("message.read")
                 .scope("message.write")
                 .clientSettings(ClientSettings

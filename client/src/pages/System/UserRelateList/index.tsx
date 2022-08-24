@@ -306,7 +306,7 @@ const UserRelateList: React.FC<UserRelateListProps> = (props) => {
         <UpdateForm
           updateModalVisible={updateModalVisible}
           handleUpdateModalVisible={handleUpdateModalVisible}
-          values={currentRow}
+          currentRow={currentRow}
           actionRef={actionRef}
           setCurrentRow={setCurrentRow}
         />

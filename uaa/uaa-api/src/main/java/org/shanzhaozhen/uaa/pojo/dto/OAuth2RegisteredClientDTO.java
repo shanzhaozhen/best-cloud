@@ -1,8 +1,7 @@
 package org.shanzhaozhen.uaa.pojo.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.shanzhaozhen.common.core.entity.BaseInfo;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -28,13 +27,16 @@ public class OAuth2RegisteredClientDTO extends BaseInfo {
     private String clientId;
 
     @Schema(description = "客户端到期时间")
-    private Instant clientIdIssuedAt;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime clientIdIssuedAt;
 
     @Schema(description = "客户端密码")
+    @JsonIgnore()
     private String clientSecret;
 
     @Schema(description = "客户端密码到期时间")
-    private Instant clientSecretExpiresAt;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime clientSecretExpiresAt;
 
     @Schema(description = "客户端名称")
     private String clientName;
@@ -56,5 +58,8 @@ public class OAuth2RegisteredClientDTO extends BaseInfo {
 
     @Schema(description = "token配置")
     private OAuth2TokenSettingsDTO tokenSettings;
+
+    @Schema(description = "描述")
+    private String description;
 
 }

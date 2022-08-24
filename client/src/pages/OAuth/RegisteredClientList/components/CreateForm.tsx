@@ -3,9 +3,10 @@ import React from "react";
 import {DrawerForm} from "@ant-design/pro-form";
 import type {ActionType} from "@ant-design/pro-table";
 import {message} from "antd";
-import type {RegisteredClientForm} from "@/services/uaa/type/registered-client";
+import type {OAuth2RegisteredClientForm} from "@/services/uaa/type/registered-client";
 import {addRegisteredClient} from "@/services/uaa/registered-client";
 import FormBody from "@/pages/OAuth/RegisteredClientList/components/FormBody";
+import {convertRegisteredClient} from "@/pages/OAuth/RegisteredClientList";
 
 interface CreateFormProps {
   createModalVisible: boolean;
@@ -17,9 +18,10 @@ interface CreateFormProps {
  * 新建客户端
  * @param fields
  */
-const handleAdd = async (fields: RegisteredClientForm) => {
+const handleAdd = async (fields: OAuth2RegisteredClientForm) => {
   const hide = message.loading('添加中...');
   try {
+    convertRegisteredClient(fields);
     await addRegisteredClient({ ...fields });
     hide();
     message.success('新建成功！');
@@ -42,7 +44,7 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
       drawerProps={{ destroyOnClose: true }}
       onVisibleChange={handleCreateModalVisible}
       onFinish={async (value) => {
-        const success = await handleAdd(value as RegisteredClientForm);
+        const success = await handleAdd(value as OAuth2RegisteredClientForm);
         if (success) {
           handleCreateModalVisible(false);
           if (actionRef.current) {

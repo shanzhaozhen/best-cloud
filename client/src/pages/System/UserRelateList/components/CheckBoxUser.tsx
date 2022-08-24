@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import {Drawer, Input, message, Modal, Space, Tag} from 'antd';
-import type { ActionType, ProColumns } from '@ant-design/pro-table';
-import ProTable, {ColumnsState} from '@ant-design/pro-table';
+import type { ActionType, ProColumns ,ColumnsState} from '@ant-design/pro-table';
+import ProTable from '@ant-design/pro-table';
+import type {ProDescriptionsItemProps} from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import {convertPageParams} from '@/utils/common';
 import type {UserVO} from "@/services/uaa/type/user";
@@ -276,7 +277,7 @@ const CheckBoxUser: React.FC<CheckBoxUserProps> = (props) => {
             params={{
               id: currentRow?.id,
             }}
-            columns={columns}
+            columns={columns as ProDescriptionsItemProps<UserVO>[]}
           />
         )}
       </Drawer>
