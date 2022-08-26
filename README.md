@@ -15,22 +15,22 @@
 _没条件搞服务器都挂了_
 
 ### 功能实现
-|          实现功能          | 是否已实现 |
-|:----------------------:|:-----:|
-|   Spring Cloud 微服务化    |   √   |
-|      整合 OAuth2.1       |   √   |
-|    增加 Password 认证方式    |   √   |
-|     OAuth2 加入JWT增强     |   √   |
-|      RBAC 动态权限管理       |   √   |
-|         动态分配菜单         |   -   |
-|    整合服务熔断 Sentinel     |   -   |
-|     openapi文档查看、导出     |   √   |
-|       实现分布式定时任务        |   -   |
-|        加入分布式事务         |   -   |
-|     引入分布式存储 MinIO      |   -   |
-|   加入 OAuth2 实现第三方登陆    |   -   |
-| 加入Dockerfile直接打包部署到服务器 |   -   |
-|       实现低代码流程引擎        |   -   |
+|                  实现功能                  | 是否已实现 |
+|:--------------------------------------:|:-----:|
+|           Spring Cloud 微服务化            |   √   |
+|              整合 OAuth2.1               |   √   |
+| ~~增加 Password 认证方式~~ (有需要请看password分支) | ~~√~~ |
+|            OAuth2.1 加入JWT增强            |   √   |
+|              RBAC 动态权限管理               |   √   |
+|                 动态分配菜单                 |   √   |
+|            整合服务熔断 Sentinel             |   -   |
+|             openapi文档查看、导出             |   √   |
+|               实现分布式定时任务                |   -   |
+|                加入分布式事务                 |   -   |
+|             引入分布式存储 MinIO              |   √   |
+|           加入 OAuth2 实现第三方登陆            |   -   |
+|         加入Dockerfile直接打包部署到服务器         |   -   |
+|               实现低代码流程引擎                |   -   |
 
 
 ### 微服务组件选型
@@ -52,7 +52,7 @@ _没条件搞服务器都挂了_
 * Spring Cloud / Spring Cloud Alibaba
 * Spring Boot
 * Spring Security
-* OAuth2
+* OAuth2.1
 * JWT
 * React
 * Typescript & ES6
@@ -70,17 +70,23 @@ _没条件搞服务器都挂了_
 
 ```lua
 best-cloud -- 父项目,各模块分离，方便集成和微服务
+│  │─authorize  -- 授权服务器
+│  │  ├─authorize-server -- 授权服务器-后台应用
+│  │  ├─authorize-web -- 授权服务器-前端模块
+│  │─client -- 前端应用
 │  ├─common -- 核心通用模块，主模块
 │  │  ├─common-core -- 封装通用模块
+│  │  ├─common-minio -- 封装 minio 配置模块
 │  │  ├─common-mybatis -- 封装 mybatis 配置模块
 │  │  ├─common-redis -- 封装 redis 配置模块
 │  │  ├─common-web -- 封装 web 常用基础模块
+│  │─doc -- 文档
 │  │─gateway -- 统一网关模块 [8088]
+│  │─generator -- 代码生成器
 │  │─authorize -- 统一认证中心模块 [9000]
 │  │─uaa -- 系统用户管理模块，主模块
 │  │  ├─uaa-api -- 系统用户管理的通用模块，供其他模块引用
 │  │  ├─uaa-biz -- 系统用户管理模块核心功能 [9500]
-│  │─client -- 前端项目
 ```
 
 
