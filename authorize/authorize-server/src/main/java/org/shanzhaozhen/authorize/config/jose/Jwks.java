@@ -9,8 +9,10 @@ import lombok.SneakyThrows;
 import org.shanzhaozhen.uaa.pojo.dto.AuthUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.util.CollectionUtils;
@@ -44,6 +46,14 @@ public class Jwks {
 		return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
 	}
 
+	/**
+	 * 对 JWT 解密
+	 * @return
+	 */
+	@Bean
+	public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
+		return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
+	}
 
 	/**
 	 * JWT内容增强

@@ -2,7 +2,6 @@ package org.shanzhaozhen.authorize.config.oauth2;
 
 
 import lombok.RequiredArgsConstructor;
-import org.shanzhaozhen.authorize.jackson.SecurityJacksonConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +10,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
@@ -64,6 +64,9 @@ public class AuthorizationServerConfig {
                 // 应用 授权服务器的配置
                 .apply(authorizationServerConfigurer)
         ;
+
+        // 增加授权服务其解析 jwt 功能
+        http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
 
         return http.build();
     }
