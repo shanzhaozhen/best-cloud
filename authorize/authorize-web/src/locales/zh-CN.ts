@@ -1,4 +1,8 @@
 import pages from './zh-CN/pages';
+import globalHeader from "@/locales/zh-CN/globalHeader";
+import settings from "@/locales/zh-CN/settings";
+import menu from "@/locales/zh-CN/menu";
+import component from "@/locales/zh-CN/component";
 
 export default {
   'navBar.lang': '语言',
@@ -10,4 +14,8 @@ export default {
   'app.welcome.link.fetch-blocks': '获取全部区块',
   'app.welcome.link.block-list': '基于 block 开发，快速构建标准页面',
   ...pages,
+  ...globalHeader,
+  ...menu,
+  ...settings,
+  ...component,
 };

@@ -26,6 +26,12 @@ export default [
     component: './Consent',
   },
   {
+    name: 'account',
+    path: '/account',
+    // layout: false,
+    component: './AccountManage',
+  },
+  {
     path: '/403',
     layout: false,
     component: './ErrorPage/403',

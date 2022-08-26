@@ -99,7 +99,9 @@ const Login: React.FC = () => {
               id="pages.login.loginWith"
               defaultMessage="其他登录方式"
             />,
-            <GithubOutlined key="githubOutlined" className={styles.icon} />,
+            <a key="githubOutlined" href="/oauth2/authorization/github-idp">
+              <GithubOutlined className={styles.icon} />
+            </a>,
             <WechatOutlined key="wechatOutlined" className={styles.icon} />,
             <QqOutlined key="qqOutlined" className={styles.icon} />,
             <WeiboCircleOutlined key="weiboCircleOutlined" className={styles.icon} />,

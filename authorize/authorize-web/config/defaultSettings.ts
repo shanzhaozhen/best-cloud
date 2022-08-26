@@ -17,9 +17,9 @@ const Settings: LayoutSettings & {
   logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
   iconfontUrl: '',
   // 不展示顶栏
-  headerRender: false,
+  // headerRender: false,
   // 不展示页脚
-  footerRender: false,
+  // footerRender: false,
   // 不展示菜单
   menuRender: false,
   // 不展示菜单顶栏

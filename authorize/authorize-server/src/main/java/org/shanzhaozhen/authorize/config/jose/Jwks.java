@@ -53,6 +53,7 @@ public class Jwks {
 		return context -> {
 			JwtClaimsSet.Builder claims = context.getClaims();
 			Object principal = context.getPrincipal().getPrincipal();
+			// todo: id token 需要按照类型
 			if (principal instanceof AuthUser) {
 				AuthUser authUser = (AuthUser) principal;
 				claims.claim("userId", authUser.getUserId());

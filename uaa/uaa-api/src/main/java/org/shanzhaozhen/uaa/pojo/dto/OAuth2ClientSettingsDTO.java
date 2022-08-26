@@ -12,7 +12,7 @@ import org.shanzhaozhen.common.core.entity.BaseInfo;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "oauth2客户端配置DO实体")
+@Schema(description = "oauth2客户端配置DTO实体")
 public class OAuth2ClientSettingsDTO extends BaseInfo {
 
     private static final long serialVersionUID = -4799748630762298078L;

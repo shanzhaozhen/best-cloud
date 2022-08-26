@@ -1,14 +1,17 @@
 import React, {useEffect} from "react";
 
 import {PageLoading} from "@ant-design/pro-components";
-import {history} from "@@/core/history";
+import {history} from "@umijs/max";
 
 const Index: React.FC = () => {
 
   useEffect(() => {
     const redirect = localStorage.getItem('redirect');
+
+    console.log(redirect)
+
     localStorage.removeItem('redirect');
-    history.push(redirect || '/');
+    history.replace(redirect || '/');
   }, [])
 
   return (<div>

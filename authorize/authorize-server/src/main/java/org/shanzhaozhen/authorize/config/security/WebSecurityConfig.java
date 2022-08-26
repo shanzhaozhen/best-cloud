@@ -1,8 +1,7 @@
 package org.shanzhaozhen.authorize.config.security;
 
 import lombok.RequiredArgsConstructor;
-import org.shanzhaozhen.authorize.authentication.handler.DefaultAuthenticationFailureHandler;
-import org.shanzhaozhen.authorize.authentication.handler.DefaultAuthenticationSuccessHandler;
+import org.shanzhaozhen.authorize.authentication.federated.FederatedIdentityConfigurer;
 import org.shanzhaozhen.authorize.authentication.account.AccountLoginConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,10 +18,6 @@ public class WebSecurityConfig {
 //			, "/**", "/authorize/rsa/publicKey"
 			, "/.well-known/openid-configuration"
 	};
-
-	private final DefaultAuthenticationSuccessHandler defaultAuthenticationSuccessHandler;
-
-	private final DefaultAuthenticationFailureHandler defaultAuthenticationFailureHandler;
 
 	private final UserDetailsService userDetailsService;
 
@@ -44,6 +39,8 @@ public class WebSecurityConfig {
 				.userDetailsService(userDetailsService)
 //				.formLogin()
 				.apply(new AccountLoginConfigurer<>())
+				.and()
+				.apply(new FederatedIdentityConfigurer())
 //				.loginPage("/login")
 //				.successHandler(defaultAuthenticationSuccessHandler)
 //				.failureHandler(defaultAuthenticationFailureHandler)

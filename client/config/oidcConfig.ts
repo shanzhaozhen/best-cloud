@@ -19,23 +19,29 @@ const OidcConfig: UserManagerSettings = {
 export const userManager = new UserManager(OidcConfig);
 
 export const oauth2Login = async () => {
-  await localStorage.clear();
-  await sessionStorage.clear();
+  clearToken();
   await userManager.signinRedirect();
 }
 
 export const refreshToken = async (loginPath: string) => {
   const user = await userManager.signinRedirectCallback();
   if (user) {
-    localStorage.setItem("token_type", user.token_type);
-    localStorage.setItem("access_token", user.access_token);
-    localStorage.setItem("refresh_token", user.refresh_token || '');
-    localStorage.setItem("id_token", user.id_token || '');
+    localStorage.setItem('token_type', user.token_type);
+    localStorage.setItem('access_token', user.access_token);
+    localStorage.setItem('refresh_token', user.refresh_token || '');
+    localStorage.setItem('id_token', user.id_token || '');
   } else {
-    localStorage.clear();
-    sessionStorage.clear();
+    clearToken();
     history.push(loginPath);
   }
+}
+
+export const clearToken = () => {
+  localStorage.removeItem('token_type');
+  localStorage.removeItem('token_type');
+  localStorage.removeItem('token_type');
+  localStorage.removeItem('id_token');
+  sessionStorage.clear();
 }
 
 

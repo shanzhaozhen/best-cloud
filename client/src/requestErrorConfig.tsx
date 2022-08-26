@@ -3,8 +3,8 @@ import type { RequestConfig } from '@umijs/max';
 import {getToken} from "@/utils/common";
 import {message, Modal, notification} from 'antd';
 import {stringify} from "querystring";
-import {history} from '@umijs/max';
 import {ExclamationCircleOutlined} from "@ant-design/icons";
+import {history} from "@umijs/max";
 
 
 const codeMessage = {
@@ -145,8 +145,8 @@ export const errorConfig: RequestConfig = {
             * (4016, "token错误")
             */
             if (res.code >= 4011 && res.code <= 4016) {
-              console.log(history.location)
-              if (history.location.pathname !== '/welcome' && history.location.pathname !== '/') {
+              const currentPath = window.location.pathname;
+              if (currentPath !== '/welcome' && currentPath !== '/') {
                 if (!confirmModalVisible) {
                   confirmModalVisible = true;
                   Modal.confirm({
@@ -158,11 +158,11 @@ export const errorConfig: RequestConfig = {
                     onOk() {
                       confirmModalVisible = false;
                       // 将跳转链接记录到 localStage 中
-                      localStorage.setItem('redirect', history.location.pathname)
+                      localStorage.setItem('redirect', currentPath)
                       history.replace({
                         pathname: '/welcome',
                         search: stringify({
-                          redirect: history.location.pathname,
+                          redirect: currentPath,
                         }),
                       });
                     },
