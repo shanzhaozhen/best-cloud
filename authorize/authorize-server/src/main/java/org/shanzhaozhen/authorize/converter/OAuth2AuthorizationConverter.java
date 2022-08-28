@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.time.Instant;
@@ -132,7 +133,8 @@ public class OAuth2AuthorizationConverter {
                     .accessTokenExpiresAt(oAuth2Token.getExpiresAt())
                     .accessTokenMetadata(writeMap(accessToken.getMetadata()));
 
-            if (accessToken.getToken().getScopes() != null) {
+            builder.accessTokenType(accessToken.getToken().getTokenType().getValue());
+            if (!CollectionUtils.isEmpty(accessToken.getToken().getScopes())) {
                 builder.accessTokenScopes(StringUtils.collectionToDelimitedString(accessToken.getToken().getScopes(), ","));
             }
         }
