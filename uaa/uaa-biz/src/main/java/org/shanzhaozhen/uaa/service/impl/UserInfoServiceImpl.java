@@ -6,7 +6,9 @@ import org.shanzhaozhen.common.core.utils.CustomBeanUtils;
 import org.shanzhaozhen.common.web.utils.JwtUtils;
 import org.shanzhaozhen.uaa.converter.UserInfoConverter;
 import org.shanzhaozhen.uaa.mapper.UserInfoMapper;
+import org.shanzhaozhen.uaa.mapper.UserMapper;
 import org.shanzhaozhen.uaa.pojo.dto.UserInfoDTO;
+import org.shanzhaozhen.uaa.pojo.entity.UserDO;
 import org.shanzhaozhen.uaa.pojo.entity.UserInfoDO;
 import org.shanzhaozhen.uaa.service.UserInfoService;
 import org.springframework.cache.annotation.CacheConfig;
@@ -22,6 +24,7 @@ import java.util.List;
 public class UserInfoServiceImpl implements UserInfoService {
 
     private final UserInfoMapper userInfoMapper;
+    private final UserMapper userMapper;
 
 
     @Override
@@ -53,6 +56,10 @@ public class UserInfoServiceImpl implements UserInfoService {
     public String updateUserInfo(UserInfoDTO userInfoDTO) {
 //        Assert.notNull(userInfoDTO.getId(), "用户信息ID不能为空");
         Assert.notNull(userInfoDTO.getPid(), "关联的用户ID不能为空");
+
+        UserDO user = userMapper.selectById(userInfoDTO.getPid());
+        Assert.notNull(user, "用户不存在");
+
         UserInfoDO userInfoDO = userInfoMapper.selectOne(new LambdaQueryWrapper<UserInfoDO>().eq(UserInfoDO::getPid, userInfoDTO.getPid()));
         if (userInfoDO != null) {
             CustomBeanUtils.copyPropertiesExcludeMetaAndNull(userInfoDTO, userInfoDO);

@@ -37,10 +37,11 @@ export const refreshToken = async (loginPath: string) => {
 }
 
 export const clearToken = () => {
-  localStorage.removeItem('token_type');
-  localStorage.removeItem('token_type');
-  localStorage.removeItem('token_type');
-  localStorage.removeItem('id_token');
+  const redirect = localStorage.getItem('redirect');
+  localStorage.clear();
+  if (redirect) {
+    localStorage.setItem('redirect', redirect)
+  }
   sessionStorage.clear();
 }
 

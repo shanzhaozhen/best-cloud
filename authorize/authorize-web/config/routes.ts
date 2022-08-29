@@ -9,10 +9,10 @@
  * @doc https://umijs.org/docs/guides/routes
  */
 export default [
-  {
-    path: '/',
-    redirect: '/login',
-  },
+  // {
+  //   path: '/',
+  //   redirect: '/account',
+  // },
   {
     name: 'login',
     path: '/login',

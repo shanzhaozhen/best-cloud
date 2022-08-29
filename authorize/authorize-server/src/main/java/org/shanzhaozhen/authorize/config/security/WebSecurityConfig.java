@@ -14,7 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
 
 	private final static String[] whiteUrl = {"/**/*.ico", "/**/*.css","/**/*.js", "/static/**", "/v3/**",
-			"/", "/login", "/front/**"
+			"/login", "/front/**"
 //			, "/**", "/authorize/rsa/publicKey"
 			, "/.well-known/openid-configuration"
 	};

@@ -63,6 +63,9 @@ public class UserInfoConverter {
      * @return
      */
     public static UserInfoVO toVO(UserInfoDTO userInfoDTO) {
+        if (userInfoDTO == null) {
+            return null;
+        }
         UserInfoVO userInfoVO = new UserInfoVO();
         BeanUtils.copyProperties(userInfoDTO, userInfoVO);
         return userInfoVO;

@@ -3,6 +3,7 @@ package org.shanzhaozhen.uaa.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.uaa.pojo.dto.JWTUser;
 import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
+import org.shanzhaozhen.uaa.pojo.dto.UserInfoDTO;
 import org.shanzhaozhen.uaa.pojo.vo.CurrentUser;
 
 import java.util.List;
@@ -114,4 +115,5 @@ public interface UserService {
      * @return
      */
     Boolean logout();
+
 }

@@ -57,7 +57,7 @@ const AvatarView = (props: AvatarViewProps) => {
     <div className={styles.avatar_box}>
       <div className={styles.avatar_title}>头像</div>
       <div className={styles.avatar}>
-        <img src={value || '/default-avatar.png'} alt="avatar" />
+        <img src={value || '/front/default-avatar.png'} alt="avatar" />
       </div>
       { readonly ? null : (
         <Upload {...uploadProps}>

@@ -8,18 +8,29 @@ import ProForm, {
 import { useRequest } from 'umi';
 
 import styles from './BaseView.less';
-import {getCurrentUserBaseInfo} from "@/services/user";
+import {getCurrentUserInfo, updateUserInfo} from "@/services/user";
 import {ProFormDatePicker, ProFormItem} from "@ant-design/pro-components";
 import AvatarView from "@/components/AvatarView";
+import { UserInfoForm } from '@/services/typings';
 
 
 const BaseView: React.FC = () => {
-  const { data, loading } = useRequest(async () => {
-    return getCurrentUserBaseInfo();
+  const {data, loading} = useRequest(async () => {
+    return getCurrentUserInfo();
   });
 
-  const handleFinish = async () => {
-    message.success('更新基本信息成功');
+  const handleFinish = async (fields: UserInfoForm) => {
+    const hide = message.loading('更新中...');
+    try {
+      await updateUserInfo(fields);
+      hide();
+      message.success('更新基本信息成功');
+      return true;
+    } catch (error) {
+      hide();
+      message.error('更新基本信息失败，请重试!');
+      return false;
+    }
   };
   return (
     <div className={styles.baseView}>

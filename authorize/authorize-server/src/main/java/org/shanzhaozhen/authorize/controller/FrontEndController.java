@@ -7,17 +7,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class FrontEndController {
 
     @GetMapping(value={
-//            "/",
             "/login",
             "/login/**",
+            "account",
             "/error",
             "/error/**",
             "/404",
             "/403",
             "/500"
     })
-    public String index(){
+    public String front(){
         return "front/index";
+    }
+
+    @GetMapping("/")
+    public String index() {
+        return "redirect:/account";
     }
 
 }

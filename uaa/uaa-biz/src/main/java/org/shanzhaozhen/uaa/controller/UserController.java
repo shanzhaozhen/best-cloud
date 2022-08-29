@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 import org.shanzhaozhen.uaa.converter.UserConverter;
 import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
+import org.shanzhaozhen.uaa.pojo.dto.UserInfoDTO;
 import org.shanzhaozhen.uaa.pojo.form.UserForm;
 import org.shanzhaozhen.uaa.pojo.form.UserPageParams;
 import org.shanzhaozhen.uaa.service.UserService;
@@ -38,6 +39,10 @@ public class UserController {
     private static final String BATCH_DELETE_USER = "/user";
     private static final String GET_USER_ROLE_PAGE = "/user/role/page";
     private static final String GET_USER_DEPARTMENT_PAGE = "/user/department/page";
+
+    private static final String GET_USER_INFO_BY_ID = "/user/info/{userId}";
+
+    private static final String update_USER_INFO = "/user/info";
 
     private final UserService userService;
 
