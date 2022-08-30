@@ -9,7 +9,8 @@ dependencies {
     api(
 //            project(':common:common-mybatis'),
             project(':common:common-redis'),
-            project(':uaa:uaa-api')
+            project(':uaa:uaa-api'),
+            project(':common:common-minio'),
     )
 
     implementation(
@@ -46,6 +47,9 @@ dependencies {
             "org.springdoc:springdoc-openapi-webmvc-core:${springDocVersion}",
 
             "cn.hutool:hutool-captcha:${hutoolVersion}",
+
+            // minio需要
+            "com.squareup.okhttp3:okhttp:${okhttpVersion}",
     )
 
 }

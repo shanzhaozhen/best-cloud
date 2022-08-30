@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "部门DTO实体")
+@Schema(description = "部门Form实体")
 public class DepartmentForm extends BaseInfo {
 
     @Schema(description = "主键ID")

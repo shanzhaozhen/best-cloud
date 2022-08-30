@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.authorize.service.AccountService;
 import org.shanzhaozhen.common.core.result.R;
 import org.shanzhaozhen.uaa.converter.UserInfoConverter;
+import org.shanzhaozhen.uaa.pojo.form.ChangePasswordForm;
 import org.shanzhaozhen.uaa.pojo.form.UserInfoForm;
 import org.shanzhaozhen.uaa.pojo.vo.UserInfoVO;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +35,13 @@ public class AccountController {
     @Operation(summary = "更新用户信息")
     public R<UserInfoVO> updateUserinfo(@RequestBody UserInfoForm userInfoForm) {
         accountService.updateCurrentUserinfo(userInfoForm);
+        return R.ok();
+    }
+
+    @PostMapping("/user/password")
+    @Operation(summary = "修改密码")
+    public R<UserInfoVO> changePassword(@RequestBody ChangePasswordForm changePasswordForm) {
+        accountService.changePassword(changePasswordForm);
         return R.ok();
     }
 

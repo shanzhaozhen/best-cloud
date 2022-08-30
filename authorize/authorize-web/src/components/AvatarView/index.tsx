@@ -12,6 +12,8 @@ interface AvatarViewProps {
   value?: string;
 }
 
+const path = process.env.NODE_ENV === 'production' ? '/front/' : '/'
+
 const AvatarView = (props: AvatarViewProps) => {
   const { readonly, value, onChange } = props
 
@@ -20,7 +22,7 @@ const AvatarView = (props: AvatarViewProps) => {
   const uploadProps: UploadProps = {
     name: 'file',
     showUploadList: false,
-    action: '/api/uaa/files',
+    action: '/files',
     maxCount: 1,
     beforeUpload: async (file: RcFile) => {
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -57,7 +59,7 @@ const AvatarView = (props: AvatarViewProps) => {
     <div className={styles.avatar_box}>
       <div className={styles.avatar_title}>头像</div>
       <div className={styles.avatar}>
-        <img src={value || '/front/default-avatar.png'} alt="avatar" />
+        <img src={value || path + 'default-avatar.png'} alt="avatar" />
       </div>
       { readonly ? null : (
         <Upload {...uploadProps}>

@@ -95,4 +95,8 @@ export type UserInfoVO = {
   lastModifiedDate?: string;
 };
 
-
+export type ChangePasswordForm = {
+  oldPassword?: string;
+  /** 个人介绍 */
+  newPassword?: string;
+};

@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.authorize.service.AccountService;
 import org.shanzhaozhen.authorize.utils.SecurityUtils;
 import org.shanzhaozhen.common.core.result.R;
+import org.shanzhaozhen.uaa.feign.UserFeignClient;
 import org.shanzhaozhen.uaa.feign.UserInfoFeignClient;
 import org.shanzhaozhen.uaa.pojo.dto.UserInfoDTO;
+import org.shanzhaozhen.uaa.pojo.form.ChangePasswordForm;
 import org.shanzhaozhen.uaa.pojo.form.UserInfoForm;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -19,6 +21,7 @@ import org.springframework.util.Assert;
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
+    private final UserFeignClient userFeignClient;
     private final UserInfoFeignClient userInfoFeignClient;
 
     @Override
@@ -43,6 +46,14 @@ public class AccountServiceImpl implements AccountService {
         String currentUserId = SecurityUtils.getCurrentUserId();
         userInfoForm.setPid(currentUserId);
         return userInfoFeignClient.updateUserInfo(userInfoForm);
+    }
+
+    @Override
+    public void changePassword(ChangePasswordForm changePasswordForm) {
+        String currentUserId = SecurityUtils.getCurrentUserId();
+        Assert.hasText(currentUserId, "获取当前登陆用户的id失败！");
+        changePasswordForm.setUserId(currentUserId);
+        userFeignClient.changePassword(changePasswordForm);
     }
 
 }

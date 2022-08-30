@@ -126,7 +126,6 @@ const Login: React.FC = () => {
               })}
             />
           </Tabs>
-
           {status === 'error' && loginType === 'account' && (
             <LoginMessage
               content={intl.formatMessage({

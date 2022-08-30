@@ -69,3 +69,12 @@ logging:
     org.springframework.security.oauth2: trace
     org.springframework.security.web.access.expression: INFO
     org.shanzhaozhen: DEBUG
+
+minio:
+  endpoint: http://192.168.56.10:9100
+  access-key: minioadmin
+  secret-key: minioadmin
+  # 自定义域名(非必须)，Nginx配置反向代理转发文件路径
+  #  custom-domain: uaa
+  # 默认的桶名称(非必须)，每个微服务有单独的默认存储桶
+  bucket-name: uaa

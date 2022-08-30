@@ -9,10 +9,6 @@
  * @doc https://umijs.org/docs/guides/routes
  */
 export default [
-  // {
-  //   path: '/',
-  //   redirect: '/account',
-  // },
   {
     name: 'login',
     path: '/login',
@@ -50,6 +46,10 @@ export default [
     path: '/error',
     layout: false,
     component: './ErrorPage/500',
+  },
+  {
+    path: '/',
+    redirect: '/account',
   },
   {
     path: '*',
