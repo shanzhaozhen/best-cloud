@@ -15,14 +15,25 @@
  */
 package org.shanzhaozhen.authorize.authentication.federated;
 
+import org.shanzhaozhen.authorize.utils.SecurityUtils;
+import org.shanzhaozhen.common.core.utils.HttpServletUtils;
+import org.shanzhaozhen.uaa.pojo.dto.AuthUser;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuthenticationToken;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.util.Assert;
 
+import javax.servlet.http.Cookie;
+import java.net.CookieStore;
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 /**
@@ -107,19 +118,36 @@ public final class FederatedIdentityConfigurer extends AbstractHttpConfigurer<Fe
 		}
 
 		http
-			.exceptionHandling(exceptionHandling ->
-				exceptionHandling.authenticationEntryPoint(authenticationEntryPoint)
-			)
-			.oauth2Login(oauth2Login -> {
-				oauth2Login.successHandler(authenticationSuccessHandler);
-				if (this.authorizationRequestUri != null) {
-					String baseUri = this.authorizationRequestUri.replace("/{registrationId}", "");
-					oauth2Login.authorizationEndpoint(authorizationEndpoint ->
-						authorizationEndpoint.baseUri(baseUri)
-					);
-				}
-			});
+				.exceptionHandling(exceptionHandling ->
+						exceptionHandling.authenticationEntryPoint(authenticationEntryPoint)
+				)
+				.oauth2Login(oauth2Login -> {
+					oauth2Login.successHandler(authenticationSuccessHandler);
+					if (this.authorizationRequestUri != null) {
+						String baseUri = this.authorizationRequestUri.replace("/{registrationId}", "");
+						oauth2Login.authorizationEndpoint(authorizationEndpoint ->
+								authorizationEndpoint.baseUri(baseUri)
+						);
+					}
+//					oauth2Login.withObjectPostProcessor(new ObjectPostProcessor<OAuth2LoginAuthenticationFilter>() {
+//						@Override
+//						public <O extends OAuth2LoginAuthenticationFilter> O postProcess(O object) {
+//							object.setAuthenticationResultConverter(o -> convertAuthenticationToken(o));
+////							object.setAuthenticationFailureHandler(new OAuth2LoginAuthenticationFailureHandler());
+//							return object;
+//						}
+//					});
+				});
 	}
 	// @formatter:on
+
+	public OAuth2AuthenticationToken convertAuthenticationToken(OAuth2LoginAuthenticationToken authenticationResult) {
+		Cookie[] cookies = HttpServletUtils.getCookies();
+
+		AuthUser currentUser = SecurityUtils.getCurrentUser();
+
+		return new OAuth2AuthenticationToken(authenticationResult.getPrincipal(), authenticationResult.getAuthorities(),
+				authenticationResult.getClientRegistration().getRegistrationId());
+	}
 
 }

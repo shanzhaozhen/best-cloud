@@ -34,7 +34,7 @@ spring:
             provider: github
             client-id: a7b9ba6f622f6e008c86
             client-secret: 2059cafb12c6b0e61df8cf57bec62c3d422c22c2
-            scope: user:email, read:user
+            scope: user
             client-name: Sign in with GitHub
         provider:
 #          google:

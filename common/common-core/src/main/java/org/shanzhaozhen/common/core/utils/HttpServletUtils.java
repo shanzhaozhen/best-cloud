@@ -4,6 +4,7 @@ import org.shanzhaozhen.common.core.result.R;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -34,6 +35,9 @@ public class HttpServletUtils {
         return getHttpServletRequest().getAttribute(name);
     }
 
+    public static Cookie[] getCookies() {
+        return getHttpServletRequest().getCookies();
+    }
 
     /**
      *
