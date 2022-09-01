@@ -1,14 +1,8 @@
 import {GithubOutlined} from '@ant-design/icons';
 import { List } from 'antd';
-import Cookies from 'js-cookie';
 import React, { Fragment } from 'react';
 
 const BindingView: React.FC = () => {
-
-  const bindingGithub = () => {
-    Cookies.set('binding-account', 'true');
-    window.location.href = '/oauth2/authorization/github-idp';
-  }
 
   const getData = () => [
     // {
@@ -32,7 +26,7 @@ const BindingView: React.FC = () => {
     {
       title: '绑定 Github',
       description: '当前未绑定 Github 账号',
-      actions: [<a key="Bind" onClick={bindingGithub}>绑定</a>],
+      actions: [<a key="Bind" href="/oauth2/authorization/github-idp?action=bind">绑定</a>],
       avatar: <GithubOutlined className="dingding" />,
     },
   ];

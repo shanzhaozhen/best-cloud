@@ -36,6 +36,7 @@ spring:
             client-secret: 2059cafb12c6b0e61df8cf57bec62c3d422c22c2
             scope: user
             client-name: Sign in with GitHub
+#            redirectUri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
         provider:
 #          google:
 #            user-name-attribute: email

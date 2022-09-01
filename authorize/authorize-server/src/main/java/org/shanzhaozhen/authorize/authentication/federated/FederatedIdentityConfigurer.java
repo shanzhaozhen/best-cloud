@@ -26,6 +26,7 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuthenticationToken;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -35,6 +36,8 @@ import javax.servlet.http.Cookie;
 import java.net.CookieStore;
 import java.util.Arrays;
 import java.util.function.Consumer;
+
+import static org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI;
 
 /**
  * A configurer for setting up Federated Identity Management.
@@ -129,6 +132,15 @@ public final class FederatedIdentityConfigurer extends AbstractHttpConfigurer<Fe
 								authorizationEndpoint.baseUri(baseUri)
 						);
 					}
+
+//					DefaultOAuth2AuthorizationRequestResolver authorizationRequestResolver = new DefaultOAuth2AuthorizationRequestResolver(clientRegistrationRepository, DEFAULT_AUTHORIZATION_REQUEST_BASE_URI);
+//					authorizationRequestResolver.setAuthorizationRequestCustomizer(customizer -> {
+//					});
+//					oauth2Login.authorizationEndpoint().authorizationRequestResolver(authorizationRequestResolver);
+
+					oauth2Login.userInfoEndpoint(userInfoEndpointConfig ->
+							userInfoEndpointConfig.userService(new CustomOAuth2UserService()));
+
 //					oauth2Login.withObjectPostProcessor(new ObjectPostProcessor<OAuth2LoginAuthenticationFilter>() {
 //						@Override
 //						public <O extends OAuth2LoginAuthenticationFilter> O postProcess(O object) {
