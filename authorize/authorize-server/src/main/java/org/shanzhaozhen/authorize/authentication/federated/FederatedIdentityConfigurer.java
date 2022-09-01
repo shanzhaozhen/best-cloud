@@ -15,29 +15,28 @@
  */
 package org.shanzhaozhen.authorize.authentication.federated;
 
+import org.shanzhaozhen.authorize.authentication.bind.OAuth2BindAuthenticationFilter;
+import org.shanzhaozhen.authorize.authentication.bind.OAuth2BindAuthenticationProvider;
 import org.shanzhaozhen.authorize.utils.SecurityUtils;
 import org.shanzhaozhen.common.core.utils.HttpServletUtils;
 import org.shanzhaozhen.uaa.pojo.dto.AuthUser;
 import org.springframework.context.ApplicationContext;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuthenticationToken;
+import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.util.Assert;
 
 import javax.servlet.http.Cookie;
-import java.net.CookieStore;
-import java.util.Arrays;
 import java.util.function.Consumer;
 
-import static org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI;
 
 /**
  * A configurer for setting up Federated Identity Management.
@@ -54,6 +53,7 @@ public final class FederatedIdentityConfigurer extends AbstractHttpConfigurer<Fe
 	private Consumer<OAuth2User> oauth2UserHandler;
 
 	private Consumer<OidcUser> oidcUserHandler;
+
 
 	/**
 	 * @param loginPageUrl The URL of the login page, defaults to {@code "/login"}
@@ -105,6 +105,7 @@ public final class FederatedIdentityConfigurer extends AbstractHttpConfigurer<Fe
 		ApplicationContext applicationContext = http.getSharedObject(ApplicationContext.class);
 		ClientRegistrationRepository clientRegistrationRepository =
 			applicationContext.getBean(ClientRegistrationRepository.class);
+
 		FederatedIdentityAuthenticationEntryPoint authenticationEntryPoint =
 			new FederatedIdentityAuthenticationEntryPoint(this.loginPageUrl, clientRegistrationRepository);
 		if (this.authorizationRequestUri != null) {
@@ -138,8 +139,13 @@ public final class FederatedIdentityConfigurer extends AbstractHttpConfigurer<Fe
 //					});
 //					oauth2Login.authorizationEndpoint().authorizationRequestResolver(authorizationRequestResolver);
 
-					oauth2Login.userInfoEndpoint(userInfoEndpointConfig ->
-							userInfoEndpointConfig.userService(new CustomOAuth2UserService()));
+//					oauth2Login
+//							.tokenEndpoint(tokenEndpointConfig -> {
+//								tokenEndpointConfig.accessTokenResponseClient(accessTokenResponseClient);
+//							})
+//							.userInfoEndpoint(userInfoEndpointConfig ->
+//									userInfoEndpointConfig.userService(new CustomOAuth2UserService())
+//							);
 
 //					oauth2Login.withObjectPostProcessor(new ObjectPostProcessor<OAuth2LoginAuthenticationFilter>() {
 //						@Override

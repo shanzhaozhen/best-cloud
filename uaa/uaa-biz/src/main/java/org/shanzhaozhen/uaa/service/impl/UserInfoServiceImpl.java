@@ -13,6 +13,7 @@ import org.shanzhaozhen.uaa.pojo.entity.UserInfoDO;
 import org.shanzhaozhen.uaa.service.UserInfoService;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -45,6 +46,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
+    @Transactional
     public String addUserInfo(UserInfoDTO userInfoDTO) {
         Assert.notNull(userInfoDTO.getPid(), "关联的用户ID不能为空");
         UserInfoDO userInfoDO = UserInfoConverter.toDO(userInfoDTO);
@@ -53,6 +55,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
+    @Transactional
     public String updateUserInfo(UserInfoDTO userInfoDTO) {
 //        Assert.notNull(userInfoDTO.getId(), "用户信息ID不能为空");
         Assert.notNull(userInfoDTO.getPid(), "关联的用户ID不能为空");
@@ -71,12 +74,14 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
+    @Transactional
     public String deleteUserInfo(String userInfoId) {
         userInfoMapper.deleteById(userInfoId);
         return userInfoId;
     }
 
     @Override
+    @Transactional
     public List<String> batchDeleteUserInfo(List<String> userInfoIds) {
         Assert.notEmpty(userInfoIds, "没有需要删除的用户信息");
         for (String userInfoId : userInfoIds) {
@@ -86,6 +91,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
+    @Transactional
     public void deleteUserInfoByUserId(String userId) {
         userInfoMapper.deleteByUserId(userId);
     }

@@ -1,6 +1,7 @@
 package org.shanzhaozhen.authorize.config.security;
 
 import lombok.RequiredArgsConstructor;
+import org.shanzhaozhen.authorize.authentication.bind.Oauth2BindConfigurer;
 import org.shanzhaozhen.authorize.authentication.federated.FederatedIdentityConfigurer;
 import org.shanzhaozhen.authorize.authentication.account.AccountLoginConfigurer;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +26,7 @@ public class WebSecurityConfig {
 	@Bean
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 		http
+
 			.authorizeRequests(authorizeRequests ->
 				authorizeRequests
 						.antMatchers(whiteUrl).permitAll()
@@ -41,6 +43,8 @@ public class WebSecurityConfig {
 				.apply(new AccountLoginConfigurer<>())
 				.and()
 				.apply(new FederatedIdentityConfigurer())
+				.and()
+				.apply(new Oauth2BindConfigurer())
 //				.loginPage("/login")
 //				.successHandler(defaultAuthenticationSuccessHandler)
 //				.failureHandler(defaultAuthenticationFailureHandler)
