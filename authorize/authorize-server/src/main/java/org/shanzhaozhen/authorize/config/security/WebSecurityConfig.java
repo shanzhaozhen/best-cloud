@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.authorize.authentication.bind.Oauth2BindConfigurer;
 import org.shanzhaozhen.authorize.authentication.federated.FederatedIdentityConfigurer;
 import org.shanzhaozhen.authorize.authentication.account.AccountLoginConfigurer;
+import org.shanzhaozhen.uaa.feign.SocialUserFeignClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,6 +22,7 @@ public class WebSecurityConfig {
 	};
 
 	private final UserDetailsService userDetailsService;
+	private final SocialUserFeignClient socialUserFeignClient;
 
 
 	@Bean
@@ -44,7 +46,7 @@ public class WebSecurityConfig {
 				.and()
 				.apply(new FederatedIdentityConfigurer())
 				.and()
-				.apply(new Oauth2BindConfigurer())
+				.apply(new Oauth2BindConfigurer(socialUserFeignClient))
 //				.loginPage("/login")
 //				.successHandler(defaultAuthenticationSuccessHandler)
 //				.failureHandler(defaultAuthenticationFailureHandler)

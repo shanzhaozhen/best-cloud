@@ -1,9 +1,19 @@
 package org.shanzhaozhen.authorize.authentication.bind;
 
 import org.shanzhaozhen.authorize.utils.OAuth2AuthorizationResponseUtils;
+import org.shanzhaozhen.authorize.utils.SecurityUtils;
+import org.shanzhaozhen.common.core.constant.ResultType;
+import org.shanzhaozhen.common.core.result.R;
+import org.shanzhaozhen.uaa.converter.SocialUserConverter;
+import org.shanzhaozhen.uaa.feign.SocialUserFeignClient;
+import org.shanzhaozhen.uaa.pojo.entity.GithubUser;
+import org.shanzhaozhen.uaa.pojo.entity.SocialUser;
+import org.shanzhaozhen.uaa.pojo.form.SocialUserBindForm;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.core.log.LogMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
@@ -24,10 +34,12 @@ import org.springframework.util.Assert;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 
 public class OAuth2BindAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
@@ -46,30 +58,38 @@ public class OAuth2BindAuthenticationFilter extends AbstractAuthenticationProces
 
 	private OAuth2AuthorizedClientRepository authorizedClientRepository;
 
+	private SocialUserFeignClient socialUserFeignClient;
+
 	private AuthorizationRequestRepository<OAuth2AuthorizationRequest> authorizationRequestRepository = new HttpSessionOAuth2AuthorizationRequestRepository();
 
 	private Converter<OAuth2BindAuthenticationToken, OAuth2AuthenticationToken> authenticationResultConverter = this::createAuthenticationResult;
 
 
 	public OAuth2BindAuthenticationFilter(ClientRegistrationRepository clientRegistrationRepository,
-                                          OAuth2AuthorizedClientService authorizedClientService) {
-		this(clientRegistrationRepository, authorizedClientService, DEFAULT_FILTER_PROCESSES_URI);
+                                          OAuth2AuthorizedClientService authorizedClientService,
+										  SocialUserFeignClient socialUserFeignClient) {
+		this(clientRegistrationRepository, authorizedClientService, socialUserFeignClient, DEFAULT_FILTER_PROCESSES_URI);
 	}
 
 	public OAuth2BindAuthenticationFilter(ClientRegistrationRepository clientRegistrationRepository,
-                                          OAuth2AuthorizedClientService authorizedClientService, String filterProcessesUrl) {
+                                          OAuth2AuthorizedClientService authorizedClientService,
+										  SocialUserFeignClient socialUserFeignClient, String filterProcessesUrl) {
 		this(clientRegistrationRepository,
 				new AuthenticatedPrincipalOAuth2AuthorizedClientRepository(authorizedClientService),
-				filterProcessesUrl);
+				socialUserFeignClient, filterProcessesUrl);
 	}
 
 	public OAuth2BindAuthenticationFilter(ClientRegistrationRepository clientRegistrationRepository,
-                                          OAuth2AuthorizedClientRepository authorizedClientRepository, String filterProcessesUrl) {
+                                          OAuth2AuthorizedClientRepository authorizedClientRepository,
+										  SocialUserFeignClient socialUserFeignClient,
+										  String filterProcessesUrl) {
 		super(filterProcessesUrl);
 		Assert.notNull(clientRegistrationRepository, "clientRegistrationRepository cannot be null");
 		Assert.notNull(authorizedClientRepository, "authorizedClientRepository cannot be null");
+		Assert.notNull(socialUserFeignClient, "socialUserFeignClient cannot be null");
 		this.clientRegistrationRepository = clientRegistrationRepository;
 		this.authorizedClientRepository = authorizedClientRepository;
+		this.socialUserFeignClient = socialUserFeignClient;
 	}
 
 	@Override
@@ -116,6 +136,27 @@ public class OAuth2BindAuthenticationFilter extends AbstractAuthenticationProces
 				authenticationResult.getAccessToken(), authenticationResult.getRefreshToken());
 
 		this.authorizedClientRepository.saveAuthorizedClient(authorizedClient, oauth2Authentication, request, response);
+
+		// 执行绑定工作
+		Map<String, Object> attributes = oauth2Authentication.getPrincipal().getAttributes();
+		// 更新社区用户信息及绑定
+		try {
+			SocialUser socialUser = null;
+			if ("github-idp".equals(registrationId)) {
+				socialUser = SocialUserConverter.convertGithubUser(attributes);
+			}
+
+			String currentUserId = SecurityUtils.getCurrentUserId();
+			R<?> result = socialUserFeignClient.bindGithubUser(new SocialUserBindForm<>(currentUserId, socialUser));
+
+			if (!ResultType.SUCCESS.equals(result.getCode())) {
+				OAuth2Error oauth2Error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR, "绑定失败：" + result.getMessage(), null);
+				throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
+			}
+		} catch (Exception e) {
+			OAuth2Error oauth2Error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR, "用户绑定失败！", null);
+			throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
+		}
 		return oauth2Authentication;
 	}
 
@@ -150,14 +191,39 @@ public class OAuth2BindAuthenticationFilter extends AbstractAuthenticationProces
 	}
 
 	@Override
+	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+//		SecurityContext context = SecurityContextHolder.createEmptyContext();
+//		context.setAuthentication(authResult);
+//		SecurityContextHolder.setContext(context);
+
+		// todo: 合并信息，更新 context
+//		SecurityContext context = SecurityContextHolder.getContext();
+//		Authentication currentAuthentication = context.getAuthentication();
+//		SecurityContext newContext = SecurityContextHolder.createEmptyContext();
+//		Object principal = authResult.getPrincipal();
+//		newContext.setAuthentication(authResult);
+//		SecurityContextHolder.setContext(newContext);
+
+		if (this.logger.isDebugEnabled()) {
+			this.logger.debug(LogMessage.format("Set SecurityContextHolder to %s", authResult));
+		}
+//		this.rememberMeServices.loginSuccess(request, response, authResult);
+//		if (this.eventPublisher != null) {
+//			this.eventPublisher.publishEvent(new InteractiveAuthenticationSuccessEvent(authResult, this.getClass()));
+//		}
+//		this.successHandler.onAuthenticationSuccess(request, response, authResult);
+		// todo: 跳转到绑定页面
+	}
+
+	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
 //		super.unsuccessfulAuthentication(request, response, failed);
 //		SecurityContextHolder.clearContext();
 		this.logger.trace("Failed to process authentication request", failed);
 		this.logger.trace("Cleared SecurityContextHolder");
 		this.logger.trace("Handling authentication failure");
-		super.getRememberMeServices().loginFail(request, response);
-		super.getFailureHandler().onAuthenticationFailure(request, response, failed);
+//		super.getRememberMeServices().loginFail(request, response);
+//		super.getFailureHandler().onAuthenticationFailure(request, response, failed);
 		// todo: 账号绑定失败，跳转回绑定页
 	}
 }

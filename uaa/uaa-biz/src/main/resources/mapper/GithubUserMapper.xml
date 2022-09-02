@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.shanzhaozhen.uaa.mapper.GithubUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.uaa.pojo.entity.GithubUser">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="username" property="username" />
+        <result column="login" property="login" />
+        <result column="github_id" property="githubId" />
+        <result column="node_id" property="nodeId" />
+        <result column="avatar_url" property="avatarUrl" />
+        <result column="email" property="email" />
+        <result column="name" property="name" />
+        <result column="other" property="other" />
+        <result column="username" property="username" />
+        <result column="version" property="version" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+
+    <select id="getGithubUserByLogin" resultType="org.shanzhaozhen.uaa.pojo.entity.GithubUser">
+        select id, user_id, username, login, github_id, node_id, avatar_url, email, name, other,
+               version, created_by, created_date, last_modified_by, last_modified_date
+        from sys_user_github
+        where login = #{login}
+    </select>
+
+    <select id="getGithubUserByUsername" resultType="org.shanzhaozhen.uaa.pojo.entity.GithubUser">
+        select id, user_id, username, login, github_id, node_id, avatar_url, email, name, other,
+               version, created_by, created_date, last_modified_by, last_modified_date
+        from sys_user_github
+        where username = #{username}
+    </select>
+
+</mapper>
