@@ -39,6 +39,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Map;
 
 
@@ -54,11 +55,11 @@ public class OAuth2BindAuthenticationFilter extends AbstractAuthenticationProces
 
 	private static final String CLIENT_REGISTRATION_NOT_FOUND_ERROR_CODE = "client_registration_not_found";
 
-	private ClientRegistrationRepository clientRegistrationRepository;
+	private final ClientRegistrationRepository clientRegistrationRepository;
 
-	private OAuth2AuthorizedClientRepository authorizedClientRepository;
+	private final OAuth2AuthorizedClientRepository authorizedClientRepository;
 
-	private SocialUserFeignClient socialUserFeignClient;
+	private final SocialUserFeignClient socialUserFeignClient;
 
 	private AuthorizationRequestRepository<OAuth2AuthorizationRequest> authorizationRequestRepository = new HttpSessionOAuth2AuthorizationRequestRepository();
 
@@ -139,17 +140,18 @@ public class OAuth2BindAuthenticationFilter extends AbstractAuthenticationProces
 
 		// 执行绑定工作
 		Map<String, Object> attributes = oauth2Authentication.getPrincipal().getAttributes();
-		// 更新社区用户信息及绑定
 		try {
-			SocialUser socialUser = null;
-			if ("github-idp".equals(registrationId)) {
-				socialUser = SocialUserConverter.convertGithubUser(attributes);
+			String currentUserId = SecurityUtils.getCurrentUserId();
+			String userNameAttributeName = clientRegistration.getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
+			R<?> result;
+			if ("github-idp".equals(registrationId)) {			// github 用户
+				GithubUser githubUser = SocialUserConverter.convertGithubUser(attributes, userNameAttributeName);
+				result = socialUserFeignClient.bindGithubUser(new SocialUserBindForm<>(currentUserId, githubUser));
+			} else {
+				throw new IllegalArgumentException("暂不支持该 " + registrationId + " 类型账号绑定");
 			}
 
-			String currentUserId = SecurityUtils.getCurrentUserId();
-			R<?> result = socialUserFeignClient.bindGithubUser(new SocialUserBindForm<>(currentUserId, socialUser));
-
-			if (!ResultType.SUCCESS.equals(result.getCode())) {
+			if (result != null && !ResultType.SUCCESS.equals(result.getCode())) {
 				OAuth2Error oauth2Error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR, "绑定失败：" + result.getMessage(), null);
 				throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
 			}
@@ -160,25 +162,12 @@ public class OAuth2BindAuthenticationFilter extends AbstractAuthenticationProces
 		return oauth2Authentication;
 	}
 
-	/**
-	 * Sets the repository for stored {@link OAuth2AuthorizationRequest}'s.
-	 * @param authorizationRequestRepository the repository for stored
-	 * {@link OAuth2AuthorizationRequest}'s
-	 */
 	public final void setAuthorizationRequestRepository(
 			AuthorizationRequestRepository<OAuth2AuthorizationRequest> authorizationRequestRepository) {
 		Assert.notNull(authorizationRequestRepository, "authorizationRequestRepository cannot be null");
 		this.authorizationRequestRepository = authorizationRequestRepository;
 	}
 
-	/**
-	 * Sets the converter responsible for converting from
-	 * {@link OAuth2BindAuthenticationToken} to {@link OAuth2AuthenticationToken}
-	 * authentication result.
-	 * @param authenticationResultConverter the converter for
-	 * {@link OAuth2AuthenticationToken}'s
-	 * @since 5.6
-	 */
 	public final void setAuthenticationResultConverter(
 			Converter<OAuth2BindAuthenticationToken, OAuth2AuthenticationToken> authenticationResultConverter) {
 		Assert.notNull(authenticationResultConverter, "authenticationResultConverter cannot be null");
@@ -212,18 +201,15 @@ public class OAuth2BindAuthenticationFilter extends AbstractAuthenticationProces
 //			this.eventPublisher.publishEvent(new InteractiveAuthenticationSuccessEvent(authResult, this.getClass()));
 //		}
 //		this.successHandler.onAuthenticationSuccess(request, response, authResult);
-		// todo: 跳转到绑定页面
+		// todo: 跳转到绑定页面，携带成功绑定信息
+		response.sendRedirect("/account?action=binding&biz=0");
 	}
 
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-//		super.unsuccessfulAuthentication(request, response, failed);
-//		SecurityContextHolder.clearContext();
 		this.logger.trace("Failed to process authentication request", failed);
-		this.logger.trace("Cleared SecurityContextHolder");
-		this.logger.trace("Handling authentication failure");
-//		super.getRememberMeServices().loginFail(request, response);
-//		super.getFailureHandler().onAuthenticationFailure(request, response, failed);
-		// todo: 账号绑定失败，跳转回绑定页
+		String message = failed.getMessage();
+		message = URLEncoder.encode(message,"UTF-8");
+		response.sendRedirect("/account?action=binding&biz=-1&msg=" + message);
 	}
 }

@@ -16,4 +16,6 @@ public interface GithubUserMapper extends BaseMapper<GithubUser> {
 
     GithubUser getGithubUserByUsername(@Param("username") String username);
 
+    GithubUser getGithubUserByUserId(@Param("userId") String userId);
+
 }

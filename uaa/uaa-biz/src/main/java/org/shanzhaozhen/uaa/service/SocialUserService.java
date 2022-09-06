@@ -1,8 +1,8 @@
 package org.shanzhaozhen.uaa.service;
 
+import org.shanzhaozhen.uaa.pojo.dto.SocialInfo;
 import org.shanzhaozhen.uaa.pojo.entity.GithubUser;
 import org.shanzhaozhen.uaa.pojo.form.SocialUserBindForm;
-import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * @Author: shanzhaozhen
@@ -10,6 +10,20 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @Description:
  */
 public interface SocialUserService {
+
+    /**
+     * 更新github用户信息
+     * @param userId
+     */
+    SocialInfo getSocialInfo(String userId);
+
+    /**
+     * 更新github用户信息
+     * @param type
+     */
+    void unbindSocial(String type);
+
+
 
     /**
      * 更新github用户信息

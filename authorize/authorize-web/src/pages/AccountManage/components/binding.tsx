@@ -1,10 +1,29 @@
 import {GithubOutlined} from '@ant-design/icons';
-import { List } from 'antd';
+import {List, message, Skeleton} from 'antd';
 import React, { Fragment } from 'react';
+import {useRequest} from "@@/exports";
+import {getSocialInfo, unbindSocial} from "@/services/social";
+
+
+const handleUnbind = async (type: string) => {
+  const hide = message.loading('解绑中...');
+  try {
+    await unbindSocial(type);
+    hide();
+    message.success('解绑成功！');
+  } catch (error) {
+    hide();
+    message.error('解绑失败!');
+  }
+}
 
 const BindingView: React.FC = () => {
 
-  const getData = () => [
+  const {data, loading} = useRequest(async () => {
+    return getSocialInfo();
+  });
+
+  /*const getData = () => [
     // {
     //   title: '绑定淘宝',
     //   description: '当前未绑定淘宝账号',
@@ -29,23 +48,44 @@ const BindingView: React.FC = () => {
       actions: [<a key="Bind" href="/oauth2/authorization/github-idp?action=bind">绑定</a>],
       avatar: <GithubOutlined className="dingding" />,
     },
-  ];
+  ];*/
 
   return (
     <Fragment>
-      <List
-        itemLayout="horizontal"
-        dataSource={getData()}
-        renderItem={(item) => (
-          <List.Item actions={item.actions}>
-            <List.Item.Meta
-              avatar={item.avatar}
-              title={item.title}
-              description={item.description}
-            />
-          </List.Item>
-        )}
-      />
+      <Skeleton loading={loading}>
+        <List
+          itemLayout="horizontal"
+          /*dataSource={getData()}
+          renderItem={(item) => (
+            <List.Item actions={item.actions}>
+              <List.Item.Meta
+                avatar={item.avatar}
+                title={item.title}
+                description={item.description}
+              />
+            </List.Item>
+          )}*/
+        >
+          { data && data.github ? (
+            <List.Item actions={[<a key="unbind" onClick={() => handleUnbind('github')}>解绑</a>]}>
+              <List.Item.Meta
+                avatar={<img className="social-avatar" src={data.github.avatarUrl}  alt={data.github.username} />}
+                title={`Github 账号：${data.github.username}`}
+                description={`绑定时间：${data.github.bindDate}`}
+              />
+            </List.Item>
+            ) : (
+            <List.Item actions={[<a key="bind" href="/oauth2/authorization/github-idp?action=bind">绑定</a>]}>
+              <List.Item.Meta
+                avatar={<GithubOutlined className="dingding" />}
+                title="绑定 Github"
+                description="当前未绑定 Github 账号"
+              />
+            </List.Item>
+          ) }
+
+        </List>
+      </Skeleton>
     </Fragment>
   );
 };

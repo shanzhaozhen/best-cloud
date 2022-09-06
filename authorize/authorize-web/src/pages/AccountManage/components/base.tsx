@@ -118,12 +118,6 @@ const BaseView: React.FC = () => {
           </Row>
         </ProForm>
       </Skeleton>
-
-      {/*{loading ? null : (
-        <>
-
-        </>
-      )}*/}
     </div>
   );
 };

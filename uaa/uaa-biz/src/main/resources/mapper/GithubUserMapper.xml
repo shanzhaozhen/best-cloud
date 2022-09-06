@@ -36,4 +36,11 @@
         where username = #{username}
     </select>
 
+    <select id="getGithubUserByUserId" resultType="org.shanzhaozhen.uaa.pojo.entity.GithubUser">
+        select id, user_id, username, login, github_id, node_id, avatar_url, email, name, other,
+               version, created_by, created_date, last_modified_by, last_modified_date
+        from sys_user_github
+        where user_id = #{userId}
+    </select>
+
 </mapper>

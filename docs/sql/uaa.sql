@@ -38,25 +38,6 @@ SET
 FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- 用户-github关联表
--- ----------------------------
-DROP TABLE IF EXISTS sys_user_github;
-
-CREATE TABLE sys_user_github
-(
-    id                 VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
-    user_id            VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户ID',
-    openid             VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'github openid',
-    version            INT NULL DEFAULT NULL COMMENT '版本号',
-    created_by         VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
-    created_date       datetime NULL DEFAULT NULL COMMENT '创建时间',
-    last_modified_by   VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
-    last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
-    PRIMARY KEY (id)
-);
-
-
--- ----------------------------
 -- 用户信息表
 -- ----------------------------
 DROP TABLE IF EXISTS sys_user_info;
@@ -236,6 +217,33 @@ CREATE TABLE sys_department_user
     id                 VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
     department_id      VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '部门ID',
     user_id            VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户ID',
+    version            INT NULL DEFAULT NULL COMMENT '版本号',
+    created_by         VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
+    created_date       datetime NULL DEFAULT NULL COMMENT '创建时间',
+    last_modified_by   VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
+    last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (id)
+);
+
+
+-- ----------------------------
+-- github 用户表
+-- ----------------------------
+DROP TABLE IF EXISTS sys_user_github;
+
+CREATE TABLE sys_user_github
+(
+    id                 VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
+    username           VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户名',
+    user_id            VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户ID',
+    bind_date          datetime NULL DEFAULT NULL COMMENT '绑定时间',
+    login              VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '登陆名',
+    github_id          VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'github用户ID',
+    node_id            VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '节点ID',
+    avatar_url         VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '头像',
+    email              VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '邮箱',
+    name               VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '昵称',
+    other              json NULL DEFAULT NULL COMMENT '其他信息',
     version            INT NULL DEFAULT NULL COMMENT '版本号',
     created_by         VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
     created_date       datetime NULL DEFAULT NULL COMMENT '创建时间',

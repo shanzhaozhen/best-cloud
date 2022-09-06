@@ -2,11 +2,14 @@ package org.shanzhaozhen.uaa.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.shanzhaozhen.common.core.entity.BaseEntity;
 import org.shanzhaozhen.common.core.entity.BaseInfo;
+
+import java.time.LocalDateTime;
 
 /**
  * @Author: shanzhaozhen
@@ -29,5 +32,8 @@ public class SocialUser extends BaseEntity {
 
     @Schema(description = "关联用户id")
     private String userId;
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime bindDate;
 
 }
