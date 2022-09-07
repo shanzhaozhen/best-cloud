@@ -6,7 +6,6 @@ import org.shanzhaozhen.authorize.utils.SecurityUtils;
 import org.shanzhaozhen.common.core.result.R;
 import org.shanzhaozhen.uaa.feign.SocialUserFeignClient;
 import org.shanzhaozhen.uaa.pojo.dto.SocialInfo;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +34,14 @@ public class SocialController {
     @Operation(summary = "解绑用户信息")
     @GetMapping(UNBIND_SOCIAL_INFO)
     public R<?> unbindSocial(@RequestParam("type") String type) {
-        return R.ok();
+        String currentUserId = SecurityUtils.getCurrentUserId();
+        Assert.hasText(currentUserId, "当前没有登陆用户或为匿名用户");
+        try {
+            R<?> r = socialUserFeignClient.unbindSocial(currentUserId, type);
+            return r;
+        } catch (Exception e) {
+            return R.failed(e.getMessage());
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-package org.shanzhaozhen.authorize.constant;
+package org.shanzhaozhen.uaa.constant;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public enum SocialLoginType {
+public enum SocialType {
 
-    LOGIN_TYPE("登陆", "login"),
-    BIND_TYPE("绑定", "bind");
-
+    GITHUB("github"),
+    GITEE("gitee"),
+    GOOGLE("google"),
+    QQ("QQ");
 
     private String name;
 
-    private String value;
 }

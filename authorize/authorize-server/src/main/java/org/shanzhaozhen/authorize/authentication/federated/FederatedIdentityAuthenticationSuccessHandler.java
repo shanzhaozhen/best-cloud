@@ -15,6 +15,7 @@
  */
 package org.shanzhaozhen.authorize.authentication.federated;
 
+import org.shanzhaozhen.uaa.feign.UserFeignClient;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
@@ -39,9 +40,15 @@ public final class FederatedIdentityAuthenticationSuccessHandler implements Auth
 
 	private final AuthenticationSuccessHandler delegate = new SavedRequestAwareAuthenticationSuccessHandler();
 
+	private final UserFeignClient userFeignClient;
+
 	private Consumer<OAuth2User> oauth2UserHandler = (user) -> {};
 
 	private Consumer<OidcUser> oidcUserHandler = (user) -> this.oauth2UserHandler.accept(user);
+
+	public FederatedIdentityAuthenticationSuccessHandler(UserFeignClient userFeignClient) {
+		this.userFeignClient = userFeignClient;
+	}
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -49,9 +56,13 @@ public final class FederatedIdentityAuthenticationSuccessHandler implements Auth
 			if (authentication.getPrincipal() instanceof OidcUser) {
 				this.oidcUserHandler.accept((OidcUser) authentication.getPrincipal());
 			} else if (authentication.getPrincipal() instanceof OAuth2User) {
+				OAuth2User principal = (OAuth2User) authentication.getPrincipal();
+
 				// todo: 加入登陆类型
 
 				// todo: 可以从这里加入检查跟对应应用的绑定关系逻辑检查如果没关联跳转到注册页面或者绑定页
+
+//				userFeignClient.loadUserBySocial()
 
 				this.oauth2UserHandler.accept((OAuth2User) authentication.getPrincipal());
 			}

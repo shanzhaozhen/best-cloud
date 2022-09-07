@@ -1,5 +1,5 @@
 import {GithubOutlined} from '@ant-design/icons';
-import {List, message, Skeleton} from 'antd';
+import {Badge, List, message, Skeleton} from 'antd';
 import React, { Fragment } from 'react';
 import {useRequest} from "@@/exports";
 import {getSocialInfo, unbindSocial} from "@/services/social";
@@ -11,6 +11,7 @@ const handleUnbind = async (type: string) => {
     await unbindSocial(type);
     hide();
     message.success('解绑成功！');
+    window.location.reload();
   } catch (error) {
     hide();
     message.error('解绑失败!');
@@ -69,8 +70,16 @@ const BindingView: React.FC = () => {
           { data && data.github ? (
             <List.Item actions={[<a key="unbind" onClick={() => handleUnbind('github')}>解绑</a>]}>
               <List.Item.Meta
-                avatar={<img className="social-avatar" src={data.github.avatarUrl}  alt={data.github.username} />}
-                title={`Github 账号：${data.github.username}`}
+                avatar={
+                  <Badge count={<GithubOutlined className="github-badge" />} offset={[0, 44]}>
+                    <img className="social-avatar" src={data.github.avatarUrl}  alt={data.github.username} />
+                  </Badge>
+
+               /* <div className="social-avatar-box">
+                  <GithubOutlined className="social-avatar-badge github-badge" />
+                </div>*/
+                }
+                title={data.github.username}
                 description={`绑定时间：${data.github.bindDate}`}
               />
             </List.Item>

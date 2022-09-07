@@ -12,18 +12,17 @@ import org.shanzhaozhen.uaa.pojo.form.SocialUserBindForm;
 public interface SocialUserService {
 
     /**
-     * 更新github用户信息
+     * 获取用户绑定信息
      * @param userId
      */
     SocialInfo getSocialInfo(String userId);
 
     /**
-     * 更新github用户信息
+     * 解绑第三方账号
+     * @param userId
      * @param type
      */
-    void unbindSocial(String type);
-
-
+    void unbindSocial(String userId, String type);
 
     /**
      * 更新github用户信息

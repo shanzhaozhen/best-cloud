@@ -41,8 +41,11 @@ const Login: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.search) {
+    console.log(location.search)
+    if (location.search.indexOf("error") > -1) {
       message.error("用户名或密码错误");
+    } else if (location.search.indexOf("logout") > -1) {
+      message.success("登出成功！");
     }
   }, [])
 

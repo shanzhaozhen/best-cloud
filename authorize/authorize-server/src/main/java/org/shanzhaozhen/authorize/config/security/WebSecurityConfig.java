@@ -5,6 +5,7 @@ import org.shanzhaozhen.authorize.authentication.bind.Oauth2BindConfigurer;
 import org.shanzhaozhen.authorize.authentication.federated.FederatedIdentityConfigurer;
 import org.shanzhaozhen.authorize.authentication.account.AccountLoginConfigurer;
 import org.shanzhaozhen.uaa.feign.SocialUserFeignClient;
+import org.shanzhaozhen.uaa.feign.UserFeignClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,6 +23,7 @@ public class WebSecurityConfig {
 	};
 
 	private final UserDetailsService userDetailsService;
+	private final UserFeignClient userFeignClient;
 	private final SocialUserFeignClient socialUserFeignClient;
 
 
@@ -44,7 +46,7 @@ public class WebSecurityConfig {
 //				.formLogin()
 				.apply(new AccountLoginConfigurer<>())
 				.and()
-				.apply(new FederatedIdentityConfigurer())
+				.apply(new FederatedIdentityConfigurer(userFeignClient))
 				.and()
 				.apply(new Oauth2BindConfigurer(socialUserFeignClient))
 //				.loginPage("/login")

@@ -1,24 +1,10 @@
-/*
- * Copyright 2020-2022 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.shanzhaozhen.authorize.authentication.federated;
 
 import org.shanzhaozhen.authorize.authentication.bind.OAuth2BindAuthenticationFilter;
 import org.shanzhaozhen.authorize.authentication.bind.OAuth2BindAuthenticationProvider;
 import org.shanzhaozhen.authorize.utils.SecurityUtils;
 import org.shanzhaozhen.common.core.utils.HttpServletUtils;
+import org.shanzhaozhen.uaa.feign.UserFeignClient;
 import org.shanzhaozhen.uaa.pojo.dto.AuthUser;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -54,6 +40,11 @@ public final class FederatedIdentityConfigurer extends AbstractHttpConfigurer<Fe
 
 	private Consumer<OidcUser> oidcUserHandler;
 
+	private UserFeignClient userFeignClient;
+
+	public FederatedIdentityConfigurer(UserFeignClient userFeignClient) {
+		this.userFeignClient = userFeignClient;
+	}
 
 	/**
 	 * @param loginPageUrl The URL of the login page, defaults to {@code "/login"}
@@ -113,7 +104,7 @@ public final class FederatedIdentityConfigurer extends AbstractHttpConfigurer<Fe
 		}
 
 		FederatedIdentityAuthenticationSuccessHandler authenticationSuccessHandler =
-			new FederatedIdentityAuthenticationSuccessHandler();
+			new FederatedIdentityAuthenticationSuccessHandler(userFeignClient);
 		if (this.oauth2UserHandler != null) {
 			authenticationSuccessHandler.setOAuth2UserHandler(this.oauth2UserHandler);
 		}

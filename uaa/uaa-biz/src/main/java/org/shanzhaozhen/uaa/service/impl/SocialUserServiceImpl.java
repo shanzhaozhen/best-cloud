@@ -2,6 +2,8 @@ package org.shanzhaozhen.uaa.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.common.core.utils.CustomBeanUtils;
+import org.shanzhaozhen.common.web.utils.JwtUtils;
+import org.shanzhaozhen.uaa.constant.SocialType;
 import org.shanzhaozhen.uaa.converter.SocialUserConverter;
 import org.shanzhaozhen.uaa.mapper.GithubUserMapper;
 import org.shanzhaozhen.uaa.pojo.dto.SocialInfo;
@@ -36,22 +38,26 @@ public class SocialUserServiceImpl implements SocialUserService {
     }
 
     @Override
-    public void unbindSocial(String type) {
-
+    @Transactional
+    public void unbindSocial(String userId, String type) {
+        Assert.hasText(userId, "没有获得当前登陆用户的信息，解绑失败！");
+        if (SocialType.GITHUB.getName().equals(type)) {
+            GithubUser githubUser = githubUserMapper.getGithubUserByLogin(userId);
+            Assert.notNull(githubUser, "该用户没有绑定该类型的账号！");
+            githubUser.setUserId(null);
+            githubUserMapper.updateById(githubUser);
+        } else {
+            throw new IllegalArgumentException("不支持该类型账号（" + type + "）解绑！");
+        }
     }
 
     @Override
     @Transactional
     public GithubUser updateGithubUser(GithubUser githubUser) {
         GithubUser githubUserInDB = githubUserMapper.getGithubUserByLogin(githubUser.getLogin());
-//        if (githubUserInDB == null) {
-//            githubUserMapper.insert(githubUser);
-//            return githubUser;
-//        } else {
-            CustomBeanUtils.copyPropertiesExcludeMeta(githubUser, githubUserInDB);
-            githubUserMapper.updateById(githubUserInDB);
-            return githubUserInDB;
-//        }
+        CustomBeanUtils.copyPropertiesExcludeMeta(githubUser, githubUserInDB);
+        githubUserMapper.updateById(githubUserInDB);
+        return githubUserInDB;
     }
 
     @Override

@@ -19,7 +19,7 @@ public class SocialUserController {
     private final SocialUserService socialUserService;
 
     public static final String GET_SOCIAL_INFO = "/social/info/{userId}";
-    public static final String UNBIND_SOCIAL_INFO = "/social/unbind";
+    public static final String UNBIND_SOCIAL_INFO = "/social/unbind/{userId}";
     public static final String UPDATE_GITHUB_USER = "/social/github";
     public static final String BIND_GITHUB_USER = "/social/github/bind";
 
@@ -32,8 +32,8 @@ public class SocialUserController {
 
     @Operation(summary = "解绑用户信息")
     @GetMapping(UNBIND_SOCIAL_INFO)
-    public R<?> unbindSocial(@RequestParam("type") String type) {
-        socialUserService.unbindSocial(type);
+    public R<?> unbindSocial(@PathVariable("userId") String userId, @RequestParam("type") String type) {
+        socialUserService.unbindSocial(userId, type);
         return R.ok();
     }
 

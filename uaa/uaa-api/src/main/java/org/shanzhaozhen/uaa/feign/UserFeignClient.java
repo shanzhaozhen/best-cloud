@@ -5,10 +5,7 @@ import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
 import org.shanzhaozhen.uaa.pojo.dto.UserInfoDTO;
 import org.shanzhaozhen.uaa.pojo.form.ChangePasswordForm;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = "uaa", contextId = "user")
 public interface UserFeignClient {
@@ -18,6 +15,9 @@ public interface UserFeignClient {
 
     @GetMapping("/user/phone/{phone}")
     R<UserDTO> loadUserByPhone(@PathVariable("phone") String phone);
+
+    @GetMapping("/user/social/{username}")
+    R<UserDTO> loadUserBySocial(@PathVariable("username") String username, @RequestParam("type") String type);
 
     @PostMapping("/user/password")
     R<?> changePassword(@RequestBody ChangePasswordForm changePasswordForm);
