@@ -25,12 +25,12 @@ export default [
     name: 'register',
     path: '/register',
     // layout: false,
-    component: './Register/register',
+    component: './Register',
   },
   {
-    name: 'register-social',
-    path: '/register-social',
-    component: './Register/register-social',
+    name: 'socialBind',
+    path: '/social-bind',
+    component: './SocialBind',
   },
   {
     name: 'consent',

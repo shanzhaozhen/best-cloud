@@ -84,7 +84,7 @@ public final class FederatedIdentityAuthenticationSuccessHandler implements Auth
 
 				if (user == null) {
 					// 没有绑定的用户跳转到绑定页面
-					response.sendRedirect("/register-social");
+					response.sendRedirect("/social-bind");
 					return;
 				} else {
 					AuthUser authUser = new AuthUser(user);

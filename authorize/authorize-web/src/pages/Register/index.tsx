@@ -1,10 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { SelectLang } from '@umijs/max';
 import Footer from '@/components/Footer';
 import styles from './index.less';
 
 
-const RegisterSocial: React.FC = () => {
+
+const Index: React.FC = () => {
+
+  useEffect(() => {
+
+  }, [])
+
 
   return (
     <div className={styles.container}>
@@ -19,4 +25,4 @@ const RegisterSocial: React.FC = () => {
   );
 };
 
-export default RegisterSocial;
+export default Index;
