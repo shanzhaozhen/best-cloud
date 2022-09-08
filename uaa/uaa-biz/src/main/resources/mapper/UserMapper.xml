@@ -71,6 +71,11 @@
         from sys_user where username = #{username}
     </select>
 
+    <select id="getUserByUserId" resultType="org.shanzhaozhen.uaa.pojo.dto.UserDTO">
+        select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled
+        from sys_user where id = #{userId}
+    </select>
+
     <select id="getUserPage" resultMap="UserAndInfoMap">
         select u.id, u.username, u.account_non_expired, u.account_non_locked, u.credentials_non_expired, u.enabled,
                u.created_by, u.created_date, u.last_modified_by, u.last_modified_date

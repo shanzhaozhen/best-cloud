@@ -16,6 +16,23 @@ export default [
     component: './Login',
   },
   {
+    name: 'account',
+    path: '/account',
+    // layout: false,
+    component: './AccountManage',
+  },
+  {
+    name: 'register',
+    path: '/register',
+    // layout: false,
+    component: './Register/register',
+  },
+  {
+    name: 'register-social',
+    path: '/register-social',
+    component: './Register/register-social',
+  },
+  {
     name: 'consent',
     path: '/oauth2/consent',
     layout: false,

@@ -8,10 +8,14 @@ import {getSocialInfo, unbindSocial} from "@/services/social";
 const handleUnbind = async (type: string) => {
   const hide = message.loading('解绑中...');
   try {
-    await unbindSocial(type);
+    const { code, message: msg } = await unbindSocial(type);
     hide();
-    message.success('解绑成功！');
-    window.location.reload();
+    if (code === '0') {
+      message.success('解绑成功！');
+      window.location.reload();
+    } else {
+      message.error(`解绑失败：${msg}`);
+    }
   } catch (error) {
     hide();
     message.error('解绑失败!');
@@ -86,7 +90,7 @@ const BindingView: React.FC = () => {
             ) : (
             <List.Item actions={[<a key="bind" href="/oauth2/authorization/github-idp?action=bind">绑定</a>]}>
               <List.Item.Meta
-                avatar={<GithubOutlined className="dingding" />}
+                avatar={<GithubOutlined className="github" />}
                 title="绑定 Github"
                 description="当前未绑定 Github 账号"
               />

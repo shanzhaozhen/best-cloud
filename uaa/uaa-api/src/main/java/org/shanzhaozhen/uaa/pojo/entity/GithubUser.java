@@ -1,5 +1,7 @@
 package org.shanzhaozhen.uaa.pojo.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -22,6 +24,7 @@ public class GithubUser extends SocialUser {
     private String login;
 
     @Schema(description = "github用户ID")
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String githubId;
 
     @Schema(description = "节点ID")

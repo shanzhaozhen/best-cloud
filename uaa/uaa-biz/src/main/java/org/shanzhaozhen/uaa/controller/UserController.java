@@ -40,7 +40,6 @@ public class UserController {
     private static final String BATCH_DELETE_USER = "/user";
     private static final String GET_USER_ROLE_PAGE = "/user/role/page";
     private static final String GET_USER_DEPARTMENT_PAGE = "/user/department/page";
-
     private static final String UPDATE_PASSWORD = "/user/password";
 
     private final UserService userService;

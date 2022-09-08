@@ -1,24 +1,21 @@
-/*
- * Copyright 2020-2022 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.shanzhaozhen.authorize.authentication.federated;
 
+import feign.FeignException;
+import org.shanzhaozhen.common.core.result.R;
+import org.shanzhaozhen.common.core.utils.JacksonUtils;
+import org.shanzhaozhen.uaa.constant.SocialType;
+import org.shanzhaozhen.uaa.feign.SocialUserFeignClient;
 import org.shanzhaozhen.uaa.feign.UserFeignClient;
+import org.shanzhaozhen.uaa.pojo.dto.AuthUser;
+import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -27,6 +24,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.Collection;
 import java.util.function.Consumer;
 
 /**
@@ -40,14 +39,14 @@ public final class FederatedIdentityAuthenticationSuccessHandler implements Auth
 
 	private final AuthenticationSuccessHandler delegate = new SavedRequestAwareAuthenticationSuccessHandler();
 
-	private final UserFeignClient userFeignClient;
+	private final SocialUserFeignClient socialUserFeignClient;
 
 	private Consumer<OAuth2User> oauth2UserHandler = (user) -> {};
 
 	private Consumer<OidcUser> oidcUserHandler = (user) -> this.oauth2UserHandler.accept(user);
 
-	public FederatedIdentityAuthenticationSuccessHandler(UserFeignClient userFeignClient) {
-		this.userFeignClient = userFeignClient;
+	public FederatedIdentityAuthenticationSuccessHandler(SocialUserFeignClient socialUserFeignClient) {
+		this.socialUserFeignClient = socialUserFeignClient;
 	}
 
 	@Override
@@ -55,16 +54,47 @@ public final class FederatedIdentityAuthenticationSuccessHandler implements Auth
 		if (authentication instanceof OAuth2AuthenticationToken) {
 			if (authentication.getPrincipal() instanceof OidcUser) {
 				this.oidcUserHandler.accept((OidcUser) authentication.getPrincipal());
-			} else if (authentication.getPrincipal() instanceof OAuth2User) {
-				OAuth2User principal = (OAuth2User) authentication.getPrincipal();
+			} else if (authentication.getPrincipal() instanceof DefaultOAuth2User) {
+				DefaultOAuth2User principal = (DefaultOAuth2User) authentication.getPrincipal();
+				String registrationId = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
+				String username = principal.getName();
 
-				// todo: 加入登陆类型
+				UserDTO user;
+				SocialType socialType = null;
+				if (SocialType.GITHUB.getRegistrationId().equals(registrationId)) {
+					socialType = SocialType.GITHUB;
+				}
+				if (socialType == null) {
+					SecurityContextHolder.clearContext();
+					String redirectUrl = response.encodeRedirectURL("/login?error&msg=不支持该类型登陆");
+					response.sendRedirect(redirectUrl);
+					return;
+				}
+				try {
+					R<UserDTO> result = socialUserFeignClient.loadUserBySocial(username, socialType.getName());
+					user = result.getData();
+				} catch (FeignException e) {
+					e.printStackTrace();
+					R<?> result = JacksonUtils.toPojo(e.contentUTF8(), R.class);
+					throw new BadCredentialsException(result.getMessage());
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new BadCredentialsException("用户获取过程出现异常!");
+				}
 
-				// todo: 可以从这里加入检查跟对应应用的绑定关系逻辑检查如果没关联跳转到注册页面或者绑定页
-
-//				userFeignClient.loadUserBySocial()
-
-				this.oauth2UserHandler.accept((OAuth2User) authentication.getPrincipal());
+				if (user == null) {
+					// 没有绑定的用户跳转到绑定页面
+					response.sendRedirect("/register-social");
+					return;
+				} else {
+					AuthUser authUser = new AuthUser(user);
+					UsernamePasswordAuthenticationToken newAuthentication = new UsernamePasswordAuthenticationToken(authUser, null,
+							authUser.getAuthorities());
+					newAuthentication.setDetails(authentication.getDetails());
+					SecurityContext context = SecurityContextHolder.createEmptyContext();
+					context.setAuthentication(newAuthentication);
+					SecurityContextHolder.setContext(context);
+				}
 			}
 		}
 

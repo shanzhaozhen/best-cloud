@@ -6,13 +6,19 @@ import org.shanzhaozhen.common.web.utils.JwtUtils;
 import org.shanzhaozhen.uaa.constant.SocialType;
 import org.shanzhaozhen.uaa.converter.SocialUserConverter;
 import org.shanzhaozhen.uaa.mapper.GithubUserMapper;
+import org.shanzhaozhen.uaa.mapper.RoleMapper;
+import org.shanzhaozhen.uaa.mapper.UserMapper;
 import org.shanzhaozhen.uaa.pojo.dto.SocialInfo;
+import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
 import org.shanzhaozhen.uaa.pojo.entity.GithubUser;
 import org.shanzhaozhen.uaa.pojo.form.SocialUserBindForm;
+import org.shanzhaozhen.uaa.service.RoleService;
 import org.shanzhaozhen.uaa.service.SocialUserService;
+import org.shanzhaozhen.uaa.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 
@@ -26,6 +32,8 @@ import java.time.LocalDateTime;
 public class SocialUserServiceImpl implements SocialUserService {
 
     private final GithubUserMapper githubUserMapper;
+
+    private final UserService userService;
 
     @Override
     public SocialInfo getSocialInfo(String userId) {
@@ -42,9 +50,9 @@ public class SocialUserServiceImpl implements SocialUserService {
     public void unbindSocial(String userId, String type) {
         Assert.hasText(userId, "没有获得当前登陆用户的信息，解绑失败！");
         if (SocialType.GITHUB.getName().equals(type)) {
-            GithubUser githubUser = githubUserMapper.getGithubUserByLogin(userId);
+            GithubUser githubUser = githubUserMapper.getGithubUserByUserId(userId);
             Assert.notNull(githubUser, "该用户没有绑定该类型的账号！");
-            githubUser.setUserId(null);
+            githubUser.setUserId("");
             githubUserMapper.updateById(githubUser);
         } else {
             throw new IllegalArgumentException("不支持该类型账号（" + type + "）解绑！");
@@ -82,11 +90,31 @@ public class SocialUserServiceImpl implements SocialUserService {
         }
 
         GithubUser githubUserInDB = githubUserMapper.getGithubUserByUsername(socialUser.getUsername());
-        Assert.isNull(githubUserInDB, "该 github 账号已被其他账号绑定，请更换！");
+        Assert.isTrue(githubUserInDB == null || !StringUtils.hasText(githubUserInDB.getUserId()), "该 github 账号已被其他账号绑定，请更换！");
 
         socialUser.setUserId(currentUserId);
         socialUser.setBindDate(LocalDateTime.now());
-        githubUserMapper.insert(socialUser);
+        if (githubUserInDB == null) {
+            githubUserMapper.insert(socialUser);
+        } else {
+            socialUser.setId(githubUserInDB.getId());
+            githubUserMapper.updateById(socialUser);
+        }
+    }
+
+    @Override
+    public UserDTO loadUserBySocial(String username, String type) {
+        String userId;
+        if (SocialType.GITHUB.getName().equals(type)) {
+            GithubUser githubUser = githubUserMapper.getGithubUserByUsername(username);
+            Assert.notNull(githubUser, "该 Github 用户不存在关联信息！");
+            userId = githubUser.getUserId();
+        } else {
+            throw new IllegalArgumentException("不支持该第三方类型登陆！");
+        }
+        Assert.hasText(userId, "该用户没有关联用户，登陆失败！");
+
+        return userService.getUserById(userId);
     }
 
 }

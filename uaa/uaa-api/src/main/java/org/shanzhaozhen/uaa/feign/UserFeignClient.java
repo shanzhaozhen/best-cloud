@@ -16,9 +16,6 @@ public interface UserFeignClient {
     @GetMapping("/user/phone/{phone}")
     R<UserDTO> loadUserByPhone(@PathVariable("phone") String phone);
 
-    @GetMapping("/user/social/{username}")
-    R<UserDTO> loadUserBySocial(@PathVariable("username") String username, @RequestParam("type") String type);
-
     @PostMapping("/user/password")
     R<?> changePassword(@RequestBody ChangePasswordForm changePasswordForm);
 

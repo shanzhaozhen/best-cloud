@@ -14,11 +14,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public enum SocialType {
 
-    GITHUB("github"),
-    GITEE("gitee"),
-    GOOGLE("google"),
-    QQ("QQ");
+    GITHUB("github", "github-idp"),
+    GITEE("gitee", "gitee"),
+    GOOGLE("google", "google"),
+    QQ("QQ", "QQ");
 
     private String name;
+
+    private String registrationId;
 
 }

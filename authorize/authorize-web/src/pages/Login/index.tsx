@@ -14,7 +14,7 @@ import { useIntl, FormattedMessage, SelectLang } from '@umijs/max';
 import Footer from '@/components/Footer';
 import {getFakeCaptcha} from '@/services/login';
 import styles from './index.less';
-import {useLocation} from "umi";
+import {useLocation, useSearchParams} from "umi";
 
 
 const LoginMessage: React.FC<{
@@ -35,17 +35,20 @@ const LoginMessage: React.FC<{
 const Login: React.FC = () => {
   const [userLoginState] = useState<any>({});
   const [type, setType] = useState<string>('account');
+  const [searchParams] = useSearchParams();
 
   const intl = useIntl();
 
   const location = useLocation();
 
   useEffect(() => {
-    console.log(location.search)
-    if (location.search.indexOf("error") > -1) {
-      message.error("用户名或密码错误");
-    } else if (location.search.indexOf("logout") > -1) {
-      message.success("登出成功！");
+    const err = searchParams.get('error');
+    const msg = searchParams.get('msg');
+
+    if (err != null) {
+      message.error(msg ? msg : '用户名或密码错误!');
+    } else if (location.search.indexOf('logout') > -1) {
+      message.success('登出成功！');
     }
   }, [])
 

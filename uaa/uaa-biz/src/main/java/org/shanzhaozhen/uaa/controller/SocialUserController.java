@@ -4,7 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.common.core.result.R;
+import org.shanzhaozhen.uaa.mapper.RoleMapper;
+import org.shanzhaozhen.uaa.mapper.UserMapper;
 import org.shanzhaozhen.uaa.pojo.dto.SocialInfo;
+import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
 import org.shanzhaozhen.uaa.pojo.entity.GithubUser;
 import org.shanzhaozhen.uaa.pojo.form.SocialUserBindForm;
 import org.shanzhaozhen.uaa.service.SocialUserService;
@@ -22,7 +25,7 @@ public class SocialUserController {
     public static final String UNBIND_SOCIAL_INFO = "/social/unbind/{userId}";
     public static final String UPDATE_GITHUB_USER = "/social/github";
     public static final String BIND_GITHUB_USER = "/social/github/bind";
-
+    public static final String LOGIN_SOCIAL = "/social/login/{username}";
 
     @Operation(summary = "获取用户绑定信息")
     @GetMapping(GET_SOCIAL_INFO)
@@ -49,6 +52,12 @@ public class SocialUserController {
     public R<?> bindGithubUser(@RequestBody SocialUserBindForm<GithubUser> socialUserBindForm) {
         socialUserService.bindGithubUser(socialUserBindForm);
         return R.ok();
+    }
+
+    @Operation(summary = "通过父级ID获取菜单列表")
+    @GetMapping(LOGIN_SOCIAL)
+    R<UserDTO> loadUserBySocial(@PathVariable("username") String username, @RequestParam("type") String type) {
+        return R.build(() -> socialUserService.loadUserBySocial(username, type));
     }
 
 }

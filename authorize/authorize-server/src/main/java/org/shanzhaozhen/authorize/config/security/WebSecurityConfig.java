@@ -17,7 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
 
 	private final static String[] whiteUrl = {"/**/*.ico", "/**/*.css","/**/*.js", "/static/**", "/v3/**",
-			"/login", "/front/**"
+			"/login", "/register", "/front/**"
 //			, "/**", "/authorize/rsa/publicKey"
 			, "/.well-known/openid-configuration"
 	};
@@ -46,7 +46,7 @@ public class WebSecurityConfig {
 //				.formLogin()
 				.apply(new AccountLoginConfigurer<>())
 				.and()
-				.apply(new FederatedIdentityConfigurer(userFeignClient))
+				.apply(new FederatedIdentityConfigurer(socialUserFeignClient))
 				.and()
 				.apply(new Oauth2BindConfigurer(socialUserFeignClient))
 //				.loginPage("/login")

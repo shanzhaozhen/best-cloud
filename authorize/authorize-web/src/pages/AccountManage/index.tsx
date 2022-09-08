@@ -86,7 +86,7 @@ const Settings: React.FC = () => {
     const biz = searchParams.get('biz');
     const msg = searchParams.get('msg');
     if (biz === '0') {
-      message.success(`账号绑定成功：${msg}`)
+      message.success(`账号绑定成功${msg ? ('：' + msg) : '!'}`)
     } else if (biz === '-1') {
       message.error(`账号绑定失败：${msg}`)
     }

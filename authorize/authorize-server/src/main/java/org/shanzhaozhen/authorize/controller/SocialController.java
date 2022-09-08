@@ -1,9 +1,11 @@
 package org.shanzhaozhen.authorize.controller;
 
+import feign.FeignException;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.authorize.utils.SecurityUtils;
 import org.shanzhaozhen.common.core.result.R;
+import org.shanzhaozhen.common.core.utils.JacksonUtils;
 import org.shanzhaozhen.uaa.feign.SocialUserFeignClient;
 import org.shanzhaozhen.uaa.pojo.dto.SocialInfo;
 import org.springframework.util.Assert;
@@ -37,10 +39,10 @@ public class SocialController {
         String currentUserId = SecurityUtils.getCurrentUserId();
         Assert.hasText(currentUserId, "当前没有登陆用户或为匿名用户");
         try {
-            R<?> r = socialUserFeignClient.unbindSocial(currentUserId, type);
-            return r;
-        } catch (Exception e) {
-            return R.failed(e.getMessage());
+            return socialUserFeignClient.unbindSocial(currentUserId, type);
+        } catch (FeignException e) {
+            e.printStackTrace();
+            return JacksonUtils.toPojo(e.contentUTF8(), R.class);
         }
     }
 

@@ -1,6 +1,7 @@
 package org.shanzhaozhen.uaa.service;
 
 import org.shanzhaozhen.uaa.pojo.dto.SocialInfo;
+import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
 import org.shanzhaozhen.uaa.pojo.entity.GithubUser;
 import org.shanzhaozhen.uaa.pojo.form.SocialUserBindForm;
 
@@ -35,5 +36,13 @@ public interface SocialUserService {
      * @param socialUserBindForm
      */
     void bindGithubUser(SocialUserBindForm<GithubUser> socialUserBindForm);
+
+    /**
+     * 第三方账号登陆
+     * @param username
+     * @param type
+     * @return
+     */
+    UserDTO loadUserBySocial(String username, String type);
 
 }

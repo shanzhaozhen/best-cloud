@@ -21,6 +21,8 @@ public interface UserMapper extends BaseMapper<UserDO> {
 
     UserDTO getUserByUsername(@Param("username") String username);
 
+    UserDTO getUserByUserId(@Param("userId") String userId);
+
     Page<UserDTO> getUserPage(Page<UserDTO> page, @Param("keyword") String keyword);
 
     Page<UserDTO> getUserPageByRoleId(Page<UserDTO>page, @Param("roleId") String roleId, @Param("keyword") String keyword);

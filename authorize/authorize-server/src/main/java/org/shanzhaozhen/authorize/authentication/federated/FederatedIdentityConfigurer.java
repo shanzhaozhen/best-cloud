@@ -4,6 +4,7 @@ import org.shanzhaozhen.authorize.authentication.bind.OAuth2BindAuthenticationFi
 import org.shanzhaozhen.authorize.authentication.bind.OAuth2BindAuthenticationProvider;
 import org.shanzhaozhen.authorize.utils.SecurityUtils;
 import org.shanzhaozhen.common.core.utils.HttpServletUtils;
+import org.shanzhaozhen.uaa.feign.SocialUserFeignClient;
 import org.shanzhaozhen.uaa.feign.UserFeignClient;
 import org.shanzhaozhen.uaa.pojo.dto.AuthUser;
 import org.springframework.context.ApplicationContext;
@@ -40,10 +41,10 @@ public final class FederatedIdentityConfigurer extends AbstractHttpConfigurer<Fe
 
 	private Consumer<OidcUser> oidcUserHandler;
 
-	private UserFeignClient userFeignClient;
+	private final SocialUserFeignClient socialUserFeignClient;
 
-	public FederatedIdentityConfigurer(UserFeignClient userFeignClient) {
-		this.userFeignClient = userFeignClient;
+	public FederatedIdentityConfigurer(SocialUserFeignClient socialUserFeignClient) {
+		this.socialUserFeignClient = socialUserFeignClient;
 	}
 
 	/**
@@ -104,7 +105,11 @@ public final class FederatedIdentityConfigurer extends AbstractHttpConfigurer<Fe
 		}
 
 		FederatedIdentityAuthenticationSuccessHandler authenticationSuccessHandler =
-			new FederatedIdentityAuthenticationSuccessHandler(userFeignClient);
+			new FederatedIdentityAuthenticationSuccessHandler(socialUserFeignClient);
+
+		FederatedIdentityAuthenticationFailureHandler authenticationFailureHandler =
+				new FederatedIdentityAuthenticationFailureHandler();
+
 		if (this.oauth2UserHandler != null) {
 			authenticationSuccessHandler.setOAuth2UserHandler(this.oauth2UserHandler);
 		}
@@ -117,7 +122,10 @@ public final class FederatedIdentityConfigurer extends AbstractHttpConfigurer<Fe
 						exceptionHandling.authenticationEntryPoint(authenticationEntryPoint)
 				)
 				.oauth2Login(oauth2Login -> {
-					oauth2Login.successHandler(authenticationSuccessHandler);
+					oauth2Login
+							.successHandler(authenticationSuccessHandler)
+							.failureHandler(authenticationFailureHandler)
+					;
 					if (this.authorizationRequestUri != null) {
 						String baseUri = this.authorizationRequestUri.replace("/{registrationId}", "");
 						oauth2Login.authorizationEndpoint(authorizationEndpoint ->

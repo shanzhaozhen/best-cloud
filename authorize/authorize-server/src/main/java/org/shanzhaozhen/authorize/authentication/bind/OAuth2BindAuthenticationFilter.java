@@ -208,8 +208,7 @@ public class OAuth2BindAuthenticationFilter extends AbstractAuthenticationProces
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
 		this.logger.trace("Failed to process authentication request", failed);
-		String message = failed.getMessage();
-		message = URLEncoder.encode(message,"UTF-8");
-		response.sendRedirect("/account?action=binding&biz=-1&msg=" + message);
+		String redirectUrl = response.encodeRedirectURL("/account?action=binding&biz=-1&msg=" + failed.getMessage());
+		response.sendRedirect(redirectUrl);
 	}
 }

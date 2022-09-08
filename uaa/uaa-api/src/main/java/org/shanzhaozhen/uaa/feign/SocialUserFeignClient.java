@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(name = "uaa", contextId = "social-user")
 public interface SocialUserFeignClient {
 
+    @GetMapping("/social/login/{username}")
+    R<UserDTO> loadUserBySocial(@PathVariable("username") String username, @RequestParam("type") String type);
     @GetMapping("/social/info/{userId}")
     R<SocialInfo> getSocialInfo(@PathVariable("userId") String userId);
 
