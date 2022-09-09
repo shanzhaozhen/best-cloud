@@ -104,6 +104,7 @@ public class SocialUserServiceImpl implements SocialUserService {
 
     @Override
     public UserDTO loadUserBySocial(String username, String type) {
+        // todo: 考虑一下要不要每次第三方登陆都更新
         String userId;
         if (SocialType.GITHUB.getName().equals(type)) {
             GithubUser githubUser = githubUserMapper.getGithubUserByUsername(username);
@@ -112,9 +113,11 @@ public class SocialUserServiceImpl implements SocialUserService {
         } else {
             throw new IllegalArgumentException("不支持该第三方类型登陆！");
         }
-        Assert.hasText(userId, "该用户没有关联用户，登陆失败！");
-
-        return userService.getUserById(userId);
+        if (StringUtils.hasText(userId)) {
+            return userService.getUserById(userId);
+        } else {
+            return null;
+        }
     }
 
 }

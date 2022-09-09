@@ -5,7 +5,7 @@ import styles from './index.less';
 
 
 
-const Register: React.FC = () => {
+const Forget: React.FC = () => {
 
   useEffect(() => {
 
@@ -25,4 +25,4 @@ const Register: React.FC = () => {
   );
 };
 
-export default Register;
+export default Forget;

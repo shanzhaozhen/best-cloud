@@ -28,6 +28,12 @@ export default [
     component: './Register',
   },
   {
+    name: 'forget',
+    path: '/forget',
+    // layout: false,
+    component: './Forget',
+  },
+  {
     name: 'socialBind',
     path: '/social-bind',
     component: './SocialBind',

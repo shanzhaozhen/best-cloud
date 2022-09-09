@@ -88,11 +88,10 @@ public final class FederatedIdentityAuthenticationSuccessHandler implements Auth
 					return;
 				} else {
 					AuthUser authUser = new AuthUser(user);
-					UsernamePasswordAuthenticationToken newAuthentication = new UsernamePasswordAuthenticationToken(authUser, null,
-							authUser.getAuthorities());
-					newAuthentication.setDetails(authentication.getDetails());
+					FederatedIdentityAuthenticationToken federatedIdentityAuthenticationToken = new FederatedIdentityAuthenticationToken(authUser, authUser.getAuthorities(), registrationId);
+					federatedIdentityAuthenticationToken.setDetails(authentication.getDetails());
 					SecurityContext context = SecurityContextHolder.createEmptyContext();
-					context.setAuthentication(newAuthentication);
+					context.setAuthentication(federatedIdentityAuthenticationToken);
 					SecurityContextHolder.setContext(context);
 				}
 			}

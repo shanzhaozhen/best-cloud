@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -55,7 +56,10 @@ public class FederatedIdentityAuthenticationFailureHandler implements Authentica
 		}
 		saveException(request, exception);
 
-		String msg = exception.getMessage();
+		String msg = null;
+		if (exception instanceof BadCredentialsException) {
+			msg = exception.getMessage();
+		}
 
 		if (this.forwardToDestination) {
 			this.logger.debug("Forwarding to " + this.defaultFailureUrl);
