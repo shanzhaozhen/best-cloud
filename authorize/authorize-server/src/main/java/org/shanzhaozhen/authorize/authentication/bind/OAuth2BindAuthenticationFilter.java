@@ -4,6 +4,7 @@ import org.shanzhaozhen.authorize.utils.OAuth2AuthorizationResponseUtils;
 import org.shanzhaozhen.authorize.utils.SecurityUtils;
 import org.shanzhaozhen.common.core.constant.ResultType;
 import org.shanzhaozhen.common.core.result.R;
+import org.shanzhaozhen.uaa.constant.SocialType;
 import org.shanzhaozhen.uaa.converter.SocialUserConverter;
 import org.shanzhaozhen.uaa.feign.SocialUserFeignClient;
 import org.shanzhaozhen.uaa.pojo.entity.GithubUser;
@@ -144,7 +145,7 @@ public class OAuth2BindAuthenticationFilter extends AbstractAuthenticationProces
 			String currentUserId = SecurityUtils.getCurrentUserId();
 			String userNameAttributeName = clientRegistration.getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 			R<?> result;
-			if ("github-idp".equals(registrationId)) {			// github 用户
+			if (SocialType.GITHUB.getRegistrationId().equals(registrationId)) {			// github 用户
 				GithubUser githubUser = SocialUserConverter.convertGithubUser(attributes, userNameAttributeName);
 				result = socialUserFeignClient.bindGithubUser(new SocialUserBindForm<>(currentUserId, githubUser));
 			} else {

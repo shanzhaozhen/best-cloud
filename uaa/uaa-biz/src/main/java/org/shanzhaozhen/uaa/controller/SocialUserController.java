@@ -22,6 +22,7 @@ public class SocialUserController {
     private final SocialUserService socialUserService;
 
     public static final String GET_SOCIAL_INFO = "/social/info/{userId}";
+    public static final String BIND_SOCIAL_INFO = "/social/bind";
     public static final String UNBIND_SOCIAL_INFO = "/social/unbind/{userId}";
     public static final String UPDATE_GITHUB_USER = "/social/github";
     public static final String BIND_GITHUB_USER = "/social/github/bind";
@@ -33,7 +34,14 @@ public class SocialUserController {
         return R.build(() -> socialUserService.getSocialInfo(userId));
     }
 
-    @Operation(summary = "解绑用户信息")
+    @Operation(summary = "第三方账号绑定")
+    @GetMapping(BIND_SOCIAL_INFO)
+    public R<?> bindSocialUser(@RequestParam("userId") String userId, @RequestParam("socialUsername") String socialUsername, @RequestParam("socialType") String socialType) {
+        socialUserService.bindSocialUser(userId, socialUsername, socialType);
+        return R.ok();
+    }
+
+    @Operation(summary = "解绑第三方账号")
     @GetMapping(UNBIND_SOCIAL_INFO)
     public R<?> unbindSocial(@PathVariable("userId") String userId, @RequestParam("type") String type) {
         socialUserService.unbindSocial(userId, type);

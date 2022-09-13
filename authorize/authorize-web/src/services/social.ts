@@ -23,3 +23,12 @@ export async function unbindSocial(type?: string, options?: Record<string, any>)
     ...(options || {}),
   });
 }
+
+/** 绑定第三方用户 POST /bind/account */
+export async function bindAccount(params?: any, options?: Record<string, any>) {
+  return request<R<SocialInfo>>(`${apiRoot}/bind/account`, {
+    method: 'POST',
+    params,
+    ...(options || {}),
+  });
+}

@@ -9,7 +9,8 @@ public class FrontEndController {
     @GetMapping(value={
             "/login",
             "/login/**",
-            "account",
+            "/account",
+            "/social-bind",
             "/error",
             "/error/**",
             "/404",

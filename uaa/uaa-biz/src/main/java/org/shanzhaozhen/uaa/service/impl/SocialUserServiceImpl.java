@@ -11,6 +11,7 @@ import org.shanzhaozhen.uaa.mapper.UserMapper;
 import org.shanzhaozhen.uaa.pojo.dto.SocialInfo;
 import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
 import org.shanzhaozhen.uaa.pojo.entity.GithubUser;
+import org.shanzhaozhen.uaa.pojo.entity.SocialUser;
 import org.shanzhaozhen.uaa.pojo.form.SocialUserBindForm;
 import org.shanzhaozhen.uaa.service.RoleService;
 import org.shanzhaozhen.uaa.service.SocialUserService;
@@ -46,12 +47,26 @@ public class SocialUserServiceImpl implements SocialUserService {
     }
 
     @Override
+    public void bindSocialUser(String userId, String socialUsername, String socialType) {
+        Assert.hasText(userId, "没有获取到账号ID！");
+
+        if (SocialType.GITHUB.getName().equals(socialType)) {
+            GithubUser githubUser = githubUserMapper.getGithubUserByUsername(socialUsername);
+            Assert.notNull(githubUser, "第三方账号不存在！");
+            githubUser.setUserId(userId);
+            githubUserMapper.updateById(githubUser);
+        } else {
+            throw new IllegalArgumentException("不支持该类型账号（" + socialType + "）绑定！");
+        }
+    }
+
+    @Override
     @Transactional
     public void unbindSocial(String userId, String type) {
         Assert.hasText(userId, "没有获得当前登陆用户的信息，解绑失败！");
         if (SocialType.GITHUB.getName().equals(type)) {
             GithubUser githubUser = githubUserMapper.getGithubUserByUserId(userId);
-            Assert.notNull(githubUser, "该用户没有绑定该类型的账号！");
+            Assert.notNull(githubUser, "第三方账号不存在！");
             githubUser.setUserId("");
             githubUserMapper.updateById(githubUser);
         } else {

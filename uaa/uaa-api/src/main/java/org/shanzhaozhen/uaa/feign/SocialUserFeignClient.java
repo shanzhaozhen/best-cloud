@@ -17,6 +17,9 @@ public interface SocialUserFeignClient {
     @GetMapping("/social/info/{userId}")
     R<SocialInfo> getSocialInfo(@PathVariable("userId") String userId);
 
+    @GetMapping("/social/bind")
+    R<?> bindSocialUser(@RequestParam("userId") String userId, @RequestParam("socialUsername") String socialUsername, @RequestParam("socialType") String socialType);
+
     @GetMapping("/social/unbind/{userId}")
     R<?> unbindSocial(@PathVariable("userId") String userId, @RequestParam("type") String type);
 

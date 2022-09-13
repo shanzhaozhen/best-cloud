@@ -19,6 +19,14 @@ public interface SocialUserService {
     SocialInfo getSocialInfo(String userId);
 
     /**
+     * 第三方账号绑定
+     * @param userId
+     * @param socialUsername
+     * @param socialType
+     */
+    void bindSocialUser(String userId, String socialUsername, String socialType);
+
+    /**
      * 解绑第三方账号
      * @param userId
      * @param type

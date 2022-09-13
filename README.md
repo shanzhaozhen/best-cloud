@@ -21,6 +21,7 @@ _没条件搞服务器都挂了_
 |              整合 OAuth2.1               |   √   |
 | ~~增加 Password 认证方式~~ (有需要请看password分支) | ~~√~~ |
 |            OAuth2.1 加入JWT增强            |   √   |
+|                独立授权服务器                 |   √   |
 |              RBAC 动态权限管理               |   √   |
 |                 动态分配菜单                 |   √   |
 |            整合服务熔断 Sentinel             |   -   |
@@ -30,7 +31,7 @@ _没条件搞服务器都挂了_
 |               实现分布式定时任务                |   -   |
 |                加入分布式事务                 |   -   |
 |             引入分布式存储 MinIO              |   √   |
-|           加入 OAuth2 实现第三方登陆            |   -   |
+|           加入 OAuth2 实现第三方登陆            |   √   |
 |         加入Dockerfile直接打包部署到服务器         |   -   |
 |               实现低代码流程引擎                |   -   |
 
@@ -91,28 +92,34 @@ best-cloud -- 父项目,各模块分离，方便集成和微服务
 │  │  ├─uaa-biz -- 系统用户管理模块核心功能 [9500]
 ```
 
+`authorize-server` 项目依赖 `authorize-web` 项目
+
+`authorize-web` 为前端项目，因为打包太慢所以平常都注释了 `processResources.dependsOn(':authorize:authorize-web:buildWeb')`，使用手动打包将前端生成的 `dist` 里面的所有文件放在 `authorize-server` 项目中的 `/resources/static/front`
+
+
+
 
 ### 建表语句
-基础服务建表语句:
-在sql文件夹下
 
-oauth2授权信息持久化建表：
-https://github.com/spring-projects/spring-security-oauth/blob/master/spring-security-oauth2/src/test/resources/schema.sql
+请查看 `/docs/sql/uaa.sql`
+
+
+### jwt
 
 生成密钥库jwt.jks
-```(shell script)
-keytool -genkey -alias best-cloud -keyalg RSA -keypass 123456 -storepass 123456 -keystore jwt.jks
 
+```shell
+# 生成RSA证书
 # genkey 生成密钥
 # alias 别名
 # keyalg 密钥算法
 # keypass 密钥口令
 # keystore 生成密钥库的存储路径和名称
 # storepass 密钥库口令
+
+keytool -genkey -alias best-cloud -keyalg RSA -keypass 123456 -storepass 123456 -keystore jwt.jks
+keytool -genkey -alias <alias> -keyalg RSA -keypass <keypass> -keystore <filename>.jks -storepass <storepass>
 ```
-
-### 环境要求
-
 
 
 ### 执行指南
@@ -213,22 +220,5 @@ docker run -d \
 
 ```
 
-
-### RSA证书
-
-```shell
-# 生成RSA证书
-# -genkey 生成密钥
-# -alias 别名
-# -keyalg 密钥算法
-# -keypass 密钥口令
-# -keystore 生成密钥库的存储路径和名称
-# -storepass 密钥库口令
-
-keytool -genkey -alias jwt -keyalg RSA -keystore jwt.jks
-
-keytool -genkey -alias <alias> -keyalg RSA -keypass <keypass> -keystore <filename>.jks -storepass <storepass>
-
-```
 
 
