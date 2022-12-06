@@ -10,11 +10,11 @@ import {
 import { Alert, message, Tabs } from 'antd';
 import React, {useEffect, useState} from 'react';
 import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
-import { useIntl, FormattedMessage, SelectLang } from 'umi';
+import { useIntl, FormattedMessage, SelectLang } from '@umijs/max';
 import Footer from '@/components/Footer';
 import {getFakeCaptcha} from '@/services/login';
 import styles from './index.less';
-import {useLocation} from "@@/exports";
+import {useLocation, useSearchParams} from "umi";
 
 
 const LoginMessage: React.FC<{
@@ -35,14 +35,20 @@ const LoginMessage: React.FC<{
 const Login: React.FC = () => {
   const [userLoginState] = useState<any>({});
   const [type, setType] = useState<string>('account');
+  const [searchParams] = useSearchParams();
 
   const intl = useIntl();
 
   const location = useLocation();
 
   useEffect(() => {
-    if (location.search) {
-      message.error("用户名或密码错误");
+    const err = searchParams.get('error');
+    const msg = searchParams.get('msg');
+
+    if (err != null) {
+      message.error(msg ? msg : '用户名或密码错误!');
+    } else if (location.search.indexOf('logout') > -1) {
+      message.success('登出成功！');
     }
   }, [])
 
@@ -273,13 +279,15 @@ const Login: React.FC = () => {
             <ProFormCheckbox noStyle name="autoLogin">
               <FormattedMessage id="pages.login.rememberMe" defaultMessage="自动登录" />
             </ProFormCheckbox>
-            <a
+            <span
               style={{
                 float: 'right',
               }}
             >
-              <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码" />
-            </a>
+              <a href="/register"><FormattedMessage id="pages.login.registerAccount" defaultMessage="注册账户" /></a>
+              <span> / </span>
+              <a href="/forget"><FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码" /></a>
+            </span>
           </div>
         </LoginForm>
       </div>

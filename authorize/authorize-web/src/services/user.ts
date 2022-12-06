@@ -5,7 +5,7 @@ import {R, UserInfoVO, UserInfoForm, ChangePasswordForm} from "@/services/typing
 
 const apiRoot = process.env.NODE_ENV === 'production' ? '' : '/api'
 
-/** 获取当前用户基础信息 POST /user/base */
+/** 获取当前用户基础信息 GET /user/base */
 export async function getCurrentUserInfo(options?: Record<string, any>) {
   return request<R<UserInfoVO>>(`${apiRoot}/user/base`, {
     method: 'GET',

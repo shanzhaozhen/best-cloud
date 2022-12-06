@@ -61,9 +61,11 @@ public class OAuth2BindAuthenticationProvider implements AuthenticationProvider 
 		catch (OAuth2AuthorizationException ex) {
 			OAuth2Error oauth2Error = ex.getError();
 
-			// todo: 超时处理
-
-			throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString(), ex);
+			if (oauth2Error.getDescription().contains("timed out")) {
+				throw new OAuth2AuthenticationException(oauth2Error, "第三方服务器访问超时，请稍后重试！", ex);
+			} else {
+				throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString(), ex);
+			}
 		}
 		OAuth2AccessToken accessToken = authorizationCodeAuthenticationToken.getAccessToken();
 		Map<String, Object> additionalParameters = authorizationCodeAuthenticationToken.getAdditionalParameters();

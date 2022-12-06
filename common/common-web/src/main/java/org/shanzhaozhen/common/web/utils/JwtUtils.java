@@ -52,9 +52,9 @@ public class JwtUtils {
      * 解析JWT获取用户ID
      * @return 用户ID
      */
-    public static Long getUserId() {
+    public static String getUserId() {
         Object useId = getJwtPayload().get(SecurityConstants.USER_ID_KEY);
-        return useId == null ? null : (Long) useId;
+        return useId == null ? null : (String) useId;
     }
 
     /**

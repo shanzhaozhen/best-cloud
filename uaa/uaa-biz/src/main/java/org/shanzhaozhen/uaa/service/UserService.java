@@ -26,6 +26,13 @@ public interface UserService {
     UserDTO getUserByUsername(String username);
 
     /**
+     * 通过用户ID查找用户
+     * @param userId
+     * @return
+     */
+    UserDTO getUserByUserId(String userId);
+
+    /**
      * 通过用户id获取JWT认证用户信息
      * @param userId
      * @return

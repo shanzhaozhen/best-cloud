@@ -1,11 +1,12 @@
-import React, { useState, useRef, useLayoutEffect } from 'react';
+import React, {useState, useRef, useLayoutEffect, useEffect} from 'react';
 import { GridContent } from '@ant-design/pro-layout';
-import { Menu } from 'antd';
+import {Menu, message} from 'antd';
 import BaseView from './components/base';
 import BindingView from './components/binding';
 import SecurityView from './components/security';
 import styles from './style.less';
 import type {ItemType} from "antd/lib/menu/hooks/useItems";
+import {useSearchParams} from "umi";
 
 
 type SettingsStateKeys = 'base' | 'security' | 'binding' | 'notification';
@@ -15,6 +16,8 @@ type SettingsState = {
 };
 
 const Settings: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const menuMap: Record<string, React.ReactNode> = {
     base: '基本设置',
     security: '安全设置',
@@ -23,7 +26,7 @@ const Settings: React.FC = () => {
 
   const [initConfig, setInitConfig] = useState<SettingsState>({
     mode: 'inline',
-    selectKey: 'base',
+    selectKey: (searchParams.get('action') || 'base') as SettingsStateKeys,
   });
   const dom = useRef<HTMLDivElement>();
 
@@ -40,7 +43,11 @@ const Settings: React.FC = () => {
       if (window.innerWidth < 768 && offsetWidth > 400) {
         mode = 'horizontal';
       }
-      setInitConfig({ ...initConfig, mode: mode as SettingsState['mode'] });
+      setInitConfig({
+        ...initConfig,
+        mode: mode as SettingsState['mode'],
+        // selectKey: (searchParams.get('action') || 'base') as SettingsStateKeys,
+      });
     });
   };
 
@@ -75,6 +82,16 @@ const Settings: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    const biz = searchParams.get('biz');
+    const msg = searchParams.get('msg');
+    if (biz === '0') {
+      message.success(`账号绑定成功${msg ? ('：' + msg) : '!'}`)
+    } else if (biz === '-1') {
+      message.error(`账号绑定失败：${msg}`)
+    }
+  }, [])
+
   return (
     <GridContent>
       <div
@@ -90,6 +107,10 @@ const Settings: React.FC = () => {
             mode={initConfig.mode}
             selectedKeys={[initConfig.selectKey]}
             onClick={({ key }) => {
+              setSearchParams({
+                action: key
+              });
+
               setInitConfig({
                 ...initConfig,
                 selectKey: key as SettingsStateKeys,

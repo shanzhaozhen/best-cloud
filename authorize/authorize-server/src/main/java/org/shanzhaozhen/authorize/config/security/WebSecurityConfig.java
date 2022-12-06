@@ -4,9 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.authorize.authentication.bind.Oauth2BindConfigurer;
 import org.shanzhaozhen.authorize.authentication.federated.FederatedIdentityConfigurer;
 import org.shanzhaozhen.authorize.authentication.account.AccountLoginConfigurer;
+import org.shanzhaozhen.uaa.feign.SocialUserFeignClient;
+import org.shanzhaozhen.uaa.feign.UserFeignClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -14,13 +17,16 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
-	private final static String[] whiteUrl = {"/**/*.ico", "/**/*.css","/**/*.js", "/static/**", "/v3/**",
-			"/login", "/front/**"
+	public final static String[] whiteUrl = {
+			"/v3/**",
+			"/login", "/register", "/front/**"
 //			, "/**", "/authorize/rsa/publicKey"
 			, "/.well-known/openid-configuration"
 	};
 
 	private final UserDetailsService userDetailsService;
+	private final UserFeignClient userFeignClient;
+	private final SocialUserFeignClient socialUserFeignClient;
 
 
 	@Bean
@@ -40,11 +46,11 @@ public class WebSecurityConfig {
 //				)
 				.userDetailsService(userDetailsService)
 //				.formLogin()
-				.apply(new AccountLoginConfigurer<>())
+				.apply(new AccountLoginConfigurer<>(socialUserFeignClient))
 				.and()
-				.apply(new FederatedIdentityConfigurer())
+				.apply(new FederatedIdentityConfigurer(socialUserFeignClient))
 				.and()
-				.apply(new Oauth2BindConfigurer())
+				.apply(new Oauth2BindConfigurer(socialUserFeignClient))
 //				.loginPage("/login")
 //				.successHandler(defaultAuthenticationSuccessHandler)
 //				.failureHandler(defaultAuthenticationFailureHandler)
@@ -54,6 +60,14 @@ public class WebSecurityConfig {
 //				.failureHandler(defaultAuthenticationFailureHandler)
 		;
 		return http.build();
+	}
+
+	@Bean
+	WebSecurityCustomizer webSecurityCustomizer() {
+		return web -> web.ignoring().antMatchers(
+				"/webjars/**", "/front/**", "/static/**",
+				"/**/*.ico", "/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg"
+		);
 	}
 
 }

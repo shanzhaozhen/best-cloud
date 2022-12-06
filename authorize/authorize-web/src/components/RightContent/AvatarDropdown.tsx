@@ -1,54 +1,38 @@
 import { LogoutOutlined } from '@ant-design/icons';
-import { history, useModel } from '@umijs/max';
+import { history } from '@umijs/max';
 import { Avatar, Menu, Spin } from 'antd';
 import type { ItemType } from 'antd/lib/menu/hooks/useItems';
-import { stringify } from 'querystring';
 import type { MenuInfo } from 'rc-menu/lib/interface';
 import React, { useCallback } from 'react';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
+import {useRequest} from "@@/exports";
+import {getCurrentUserInfo} from "@/services/user";
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
 };
 
-/**
- * 退出登录，并且将当前的 url 保存
- */
-const loginOut = async () => {
-  // await outLogin();
-  const { search, pathname } = history.location;
-  const urlParams = new URL(window.location.href).searchParams;
-  /** 此方法会跳转到 redirect 参数所在的位置 */
-  const redirect = urlParams.get('redirect');
-  // Note: There may be security issues, please note
-  if (window.location.pathname !== '/user/login' && !redirect) {
-    history.replace({
-      pathname: '/user/login',
-      search: stringify({
-        redirect: pathname + search,
-      }),
-    });
-  }
-};
+const path = process.env.NODE_ENV === 'production' ? '/front/' : '/'
 
 const AvatarDropdown: React.FC<GlobalHeaderRightProps> = () => {
-  const { initialState, setInitialState } = useModel('@@initialState');
+  const {data, loading} = useRequest(async () => {
+    return getCurrentUserInfo();
+  });
 
   const onMenuClick = useCallback(
     (event: MenuInfo) => {
       const { key } = event;
       if (key === 'logout') {
-        // setInitialState((s) => ({ ...s, currentUser: undefined }));
-        loginOut();
+        window.location.href = '/logout'
         return;
       }
       history.push(`/account/${key}`);
     },
-    [setInitialState],
+    [],
   );
 
-  const loading = (
+  const loadingUser = (
     <span className={`${styles.action} ${styles.account}`}>
       <Spin
         size="small"
@@ -59,8 +43,6 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = () => {
       />
     </span>
   );
-
-  const { currentUser } = initialState;
 
   const menuItems: ItemType[] = [
     {
@@ -78,12 +60,12 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = () => {
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>
         {
-          !currentUser || !currentUser.name ? (
-            loading
+          loading ? (
+            loadingUser
           ) : (
             <>
-              <Avatar size="small" className={styles.avatar} src={currentUser?.avatar || '/default-avatar.png'} alt="avatar" />
-              <span className={`${styles.name} anticon`}>{currentUser?.name || '（未命名）'}</span>
+              <Avatar size="small" className={styles.avatar} src={data?.avatar || path + 'default-avatar.png'} alt="avatar" />
+              <span className={`${styles.name} anticon`}>{data?.name || '（未命名）'}</span>
             </>
           )
         }

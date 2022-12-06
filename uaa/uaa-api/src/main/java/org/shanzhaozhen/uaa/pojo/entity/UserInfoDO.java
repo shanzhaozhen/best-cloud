@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.shanzhaozhen.common.core.entity.BaseEntity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
@@ -16,7 +17,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @TableName("sys_user_info")
 @Schema(description = "用户DO实体")
-public class UserInfoDO extends BaseEntity {
+public class UserInfoDO implements Serializable {
 
     private static final long serialVersionUID = 239637250684871342L;
 

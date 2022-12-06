@@ -63,6 +63,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDTO getUserByUserId(String userId) {
+        UserDTO user = userMapper.getUserByUserId(userId);
+        if (user != null) {
+            user.setRoles(roleService.getRolesByUserId(user.getId()));
+        }
+        return user;
+    }
+
+    @Override
     @Cacheable(key = "#root.methodName + ':' + #userId")
     public JWTUser getJWTUser(String userId) {
         return userMapper.getJWTUserByUserId(userId);

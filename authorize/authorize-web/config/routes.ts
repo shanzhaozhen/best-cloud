@@ -16,6 +16,29 @@ export default [
     component: './Login',
   },
   {
+    name: 'account',
+    path: '/account',
+    // layout: false,
+    component: './AccountManage',
+  },
+  {
+    name: 'register',
+    path: '/register',
+    // layout: false,
+    component: './Register',
+  },
+  {
+    name: 'forget',
+    path: '/forget',
+    // layout: false,
+    component: './Forget',
+  },
+  {
+    name: 'socialBind',
+    path: '/social-bind',
+    component: './SocialBind',
+  },
+  {
     name: 'consent',
     path: '/oauth2/consent',
     layout: false,

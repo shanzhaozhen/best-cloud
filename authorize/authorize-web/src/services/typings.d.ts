@@ -100,3 +100,17 @@ export type ChangePasswordForm = {
   /** 个人介绍 */
   newPassword?: string;
 };
+
+export type SocialInfo = {
+  /** github 账号 */
+  github?: GithubUserInfo;
+};
+
+export type GithubUserInfo = {
+  /** github 用户名 */
+  username?: string;
+  /** 头像 */
+  avatarUrl?: string;
+  /** 绑定时间 */
+  bindDate?: string;
+};

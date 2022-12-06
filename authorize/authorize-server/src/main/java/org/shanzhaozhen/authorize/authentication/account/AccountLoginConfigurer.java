@@ -1,9 +1,12 @@
 package org.shanzhaozhen.authorize.authentication.account;
 
 import org.shanzhaozhen.authorize.authentication.AbstractLoginFilterConfigurer;
+import org.shanzhaozhen.uaa.feign.SocialUserFeignClient;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
 import org.springframework.security.web.authentication.ForwardAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.ForwardAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -13,8 +16,11 @@ import static org.shanzhaozhen.authorize.authentication.account.AccountAuthentic
 public class AccountLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
         AbstractLoginFilterConfigurer<H, AccountLoginConfigurer<H>, AccountAuthenticationFilter> {
 
-    public AccountLoginConfigurer() {
+    private final SocialUserFeignClient socialUserFeignClient;
+
+    public AccountLoginConfigurer(SocialUserFeignClient socialUserFeignClient) {
         super(new AccountAuthenticationFilter(), DEFAULT_FILTER_PROCESSES_URI);
+        this.socialUserFeignClient = socialUserFeignClient;
         usernameParameter("username");
         passwordParameter("password");
     }
@@ -51,6 +57,13 @@ public class AccountLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
         return this;
     }
 
+    @Override
+    public void configure(H http) throws Exception {
+        super.configure(http);
+        AccountBindAuthenticationFilter filter = new AccountBindAuthenticationFilter(socialUserFeignClient);
+        filter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
+        http.addFilterAfter(filter, UsernamePasswordAuthenticationFilter.class);
+    }
 
     /**
      * 初始化账号登陆校验方式的配置
