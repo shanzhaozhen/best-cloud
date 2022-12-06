@@ -16,4 +16,5 @@ include 'authorize:authorize-web'
 include 'uaa:uaa-api'
 include 'uaa:uaa-biz'
 
+include 'gbpm'
 
