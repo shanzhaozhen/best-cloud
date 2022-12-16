@@ -1,7 +1,6 @@
 import React from 'react';
 import { SelectLang } from 'umi';
 import Footer from '@/components/Footer';
-import styles from './index.less';
 import {Button, message} from "antd";
 import {ProForm, ProFormCheckbox} from '@ant-design/pro-components';
 

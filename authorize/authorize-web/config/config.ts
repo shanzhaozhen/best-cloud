@@ -4,7 +4,10 @@ import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
 
-const { REACT_APP_ENV } = process.env;
+// const { REACT_APP_ENV } = process.env;
+const { REACT_APP_ENV = 'dev' } = process.env;
+const isDev = process.env.NODE_ENV === 'development';
+
 
 const headScripts = process.env.NODE_ENV === 'production' ? (
   [{
@@ -61,7 +64,7 @@ export default defineConfig({
    * @doc 代理介绍 https://umijs.org/docs/guides/proxy
    * @doc 代理配置 https://umijs.org/docs/api/config#proxy
    */
-  proxy: proxy[REACT_APP_ENV || 'dev'],
+  proxy: proxy[REACT_APP_ENV as keyof typeof proxy],
   /**
    * @name 快速热更新配置
    * @description 一个不错的热更新组件，更新时可以保留 state
@@ -119,6 +122,10 @@ export default defineConfig({
   access: {},
   //================ pro 插件配置 =================
   presets: ['umi-presets-pro'],
+  mfsu: {
+    strategy: 'normal',
+  },
+  requestRecord: {},
   /**
    * @name openAPI 插件的配置
    * @description 基于 openapi 的规范生成serve 和mock，能减少很多样板代码

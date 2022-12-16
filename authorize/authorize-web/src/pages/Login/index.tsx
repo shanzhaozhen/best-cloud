@@ -7,14 +7,48 @@ import {
   WechatOutlined,
   WeiboCircleOutlined,
 } from '@ant-design/icons';
+import {
+  LoginForm,
+  ProFormCaptcha,
+  ProFormCheckbox,
+  ProFormText,
+} from '@ant-design/pro-components';
+import { FormattedMessage, useIntl, Helmet } from '@umijs/max';
 import { Alert, message, Tabs } from 'antd';
-import React, {useEffect, useState} from 'react';
-import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
-import { useIntl, FormattedMessage, SelectLang } from '@umijs/max';
+import { useEmotionCss } from '@ant-design/use-emotion-css';
 import Footer from '@/components/Footer';
 import {getFakeCaptcha} from '@/services/login';
-import styles from './index.less';
 import {useLocation, useSearchParams} from "umi";
+import Settings from "../../../config/defaultSettings";
+import React, { useEffect, useState } from 'react';
+import Lang from '@/components/Lang';
+
+const ActionIcons = () => {
+  const langClassName = useEmotionCss(({ token }) => {
+    return {
+      marginLeft: '8px',
+      color: 'rgba(0, 0, 0, 0.2)',
+      fontSize: '24px',
+      verticalAlign: 'middle',
+      cursor: 'pointer',
+      transition: 'color 0.3s',
+      '&:hover': {
+        color: token.colorPrimaryActive,
+      },
+    };
+  });
+
+  return (
+    <>
+      <a key="githubOutlined" href="/oauth2/authorization/github-idp">
+        <GithubOutlined className={langClassName} />
+      </a>
+      <WechatOutlined key="wechatOutlined" className={langClassName} />
+      <QqOutlined key="qqOutlined" className={langClassName} />
+      <WeiboCircleOutlined key="weiboCircleOutlined" className={langClassName} />
+    </>
+  );
+};
 
 
 const LoginMessage: React.FC<{
@@ -37,6 +71,18 @@ const Login: React.FC = () => {
   const [type, setType] = useState<string>('account');
   const [searchParams] = useSearchParams();
 
+  const containerClassName = useEmotionCss(() => {
+    return {
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100vh',
+      overflow: 'auto',
+      backgroundImage:
+        "url('https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/V-_oS6r-i7wAAAAAAAAAAAAAFl94AQBr')",
+      backgroundSize: '100% 100%',
+    };
+  });
+
   const intl = useIntl();
 
   const location = useLocation();
@@ -45,7 +91,7 @@ const Login: React.FC = () => {
     const err = searchParams.get('error');
     const msg = searchParams.get('msg');
 
-    if (err != null) {
+    if (err !== null) {
       message.error(msg ? msg : '用户名或密码错误!');
     } else if (location.search.indexOf('logout') > -1) {
       message.success('登出成功！');
@@ -87,12 +133,28 @@ const Login: React.FC = () => {
   const { status, type: loginType } = userLoginState;
 
   return (
-    <div className={styles.container}>
-      <div className={styles.lang} data-lang>
-        {SelectLang && <SelectLang />}
-      </div>
-      <div className={styles.content}>
+    <div className={containerClassName}>
+      <Helmet>
+        <title>
+          {intl.formatMessage({
+            id: 'menu.login',
+            defaultMessage: '登录页',
+          })}
+          - {Settings.title}
+        </title>
+      </Helmet>
+      <Lang />
+      <div
+        style={{
+          flex: '1',
+          padding: '32px 0',
+        }}
+      >
         <LoginForm
+          contentStyle={{
+            minWidth: 280,
+            maxWidth: '75vw',
+          }}
           logo={<img alt="logo" src={process.env.NODE_ENV === 'production' ? '/front/logo.svg' : '/logo.svg'} />}
           title="Best Cloud"
           subTitle={intl.formatMessage({ id: 'pages.layouts.userLayout.title' })}
@@ -105,33 +167,33 @@ const Login: React.FC = () => {
               id="pages.login.loginWith"
               defaultMessage="其他登录方式"
             />,
-            <a key="githubOutlined" href="/oauth2/authorization/github-idp">
-              <GithubOutlined className={styles.icon} />
-            </a>,
-            <WechatOutlined key="wechatOutlined" className={styles.icon} />,
-            <QqOutlined key="qqOutlined" className={styles.icon} />,
-            <WeiboCircleOutlined key="weiboCircleOutlined" className={styles.icon} />,
+            <ActionIcons key="icons" />,
           ]}
           onFinish={async (values) => {
             await handleSubmit(values as any);
           }}
         >
-          <Tabs activeKey={type} onChange={setType}>
-            <Tabs.TabPane
-              key="account"
-              tab={intl.formatMessage({
-                id: 'pages.login.accountLogin.tab',
-                defaultMessage: '账户密码登录',
-              })}
-            />
-            <Tabs.TabPane
-              key="mobile"
-              tab={intl.formatMessage({
-                id: 'pages.login.phoneLogin.tab',
-                defaultMessage: '手机号登录',
-              })}
-            />
-          </Tabs>
+          <Tabs
+            activeKey={type}
+            onChange={setType}
+            items={[
+              {
+                key: 'account',
+                label: intl.formatMessage({
+                  id: 'pages.login.accountLogin.tab',
+                  defaultMessage: '账户密码登录',
+                }),
+              },
+              {
+                key: 'mobile',
+                label: intl.formatMessage({
+                  id: 'pages.login.phoneLogin.tab',
+                  defaultMessage: '手机号登录',
+                }),
+              },
+            ]}
+          />
+
           {status === 'error' && loginType === 'account' && (
             <LoginMessage
               content={intl.formatMessage({
@@ -146,7 +208,7 @@ const Login: React.FC = () => {
                 name="username"
                 fieldProps={{
                   size: 'large',
-                  prefix: <UserOutlined className={styles.prefixIcon} />,
+                  prefix: <UserOutlined />,
                 }}
                 placeholder={intl.formatMessage({
                   id: 'pages.login.username.placeholder',
@@ -168,7 +230,7 @@ const Login: React.FC = () => {
                 name="password"
                 fieldProps={{
                   size: 'large',
-                  prefix: <LockOutlined className={styles.prefixIcon} />,
+                  prefix: <LockOutlined />,
                 }}
                 placeholder={intl.formatMessage({
                   id: 'pages.login.password.placeholder',
@@ -195,7 +257,7 @@ const Login: React.FC = () => {
               <ProFormText
                 fieldProps={{
                   size: 'large',
-                  prefix: <MobileOutlined className={styles.prefixIcon} />,
+                  prefix: <MobileOutlined />,
                 }}
                 name="mobile"
                 placeholder={intl.formatMessage({
@@ -226,7 +288,7 @@ const Login: React.FC = () => {
               <ProFormCaptcha
                 fieldProps={{
                   size: 'large',
-                  prefix: <LockOutlined className={styles.prefixIcon} />,
+                  prefix: <LockOutlined />,
                 }}
                 captchaProps={{
                   size: 'large',
@@ -263,7 +325,7 @@ const Login: React.FC = () => {
                   const result = await getFakeCaptcha({
                     phone,
                   });
-                  if (result === false) {
+                  if (!result) {
                     return;
                   }
                   message.success('获取验证码成功！验证码为：1234');
