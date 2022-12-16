@@ -13,18 +13,16 @@ import {
   ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components';
-import { FormattedMessage, useIntl, Helmet } from '@umijs/max';
-import { Alert, message, Tabs } from 'antd';
-import { useEmotionCss } from '@ant-design/use-emotion-css';
-import Footer from '@/components/Footer';
+import {FormattedMessage, useIntl} from '@umijs/max';
+import {Alert, message, Tabs} from 'antd';
+import {useEmotionCss} from '@ant-design/use-emotion-css';
 import {getFakeCaptcha} from '@/services/login';
 import {useLocation, useSearchParams} from "umi";
-import Settings from "../../../config/defaultSettings";
-import React, { useEffect, useState } from 'react';
-import Lang from '@/components/Lang';
+import React, {useEffect, useState} from 'react';
+import PublicPageComponent from "@/components/PublicPageComponent";
 
 const ActionIcons = () => {
-  const langClassName = useEmotionCss(({ token }) => {
+  const langClassName = useEmotionCss(({token}) => {
     return {
       marginLeft: '8px',
       color: 'rgba(0, 0, 0, 0.2)',
@@ -41,11 +39,11 @@ const ActionIcons = () => {
   return (
     <>
       <a key="githubOutlined" href="/oauth2/authorization/github-idp">
-        <GithubOutlined className={langClassName} />
+        <GithubOutlined className={langClassName}/>
       </a>
-      <WechatOutlined key="wechatOutlined" className={langClassName} />
-      <QqOutlined key="qqOutlined" className={langClassName} />
-      <WeiboCircleOutlined key="weiboCircleOutlined" className={langClassName} />
+      <WechatOutlined key="wechatOutlined" className={langClassName}/>
+      <QqOutlined key="qqOutlined" className={langClassName}/>
+      <WeiboCircleOutlined key="weiboCircleOutlined" className={langClassName}/>
     </>
   );
 };
@@ -53,7 +51,7 @@ const ActionIcons = () => {
 
 const LoginMessage: React.FC<{
   content: string;
-}> = ({ content }) => {
+}> = ({content}) => {
   return (
     <Alert
       style={{
@@ -70,18 +68,6 @@ const Login: React.FC = () => {
   const [userLoginState] = useState<any>({});
   const [type, setType] = useState<string>('account');
   const [searchParams] = useSearchParams();
-
-  const containerClassName = useEmotionCss(() => {
-    return {
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100vh',
-      overflow: 'auto',
-      backgroundImage:
-        "url('https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/V-_oS6r-i7wAAAAAAAAAAAAAFl94AQBr')",
-      backgroundSize: '100% 100%',
-    };
-  });
 
   const intl = useIntl();
 
@@ -130,20 +116,17 @@ const Login: React.FC = () => {
       document.body.removeChild(loginForm);
     }
   };
-  const { status, type: loginType } = userLoginState;
+  const {status, type: loginType} = userLoginState;
 
   return (
-    <div className={containerClassName}>
-      <Helmet>
-        <title>
-          {intl.formatMessage({
-            id: 'menu.login',
-            defaultMessage: '登录页',
-          })}
-          - {Settings.title}
-        </title>
-      </Helmet>
-      <Lang />
+    <PublicPageComponent
+      pageTitle={
+        intl.formatMessage({
+          id: 'menu.login',
+          defaultMessage: '登录页',
+        })
+      }
+    >
       <div
         style={{
           flex: '1',
@@ -155,9 +138,9 @@ const Login: React.FC = () => {
             minWidth: 280,
             maxWidth: '75vw',
           }}
-          logo={<img alt="logo" src={process.env.NODE_ENV === 'production' ? '/front/logo.svg' : '/logo.svg'} />}
+          logo={<img alt="logo" src={process.env.NODE_ENV === 'production' ? '/front/logo.svg' : '/logo.svg'}/>}
           title="Best Cloud"
-          subTitle={intl.formatMessage({ id: 'pages.layouts.userLayout.title' })}
+          subTitle={intl.formatMessage({id: 'pages.layouts.userLayout.title'})}
           initialValues={{
             autoLogin: true,
           }}
@@ -167,7 +150,7 @@ const Login: React.FC = () => {
               id="pages.login.loginWith"
               defaultMessage="其他登录方式"
             />,
-            <ActionIcons key="icons" />,
+            <ActionIcons key="icons"/>,
           ]}
           onFinish={async (values) => {
             await handleSubmit(values as any);
@@ -208,7 +191,7 @@ const Login: React.FC = () => {
                 name="username"
                 fieldProps={{
                   size: 'large',
-                  prefix: <UserOutlined />,
+                  prefix: <UserOutlined/>,
                 }}
                 placeholder={intl.formatMessage({
                   id: 'pages.login.username.placeholder',
@@ -230,7 +213,7 @@ const Login: React.FC = () => {
                 name="password"
                 fieldProps={{
                   size: 'large',
-                  prefix: <LockOutlined />,
+                  prefix: <LockOutlined/>,
                 }}
                 placeholder={intl.formatMessage({
                   id: 'pages.login.password.placeholder',
@@ -251,13 +234,13 @@ const Login: React.FC = () => {
             </>
           )}
 
-          {status === 'error' && loginType === 'mobile' && <LoginMessage content="验证码错误" />}
+          {status === 'error' && loginType === 'mobile' && <LoginMessage content="验证码错误"/>}
           {type === 'mobile' && (
             <>
               <ProFormText
                 fieldProps={{
                   size: 'large',
-                  prefix: <MobileOutlined />,
+                  prefix: <MobileOutlined/>,
                 }}
                 name="mobile"
                 placeholder={intl.formatMessage({
@@ -288,7 +271,7 @@ const Login: React.FC = () => {
               <ProFormCaptcha
                 fieldProps={{
                   size: 'large',
-                  prefix: <LockOutlined />,
+                  prefix: <LockOutlined/>,
                 }}
                 captchaProps={{
                   size: 'large',
@@ -339,22 +322,21 @@ const Login: React.FC = () => {
             }}
           >
             <ProFormCheckbox noStyle name="autoLogin">
-              <FormattedMessage id="pages.login.rememberMe" defaultMessage="自动登录" />
+              <FormattedMessage id="pages.login.rememberMe" defaultMessage="自动登录"/>
             </ProFormCheckbox>
             <span
               style={{
                 float: 'right',
               }}
             >
-              <a href="/register"><FormattedMessage id="pages.login.registerAccount" defaultMessage="注册账户" /></a>
-              <span> / </span>
-              <a href="/forget"><FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码" /></a>
-            </span>
+            <a href="/register"><FormattedMessage id="pages.login.registerAccount" defaultMessage="注册账户"/></a>
+            <span> / </span>
+            <a href="/forget"><FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码"/></a>
+          </span>
           </div>
         </LoginForm>
       </div>
-      <Footer />
-    </div>
+    </PublicPageComponent>
   );
 };
 

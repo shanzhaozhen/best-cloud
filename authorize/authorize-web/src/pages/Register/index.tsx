@@ -1,23 +1,9 @@
 import React, {useEffect} from 'react';
-import Footer from '@/components/Footer';
-import {useEmotionCss} from "@ant-design/use-emotion-css";
-import Settings from "../../../config/defaultSettings";
-import {Helmet, useIntl} from "@@/exports";
-import Lang from "@/components/Lang";
+import {useIntl} from "@@/exports";
+import PublicPageComponent from "@/components/PublicPageComponent";
 
 
 const Register: React.FC = () => {
-
-  const containerClassName = useEmotionCss(() => {
-    return {
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100vh',
-      overflow: 'auto',
-      backgroundImage: "url('/background.png')",
-      backgroundSize: '100% 100%',
-    };
-  });
 
   const intl = useIntl();
 
@@ -25,19 +11,15 @@ const Register: React.FC = () => {
 
   }, [])
 
-
   return (
-    <div className={containerClassName}>
-      <Helmet>
-        <title>
-          {intl.formatMessage({
+    <PublicPageComponent
+      pageTitle={
+        intl.formatMessage({
             id: 'menu.register',
             defaultMessage: '注册页',
-          })}
-          - {Settings.title}
-        </title>
-      </Helmet>
-      <Lang />
+          })
+      }
+    >
       <div
         style={{
           flex: '1',
@@ -45,8 +27,7 @@ const Register: React.FC = () => {
         }}
       >
       </div>
-      <Footer />
-    </div>
+    </PublicPageComponent>
   );
 };
 

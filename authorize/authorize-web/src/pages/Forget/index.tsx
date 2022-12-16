@@ -1,22 +1,8 @@
 import React, {useEffect} from 'react';
-import Footer from '@/components/Footer';
-import {Helmet, useIntl} from "@@/exports";
-import Settings from "../../../config/defaultSettings";
-import Lang from "@/components/Lang";
-import {useEmotionCss} from "@ant-design/use-emotion-css";
+import {useIntl} from "@@/exports";
+import PublicPageComponent from "@/components/PublicPageComponent";
 
 const Forget: React.FC = () => {
-
-  const containerClassName = useEmotionCss(() => {
-    return {
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100vh',
-      overflow: 'auto',
-      backgroundImage: "url('/background.png')",
-      backgroundSize: '100% 100%',
-    };
-  });
 
   const intl = useIntl();
 
@@ -24,19 +10,15 @@ const Forget: React.FC = () => {
 
   }, [])
 
-
   return (
-    <div className={containerClassName}>
-      <Helmet>
-        <title>
-          {intl.formatMessage({
-            id: 'menu.forget',
-            defaultMessage: '忘记密码',
-          })}
-          - {Settings.title}
-        </title>
-      </Helmet>
-      <Lang />
+    <PublicPageComponent
+      pageTitle={
+        intl.formatMessage({
+          id: 'menu.forget',
+          defaultMessage: '忘记密码',
+        })
+      }
+    >
       <div
         style={{
           flex: '1',
@@ -44,8 +26,7 @@ const Forget: React.FC = () => {
         }}
       >
       </div>
-      <Footer />
-    </div>
+    </PublicPageComponent>
   );
 };
 

@@ -127,6 +127,14 @@ export default defineConfig({
   },
   requestRecord: {},
   /**
+   * @name mpa 模式
+   * @description 多页模式，编译后有多个入口
+   * @doc https://umijs.org/docs/guides/mpa
+   */
+  // mpa: {
+  //   getConfigFromEntryFile: true
+  // },
+  /**
    * @name openAPI 插件的配置
    * @description 基于 openapi 的规范生成serve 和mock，能减少很多样板代码
    * @doc https://pro.ant.design/zh-cn/docs/openapi/
