@@ -17,6 +17,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
+	public final static String[] resourcesPath = {
+			"/webjars/**", "/front/**", "/static/**",
+			"/**/*.ico", "/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg"
+	};
+
 	public final static String[] whiteUrl = {
 			"/v3/**",
 			"/login", "/register", "/front/**"
@@ -33,10 +38,11 @@ public class WebSecurityConfig {
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 		http
 
-			.authorizeRequests(authorizeRequests ->
-				authorizeRequests
-						.antMatchers(whiteUrl).permitAll()
-						.anyRequest().authenticated()
+			.authorizeHttpRequests(authorizeHttpRequests ->
+					authorizeHttpRequests
+							.requestMatchers(resourcesPath).permitAll()
+							.requestMatchers(whiteUrl).permitAll()
+							.anyRequest().authenticated()
 			)
 				.csrf().disable()
 //				.formLogin().disable()
@@ -62,12 +68,12 @@ public class WebSecurityConfig {
 		return http.build();
 	}
 
-	@Bean
-	WebSecurityCustomizer webSecurityCustomizer() {
-		return web -> web.ignoring().antMatchers(
-				"/webjars/**", "/front/**", "/static/**",
-				"/**/*.ico", "/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg"
-		);
-	}
+//	@Bean
+//	WebSecurityCustomizer webSecurityCustomizer() {
+//		return web -> web.ignoring().antMatchers(
+//				"/webjars/**", "/front/**", "/static/**",
+//				"/**/*.ico", "/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg"
+//		);
+//	}
 
 }

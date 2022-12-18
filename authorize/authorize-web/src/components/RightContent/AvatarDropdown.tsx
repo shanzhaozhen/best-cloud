@@ -15,8 +15,6 @@ export type GlobalHeaderRightProps = {
   menu?: boolean;
 };
 
-const path = process.env.NODE_ENV === 'production' ? '/front/' : '/'
-
 const Name = () => {
   const { initialState } = useModel('@@initialState');
   const { currentUser } = initialState || {};
@@ -134,7 +132,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
             loadingUser
           ) : (
             <>
-              <Avatar size="small" className={styles.avatar} src={data?.avatar || path + 'default-avatar.png'} alt="avatar" />
+              <Avatar size="small" className={styles.avatar} src={data?.avatar || `${resourcesPath}default-avatar.png`} alt="avatar" />
               <span className={`${styles.name} anticon`}>{data?.name || '（未命名）'}</span>
             </>
           )

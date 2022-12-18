@@ -3,6 +3,8 @@ import { SelectLang } from 'umi';
 import Footer from '@/components/Footer';
 import {Button, message} from "antd";
 import {ProForm, ProFormCheckbox} from '@ant-design/pro-components';
+import styles from './style.less';
+import {resourcesPath} from "../../../config/config";
 
 const Consent: React.FC = () => {
 
@@ -85,7 +87,7 @@ const Consent: React.FC = () => {
         <div className={styles.logoTop}>
           <div className={styles.logoHeader}>
             <span className={styles.logo}>
-              <img alt="logo" src={process.env.NODE_ENV === 'production' ? '/front/logo.svg' : '/logo.svg'} />
+              <img alt="logo" src={`${resourcesPath}logo.svg`} />
             </span>
             <span className={styles.logoTitle}>Best Cloud</span>
           </div>

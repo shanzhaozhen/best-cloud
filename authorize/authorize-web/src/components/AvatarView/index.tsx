@@ -5,6 +5,7 @@ import {UploadOutlined} from "@ant-design/icons";
 import styles from "./AvatarView.less";
 import type {RcFile} from "antd/es/upload";
 import {useState} from "react";
+import {resourcesPath} from "../../../config/config";
 
 interface AvatarViewProps {
   readonly?: boolean;
@@ -12,7 +13,6 @@ interface AvatarViewProps {
   value?: string;
 }
 
-const path = process.env.NODE_ENV === 'production' ? '/front/' : '/'
 
 const AvatarView = (props: AvatarViewProps) => {
   const { readonly, value, onChange } = props
@@ -59,7 +59,7 @@ const AvatarView = (props: AvatarViewProps) => {
     <div className={styles.avatar_box}>
       <div className={styles.avatar_title}>头像</div>
       <div className={styles.avatar}>
-        <img src={value || path + 'default-avatar.png'} alt="avatar" />
+        <img src={value || `${resourcesPath}default-avatar.png`} alt="avatar" />
       </div>
       { readonly ? null : (
         <Upload {...uploadProps}>

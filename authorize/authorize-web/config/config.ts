@@ -6,10 +6,11 @@ import routes from './routes';
 
 // const { REACT_APP_ENV } = process.env;
 const { REACT_APP_ENV = 'dev' } = process.env;
-const isDev = process.env.NODE_ENV === 'development';
+const isProduction = process.env.NODE_ENV === 'production';
+export const resourcesPath = isProduction ? '/front/' : '/';
+export const apiRoot = isProduction ? '' : '/api';
 
-
-const headScripts = process.env.NODE_ENV === 'production' ? (
+const headScripts = isProduction ? (
   [{
     'th:inline': 'javascript',
     content:
@@ -17,7 +18,7 @@ const headScripts = process.env.NODE_ENV === 'production' ? (
   }]) : []
 
 export default defineConfig({
-  publicPath: process.env.NODE_ENV === 'production' ? '/front/' : '/',
+  publicPath: resourcesPath,
   /**
    * @name 开启 hash 模式
    * @description 让 build 之后的产物包含 hash 后缀。通常用于增量发布和避免浏览器加载缓存。

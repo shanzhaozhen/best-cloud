@@ -50,9 +50,9 @@ public class AuthorizationServerConfig {
         RequestMatcher endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
 
         http
-                .requestMatcher(endpointsMatcher)
-                .authorizeRequests(authorizeRequests ->
-                        authorizeRequests.anyRequest().authenticated()
+                .securityMatcher(endpointsMatcher)
+                .authorizeHttpRequests(authorizeHttpRequests ->
+                        authorizeHttpRequests.anyRequest().authenticated()
                 )
                 // 跨域配置
                 .cors(Customizer.withDefaults())
@@ -61,12 +61,13 @@ public class AuthorizationServerConfig {
                 .exceptionHandling(exceptions ->
                         exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
                 )
+                // 增加授权服务其解析 jwt 功能
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 // 应用 授权服务器的配置
                 .apply(authorizationServerConfigurer)
         ;
 
-        // 增加授权服务其解析 jwt 功能
-        http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+
 
         return http.build();
     }

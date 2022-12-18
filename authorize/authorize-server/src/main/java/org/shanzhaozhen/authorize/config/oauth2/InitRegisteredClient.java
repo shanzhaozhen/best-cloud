@@ -52,7 +52,7 @@ public class InitRegisteredClient implements CommandLineRunner {
                 // 客户端模式
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                 // 密码模式
-                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
+//                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
                 // 重定向url
                 // 回调地址名单，不在此列将被拒绝 而且只能使用IP或者域名  不能使用 localhost
                 .redirectUri("http://127.0.0.1:8080/login/oauth2/code/auth-oidc")

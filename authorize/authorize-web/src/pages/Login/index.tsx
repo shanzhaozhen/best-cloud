@@ -20,6 +20,7 @@ import {getFakeCaptcha} from '@/services/login';
 import {useLocation, useSearchParams} from "umi";
 import React, {useEffect, useState} from 'react';
 import PublicPageComponent from "@/components/PublicPageComponent";
+import {resourcesPath} from "../../../config/config";
 
 const ActionIcons = () => {
   const langClassName = useEmotionCss(({token}) => {
@@ -138,7 +139,7 @@ const Login: React.FC = () => {
             minWidth: 280,
             maxWidth: '75vw',
           }}
-          logo={<img alt="logo" src={process.env.NODE_ENV === 'production' ? '/front/logo.svg' : '/logo.svg'}/>}
+          logo={<img alt="logo" src={`${resourcesPath}logo.svg`}/>}
           title="Best Cloud"
           subTitle={intl.formatMessage({id: 'pages.layouts.userLayout.title'})}
           initialValues={{
