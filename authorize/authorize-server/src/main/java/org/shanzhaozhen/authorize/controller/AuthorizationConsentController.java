@@ -7,7 +7,7 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
+import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.web.OAuth2AuthorizationEndpointFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +29,7 @@ import java.util.*;
 public class AuthorizationConsentController {
 	private final RegisteredClientRepository registeredClientRepository;
 	private final OAuth2AuthorizationConsentService authorizationConsentService;
-	private final ProviderSettings providerSettings;
+	private final AuthorizationServerSettings authorizationServerSettings;
 
 	/**
      * {@link OAuth2AuthorizationEndpointFilter} 会302重定向到{@code  /oauth2/consent}并携带入参
@@ -70,7 +70,7 @@ public class AuthorizationConsentController {
 		}
 
 		Map<String, Object> consentInfo = new HashMap<>();
-		consentInfo.put("authorizationEndpoint", providerSettings.getAuthorizationEndpoint());
+		consentInfo.put("authorizationEndpoint", authorizationServerSettings.getAuthorizationEndpoint());
 		consentInfo.put("clientId", clientId);
 		consentInfo.put("clientName", registeredClient.getClientName());
 		consentInfo.put("state", state);

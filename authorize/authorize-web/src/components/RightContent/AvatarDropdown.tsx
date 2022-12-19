@@ -19,19 +19,17 @@ const Name = () => {
   const { initialState } = useModel('@@initialState');
   const { currentUser } = initialState || {};
 
-  const nameClassName = useEmotionCss(({ token }) => {
-    return {
-      width: '70px',
-      height: '48px',
-      overflow: 'hidden',
-      lineHeight: '48px',
-      whiteSpace: 'nowrap',
-      textOverflow: 'ellipsis',
-      [`@media only screen and (max-width: ${token.screenMD}px)`]: {
-        display: 'none',
-      },
-    };
-  });
+  const nameClassName = useEmotionCss(({ token }) => ({
+    width: '70px',
+    height: '48px',
+    overflow: 'hidden',
+    lineHeight: '48px',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    [`@media only screen and (max-width: ${token.screenMD}px)`]: {
+      display: 'none',
+    },
+  }));
 
   return <span className={`${nameClassName} anticon`}>{currentUser?.name}</span>;
 };
@@ -40,17 +38,15 @@ const AvatarLogo = () => {
   const { initialState } = useModel('@@initialState');
   const { currentUser } = initialState || {};
 
-  const avatarClassName = useEmotionCss(({ token }) => {
-    return {
-      marginRight: '8px',
-      color: token.colorPrimary,
-      verticalAlign: 'top',
-      background: setAlpha(token.colorBgContainer, 0.85),
-      [`@media only screen and (max-width: ${token.screenMD}px)`]: {
-        margin: 0,
-      },
-    };
-  });
+  const avatarClassName = useEmotionCss(({ token }) => ({
+    marginRight: '8px',
+    color: token.colorPrimary,
+    verticalAlign: 'top',
+    background: setAlpha(token.colorBgContainer, 0.85),
+    [`@media only screen and (max-width: ${token.screenMD}px)`]: {
+      margin: 0,
+    },
+  }));
 
   return <Avatar size="small" className={avatarClassName} src={currentUser?.avatar} alt="avatar" />;
 };
@@ -60,21 +56,19 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
     return getCurrentUserInfo();
   });
 
-  const actionClassName = useEmotionCss(({ token }) => {
-    return {
-      display: 'flex',
-      height: '48px',
-      marginLeft: 'auto',
-      overflow: 'hidden',
-      alignItems: 'center',
-      padding: '0 8px',
-      cursor: 'pointer',
-      borderRadius: token.borderRadius,
-      '&:hover': {
-        backgroundColor: token.colorBgTextHover,
-      },
-    };
-  });
+  const actionClassName = useEmotionCss(({ token }) => ({
+    display: 'flex',
+    height: '48px',
+    marginLeft: 'auto',
+    overflow: 'hidden',
+    alignItems: 'center',
+    padding: '0 8px',
+    cursor: 'pointer',
+    borderRadius: token.borderRadius,
+    '&:hover': {
+      backgroundColor: token.colorBgTextHover,
+    },
+  }));
 
   const { initialState, setInitialState } = useModel('@@initialState');
 

@@ -6,8 +6,6 @@ import ProForm, {
   ProFormTextArea,
 } from '@ant-design/pro-form';
 import { useRequest } from 'umi';
-
-import styles from './BaseView.less';
 import {getCurrentUserInfo, updateUserInfo} from "@/services/user";
 import {ProFormDatePicker, ProFormItem} from "@ant-design/pro-components";
 import AvatarView from "@/components/AvatarView";
@@ -15,6 +13,7 @@ import type { UserInfoForm } from '@/services/typings';
 
 
 const BaseView: React.FC = () => {
+
   const {data, loading} = useRequest(async () => {
     return getCurrentUserInfo();
   });
@@ -34,7 +33,7 @@ const BaseView: React.FC = () => {
   };
 
   return (
-    <div className={styles.baseView}>
+    <div>
       <Skeleton loading={loading}>
         <ProForm
           layout="vertical"

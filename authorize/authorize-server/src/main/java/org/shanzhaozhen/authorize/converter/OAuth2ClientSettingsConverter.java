@@ -3,7 +3,7 @@ package org.shanzhaozhen.authorize.converter;
 import org.shanzhaozhen.uaa.pojo.dto.OAuth2ClientSettingsDTO;
 import org.springframework.security.oauth2.jose.jws.JwsAlgorithm;
 import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
-import org.springframework.security.oauth2.server.authorization.config.ClientSettings;
+import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.util.StringUtils;
 
 public class OAuth2ClientSettingsConverter {

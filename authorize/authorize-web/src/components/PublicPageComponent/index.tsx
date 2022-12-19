@@ -1,9 +1,10 @@
 import {useEmotionCss} from "@ant-design/use-emotion-css";
-import {Helmet} from "@@/exports";
 import React, {useEffect} from "react";
 import Settings from "../../../config/defaultSettings";
 import Footer from "@/components/Footer";
 import Lang from "@/components/Lang";
+import {Helmet} from "@@/exports";
+import {resourcesPath} from "../../../config/constants";
 
 interface PublicPageComponentProps {
   // 标题
@@ -20,14 +21,12 @@ const PublicPageComponent: React.FC<PublicPageComponentProps> = (props) => {
       flexDirection: 'column',
       height: '100vh',
       overflow: 'auto',
-      backgroundImage: "url('/background.png')",
+      backgroundImage: `url('${resourcesPath}background.png')`,
       backgroundSize: '100% 100%',
     };
   });
 
-
   useEffect(() => {
-
   }, [])
 
 

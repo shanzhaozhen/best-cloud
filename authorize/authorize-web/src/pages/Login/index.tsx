@@ -20,22 +20,20 @@ import {getFakeCaptcha} from '@/services/login';
 import {useLocation, useSearchParams} from "umi";
 import React, {useEffect, useState} from 'react';
 import PublicPageComponent from "@/components/PublicPageComponent";
-import {resourcesPath} from "../../../config/config";
+import {resourcesPath} from "../../../config/constants";
 
 const ActionIcons = () => {
-  const langClassName = useEmotionCss(({token}) => {
-    return {
-      marginLeft: '8px',
-      color: 'rgba(0, 0, 0, 0.2)',
-      fontSize: '24px',
-      verticalAlign: 'middle',
-      cursor: 'pointer',
-      transition: 'color 0.3s',
-      '&:hover': {
-        color: token.colorPrimaryActive,
-      },
-    };
-  });
+  const langClassName = useEmotionCss(({token}) => ({
+    marginLeft: '8px',
+    color: 'rgba(0, 0, 0, 0.2)',
+    fontSize: '24px',
+    verticalAlign: 'middle',
+    cursor: 'pointer',
+    transition: 'color 0.3s',
+    '&:hover': {
+      color: token.colorPrimaryActive,
+    },
+  }));
 
   return (
     <>

@@ -6,7 +6,7 @@ import Avatar from './AvatarDropdown';
 export type SiderTheme = 'light' | 'dark';
 
 const GlobalHeaderRight: React.FC = () => {
-  const className = useEmotionCss(() => {
+  const rightContentClassName = useEmotionCss(() => {
     return {
       display: 'flex',
       height: '48px',
@@ -39,7 +39,7 @@ const GlobalHeaderRight: React.FC = () => {
   }
 
   return (
-    <div className={className}>
+    <div className={rightContentClassName}>
       <Avatar />
       <SelectLang className={actionClassName} />
     </div>

@@ -4,9 +4,10 @@ import {Menu, message} from 'antd';
 import BaseView from './components/base';
 import BindingView from './components/binding';
 import SecurityView from './components/security';
-import styles from './style.less';
 import type {ItemType} from "antd/lib/menu/hooks/useItems";
 import {useSearchParams} from "umi";
+import {useEmotionCss} from "@ant-design/use-emotion-css";
+import {Global} from "@emotion/react";
 
 
 type SettingsStateKeys = 'base' | 'security' | 'binding' | 'notification';
@@ -16,6 +17,34 @@ type SettingsState = {
 };
 
 const Settings: React.FC = () => {
+
+  const mainClassName = useEmotionCss(({ token }) => ({
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    paddingTop: '16px',
+    paddingBottom: '16px',
+    backgroundColor: token.colorBgBase,
+  }));
+
+  const leftMenuClassName = useEmotionCss(({ token }) => ({
+    width: '224px',
+    borderRight: `${token.lineWidth} ${token.lineType} ${token.colorSplit}`,
+  }));
+
+  const rightClassName = useEmotionCss(() => ({
+    flex: 1,
+    padding: '8px 40px',
+  }));
+
+  const titleClassName = useEmotionCss(({ token }) => ({
+    marginBottom: '12px',
+    color: token.colorTextHeading,
+    fontWeight: 500,
+    fontSize: '20px',
+    lineHeight: '28px',
+  }));
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const menuMap: Record<string, React.ReactNode> = {
@@ -95,14 +124,22 @@ const Settings: React.FC = () => {
   return (
     <GridContent>
       <div
-        className={styles.main}
+        className={mainClassName}
         ref={(ref) => {
           if (ref) {
             dom.current = ref;
           }
         }}
       >
-        <div className={styles.leftMenu}>
+        <div className={leftMenuClassName}>
+          <Global styles={{
+            '.ant-menu-inline': {
+              border: 'none'
+            },
+            '.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected': {
+              fontWeight: 'bold'
+            }
+          }}/>
           <Menu
             mode={initConfig.mode}
             selectedKeys={[initConfig.selectKey]}
@@ -119,8 +156,8 @@ const Settings: React.FC = () => {
             items={getMenu()}
           />
         </div>
-        <div className={styles.right}>
-          <div className={styles.title}>{menuMap[initConfig.selectKey]}</div>
+        <div className={rightClassName}>
+          <div className={titleClassName}>{menuMap[initConfig.selectKey]}</div>
           {renderChildren()}
         </div>
       </div>

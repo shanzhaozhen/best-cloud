@@ -1,21 +1,19 @@
 // https://umijs.org/config/
-import { defineConfig } from '@umijs/max';
+import {defineConfig} from '@umijs/max';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
+import {isProduction, resourcesPath} from "./constants";
 
 // const { REACT_APP_ENV } = process.env;
-const { REACT_APP_ENV = 'dev' } = process.env;
-const isProduction = process.env.NODE_ENV === 'production';
-export const resourcesPath = isProduction ? '/front/' : '/';
-export const apiRoot = isProduction ? '' : '/api';
+const {REACT_APP_ENV = 'dev'} = process.env;
 
 const headScripts = isProduction ? (
   [{
     'th:inline': 'javascript',
     content:
       'window.mvcModel = [[${mvcModel}]];'
-  }]) : []
+  }]) : [];
 
 export default defineConfig({
   publicPath: resourcesPath,

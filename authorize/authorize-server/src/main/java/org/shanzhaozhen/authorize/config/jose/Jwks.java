@@ -9,10 +9,10 @@ import lombok.SneakyThrows;
 import org.shanzhaozhen.uaa.pojo.dto.AuthUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.util.CollectionUtils;
@@ -72,7 +72,7 @@ public class Jwks {
 						.map(o -> o.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet()))
 						.orElse(Collections.emptySet()));
 			}
-			JwtEncodingContext.with(context.getHeaders(), claims);
+			JwtEncodingContext.with(context.getJwsHeader(), claims);
 		};
 	}
 

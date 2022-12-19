@@ -1,12 +1,73 @@
 import React from 'react';
-import { SelectLang } from 'umi';
 import Footer from '@/components/Footer';
 import {Button, message} from "antd";
 import {ProForm, ProFormCheckbox} from '@ant-design/pro-components';
-import styles from './style.less';
-import {resourcesPath} from "../../../config/config";
+import {useEmotionCss} from "@ant-design/use-emotion-css";
+import Lang from "@/components/Lang";
+import {resourcesPath} from "../../../config/constants";
 
 const Consent: React.FC = () => {
+
+  const containerClassName = useEmotionCss(({ token }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100vh',
+    overflow: 'auto',
+    background: token.colorBgLayout
+  }));
+
+  const contentClassName = useEmotionCss(() => ({
+    flex: 1,
+    padding: '32px 0'
+  }));
+
+  const logoTopClassName = useEmotionCss(() => ({
+    textAlign: 'center'
+  }));
+
+  const logoHeaderClassName = useEmotionCss(() => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '44px',
+    lineHeight: '44px',
+  }));
+
+  const logoClassName = useEmotionCss(() => ({
+    width: '44px',
+    height: '44px',
+    marginRight: '16px',
+    verticalAlign: 'top'
+  }));
+
+  const logoTitleClassName = useEmotionCss(() => ({
+    position: 'relative',
+    top: '2px',
+    color: 'rgba(0, 0, 0, 0.85)',
+    fontWeight: 600,
+    fontSize: '33px',
+  }));
+
+  const logoDescClassName = useEmotionCss(() => ({
+    marginTop: '12px',
+    marginBottom: '40px',
+    color: 'rgba(0, 0, 0, 0.45)',
+    fontSize: '14px'
+  }));
+
+  const consentContentClassName = useEmotionCss(() => ({
+    minWidth: '328px',
+    maxWidth: '500px',
+    margin: '0 auto',
+    textAlign: 'center'
+  }));
+
+  const textCenterClassName = useEmotionCss(() => ({
+  }));
+
+  const consentFooterClassName = useEmotionCss(() => ({
+    marginTop: '12px'
+  }));
 
   const consentInfo = {
     // @ts-ignore
@@ -51,11 +112,13 @@ const Consent: React.FC = () => {
       consentForm.appendChild(stateInput);
 
       if (type === 'confirm') {
-        for (const key in values) {
-          const input = document.createElement('input');
-          input.name = 'scope';
-          input.value = values[key];
-          consentForm.appendChild(input);
+        for (let key in values) {
+          if (values.hasOwnProperty(key)) {
+            const input = document.createElement('input');
+            input.name = 'scope';
+            input.value = values[key];
+            consentForm.appendChild(input);
+          }
         }
       }
 
@@ -79,23 +142,21 @@ const Consent: React.FC = () => {
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.lang} data-lang>
-        {SelectLang && <SelectLang />}
-      </div>
-      <div className={styles.content}>
-        <div className={styles.logoTop}>
-          <div className={styles.logoHeader}>
-            <span className={styles.logo}>
+    <div className={containerClassName}>
+      <Lang/>
+      <div className={contentClassName}>
+        <div className={logoTopClassName}>
+          <div className={logoHeaderClassName}>
+            <span className={logoClassName}>
               <img alt="logo" src={`${resourcesPath}logo.svg`} />
             </span>
-            <span className={styles.logoTitle}>Best Cloud</span>
+            <span className={logoTitleClassName}>Best Cloud</span>
           </div>
-          <div className={styles.logoDesc}>Best Cloud</div>
+          <div className={logoDescClassName}>Best Cloud</div>
         </div>
 
-        <div className={styles.consentContent}>
-          <h1 className={styles.textCenter}>应用授权</h1>
+        <div className={consentContentClassName}>
+          <h1 className={textCenterClassName}>应用授权</h1>
           <div>
             <p>
               应用
@@ -154,7 +215,7 @@ const Consent: React.FC = () => {
               </ProForm>
             </div>
           </div>
-          <div className={styles.consentFooter}>
+          <div className={consentFooterClassName}>
             <div>
               <p>
                 <small>

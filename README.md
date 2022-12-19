@@ -169,7 +169,9 @@ docker run -d \
   --name nacos-standalone \
   -e MODE=standalone \
   -p 8848:8848 \
-  nacos/nacos-server:latest
+  -p 9848:9848 \
+  -p 9849:8849 \
+  nacos/nacos-server:v2.0.4
 ```
 
 * K8S

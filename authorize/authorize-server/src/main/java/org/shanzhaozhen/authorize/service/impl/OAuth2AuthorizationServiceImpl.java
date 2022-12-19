@@ -2,14 +2,12 @@ package org.shanzhaozhen.authorize.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.authorize.converter.OAuth2AuthorizationConverter;
-import org.shanzhaozhen.common.core.result.R;
 import org.shanzhaozhen.uaa.feign.OAuth2AuthorizationClient;
 import org.shanzhaozhen.uaa.pojo.dto.OAuth2AuthorizationDTO;
 import org.springframework.dao.DataRetrievalFailureException;
-import org.springframework.security.oauth2.core.OAuth2TokenType;
-import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.stereotype.Service;

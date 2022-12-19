@@ -1,10 +1,9 @@
 package org.shanzhaozhen.authorize.converter;
 
 import org.shanzhaozhen.uaa.pojo.dto.OAuth2TokenSettingsDTO;
-import org.shanzhaozhen.uaa.pojo.entity.OAuth2TokenSettingsDO;
-import org.springframework.security.oauth2.core.OAuth2TokenFormat;
 import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
-import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
+import org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat;
+import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.util.StringUtils;
 
 import java.time.Duration;
