@@ -19,32 +19,32 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class OAuth2TokenSettingsServiceImpl implements OAuth2TokenSettingsService {
 
-    private final OAuth2TokenSettingsMapper oAuth2TokenSettingsMapper;
+    private final OAuth2TokenSettingsMapper oauth2TokenSettingsMapper;
     @Override
     public OAuth2TokenSettingsDTO getOAuth2TokenSettingsByRegisteredClientId(String registeredClientId) {
-        return oAuth2TokenSettingsMapper.getOAuth2TokenSettingsByRegisteredClientId(registeredClientId);
+        return oauth2TokenSettingsMapper.getOAuth2TokenSettingsByRegisteredClientId(registeredClientId);
     }
 
     @Override
     @Transactional
-    public void addOrUpdateOAuth2TokenSettings(String registeredClientId, OAuth2TokenSettingsDTO oAuth2TokenSettingsDTO) {
-        OAuth2TokenSettingsDTO oAuth2TokenSettingsInDB = this.oAuth2TokenSettingsMapper.getOAuth2TokenSettingsByRegisteredClientId(registeredClientId);
-        if (oAuth2TokenSettingsInDB == null) {
-            OAuth2TokenSettingsDO oAuth2TokenSettingsDO = new OAuth2TokenSettingsDO();
-            BeanUtils.copyProperties(oAuth2TokenSettingsDTO, oAuth2TokenSettingsDO);
-            oAuth2TokenSettingsDO.setRegisteredClientId(registeredClientId);
-            this.oAuth2TokenSettingsMapper.insert(oAuth2TokenSettingsDO);
+    public void addOrUpdateOAuth2TokenSettings(String registeredClientId, OAuth2TokenSettingsDTO oauth2TokenSettingsDTO) {
+        OAuth2TokenSettingsDTO oauth2TokenSettingsInDB = this.oauth2TokenSettingsMapper.getOAuth2TokenSettingsByRegisteredClientId(registeredClientId);
+        if (oauth2TokenSettingsInDB == null) {
+            OAuth2TokenSettingsDO oauth2TokenSettingsDO = new OAuth2TokenSettingsDO();
+            BeanUtils.copyProperties(oauth2TokenSettingsDTO, oauth2TokenSettingsDO);
+            oauth2TokenSettingsDO.setRegisteredClientId(registeredClientId);
+            this.oauth2TokenSettingsMapper.insert(oauth2TokenSettingsDO);
         } else {
-            OAuth2TokenSettingsDO oAuth2TokenSettingsDO = oAuth2TokenSettingsMapper.selectById(oAuth2TokenSettingsInDB.getId());
-            CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oAuth2TokenSettingsDTO, oAuth2TokenSettingsDO);
-            this.oAuth2TokenSettingsMapper.updateById(oAuth2TokenSettingsDO);
+            OAuth2TokenSettingsDO oauth2TokenSettingsDO = oauth2TokenSettingsMapper.selectById(oauth2TokenSettingsInDB.getId());
+            CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oauth2TokenSettingsDTO, oauth2TokenSettingsDO);
+            this.oauth2TokenSettingsMapper.updateById(oauth2TokenSettingsDO);
         }
     }
 
     @Override
     @Transactional
     public void deleteOAuth2TokenSettingsByRegisteredClientId(String registeredClientId) {
-        this.oAuth2TokenSettingsMapper.deleteOAuth2TokenSettingsByRegisteredClientId(registeredClientId);
+        this.oauth2TokenSettingsMapper.deleteOAuth2TokenSettingsByRegisteredClientId(registeredClientId);
     }
 
 }

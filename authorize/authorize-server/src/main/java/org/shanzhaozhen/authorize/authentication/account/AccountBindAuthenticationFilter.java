@@ -1,12 +1,10 @@
 package org.shanzhaozhen.authorize.authentication.account;
 
-import feign.FeignException;
+import org.shanzhaozhen.authorize.constant.SocialType;
+import org.shanzhaozhen.authorize.pojo.dto.AuthUser;
+import org.shanzhaozhen.authorize.service.SocialUserService;
 import org.shanzhaozhen.common.core.result.R;
 import org.shanzhaozhen.common.core.utils.HttpServletUtils;
-import org.shanzhaozhen.common.core.utils.JacksonUtils;
-import org.shanzhaozhen.uaa.constant.SocialType;
-import org.shanzhaozhen.uaa.feign.SocialUserFeignClient;
-import org.shanzhaozhen.uaa.pojo.dto.AuthUser;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -17,9 +15,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.OAuth2Error;
-import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -48,16 +43,16 @@ public class AccountBindAuthenticationFilter extends AbstractAuthenticationProce
 
     private boolean postOnly = true;
 
-    private final SocialUserFeignClient socialUserFeignClient;
+    private final SocialUserService socialUserService;
 
-    public AccountBindAuthenticationFilter(SocialUserFeignClient socialUserFeignClient) {
+    public AccountBindAuthenticationFilter(SocialUserService socialUserService) {
         super(DEFAULT_ANT_PATH_REQUEST_MATCHER);
-        this.socialUserFeignClient = socialUserFeignClient;
+        this.socialUserService = socialUserService;
     }
 
-    public AccountBindAuthenticationFilter(AuthenticationManager authenticationManager, SocialUserFeignClient socialUserFeignClient) {
+    public AccountBindAuthenticationFilter(AuthenticationManager authenticationManager, SocialUserService socialUserService) {
         super(DEFAULT_ANT_PATH_REQUEST_MATCHER, authenticationManager);
-        this.socialUserFeignClient = socialUserFeignClient;
+        this.socialUserService = socialUserService;
     }
 
     @Override
@@ -89,13 +84,9 @@ public class AccountBindAuthenticationFilter extends AbstractAuthenticationProce
                 socialType = SocialType.GITHUB;
             }
             Assert.notNull(socialType, "不支持该第三方账号类型绑定账号");
+
             try {
-                R<?> result = socialUserFeignClient.bindSocialUser(authUser.getUserId(), principal.getName(), socialType.getName());
-                System.out.println(result);
-            } catch (FeignException e) {
-                e.printStackTrace();
-                R<?> result = JacksonUtils.toPojo(e.contentUTF8(), R.class);
-                throw new IllegalArgumentException(result.getMessage());
+                socialUserService.bindSocialUser(authUser.getUserId(), principal.getName(), socialType.getName());
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new IllegalArgumentException("未知错误，绑定失败！");

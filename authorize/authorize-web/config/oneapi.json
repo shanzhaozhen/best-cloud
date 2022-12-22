@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Best Oauth2",
-    "version": "1.0.0"
+    "version": "0.0.1"
   },
   "servers": [
     {
@@ -46,7 +46,7 @@
     "/api/login/captcha": {
       "post": {
         "description": "发送验证码",
-        "operationId": "getFakeCaptcha",
+        "operationId": "getCaptcha",
         "tags": ["login"],
         "parameters": [
           {

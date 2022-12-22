@@ -16,7 +16,7 @@ import {
 import {FormattedMessage, useIntl} from '@umijs/max';
 import {Alert, message, Tabs} from 'antd';
 import {useEmotionCss} from '@ant-design/use-emotion-css';
-import {getFakeCaptcha} from '@/services/login';
+import {getCaptcha} from '@/services/login';
 import {useLocation, useSearchParams} from "umi";
 import React, {useEffect, useState} from 'react';
 import PublicPageComponent from "@/components/PublicPageComponent";
@@ -241,7 +241,7 @@ const Login: React.FC = () => {
                   size: 'large',
                   prefix: <MobileOutlined/>,
                 }}
-                name="mobile"
+                name="phone"
                 placeholder={intl.formatMessage({
                   id: 'pages.login.phoneNumber.placeholder',
                   defaultMessage: '手机号',
@@ -291,6 +291,7 @@ const Login: React.FC = () => {
                     defaultMessage: '获取验证码',
                   });
                 }}
+                phoneName="phone"
                 name="captcha"
                 rules={[
                   {
@@ -304,13 +305,13 @@ const Login: React.FC = () => {
                   },
                 ]}
                 onGetCaptcha={async (phone) => {
-                  const result = await getFakeCaptcha({
-                    phone,
-                  });
-                  if (!result) {
-                    return;
+                  try {
+                    await getCaptcha({phone});
+                    message.success('验证码已通过短信发送至您的手机，请查收！');
+                  } catch (error) {
+                    message.error('获取验证码错误！');
+                    throw new Error("获取验证码错误")
                   }
-                  message.success('获取验证码成功！验证码为：1234');
                 }}
               />
             </>

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "uaa", contextId = "oAuth2RegisteredClient")
+@FeignClient(name = "uaa", contextId = "oauth2RegisteredClient")
 public interface OAuth2RegisteredClientClient {
 
     @GetMapping(value = "/ws/oauth2/registered-client", params = { "id" })
@@ -18,6 +18,6 @@ public interface OAuth2RegisteredClientClient {
     OAuth2RegisteredClientDTO getOAuth2RegisteredClientByClientId(@RequestParam("clientId") String clientId);
 
     @PostMapping("/ws/oauth2/registered-client")
-    R<?> saveOAuth2RegisteredClient(@RequestBody OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO);
+    R<?> saveOAuth2RegisteredClient(@RequestBody OAuth2RegisteredClientDTO oauth2RegisteredClientDTO);
 
 }

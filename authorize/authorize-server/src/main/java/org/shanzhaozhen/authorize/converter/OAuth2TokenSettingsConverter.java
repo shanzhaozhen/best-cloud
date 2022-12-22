@@ -1,6 +1,6 @@
 package org.shanzhaozhen.authorize.converter;
 
-import org.shanzhaozhen.uaa.pojo.dto.OAuth2TokenSettingsDTO;
+import org.shanzhaozhen.authorize.pojo.dto.OAuth2TokenSettingsDTO;
 import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
@@ -11,19 +11,19 @@ import java.util.Optional;
 
 public class OAuth2TokenSettingsConverter {
 
-    public static TokenSettings toTokenSettings(OAuth2TokenSettingsDTO oAuth2TokenSettingsDTO) {
+    public static TokenSettings toTokenSettings(OAuth2TokenSettingsDTO oauth2TokenSettingsDTO) {
         TokenSettings.Builder builder = TokenSettings.builder()
-                .accessTokenTimeToLive(Optional.ofNullable(oAuth2TokenSettingsDTO.getAccessTokenTimeToLive())
+                .accessTokenTimeToLive(Optional.ofNullable(oauth2TokenSettingsDTO.getAccessTokenTimeToLive())
                         .map(Duration::ofSeconds)
                         .orElse(Duration.ofMinutes(5)))
-                .reuseRefreshTokens(oAuth2TokenSettingsDTO.isReuseRefreshTokens())
-                .refreshTokenTimeToLive(Optional.ofNullable(oAuth2TokenSettingsDTO.getRefreshTokenTimeToLive())
+                .reuseRefreshTokens(oauth2TokenSettingsDTO.isReuseRefreshTokens())
+                .refreshTokenTimeToLive(Optional.ofNullable(oauth2TokenSettingsDTO.getRefreshTokenTimeToLive())
                                 .map(Duration::ofSeconds)
                                 .orElse(Duration.ofMinutes(60)))
-                .idTokenSignatureAlgorithm(SignatureAlgorithm.from(oAuth2TokenSettingsDTO.getIdTokenSignatureAlgorithm()));
+                .idTokenSignatureAlgorithm(SignatureAlgorithm.from(oauth2TokenSettingsDTO.getIdTokenSignatureAlgorithm()));
 
-        if (StringUtils.hasText(oAuth2TokenSettingsDTO.getAccessTokenFormat())) {
-            builder.accessTokenFormat(new OAuth2TokenFormat(oAuth2TokenSettingsDTO.getAccessTokenFormat()));
+        if (StringUtils.hasText(oauth2TokenSettingsDTO.getAccessTokenFormat())) {
+            builder.accessTokenFormat(new OAuth2TokenFormat(oauth2TokenSettingsDTO.getAccessTokenFormat()));
         }
 
         return builder.build();

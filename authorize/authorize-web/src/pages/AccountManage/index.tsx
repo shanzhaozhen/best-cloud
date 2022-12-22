@@ -7,7 +7,6 @@ import SecurityView from './components/security';
 import type {ItemType} from "antd/lib/menu/hooks/useItems";
 import {useSearchParams} from "umi";
 import {useEmotionCss} from "@ant-design/use-emotion-css";
-import {Global} from "@emotion/react";
 
 
 type SettingsStateKeys = 'base' | 'security' | 'binding' | 'notification';
@@ -132,14 +131,6 @@ const Settings: React.FC = () => {
         }}
       >
         <div className={leftMenuClassName}>
-          <Global styles={{
-            '.ant-menu-inline': {
-              border: 'none'
-            },
-            '.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected': {
-              fontWeight: 'bold'
-            }
-          }}/>
           <Menu
             mode={initConfig.mode}
             selectedKeys={[initConfig.selectKey]}

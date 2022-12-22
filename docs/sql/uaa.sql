@@ -3,19 +3,18 @@
 */
 CREATE SCHEMA IF NOT EXISTS `uaa` DEFAULT CHARACTER SET utf8mb4;
 
-USE
-`uaa` ;
+USE `uaa` ;
 
 SET NAMES utf8mb4;
-SET
-FOREIGN_KEY_CHECKS = 0;
+SET FOREIGN_KEY_CHECKS = 0;
+
 
 -- ----------------------------
 -- 用户表
 -- ----------------------------
-DROP TABLE IF EXISTS sys_user;
+DROP TABLE IF EXISTS `sys_user`;
 
-CREATE TABLE sys_user
+CREATE TABLE `sys_user`
 (
     id                      VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
     username                VARCHAR(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL UNIQUE COMMENT '用户名',
@@ -30,19 +29,18 @@ CREATE TABLE sys_user
     last_modified_by        VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
     last_modified_date      datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (id)
-);
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '用户表'
+  ROW_FORMAT = Dynamic;
 
-
-SET NAMES utf8mb4;
-SET
-FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
 -- 用户信息表
 -- ----------------------------
-DROP TABLE IF EXISTS sys_user_info;
+DROP TABLE IF EXISTS `sys_user_info`;
 
-CREATE TABLE sys_user_info
+CREATE TABLE `sys_user_info`
 (
     id                 VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
     pid                VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '关联的用户ID',
@@ -62,15 +60,18 @@ CREATE TABLE sys_user_info
     last_modified_by   VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
     last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (id)
-);
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '用户信息表'
+  ROW_FORMAT = Dynamic;
 
 
 -- ----------------------------
 -- 角色表
 -- ----------------------------
-DROP TABLE IF EXISTS sys_role;
+DROP TABLE IF EXISTS `sys_role`;
 
-CREATE TABLE sys_role
+CREATE TABLE `sys_role`
 (
     id                 VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
     name               VARCHAR(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '名称',
@@ -82,14 +83,18 @@ CREATE TABLE sys_role
     last_modified_by   VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
     last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (id)
-);
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '角色表'
+  ROW_FORMAT = Dynamic;
+
 
 -- ----------------------------
 -- 菜单表
 -- ----------------------------
-DROP TABLE IF EXISTS sys_menu;
+DROP TABLE IF EXISTS `sys_menu`;
 
-CREATE TABLE sys_menu
+CREATE TABLE `sys_menu`
 (
     id                    VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
     name                  VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '菜单名称',
@@ -108,14 +113,17 @@ CREATE TABLE sys_menu
     last_modified_by      VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
     last_modified_date    datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (id)
-);
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '菜单表'
+  ROW_FORMAT = Dynamic;
+
 
 -- ----------------------------
 -- 权限表
 -- ----------------------------
-DROP TABLE IF EXISTS sys_permission;
-
-CREATE TABLE sys_permission
+DROP TABLE IF EXISTS `sys_permission`;
+CREATE TABLE `sys_permission`
 (
     id                 VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
     name               VARCHAR(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '权限名称',
@@ -130,14 +138,16 @@ CREATE TABLE sys_permission
     last_modified_by   VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
     last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (id)
-);
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '权限表'
+  ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- 用户-角色关系表
 -- ----------------------------
-DROP TABLE IF EXISTS sys_user_role;
-
-CREATE TABLE sys_user_role
+DROP TABLE IF EXISTS `sys_user_role`;
+CREATE TABLE `sys_user_role`
 (
     id                 VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
     user_id            VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户ID',
@@ -148,14 +158,17 @@ CREATE TABLE sys_user_role
     last_modified_by   VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
     last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (id)
-);
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '用户-角色关系表'
+  ROW_FORMAT = Dynamic;
+
 
 -- ----------------------------
 -- 角色-菜单关系表
 -- ----------------------------
-DROP TABLE IF EXISTS sys_role_menu;
-
-CREATE TABLE sys_role_menu
+DROP TABLE IF EXISTS `sys_role_menu`;
+CREATE TABLE `sys_role_menu`
 (
     id                 VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
     role_id            VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '角色ID',
@@ -166,14 +179,17 @@ CREATE TABLE sys_role_menu
     last_modified_by   VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
     last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (id)
-);
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '角色-菜单关系表'
+  ROW_FORMAT = Dynamic;
+
 
 -- ----------------------------
 -- 角色-权限关系表
 -- ----------------------------
-DROP TABLE IF EXISTS sys_role_permission;
-
-CREATE TABLE sys_role_permission
+DROP TABLE IF EXISTS `sys_role_permission`;
+CREATE TABLE `sys_role_permission`
 (
     id                 VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
     role_id            VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '角色ID',
@@ -184,14 +200,17 @@ CREATE TABLE sys_role_permission
     last_modified_by   VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
     last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (id)
-);
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '角色-权限关系表'
+  ROW_FORMAT = Dynamic;
+
 
 -- ----------------------------
 -- 部门表
 -- ----------------------------
-DROP TABLE IF EXISTS sys_department;
-
-CREATE TABLE sys_department
+DROP TABLE IF EXISTS `sys_department`;
+CREATE TABLE `sys_department`
 (
     id                 VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
     pid                VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '上级ID',
@@ -205,14 +224,17 @@ CREATE TABLE sys_department
     last_modified_by   VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
     last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (id)
-);
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '部门表'
+  ROW_FORMAT = Dynamic;
+
 
 -- ----------------------------
 -- 部门-用户关系表
 -- ----------------------------
-DROP TABLE IF EXISTS sys_department_user;
-
-CREATE TABLE sys_department_user
+DROP TABLE IF EXISTS `sys_department_user`;
+CREATE TABLE `sys_department_user`
 (
     id                 VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
     department_id      VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '部门ID',
@@ -223,7 +245,10 @@ CREATE TABLE sys_department_user
     last_modified_by   VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
     last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (id)
-);
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '部门-用户关系表'
+  ROW_FORMAT = Dynamic;
 
 
 -- ----------------------------
@@ -376,9 +401,9 @@ CREATE TABLE `oauth2_token_settings`
 -- ----------------------------
 -- github 用户表
 -- ----------------------------
-DROP TABLE IF EXISTS sys_user_github;
+DROP TABLE IF EXISTS `sys_user_github`;
 
-CREATE TABLE sys_user_github
+CREATE TABLE `sys_user_github`
 (
     id                 VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
     username           VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL UNIQUE COMMENT '用户名',
@@ -440,3 +465,4 @@ INSERT INTO `uaa`.`sys_role_menu` (`id`, `role_id`, `menu_id`, `version`, `creat
 INSERT INTO `uaa`.`sys_role_menu` (`id`, `role_id`, `menu_id`, `version`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES ('1559876486638870532', '1559182637683720193', '1378348387828137995', NULL, NULL, '2022-08-17 20:15:10', NULL, '2022-08-17 20:15:10');
 INSERT INTO `uaa`.`sys_role_menu` (`id`, `role_id`, `menu_id`, `version`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES ('1559876486638870533', '1559182637683720193', '1378348387828137996', NULL, NULL, '2022-08-17 20:15:10', NULL, '2022-08-17 20:15:10');
 INSERT INTO `uaa`.`sys_role_menu` (`id`, `role_id`, `menu_id`, `version`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES ('1559876486638870534', '1559182637683720193', '1378348387828137997', NULL, NULL, '2022-08-17 20:15:10', NULL, '2022-08-17 20:15:10');
+

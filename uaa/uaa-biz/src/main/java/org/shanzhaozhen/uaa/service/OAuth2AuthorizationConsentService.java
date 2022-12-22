@@ -19,9 +19,9 @@ public interface OAuth2AuthorizationConsentService {
 
     /**
      * 添加或更新 oauth2 客户端授权信息
-     * @param oAuth2AuthorizationConsentDTO
+     * @param oauth2AuthorizationConsentDTO
      */
-    void addOrUpdateOAuth2AuthorizationConsent(OAuth2AuthorizationConsentDTO oAuth2AuthorizationConsentDTO);
+    void addOrUpdateOAuth2AuthorizationConsent(OAuth2AuthorizationConsentDTO oauth2AuthorizationConsentDTO);
 
     /**
      * 删除 oauth2 客户端授权信息

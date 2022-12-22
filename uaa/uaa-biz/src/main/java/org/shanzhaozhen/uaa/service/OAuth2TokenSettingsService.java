@@ -22,9 +22,9 @@ public interface OAuth2TokenSettingsService {
     /**
      * 添加或更新客户端信息 oauth2 客户端配置
      * @param clientId
-     * @param oAuth2TokenSettingsDTO
+     * @param oauth2TokenSettingsDTO
      */
-    void addOrUpdateOAuth2TokenSettings(String clientId, OAuth2TokenSettingsDTO oAuth2TokenSettingsDTO);
+    void addOrUpdateOAuth2TokenSettings(String clientId, OAuth2TokenSettingsDTO oauth2TokenSettingsDTO);
 
     /**
      * 通过客户端 id 删除客户端信息 oauth2 客户端配置

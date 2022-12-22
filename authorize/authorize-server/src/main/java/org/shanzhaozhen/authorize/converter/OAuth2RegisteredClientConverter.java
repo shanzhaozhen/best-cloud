@@ -1,6 +1,6 @@
 package org.shanzhaozhen.authorize.converter;
 
-import org.shanzhaozhen.uaa.pojo.dto.OAuth2RegisteredClientDTO;
+import org.shanzhaozhen.authorize.pojo.dto.OAuth2RegisteredClientDTO;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
@@ -15,20 +15,20 @@ import java.util.stream.Collectors;
 
 public class OAuth2RegisteredClientConverter {
 
-    public static RegisteredClient toRegisteredClient(OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO) {
-        Set<String> clientAuthenticationMethods = StringUtils.commaDelimitedListToSet(oAuth2RegisteredClientDTO.getClientAuthenticationMethods());
-        Set<String> authorizationGrantTypes = StringUtils.commaDelimitedListToSet(oAuth2RegisteredClientDTO.getAuthorizationGrantTypes());
-        Set<String> redirectUris = StringUtils.commaDelimitedListToSet(oAuth2RegisteredClientDTO.getRedirectUris());
-        Set<String> clientScopes = StringUtils.commaDelimitedListToSet(oAuth2RegisteredClientDTO.getScopes());
+    public static RegisteredClient toRegisteredClient(OAuth2RegisteredClientDTO oauth2RegisteredClientDTO) {
+        Set<String> clientAuthenticationMethods = StringUtils.commaDelimitedListToSet(oauth2RegisteredClientDTO.getClientAuthenticationMethods());
+        Set<String> authorizationGrantTypes = StringUtils.commaDelimitedListToSet(oauth2RegisteredClientDTO.getAuthorizationGrantTypes());
+        Set<String> redirectUris = StringUtils.commaDelimitedListToSet(oauth2RegisteredClientDTO.getRedirectUris());
+        Set<String> clientScopes = StringUtils.commaDelimitedListToSet(oauth2RegisteredClientDTO.getScopes());
 
-        RegisteredClient.Builder builder = RegisteredClient.withId(oAuth2RegisteredClientDTO.getId())
-                .clientId(oAuth2RegisteredClientDTO.getClientId())
-                .clientIdIssuedAt(Optional.ofNullable(oAuth2RegisteredClientDTO.getClientIdIssuedAt())
+        RegisteredClient.Builder builder = RegisteredClient.withId(oauth2RegisteredClientDTO.getId())
+                .clientId(oauth2RegisteredClientDTO.getClientId())
+                .clientIdIssuedAt(Optional.ofNullable(oauth2RegisteredClientDTO.getClientIdIssuedAt())
                         .map(o -> o.toInstant(ZoneOffset.UTC)).orElse(null))
-                .clientSecret(oAuth2RegisteredClientDTO.getClientSecret())
-                .clientSecretExpiresAt(Optional.ofNullable(oAuth2RegisteredClientDTO.getClientSecretExpiresAt())
+                .clientSecret(oauth2RegisteredClientDTO.getClientSecret())
+                .clientSecretExpiresAt(Optional.ofNullable(oauth2RegisteredClientDTO.getClientSecretExpiresAt())
                         .map(o -> o.toInstant(ZoneOffset.UTC)).orElse(null))
-                .clientName(oAuth2RegisteredClientDTO.getClientName())
+                .clientName(oauth2RegisteredClientDTO.getClientName())
                 .clientAuthenticationMethods(authenticationMethods ->
                         clientAuthenticationMethods.forEach(authenticationMethod ->
                                 authenticationMethods.add(new ClientAuthenticationMethod(authenticationMethod))))
@@ -37,8 +37,8 @@ public class OAuth2RegisteredClientConverter {
                                 grantTypes.add(new AuthorizationGrantType(grantType))))
                 .redirectUris(uris -> uris.addAll(redirectUris))
                 .scopes(scopes -> scopes.addAll(clientScopes))
-                .clientSettings(OAuth2ClientSettingsConverter.toClientSettings(oAuth2RegisteredClientDTO.getClientSettings()))
-                .tokenSettings(OAuth2TokenSettingsConverter.toTokenSettings(oAuth2RegisteredClientDTO.getTokenSettings()));
+                .clientSettings(OAuth2ClientSettingsConverter.toClientSettings(oauth2RegisteredClientDTO.getClientSettings()))
+                .tokenSettings(OAuth2TokenSettingsConverter.toTokenSettings(oauth2RegisteredClientDTO.getTokenSettings()));
 
         return builder.build();
     }

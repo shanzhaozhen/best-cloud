@@ -27,13 +27,13 @@ public class OAuth2AuthorizationServiceImpl implements OAuth2AuthorizationServic
     private static final String SAVE_OAUTH2_AUTHORIZATION = "/ws/oauth2/authorization";
     private static final String DELETE_OAUTH2_AUTHORIZATION_BY_ID = "/ws/oauth2/authorization/{id}";
 
-    private final OAuth2AuthorizationMapper oAuth2AuthorizationMapper;
+    private final OAuth2AuthorizationMapper oauth2AuthorizationMapper;
 
     @Override
     @Operation(summary = "通过 id 获取用户授权信息")
     @GetMapping(value = GET_OAUTH2_AUTHORIZATION_BY_ID, params = { "id" })
     public OAuth2AuthorizationDTO getOAuth2AuthorizationById(@RequestParam("id") String id) {
-        return oAuth2AuthorizationMapper.getOAuth2AuthorizationById(id);
+        return oauth2AuthorizationMapper.getOAuth2AuthorizationById(id);
     }
 
     @Override
@@ -41,15 +41,15 @@ public class OAuth2AuthorizationServiceImpl implements OAuth2AuthorizationServic
     @GetMapping(value = GET_OAUTH2_AUTHORIZATION_BY_TOKEN, params = { "token" })
     public OAuth2AuthorizationDTO getOAuth2AuthorizationByToken(@RequestParam("token") String token, @RequestParam("tokenType") String tokenType) {
         if (tokenType == null) {
-            return oAuth2AuthorizationMapper.getOAuth2AuthorizationByToken(token);
+            return oauth2AuthorizationMapper.getOAuth2AuthorizationByToken(token);
         } else if (OAuth2ParameterNames.STATE.equals(tokenType)) {
-            return oAuth2AuthorizationMapper.getOAuth2AuthorizationByState(token);
+            return oauth2AuthorizationMapper.getOAuth2AuthorizationByState(token);
         } else if (OAuth2ParameterNames.CODE.equals(tokenType)) {
-            return oAuth2AuthorizationMapper.getOAuth2AuthorizationByAuthorizationCode(token);
+            return oauth2AuthorizationMapper.getOAuth2AuthorizationByAuthorizationCode(token);
         } else if (OAuth2ParameterNames.ACCESS_TOKEN.equals(tokenType)) {
-            return oAuth2AuthorizationMapper.getOAuth2AuthorizationByAccessToken(token);
+            return oauth2AuthorizationMapper.getOAuth2AuthorizationByAccessToken(token);
         } else if (OAuth2ParameterNames.REFRESH_TOKEN.equals(tokenType)) {
-            return oAuth2AuthorizationMapper.getOAuth2AuthorizationByRefreshToken(token);
+            return oauth2AuthorizationMapper.getOAuth2AuthorizationByRefreshToken(token);
         }
 
         return null;
@@ -57,22 +57,22 @@ public class OAuth2AuthorizationServiceImpl implements OAuth2AuthorizationServic
 
     @Operation(summary = "保存用户授权信息")
     @PostMapping(value = SAVE_OAUTH2_AUTHORIZATION)
-    public void saveOAuth2Authorization(@RequestBody OAuth2AuthorizationDTO oAuth2AuthorizationDTO) {
-        OAuth2AuthorizationDO oAuth2Authorization = this.oAuth2AuthorizationMapper.selectById(oAuth2AuthorizationDTO.getId());
-        if (oAuth2Authorization == null) {
-            oAuth2Authorization = new OAuth2AuthorizationDO();
-            BeanUtils.copyProperties(oAuth2AuthorizationDTO, oAuth2Authorization);
-            this.oAuth2AuthorizationMapper.insert(oAuth2Authorization);
+    public void saveOAuth2Authorization(@RequestBody OAuth2AuthorizationDTO oauth2AuthorizationDTO) {
+        OAuth2AuthorizationDO oauth2Authorization = this.oauth2AuthorizationMapper.selectById(oauth2AuthorizationDTO.getId());
+        if (oauth2Authorization == null) {
+            oauth2Authorization = new OAuth2AuthorizationDO();
+            BeanUtils.copyProperties(oauth2AuthorizationDTO, oauth2Authorization);
+            this.oauth2AuthorizationMapper.insert(oauth2Authorization);
         } else {
-            CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oAuth2AuthorizationDTO, oAuth2Authorization);
-            this.oAuth2AuthorizationMapper.updateById(oAuth2Authorization);
+            CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oauth2AuthorizationDTO, oauth2Authorization);
+            this.oauth2AuthorizationMapper.updateById(oauth2Authorization);
         }
     }
 
     @Operation(summary = "通过 id 删除用户授权信息")
     @DeleteMapping(value = DELETE_OAUTH2_AUTHORIZATION_BY_ID)
     public void deleteOAuth2AuthorizationById(@PathVariable("id") String id) {
-        this.oAuth2AuthorizationMapper.deleteById(id);
+        this.oauth2AuthorizationMapper.deleteById(id);
     }
 
 }

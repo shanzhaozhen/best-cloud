@@ -7,9 +7,9 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import {ProFormCaptcha, ProFormCheckbox} from "@ant-design/pro-form";
-import {getFakeCaptcha} from "../../services/login";
-import styles from './index.less';
+import {getCaptcha} from "../../services/login";
 import {bindAccount} from "../../services/social";
+import styles from './index.less';
 
 
 const SocialBind: React.FC = () => {
@@ -121,7 +121,7 @@ const SocialBind: React.FC = () => {
                   size: 'large',
                   prefix: <MobileOutlined className={styles.prefixIcon} />,
                 }}
-                name="mobile"
+                name="phone"
                 placeholder={intl.formatMessage({
                   id: 'pages.login.phoneNumber.placeholder',
                   defaultMessage: '手机号',
@@ -171,6 +171,7 @@ const SocialBind: React.FC = () => {
                     defaultMessage: '获取验证码',
                   });
                 }}
+                phoneName="phone"
                 name="captcha"
                 rules={[
                   {
@@ -184,13 +185,13 @@ const SocialBind: React.FC = () => {
                   },
                 ]}
                 onGetCaptcha={async (phone) => {
-                  const result = await getFakeCaptcha({
-                    phone,
-                  });
-                  if (result === false) {
-                    return;
+                  try {
+                    await getCaptcha({phone});
+                    message.success('验证码已通过短信发送至您的手机，请查收！');
+                  } catch (error) {
+                    message.error('获取验证码错误！');
+                    throw new Error("获取验证码错误")
                   }
-                  message.success('获取验证码成功！验证码为：1234');
                 }}
               />
             </>

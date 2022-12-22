@@ -30,17 +30,17 @@ public class OAuth2AuthorizationConsentServiceImpl implements OAuth2Authorizatio
     private static final String DELETE_OAUTH2_AUTHORIZATION_CONSENT = "/ws/oauth2/authorization-consent";
 
 
-    private final OAuth2AuthorizationConsentMapper oAuth2AuthorizationConsentMapper;
+    private final OAuth2AuthorizationConsentMapper oauth2AuthorizationConsentMapper;
 
     @Override
     @Operation(summary = "获取用户授权范围信息")
     @GetMapping(GET_OAUTH2_AUTHORIZATION_CONSENT)
     public OAuth2AuthorizationConsentDTO getOAuth2AuthorizationConsent(@RequestParam("registeredClientId") String registeredClientId, @RequestParam("principalName") String principalName) {
-        OAuth2AuthorizationConsentDO oAuth2AuthorizationConsentDO = this.oAuth2AuthorizationConsentMapper.findOAuth2AuthorizationConsent(registeredClientId, principalName);
-        if (oAuth2AuthorizationConsentDO != null) {
-            OAuth2AuthorizationConsentDTO oAuth2AuthorizationConsentDTO = new OAuth2AuthorizationConsentDTO();
-            BeanUtils.copyProperties(oAuth2AuthorizationConsentDO, oAuth2AuthorizationConsentDTO);
-            return oAuth2AuthorizationConsentDTO;
+        OAuth2AuthorizationConsentDO oauth2AuthorizationConsentDO = this.oauth2AuthorizationConsentMapper.findOAuth2AuthorizationConsent(registeredClientId, principalName);
+        if (oauth2AuthorizationConsentDO != null) {
+            OAuth2AuthorizationConsentDTO oauth2AuthorizationConsentDTO = new OAuth2AuthorizationConsentDTO();
+            BeanUtils.copyProperties(oauth2AuthorizationConsentDO, oauth2AuthorizationConsentDTO);
+            return oauth2AuthorizationConsentDTO;
         }
         return null;
     }
@@ -49,18 +49,18 @@ public class OAuth2AuthorizationConsentServiceImpl implements OAuth2Authorizatio
     @Operation(summary = "保存用户授权范围信息")
     @PostMapping(SAVE_OAUTH2_AUTHORIZATION_CONSENT)
     @Transactional
-    public void addOrUpdateOAuth2AuthorizationConsent(@RequestBody OAuth2AuthorizationConsentDTO oAuth2AuthorizationConsentDTO) {
-        Assert.hasText(oAuth2AuthorizationConsentDTO.getRegisteredClientId(), "客户端ID不能为空");
-        Assert.hasText(oAuth2AuthorizationConsentDTO.getPrincipalName(), "授权的用户名不能为空");
-        OAuth2AuthorizationConsentDO oAuth2AuthorizationConsentDO =
-                this.oAuth2AuthorizationConsentMapper.findOAuth2AuthorizationConsent(oAuth2AuthorizationConsentDTO.getRegisteredClientId(), oAuth2AuthorizationConsentDTO.getPrincipalName());
-        if (oAuth2AuthorizationConsentDO == null) {
-            oAuth2AuthorizationConsentDO = new OAuth2AuthorizationConsentDO();
-            BeanUtils.copyProperties(oAuth2AuthorizationConsentDTO, oAuth2AuthorizationConsentDO);
-            oAuth2AuthorizationConsentMapper.insert(oAuth2AuthorizationConsentDO);
+    public void addOrUpdateOAuth2AuthorizationConsent(@RequestBody OAuth2AuthorizationConsentDTO oauth2AuthorizationConsentDTO) {
+        Assert.hasText(oauth2AuthorizationConsentDTO.getRegisteredClientId(), "客户端ID不能为空");
+        Assert.hasText(oauth2AuthorizationConsentDTO.getPrincipalName(), "授权的用户名不能为空");
+        OAuth2AuthorizationConsentDO oauth2AuthorizationConsentDO =
+                this.oauth2AuthorizationConsentMapper.findOAuth2AuthorizationConsent(oauth2AuthorizationConsentDTO.getRegisteredClientId(), oauth2AuthorizationConsentDTO.getPrincipalName());
+        if (oauth2AuthorizationConsentDO == null) {
+            oauth2AuthorizationConsentDO = new OAuth2AuthorizationConsentDO();
+            BeanUtils.copyProperties(oauth2AuthorizationConsentDTO, oauth2AuthorizationConsentDO);
+            oauth2AuthorizationConsentMapper.insert(oauth2AuthorizationConsentDO);
         } else {
-            CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oAuth2AuthorizationConsentDTO, oAuth2AuthorizationConsentDO);
-            oAuth2AuthorizationConsentMapper.updateById(oAuth2AuthorizationConsentDO);
+            CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oauth2AuthorizationConsentDTO, oauth2AuthorizationConsentDO);
+            oauth2AuthorizationConsentMapper.updateById(oauth2AuthorizationConsentDO);
         }
     }
 
@@ -69,7 +69,7 @@ public class OAuth2AuthorizationConsentServiceImpl implements OAuth2Authorizatio
     @DeleteMapping(DELETE_OAUTH2_AUTHORIZATION_CONSENT)
     @Transactional
     public void deleteOAuth2AuthorizationConsent(@RequestParam("registeredClientId") String registeredClientId, @RequestParam("principalName") String principalName) {
-        oAuth2AuthorizationConsentMapper.deleteOAuth2AuthorizationConsent(registeredClientId, principalName);
+        oauth2AuthorizationConsentMapper.deleteOAuth2AuthorizationConsent(registeredClientId, principalName);
     }
 
 }

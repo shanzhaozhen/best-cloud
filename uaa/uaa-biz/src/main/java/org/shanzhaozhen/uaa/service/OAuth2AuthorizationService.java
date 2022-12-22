@@ -25,10 +25,10 @@ public interface OAuth2AuthorizationService {
 
     /**
      * 保存用户授权信息
-     * @param oAuth2AuthorizationDTO
+     * @param oauth2AuthorizationDTO
      * @return
      */
-    void saveOAuth2Authorization(OAuth2AuthorizationDTO oAuth2AuthorizationDTO);
+    void saveOAuth2Authorization(OAuth2AuthorizationDTO oauth2AuthorizationDTO);
 
     /**
      * 通过 id 删除用户授权信息

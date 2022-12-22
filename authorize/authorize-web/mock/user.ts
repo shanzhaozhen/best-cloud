@@ -8,7 +8,7 @@ const waitTime = (time: number = 100) => {
   });
 };
 
-async function getFakeCaptcha(req: Request, res: Response) {
+async function getCaptcha(req: Request, res: Response) {
   await waitTime(2000);
   return res.json('captcha-xxx');
 }
@@ -199,5 +199,5 @@ export default {
     });
   },
 
-  'GET  /api/login/captcha': getFakeCaptcha,
+  'GET  /api/login/captcha': getCaptcha,
 };

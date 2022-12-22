@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.authorize.exception.CaptchaErrorException;
 import org.shanzhaozhen.authorize.service.CaptchaService;
 import org.shanzhaozhen.common.redis.utils.RedisUtils;
+import org.shanzhaozhen.common.sms.service.SmsService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -23,13 +24,16 @@ public class CaptchaServiceImpl implements CaptchaService {
 
     private final RedisUtils redisUtils;
 
+    private final SmsService smsService;
+
 
     @Override
-    public String generateCaptchaNumber(String phone) {
+    public String generateCaptchaCode(String phone) {
         RandomGenerator randomGenerator = new RandomGenerator("0123456789", 4);
+        String captchaCode = randomGenerator.generate();
         // 保存 redis 十分钟，验证码的有效期
-        redisUtils.set(phone, randomGenerator, 60 * 10);
-        return randomGenerator.generate();
+        redisUtils.set(phone, captchaCode, 60 * 10);
+        return captchaCode;
     }
 
     @Override
@@ -49,5 +53,11 @@ public class CaptchaServiceImpl implements CaptchaService {
         String captcha = (String) redisUtils.get(key);
         Assert.hasText(captcha, "验证码已过期或无效");
         return captcha.equals(rawCode);
+    }
+
+    @Override
+    public void sendCaptchaCode(String phone) throws Exception {
+        String captchaCode = this.generateCaptchaCode(phone);
+        smsService.sendMsgCode(phone, captchaCode);
     }
 }

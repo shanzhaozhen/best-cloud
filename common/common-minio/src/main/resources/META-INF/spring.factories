@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    org.shanzhaozhen.common.minio.config.MinioConfig

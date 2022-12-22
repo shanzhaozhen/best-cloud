@@ -13,7 +13,9 @@ const Consent: React.FC = () => {
     flexDirection: 'column',
     height: '100vh',
     overflow: 'auto',
-    background: token.colorBgLayout
+    background: token.colorBgLayout,
+    backgroundImage: `url('${resourcesPath}background.png')`,
+    backgroundSize: '100% 100%',
   }));
 
   const contentClassName = useEmotionCss(() => ({
@@ -148,7 +150,7 @@ const Consent: React.FC = () => {
         <div className={logoTopClassName}>
           <div className={logoHeaderClassName}>
             <span className={logoClassName}>
-              <img alt="logo" src={`${resourcesPath}logo.svg`} />
+              <img style={{width: '100%'}} alt="logo" src={`${resourcesPath}logo.svg`} />
             </span>
             <span className={logoTitleClassName}>Best Cloud</span>
           </div>

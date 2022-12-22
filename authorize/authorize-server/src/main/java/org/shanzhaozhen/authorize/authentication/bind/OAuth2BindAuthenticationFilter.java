@@ -1,21 +1,17 @@
 package org.shanzhaozhen.authorize.authentication.bind;
 
+import org.shanzhaozhen.authorize.service.SocialUserService;
 import org.shanzhaozhen.authorize.utils.OAuth2AuthorizationResponseUtils;
 import org.shanzhaozhen.authorize.utils.SecurityUtils;
-import org.shanzhaozhen.common.core.constant.ResultType;
 import org.shanzhaozhen.common.core.result.R;
-import org.shanzhaozhen.uaa.constant.SocialType;
-import org.shanzhaozhen.uaa.converter.SocialUserConverter;
-import org.shanzhaozhen.uaa.feign.SocialUserFeignClient;
-import org.shanzhaozhen.uaa.pojo.entity.GithubUser;
-import org.shanzhaozhen.uaa.pojo.entity.SocialUser;
-import org.shanzhaozhen.uaa.pojo.form.SocialUserBindForm;
+import org.shanzhaozhen.authorize.constant.SocialType;
+import org.shanzhaozhen.authorize.converter.SocialUserConverter;
+import org.shanzhaozhen.authorize.pojo.entity.GithubUser;
+import org.shanzhaozhen.authorize.pojo.form.SocialUserBindForm;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.log.LogMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -40,7 +36,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.Map;
 
 
@@ -60,7 +55,7 @@ public class OAuth2BindAuthenticationFilter extends AbstractAuthenticationProces
 
 	private final OAuth2AuthorizedClientRepository authorizedClientRepository;
 
-	private final SocialUserFeignClient socialUserFeignClient;
+	private final SocialUserService socialUserService;
 
 	private AuthorizationRequestRepository<OAuth2AuthorizationRequest> authorizationRequestRepository = new HttpSessionOAuth2AuthorizationRequestRepository();
 
@@ -69,29 +64,29 @@ public class OAuth2BindAuthenticationFilter extends AbstractAuthenticationProces
 
 	public OAuth2BindAuthenticationFilter(ClientRegistrationRepository clientRegistrationRepository,
                                           OAuth2AuthorizedClientService authorizedClientService,
-										  SocialUserFeignClient socialUserFeignClient) {
-		this(clientRegistrationRepository, authorizedClientService, socialUserFeignClient, DEFAULT_FILTER_PROCESSES_URI);
+										  SocialUserService socialUserService) {
+		this(clientRegistrationRepository, authorizedClientService, socialUserService, DEFAULT_FILTER_PROCESSES_URI);
 	}
 
 	public OAuth2BindAuthenticationFilter(ClientRegistrationRepository clientRegistrationRepository,
                                           OAuth2AuthorizedClientService authorizedClientService,
-										  SocialUserFeignClient socialUserFeignClient, String filterProcessesUrl) {
+										  SocialUserService socialUserService, String filterProcessesUrl) {
 		this(clientRegistrationRepository,
 				new AuthenticatedPrincipalOAuth2AuthorizedClientRepository(authorizedClientService),
-				socialUserFeignClient, filterProcessesUrl);
+				socialUserService, filterProcessesUrl);
 	}
 
 	public OAuth2BindAuthenticationFilter(ClientRegistrationRepository clientRegistrationRepository,
                                           OAuth2AuthorizedClientRepository authorizedClientRepository,
-										  SocialUserFeignClient socialUserFeignClient,
+										  SocialUserService socialUserService,
 										  String filterProcessesUrl) {
 		super(filterProcessesUrl);
 		Assert.notNull(clientRegistrationRepository, "clientRegistrationRepository cannot be null");
 		Assert.notNull(authorizedClientRepository, "authorizedClientRepository cannot be null");
-		Assert.notNull(socialUserFeignClient, "socialUserFeignClient cannot be null");
+		Assert.notNull(socialUserService, "socialUserService cannot be null");
 		this.clientRegistrationRepository = clientRegistrationRepository;
 		this.authorizedClientRepository = authorizedClientRepository;
-		this.socialUserFeignClient = socialUserFeignClient;
+		this.socialUserService = socialUserService;
 	}
 
 	@Override
@@ -147,14 +142,9 @@ public class OAuth2BindAuthenticationFilter extends AbstractAuthenticationProces
 			R<?> result;
 			if (SocialType.GITHUB.getRegistrationId().equals(registrationId)) {			// github 用户
 				GithubUser githubUser = SocialUserConverter.convertGithubUser(attributes, userNameAttributeName);
-				result = socialUserFeignClient.bindGithubUser(new SocialUserBindForm<>(currentUserId, githubUser));
+				socialUserService.bindGithubUser(new SocialUserBindForm<>(currentUserId, githubUser));
 			} else {
 				throw new IllegalArgumentException("暂不支持该 " + registrationId + " 类型账号绑定");
-			}
-
-			if (result != null && !ResultType.SUCCESS.equals(result.getCode())) {
-				OAuth2Error oauth2Error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR, "绑定失败：" + result.getMessage(), null);
-				throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
 			}
 		} catch (Exception e) {
 			OAuth2Error oauth2Error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR, "用户绑定失败！", null);

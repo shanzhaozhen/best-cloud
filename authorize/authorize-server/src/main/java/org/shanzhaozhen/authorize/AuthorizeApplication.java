@@ -7,15 +7,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
-
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@SpringBootApplication
+//@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @EnableDiscoveryClient
 @ComponentScan("org.shanzhaozhen.*")
-@MapperScan("org.shanzhaozhen.uaa.mapper")
-@EnableFeignClients("org.shanzhaozhen.uaa.feign")
+@MapperScan("org.shanzhaozhen.authorize.mapper")
 @OpenAPIDefinition(info =
     @Info(title = "${springdoc.title}", version = "${springdoc.version}", description = "${springdoc.description}")
 )

@@ -1,15 +1,10 @@
 package org.shanzhaozhen.authorize.authentication.federated;
 
-import feign.FeignException;
-import org.shanzhaozhen.common.core.result.R;
-import org.shanzhaozhen.common.core.utils.JacksonUtils;
-import org.shanzhaozhen.uaa.constant.SocialType;
-import org.shanzhaozhen.uaa.feign.SocialUserFeignClient;
-import org.shanzhaozhen.uaa.feign.UserFeignClient;
-import org.shanzhaozhen.uaa.pojo.dto.AuthUser;
-import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
+import org.shanzhaozhen.authorize.constant.SocialType;
+import org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO;
+import org.shanzhaozhen.authorize.service.SocialUserService;
+import org.shanzhaozhen.authorize.pojo.dto.AuthUser;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,8 +19,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.Collection;
 import java.util.function.Consumer;
 
 /**
@@ -39,14 +32,14 @@ public final class FederatedIdentityAuthenticationSuccessHandler implements Auth
 
 	private final AuthenticationSuccessHandler delegate = new SavedRequestAwareAuthenticationSuccessHandler();
 
-	private final SocialUserFeignClient socialUserFeignClient;
+	private final SocialUserService socialUserService;
 
 	private Consumer<OAuth2User> oauth2UserHandler = (user) -> {};
 
 	private Consumer<OidcUser> oidcUserHandler = (user) -> this.oauth2UserHandler.accept(user);
 
-	public FederatedIdentityAuthenticationSuccessHandler(SocialUserFeignClient socialUserFeignClient) {
-		this.socialUserFeignClient = socialUserFeignClient;
+	public FederatedIdentityAuthenticationSuccessHandler(SocialUserService socialUserService) {
+		this.socialUserService = socialUserService;
 	}
 
 	@Override
@@ -59,7 +52,7 @@ public final class FederatedIdentityAuthenticationSuccessHandler implements Auth
 				String registrationId = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
 				String username = principal.getName();
 
-				UserDTO user;
+				OAuth2UserDTO user;
 				SocialType socialType = null;
 				if (SocialType.GITHUB.getRegistrationId().equals(registrationId)) {
 					socialType = SocialType.GITHUB;
@@ -71,12 +64,7 @@ public final class FederatedIdentityAuthenticationSuccessHandler implements Auth
 					return;
 				}
 				try {
-					R<UserDTO> result = socialUserFeignClient.loadUserBySocial(username, socialType.getName());
-					user = result.getData();
-				} catch (FeignException e) {
-					e.printStackTrace();
-					R<?> result = JacksonUtils.toPojo(e.contentUTF8(), R.class);
-					throw new BadCredentialsException(result.getMessage());
+					user = socialUserService.loadUserBySocial(username, socialType.getName());
 				} catch (Exception e) {
 					e.printStackTrace();
 					throw new BadCredentialsException("用户获取过程出现异常!");

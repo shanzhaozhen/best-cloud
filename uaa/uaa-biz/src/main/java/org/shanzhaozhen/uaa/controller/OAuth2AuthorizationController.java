@@ -18,31 +18,31 @@ public class OAuth2AuthorizationController {
     private static final String SAVE_OAUTH2_AUTHORIZATION = "/oauth2/authorization";
     private static final String DELETE_OAUTH2_AUTHORIZATION_BY_ID = "/oauth2/authorization/{id}";
 
-    private final OAuth2AuthorizationService oAuth2AuthorizationService;
+    private final OAuth2AuthorizationService oauth2AuthorizationService;
 
     @Operation(summary = "通过 token 获取用户授权信息")
     @GetMapping(value = GET_OAUTH2_AUTHORIZATION_BY_ID, params = { "id" })
     public OAuth2AuthorizationDTO getOAuth2AuthorizationById(@RequestParam("id") String id) {
-        return oAuth2AuthorizationService.getOAuth2AuthorizationById(id);
+        return oauth2AuthorizationService.getOAuth2AuthorizationById(id);
     }
 
     @Operation(summary = "通过 token 获取用户授权信息")
     @GetMapping(value = GET_OAUTH2_AUTHORIZATION_BY_TOKEN, params = { "token" })
     public OAuth2AuthorizationDTO getOAuth2AuthorizationByToken(@RequestParam("token") String token, @RequestParam("tokenType") String tokenType) {
-        return oAuth2AuthorizationService.getOAuth2AuthorizationByToken(token, tokenType);
+        return oauth2AuthorizationService.getOAuth2AuthorizationByToken(token, tokenType);
     }
 
     @Operation(summary = "保存用户授权信息")
     @PostMapping(value = SAVE_OAUTH2_AUTHORIZATION)
-    public R<?> saveOAuth2Authorization(@RequestBody OAuth2AuthorizationDTO oAuth2AuthorizationDTO) {
-        oAuth2AuthorizationService.saveOAuth2Authorization(oAuth2AuthorizationDTO);
+    public R<?> saveOAuth2Authorization(@RequestBody OAuth2AuthorizationDTO oauth2AuthorizationDTO) {
+        oauth2AuthorizationService.saveOAuth2Authorization(oauth2AuthorizationDTO);
         return R.ok();
     }
 
     @Operation(summary = "通过 id 删除用户授权信息")
     @DeleteMapping(value = DELETE_OAUTH2_AUTHORIZATION_BY_ID)
     public R<?> deleteOAuth2AuthorizationById(@PathVariable("id") String id) {
-        oAuth2AuthorizationService.deleteOAuth2AuthorizationById(id);
+        oauth2AuthorizationService.deleteOAuth2AuthorizationById(id);
         return R.ok();
     }
 

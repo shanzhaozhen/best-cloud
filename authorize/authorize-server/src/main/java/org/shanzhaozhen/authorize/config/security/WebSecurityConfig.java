@@ -4,33 +4,32 @@ import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.authorize.authentication.bind.Oauth2BindConfigurer;
 import org.shanzhaozhen.authorize.authentication.federated.FederatedIdentityConfigurer;
 import org.shanzhaozhen.authorize.authentication.account.AccountLoginConfigurer;
-import org.shanzhaozhen.uaa.feign.SocialUserFeignClient;
-import org.shanzhaozhen.uaa.feign.UserFeignClient;
+import org.shanzhaozhen.authorize.service.SocialUserService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 
+@Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
 	public final static String[] resourcesPath = {
-			"/webjars/**", "/front/**", "/static/**",
-			"/**/*.ico", "/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg"
+			"/webjars/**", "/front/**", "/static/**", "/favicon.ico",
+			"/*/*.ico", "/*/*.css", "/*/*.js", "/*/*.png", "/*/*.jpg"
 	};
 
 	public final static String[] whiteUrl = {
 			"/v3/**",
-			"/login", "/register", "/front/**"
-//			, "/**", "/authorize/rsa/publicKey"
+			"/login", "/register", "/front/**", "/captcha/**"
 			, "/.well-known/openid-configuration"
 	};
 
 	private final UserDetailsService userDetailsService;
-	private final UserFeignClient userFeignClient;
-	private final SocialUserFeignClient socialUserFeignClient;
+	private final SocialUserService socialUserService;
 
 
 	@Bean
@@ -51,11 +50,11 @@ public class WebSecurityConfig {
 //				)
 				.userDetailsService(userDetailsService)
 //				.formLogin()
-				.apply(new AccountLoginConfigurer<>(socialUserFeignClient))
+				.apply(new AccountLoginConfigurer<>(socialUserService))
 				.and()
-				.apply(new FederatedIdentityConfigurer(socialUserFeignClient))
+				.apply(new FederatedIdentityConfigurer(socialUserService))
 				.and()
-				.apply(new Oauth2BindConfigurer(socialUserFeignClient))
+				.apply(new Oauth2BindConfigurer(socialUserService))
 //				.loginPage("/login")
 //				.successHandler(defaultAuthenticationSuccessHandler)
 //				.failureHandler(defaultAuthenticationFailureHandler)

@@ -1,0 +1,10 @@
+description = 'common-sms'
+
+dependencies {
+
+    implementation(
+            project(':common:common-core'),
+            "com.aliyun:alibabacloud-dysmsapi20170525:${aliyunSmsVersion}"
+    )
+
+}

@@ -41,26 +41,26 @@ public class OAuth2RegisteredClientServiceImpl implements OAuth2RegisteredClient
     private static final String GET_OAUTH2_REGISTERED_CLIENT_BY_CLIENT_ID = "/ws/oauth2/registered-client";
     private static final String SAVE_OAUTH2_REGISTERED_CLIENT = "/ws/oauth2/registered-client";
 
-    private final OAuth2RegisteredClientMapper oAuth2RegisteredClientMapper;
-    private final OAuth2ClientSettingsService oAuth2ClientSettingsService;
-    private final OAuth2TokenSettingsService oAuth2TokenSettingsService;
+    private final OAuth2RegisteredClientMapper oauth2RegisteredClientMapper;
+    private final OAuth2ClientSettingsService oauth2ClientSettingsService;
+    private final OAuth2TokenSettingsService oauth2TokenSettingsService;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public Page<OAuth2RegisteredClientDTO> getOAuth2RegisteredClientPage(Page<OAuth2RegisteredClientDTO> page, String keyword) {
-        return oAuth2RegisteredClientMapper.getOAuth2RegisteredClientPage(page, keyword);
+        return oauth2RegisteredClientMapper.getOAuth2RegisteredClientPage(page, keyword);
     }
 
     @Override
     @Operation(summary = "通过 id 获取 OAuth2 客户端信息")
     @GetMapping(value = GET_OAUTH2_REGISTERED_CLIENT_BY_ID, params = { "id" })
     public OAuth2RegisteredClientDTO getOAuth2RegisteredClientById(@RequestParam("id") String id) {
-        OAuth2RegisteredClientDO oAuth2RegisteredClientDO = oAuth2RegisteredClientMapper.selectById(id);
+        OAuth2RegisteredClientDO oauth2RegisteredClientDO = oauth2RegisteredClientMapper.selectById(id);
 
-        if (oAuth2RegisteredClientDO != null) {
-            OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO = new OAuth2RegisteredClientDTO();
-            BeanUtils.copyProperties(oAuth2RegisteredClientDO, oAuth2RegisteredClientDTO);
-            return this.assembleOAuth2RegisteredClient(oAuth2RegisteredClientDTO);
+        if (oauth2RegisteredClientDO != null) {
+            OAuth2RegisteredClientDTO oauth2RegisteredClientDTO = new OAuth2RegisteredClientDTO();
+            BeanUtils.copyProperties(oauth2RegisteredClientDO, oauth2RegisteredClientDTO);
+            return this.assembleOAuth2RegisteredClient(oauth2RegisteredClientDTO);
         }
         return null;
     }
@@ -69,92 +69,92 @@ public class OAuth2RegisteredClientServiceImpl implements OAuth2RegisteredClient
     @Operation(summary = "通过 clientId 获取 OAuth2 客户端信息")
     @GetMapping(value = GET_OAUTH2_REGISTERED_CLIENT_BY_CLIENT_ID, params = { "clientId" })
     public OAuth2RegisteredClientDTO getOAuth2RegisteredClientByClientId(@RequestParam("clientId") String clientId) {
-        OAuth2RegisteredClientDO oAuth2RegisteredClientDO = oAuth2RegisteredClientMapper.getOAuth2RegisteredClientByClientId(clientId);
-        if (oAuth2RegisteredClientDO != null) {
-            OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO = new OAuth2RegisteredClientDTO();
-            BeanUtils.copyProperties(oAuth2RegisteredClientDO, oAuth2RegisteredClientDTO);
-            OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO1 = this.assembleOAuth2RegisteredClient(oAuth2RegisteredClientDTO);
-            return oAuth2RegisteredClientDTO1;
+        OAuth2RegisteredClientDO oauth2RegisteredClientDO = oauth2RegisteredClientMapper.getOAuth2RegisteredClientByClientId(clientId);
+        if (oauth2RegisteredClientDO != null) {
+            OAuth2RegisteredClientDTO oauth2RegisteredClientDTO = new OAuth2RegisteredClientDTO();
+            BeanUtils.copyProperties(oauth2RegisteredClientDO, oauth2RegisteredClientDTO);
+            OAuth2RegisteredClientDTO oauth2RegisteredClientDTO1 = this.assembleOAuth2RegisteredClient(oauth2RegisteredClientDTO);
+            return oauth2RegisteredClientDTO1;
         }
         return null;
     }
 
     @Override
-    public OAuth2RegisteredClientDTO assembleOAuth2RegisteredClient(OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO) {
-        Assert.notNull(oAuth2RegisteredClientDTO, "客户端信息不能为空");
-        Assert.hasText(oAuth2RegisteredClientDTO.getId(), "客户端id不能为空");
-        Assert.hasText(oAuth2RegisteredClientDTO.getClientId(), "客户端id不能为空");
+    public OAuth2RegisteredClientDTO assembleOAuth2RegisteredClient(OAuth2RegisteredClientDTO oauth2RegisteredClientDTO) {
+        Assert.notNull(oauth2RegisteredClientDTO, "客户端信息不能为空");
+        Assert.hasText(oauth2RegisteredClientDTO.getId(), "客户端id不能为空");
+        Assert.hasText(oauth2RegisteredClientDTO.getClientId(), "客户端id不能为空");
 
         OAuth2ClientSettingsDTO clientSettings =
-                oAuth2ClientSettingsService.getOAuth2ClientSettingsByRegisteredClientId(oAuth2RegisteredClientDTO.getId());
+                oauth2ClientSettingsService.getOAuth2ClientSettingsByRegisteredClientId(oauth2RegisteredClientDTO.getId());
         OAuth2TokenSettingsDTO tokenSetting =
-                oAuth2TokenSettingsService.getOAuth2TokenSettingsByRegisteredClientId(oAuth2RegisteredClientDTO.getId());
+                oauth2TokenSettingsService.getOAuth2TokenSettingsByRegisteredClientId(oauth2RegisteredClientDTO.getId());
 
-        return oAuth2RegisteredClientDTO
+        return oauth2RegisteredClientDTO
                 .setClientSettings(clientSettings)
                 .setTokenSettings(tokenSetting);
     }
 
     @Override
-    public void addOrUpdateOAuth2RegisteredClient(OAuth2RegisteredClientForm oAuth2RegisteredClientForm) {
-        OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO = new OAuth2RegisteredClientDTO();
-        BeanUtils.copyProperties(oAuth2RegisteredClientForm, oAuth2RegisteredClientDTO);
+    public void addOrUpdateOAuth2RegisteredClient(OAuth2RegisteredClientForm oauth2RegisteredClientForm) {
+        OAuth2RegisteredClientDTO oauth2RegisteredClientDTO = new OAuth2RegisteredClientDTO();
+        BeanUtils.copyProperties(oauth2RegisteredClientForm, oauth2RegisteredClientDTO);
 
-        OAuth2ClientSettingsForm clientSettings = oAuth2RegisteredClientForm.getClientSettings();
-        OAuth2TokenSettingsForm tokenSettings = oAuth2RegisteredClientForm.getTokenSettings();
+        OAuth2ClientSettingsForm clientSettings = oauth2RegisteredClientForm.getClientSettings();
+        OAuth2TokenSettingsForm tokenSettings = oauth2RegisteredClientForm.getTokenSettings();
 
-        oAuth2RegisteredClientDTO.setClientSettings(Optional.ofNullable(clientSettings).map(o -> {
-            OAuth2ClientSettingsDTO oAuth2ClientSettingsDTO = new OAuth2ClientSettingsDTO();
-            BeanUtils.copyProperties(clientSettings, oAuth2ClientSettingsDTO);
-            return oAuth2ClientSettingsDTO;
+        oauth2RegisteredClientDTO.setClientSettings(Optional.ofNullable(clientSettings).map(o -> {
+            OAuth2ClientSettingsDTO oauth2ClientSettingsDTO = new OAuth2ClientSettingsDTO();
+            BeanUtils.copyProperties(clientSettings, oauth2ClientSettingsDTO);
+            return oauth2ClientSettingsDTO;
         }).orElse(null));
 
-        oAuth2RegisteredClientDTO.setTokenSettings(Optional.ofNullable(tokenSettings).map(o -> {
-            OAuth2TokenSettingsDTO oAuth2TokenSettingsDTO = new OAuth2TokenSettingsDTO();
-            BeanUtils.copyProperties(tokenSettings, oAuth2TokenSettingsDTO);
-            return oAuth2TokenSettingsDTO;
+        oauth2RegisteredClientDTO.setTokenSettings(Optional.ofNullable(tokenSettings).map(o -> {
+            OAuth2TokenSettingsDTO oauth2TokenSettingsDTO = new OAuth2TokenSettingsDTO();
+            BeanUtils.copyProperties(tokenSettings, oauth2TokenSettingsDTO);
+            return oauth2TokenSettingsDTO;
         }).orElse(null));
 
-        this.addOrUpdateOAuth2RegisteredClient(oAuth2RegisteredClientDTO);
+        this.addOrUpdateOAuth2RegisteredClient(oauth2RegisteredClientDTO);
     }
 
     @Override
     @Transactional
     @Operation(summary = "保存 OAuth2 客户端信息")
     @PostMapping( SAVE_OAUTH2_REGISTERED_CLIENT)
-    public void addOrUpdateOAuth2RegisteredClient(@RequestBody OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO) {
-        String clientId = oAuth2RegisteredClientDTO.getClientId();
-        OAuth2RegisteredClientDO oAuth2RegisteredClient;
+    public void addOrUpdateOAuth2RegisteredClient(@RequestBody OAuth2RegisteredClientDTO oauth2RegisteredClientDTO) {
+        String clientId = oauth2RegisteredClientDTO.getClientId();
+        OAuth2RegisteredClientDO oauth2RegisteredClient;
         if (StringUtils.hasText(clientId)) {
-            oAuth2RegisteredClient = this.oAuth2RegisteredClientMapper.getOAuth2RegisteredClientByClientId(clientId);
+            oauth2RegisteredClient = this.oauth2RegisteredClientMapper.getOAuth2RegisteredClientByClientId(clientId);
         } else {
             clientId = UUID.randomUUID().toString();
-            oAuth2RegisteredClient = null;
+            oauth2RegisteredClient = null;
         }
 
-        if (oAuth2RegisteredClient == null) {
-            oAuth2RegisteredClient = new OAuth2RegisteredClientDO();
-            BeanUtils.copyProperties(oAuth2RegisteredClientDTO, oAuth2RegisteredClient);
-            oAuth2RegisteredClient.setClientId(clientId);
-            String encodePassword = passwordEncoder.encode(oAuth2RegisteredClientDTO.getClientSecret());
-            oAuth2RegisteredClient.setClientSecret(encodePassword);
-            this.oAuth2RegisteredClientMapper.insert(oAuth2RegisteredClient);
+        if (oauth2RegisteredClient == null) {
+            oauth2RegisteredClient = new OAuth2RegisteredClientDO();
+            BeanUtils.copyProperties(oauth2RegisteredClientDTO, oauth2RegisteredClient);
+            oauth2RegisteredClient.setClientId(clientId);
+            String encodePassword = passwordEncoder.encode(oauth2RegisteredClientDTO.getClientSecret());
+            oauth2RegisteredClient.setClientSecret(encodePassword);
+            this.oauth2RegisteredClientMapper.insert(oauth2RegisteredClient);
         } else {
-            if (StringUtils.hasText(oAuth2RegisteredClientDTO.getClientSecret())) {
-                String encodePassword = passwordEncoder.encode(oAuth2RegisteredClientDTO.getClientSecret());
-                CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oAuth2RegisteredClientDTO, oAuth2RegisteredClient);
-                oAuth2RegisteredClient.setClientSecret(encodePassword);
+            if (StringUtils.hasText(oauth2RegisteredClientDTO.getClientSecret())) {
+                String encodePassword = passwordEncoder.encode(oauth2RegisteredClientDTO.getClientSecret());
+                CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oauth2RegisteredClientDTO, oauth2RegisteredClient);
+                oauth2RegisteredClient.setClientSecret(encodePassword);
             } else {        // 为空不修改密码
-                CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oAuth2RegisteredClientDTO, oAuth2RegisteredClient);
+                CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oauth2RegisteredClientDTO, oauth2RegisteredClient);
             }
-            this.oAuth2RegisteredClientMapper.updateById(oAuth2RegisteredClient);
+            this.oauth2RegisteredClientMapper.updateById(oauth2RegisteredClient);
         }
-        if (oAuth2RegisteredClientDTO.getClientSettings() != null) {
-            oAuth2ClientSettingsService.addOrUpdateOAuth2ClientSettings(oAuth2RegisteredClient.getId(), oAuth2RegisteredClientDTO.getClientSettings());
+        if (oauth2RegisteredClientDTO.getClientSettings() != null) {
+            oauth2ClientSettingsService.addOrUpdateOAuth2ClientSettings(oauth2RegisteredClient.getId(), oauth2RegisteredClientDTO.getClientSettings());
         }
 
-        if (oAuth2RegisteredClientDTO.getTokenSettings() != null) {
-            oAuth2TokenSettingsService.addOrUpdateOAuth2TokenSettings(oAuth2RegisteredClient.getId(), oAuth2RegisteredClientDTO.getTokenSettings());
+        if (oauth2RegisteredClientDTO.getTokenSettings() != null) {
+            oauth2TokenSettingsService.addOrUpdateOAuth2TokenSettings(oauth2RegisteredClient.getId(), oauth2RegisteredClientDTO.getTokenSettings());
         }
 
     }
@@ -162,17 +162,17 @@ public class OAuth2RegisteredClientServiceImpl implements OAuth2RegisteredClient
     @Override
     @Transactional
     public void deleteOAuth2RegisteredClientById(String id) {
-        this.oAuth2RegisteredClientMapper.deleteOAuth2RegisteredClientById(id);
-        oAuth2ClientSettingsService.deleteOAuth2ClientSettingsByRegisteredClientId(id);
-        oAuth2TokenSettingsService.deleteOAuth2TokenSettingsByRegisteredClientId(id);
+        this.oauth2RegisteredClientMapper.deleteOAuth2RegisteredClientById(id);
+        oauth2ClientSettingsService.deleteOAuth2ClientSettingsByRegisteredClientId(id);
+        oauth2TokenSettingsService.deleteOAuth2TokenSettingsByRegisteredClientId(id);
     }
 
     @Override
     @Transactional
     public void deleteOAuth2RegisteredClientByClientId(String clientId) {
-        OAuth2RegisteredClientDO oAuth2RegisteredClient = this.oAuth2RegisteredClientMapper.getOAuth2RegisteredClientByClientId(clientId);
-        if (oAuth2RegisteredClient != null) {
-            this.deleteOAuth2RegisteredClientById(oAuth2RegisteredClient.getId());
+        OAuth2RegisteredClientDO oauth2RegisteredClient = this.oauth2RegisteredClientMapper.getOAuth2RegisteredClientByClientId(clientId);
+        if (oauth2RegisteredClient != null) {
+            this.deleteOAuth2RegisteredClientById(oauth2RegisteredClient.getId());
         }
     }
 

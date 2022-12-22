@@ -1,6 +1,6 @@
 package org.shanzhaozhen.authorize.utils;
 
-import org.shanzhaozhen.uaa.pojo.dto.AuthUser;
+import org.shanzhaozhen.authorize.pojo.dto.AuthUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Optional;

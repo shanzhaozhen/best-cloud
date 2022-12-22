@@ -5,7 +5,7 @@ import org.shanzhaozhen.uaa.pojo.dto.OAuth2AuthorizationDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "uaa", contextId = "oAuth2Authorization")
+@FeignClient(name = "uaa", contextId = "oauth2Authorization")
 public interface OAuth2AuthorizationClient {
 
     @GetMapping(value = "/ws/oauth2/authorization", params = { "id" })
@@ -15,7 +15,7 @@ public interface OAuth2AuthorizationClient {
     OAuth2AuthorizationDTO getOAuth2AuthorizationByToken(@RequestParam("token") String token, @RequestParam("tokenType") String tokenType);
 
     @PostMapping("/ws/oauth2/authorization")
-    R<?> saveOAuth2Authorization(@RequestBody OAuth2AuthorizationDTO oAuth2AuthorizationDTO);
+    R<?> saveOAuth2Authorization(@RequestBody OAuth2AuthorizationDTO oauth2AuthorizationDTO);
 
     @DeleteMapping("/ws/oauth2/authorization/{id}")
     R<?> deleteOAuth2AuthorizationById(@PathVariable("id") String id);

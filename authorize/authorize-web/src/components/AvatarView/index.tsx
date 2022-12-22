@@ -46,9 +46,7 @@ const AvatarView = (props: AvatarViewProps) => {
     textAlign: 'center'
   }));
 
-
-
-  const { readonly, value, onChange } = props
+  const { readonly, value, onChange: onAvatarChange } = props
 
   const [loading, setLoading] = useState(false);
 
@@ -78,12 +76,16 @@ const AvatarView = (props: AvatarViewProps) => {
         const { response } = info.file;
         if (response.code === '0') {
           console.log(response.data)
-          onChange?.(response.data || '');
+          const avatarUrl = response.data || '';
+          onAvatarChange?.(avatarUrl);
         } else {
           message.error('上传失败！');
         }
-        setLoading(false);
       }
+
+      console.log(info.file)
+
+      setLoading(false);
     },
   };
 
@@ -96,7 +98,7 @@ const AvatarView = (props: AvatarViewProps) => {
       { readonly ? null : (
         <Upload {...uploadProps}>
           <div className={buttonViewClassName}>
-            <Button icon={<UploadOutlined />} loading={loading}>
+            <Button icon={<UploadOutlined />} loading={loading} disabled={loading}>
               更换头像
             </Button>
           </div>

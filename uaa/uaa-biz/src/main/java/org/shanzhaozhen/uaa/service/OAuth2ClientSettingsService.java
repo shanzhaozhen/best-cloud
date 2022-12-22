@@ -22,9 +22,9 @@ public interface OAuth2ClientSettingsService {
     /**
      * 添加或更新客户端信息 oauth2 客户端配置
      * @param clientId
-     * @param oAuth2ClientSettingsDTO
+     * @param oauth2ClientSettingsDTO
      */
-    void addOrUpdateOAuth2ClientSettings(String clientId, OAuth2ClientSettingsDTO oAuth2ClientSettingsDTO);
+    void addOrUpdateOAuth2ClientSettings(String clientId, OAuth2ClientSettingsDTO oauth2ClientSettingsDTO);
 
     /**
      * 通过客户端 id 删除 oauth2 客户端配置

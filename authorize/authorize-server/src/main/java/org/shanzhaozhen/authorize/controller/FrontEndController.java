@@ -17,7 +17,7 @@ public class FrontEndController {
             "/403",
             "/500"
     })
-    public String front(){
+    public String front() {
         return "front/index";
     }
 

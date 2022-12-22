@@ -40,7 +40,7 @@ const GlobalHeaderRight: React.FC = () => {
 
   return (
     <div className={rightContentClassName}>
-      <Avatar />
+      <Avatar menu={true} />
       <SelectLang className={actionClassName} />
     </div>
   );

@@ -1,6 +1,5 @@
 package org.shanzhaozhen.uaa.converter;
 
-import org.shanzhaozhen.common.core.utils.JacksonUtils;
 import org.shanzhaozhen.uaa.pojo.dto.GithubUserInfo;
 import org.shanzhaozhen.uaa.pojo.entity.GithubUser;
 import org.springframework.util.Assert;

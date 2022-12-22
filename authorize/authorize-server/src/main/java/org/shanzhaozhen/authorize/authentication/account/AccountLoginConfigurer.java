@@ -1,7 +1,7 @@
 package org.shanzhaozhen.authorize.authentication.account;
 
 import org.shanzhaozhen.authorize.authentication.AbstractLoginFilterConfigurer;
-import org.shanzhaozhen.uaa.feign.SocialUserFeignClient;
+import org.shanzhaozhen.authorize.service.SocialUserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
 import org.springframework.security.web.authentication.ForwardAuthenticationFailureHandler;
@@ -16,11 +16,11 @@ import static org.shanzhaozhen.authorize.authentication.account.AccountAuthentic
 public class AccountLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
         AbstractLoginFilterConfigurer<H, AccountLoginConfigurer<H>, AccountAuthenticationFilter> {
 
-    private final SocialUserFeignClient socialUserFeignClient;
+    private final SocialUserService socialUserService;
 
-    public AccountLoginConfigurer(SocialUserFeignClient socialUserFeignClient) {
+    public AccountLoginConfigurer(SocialUserService socialUserService) {
         super(new AccountAuthenticationFilter(), DEFAULT_FILTER_PROCESSES_URI);
-        this.socialUserFeignClient = socialUserFeignClient;
+        this.socialUserService = socialUserService;
         usernameParameter("username");
         passwordParameter("password");
     }
@@ -60,7 +60,7 @@ public class AccountLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
     @Override
     public void configure(H http) throws Exception {
         super.configure(http);
-        AccountBindAuthenticationFilter filter = new AccountBindAuthenticationFilter(socialUserFeignClient);
+        AccountBindAuthenticationFilter filter = new AccountBindAuthenticationFilter(socialUserService);
         filter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
         http.addFilterAfter(filter, UsernamePasswordAuthenticationFilter.class);
     }

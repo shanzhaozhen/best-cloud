@@ -2,7 +2,7 @@ package org.shanzhaozhen.authorize.jackson;
 
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.shanzhaozhen.uaa.pojo.dto.AuthUser;
+import org.shanzhaozhen.authorize.pojo.dto.AuthUser;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
 import org.springframework.security.jackson2.SimpleGrantedAuthorityMixin;

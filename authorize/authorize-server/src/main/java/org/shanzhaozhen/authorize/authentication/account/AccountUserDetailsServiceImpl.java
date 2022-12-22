@@ -1,10 +1,9 @@
 package org.shanzhaozhen.authorize.authentication.account;
 
 import lombok.RequiredArgsConstructor;
-import org.shanzhaozhen.common.core.result.R;
-import org.shanzhaozhen.uaa.feign.UserFeignClient;
-import org.shanzhaozhen.uaa.pojo.dto.AuthUser;
-import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
+import org.shanzhaozhen.authorize.pojo.dto.AuthUser;
+import org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO;
+import org.shanzhaozhen.authorize.service.OAuth2UserService;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,18 +14,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AccountUserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserFeignClient userFeignClient;
+    private final OAuth2UserService oauth2UserService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDTO user;
-        try {
-            R<UserDTO> data = userFeignClient.loadUserByUsername(username);
-            user = data.getData();
-        } catch (Exception e) {
-            throw new BadCredentialsException("用户获取过程出现异常!");
-        }
-
+        OAuth2UserDTO user = oauth2UserService.getUserByUsername(username);
         if (user == null) {
             throw new BadCredentialsException("用户不存在!");
         }

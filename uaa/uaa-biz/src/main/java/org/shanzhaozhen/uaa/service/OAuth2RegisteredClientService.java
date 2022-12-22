@@ -35,22 +35,22 @@ public interface OAuth2RegisteredClientService {
 
     /**
      * 组装客户端信息（获得 clientSettings 及 tokenSettings）
-     * @param oAuth2RegisteredClientDTO
+     * @param oauth2RegisteredClientDTO
      * @return
      */
-    OAuth2RegisteredClientDTO assembleOAuth2RegisteredClient(OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO);
+    OAuth2RegisteredClientDTO assembleOAuth2RegisteredClient(OAuth2RegisteredClientDTO oauth2RegisteredClientDTO);
 
     /**
      * 添加或更新 OAuth2 客户端信息
-     * @param oAuth2RegisteredClientForm
+     * @param oauth2RegisteredClientForm
      */
-    void addOrUpdateOAuth2RegisteredClient(OAuth2RegisteredClientForm oAuth2RegisteredClientForm);
+    void addOrUpdateOAuth2RegisteredClient(OAuth2RegisteredClientForm oauth2RegisteredClientForm);
 
     /**
      * 添加或更新 OAuth2 客户端信息
-     * @param oAuth2RegisteredClientDTO
+     * @param oauth2RegisteredClientDTO
      */
-    void addOrUpdateOAuth2RegisteredClient(OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO);
+    void addOrUpdateOAuth2RegisteredClient(OAuth2RegisteredClientDTO oauth2RegisteredClientDTO);
 
     /**
          * 通过id删除客户端信息

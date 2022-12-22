@@ -9,7 +9,7 @@ dependencies {
     implementation(
 //            'org.springframework:spring-tx',
             "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}",
-
+//            'org.springframework.boot:spring-boot-starter-jdbc',
     )
 
 }

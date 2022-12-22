@@ -14,7 +14,7 @@ public interface CaptchaService {
      * @param phone 手机号
      * @return
      */
-    String generateCaptchaNumber(String phone);
+    String generateCaptchaCode(String phone);
 
     /**
      * 生成验证码图片
@@ -31,5 +31,10 @@ public interface CaptchaService {
      */
     boolean verifyCaptcha(String phone, String rawCode) throws CaptchaErrorException;
 
+    /**
+     * 发送短信验证码
+     * @param phone
+     */
+    void sendCaptchaCode(String phone) throws Exception;
 
 }

@@ -17,25 +17,25 @@ public class OAuth2AuthorizationConsentController {
     private static final String SAVE_OAUTH2_AUTHORIZATION_CONSENT = "/oauth2/authorization-consent";
     private static final String DELETE_OAUTH2_AUTHORIZATION_CONSENT = "/oauth2/authorization-consent";
 
-    private final OAuth2AuthorizationConsentService oAuth2AuthorizationConsentService;
+    private final OAuth2AuthorizationConsentService oauth2AuthorizationConsentService;
 
     @Operation(summary = "获取用户授权范围信息")
     @GetMapping(GET_OAUTH2_AUTHORIZATION_CONSENT)
     public OAuth2AuthorizationConsentDTO getOAuth2AuthorizationConsent(@RequestParam("registeredClientId") String registeredClientId, @RequestParam("principalName") String principalName) {
-        return oAuth2AuthorizationConsentService.getOAuth2AuthorizationConsent(registeredClientId, principalName);
+        return oauth2AuthorizationConsentService.getOAuth2AuthorizationConsent(registeredClientId, principalName);
     }
 
     @Operation(summary = "保存用户授权范围信息")
     @PostMapping(SAVE_OAUTH2_AUTHORIZATION_CONSENT)
-    public R<?> saveOAuth2AuthorizationConsent(@RequestBody OAuth2AuthorizationConsentDTO oAuth2AuthorizationConsentDTO) {
-        oAuth2AuthorizationConsentService.addOrUpdateOAuth2AuthorizationConsent(oAuth2AuthorizationConsentDTO);
+    public R<?> saveOAuth2AuthorizationConsent(@RequestBody OAuth2AuthorizationConsentDTO oauth2AuthorizationConsentDTO) {
+        oauth2AuthorizationConsentService.addOrUpdateOAuth2AuthorizationConsent(oauth2AuthorizationConsentDTO);
         return R.ok();
     }
 
     @Operation(summary = "删除用户授权范围信息")
     @DeleteMapping(DELETE_OAUTH2_AUTHORIZATION_CONSENT)
     public R<?> deleteOAuth2AuthorizationConsent(@RequestParam("registeredClientId") String registeredClientId, @RequestParam("principalName") String principalName) {
-        oAuth2AuthorizationConsentService.deleteOAuth2AuthorizationConsent(registeredClientId, principalName);
+        oauth2AuthorizationConsentService.deleteOAuth2AuthorizationConsent(registeredClientId, principalName);
         return R.ok();
     }
 

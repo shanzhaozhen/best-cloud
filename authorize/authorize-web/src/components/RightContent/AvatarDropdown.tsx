@@ -1,23 +1,28 @@
-import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { LogoutOutlined, SettingOutlined } from '@ant-design/icons';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
-import { history, useModel } from '@umijs/max';
+import { history } from '@umijs/max';
 import { Avatar, Spin } from 'antd';
 import { setAlpha } from '@ant-design/pro-components';
-import { stringify } from 'querystring';
 import type { MenuInfo } from 'rc-menu/lib/interface';
-import React, { useCallback } from 'react';
-import { flushSync } from 'react-dom';
+import React, {useCallback} from 'react';
 import HeaderDropdown from '../HeaderDropdown';
 import {useRequest} from "@@/exports";
 import {getCurrentUserInfo} from "@/services/user";
+import {resourcesPath} from "../../../config/constants";
 
-export type GlobalHeaderRightProps = {
+type NameProps = {
+  name?: string;
+};
+
+type AvatarLogoProps = {
+  avatar?: string;
+};
+
+type GlobalHeaderRightProps = {
   menu?: boolean;
 };
 
-const Name = () => {
-  const { initialState } = useModel('@@initialState');
-  const { currentUser } = initialState || {};
+const Name: React.FC<NameProps> = ({ name }) => {
 
   const nameClassName = useEmotionCss(({ token }) => ({
     width: '70px',
@@ -31,12 +36,10 @@ const Name = () => {
     },
   }));
 
-  return <span className={`${nameClassName} anticon`}>{currentUser?.name}</span>;
+  return <span className={`${nameClassName} anticon`}>{name || '（未命名）'}</span>;
 };
 
-const AvatarLogo = () => {
-  const { initialState } = useModel('@@initialState');
-  const { currentUser } = initialState || {};
+const AvatarLogo: React.FC<AvatarLogoProps> = ({ avatar }) => {
 
   const avatarClassName = useEmotionCss(({ token }) => ({
     marginRight: '8px',
@@ -48,13 +51,10 @@ const AvatarLogo = () => {
     },
   }));
 
-  return <Avatar size="small" className={avatarClassName} src={currentUser?.avatar} alt="avatar" />;
+  return <Avatar size="small" className={avatarClassName} src={avatar || `${resourcesPath}default-avatar.png`} alt="avatar" />;
 };
 
 const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
-  const {data, loading} = useRequest(async () => {
-    return getCurrentUserInfo();
-  });
 
   const actionClassName = useEmotionCss(({ token }) => ({
     display: 'flex',
@@ -70,16 +70,22 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
     },
   }));
 
-  const { initialState, setInitialState } = useModel('@@initialState');
+
+  const {data, loading} = useRequest(async () => {
+    return getCurrentUserInfo();
+  });
 
   const onMenuClick = useCallback(
     (event: MenuInfo) => {
       const { key } = event;
-      if (key === 'logout') {
+      if (key === 'settings') {
+        window.location.href = '/account'
+        return;
+      } else if (key === 'logout') {
         window.location.href = '/logout'
         return;
       }
-      history.push(`/account/${key}`);
+      history.push(`/`);
     },
     [],
   );
@@ -97,43 +103,29 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   );
 
   const menuItems = [
-    /*{
-      key: 'center',
-      icon: <UserOutlined />,
-      label: '个人中心',
-    },
-    {
-      key: 'settings',
-      icon: <SettingOutlined />,
-      label: '个人设置',
-    },*/
+    ...(menu
+      ? [
+        // {
+        //   key: 'center',
+        //   icon: <UserOutlined />,
+        //   label: '个人中心',
+        // },
+        {
+          key: 'settings',
+          icon: <SettingOutlined />,
+          label: '个人设置',
+        },
+        {
+          type: 'divider' as const,
+        },
+      ]
+      : []),
     {
       key: 'logout',
       icon: <LogoutOutlined />,
       label: '退出登录',
     },
   ];
-
-/*  const menuHeaderDropdown = (
-    <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick} items={menuItems} />
-  );
-
-  return (
-    <HeaderDropdown overlay={menuHeaderDropdown}>
-      <span className={`${styles.action} ${styles.account}`}>
-        {
-          loading ? (
-            loadingUser
-          ) : (
-            <>
-              <Avatar size="small" className={styles.avatar} src={data?.avatar || `${resourcesPath}default-avatar.png`} alt="avatar" />
-              <span className={`${styles.name} anticon`}>{data?.name || '（未命名）'}</span>
-            </>
-          )
-        }
-      </span>
-    </HeaderDropdown>
-  );*/
 
   return (
     <HeaderDropdown
@@ -144,8 +136,14 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
       }}
     >
       <span className={actionClassName}>
-        <AvatarLogo />
-        <Name />
+        {
+          loading ? loadingUser : (
+            <>
+              <AvatarLogo avatar={data?.avatar} />
+              <Name name={data?.name} />
+            </>
+          )
+        }
       </span>
     </HeaderDropdown>
   );

@@ -1,7 +1,7 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from '@umijs/max';
-import {AccountLogin, FakeCaptcha, PhoneLogin, R} from "@/services/typings";
+import {AccountLogin, PhoneLogin, R} from "@/services/typings";
 
 const apiRoot = process.env.NODE_ENV === 'production' ? '' : '/api'
 
@@ -29,9 +29,9 @@ export async function loginByPhone(phoneLogin: PhoneLogin, options?: Record<stri
   });
 }
 
-/** 发送验证码 POST /login/captcha */
-export async function getFakeCaptcha(params: { phone?: string; }, options?: { [key: string]: any }) {
-  return request<FakeCaptcha>('${apiRoot}/login/captcha', {
+/** 发送验证码 POST /captcha/phone */
+export async function getCaptcha(params: { phone?: string; }, options?: { [key: string]: any }) {
+  return request<R<any>>(`${apiRoot}/captcha/phone`, {
     method: 'GET',
     params: {
       ...params,
