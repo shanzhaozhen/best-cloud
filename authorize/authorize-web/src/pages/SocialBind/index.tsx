@@ -7,8 +7,8 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import {ProFormCaptcha, ProFormCheckbox} from "@ant-design/pro-form";
-import {getCaptcha} from "../../services/login";
-import {bindAccount} from "../../services/social";
+import {getCaptcha} from "@/services/login";
+import {bindAccount} from "@/services/social";
 import styles from './index.less';
 
 

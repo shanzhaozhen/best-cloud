@@ -27,6 +27,9 @@ public class OAuth2UserDTO extends BaseInfo {
     @Schema(description = "密码")
     private String password;
 
+    @Schema(description = "手机号")
+    private String phone;
+
     @Schema(description = "账户是否过期,过期无法验证")
     private boolean accountNonExpired;
 

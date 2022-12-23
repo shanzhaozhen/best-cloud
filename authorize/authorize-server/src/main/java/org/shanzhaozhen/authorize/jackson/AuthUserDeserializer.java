@@ -30,11 +30,12 @@ public class AuthUserDeserializer extends JsonDeserializer<AuthUser> {
 		String userId = readJsonNode(jsonNode, "userId").asText();
 		String username = readJsonNode(jsonNode, "username").asText();
 		String password = passwordNode.asText("");
+		String phone = passwordNode.asText("");
 		boolean enabled = readJsonNode(jsonNode, "enabled").asBoolean();
 		boolean accountNonExpired = readJsonNode(jsonNode, "accountNonExpired").asBoolean();
 		boolean credentialsNonExpired = readJsonNode(jsonNode, "credentialsNonExpired").asBoolean();
 		boolean accountNonLocked = readJsonNode(jsonNode, "accountNonLocked").asBoolean();
-		AuthUser result = new AuthUser(userId, username, password, enabled, accountNonExpired, credentialsNonExpired,
+		AuthUser result = new AuthUser(userId, username, password, phone, enabled, accountNonExpired, credentialsNonExpired,
 				accountNonLocked, authorities);
 //		if (passwordNode.asText(null) == null) {
 //			result.eraseCredentials();

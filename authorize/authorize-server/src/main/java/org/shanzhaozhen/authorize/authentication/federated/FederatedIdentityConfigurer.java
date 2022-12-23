@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuth
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.context.SecurityContextHolderFilter;
 import org.springframework.util.Assert;
@@ -151,7 +152,7 @@ public final class FederatedIdentityConfigurer extends AbstractHttpConfigurer<Fe
 //					});
 				})
 //				.addFilterAfter(new FederatedIdentitySocialBindFilter(), SecurityContextHolderFilter.class)
-				.addFilterAfter(new FederatedIdentitySocialBindFilter(), FilterSecurityInterceptor.class)
+				.addFilterAfter(new FederatedIdentitySocialBindFilter(), AuthorizationFilter.class)
 		;
 	}
 	// @formatter:on

@@ -17,6 +17,14 @@ public interface OAuth2UserService {
     OAuth2UserDTO getUserById(String userId);
 
     /**
+     * 通过用户ID查找用户
+     * @param userId
+     * @return
+     */
+    OAuth2UserDTO getUserByUserId(String userId);
+
+
+    /**
      * 通过用户名查找用户
      * @param username
      * @return
@@ -24,11 +32,11 @@ public interface OAuth2UserService {
     OAuth2UserDTO getUserByUsername(String username);
 
     /**
-     * 通过用户ID查找用户
-     * @param userId
+     * 通过手机号查找用户
+     * @param phone
      * @return
      */
-    OAuth2UserDTO getUserByUserId(String userId);
+    OAuth2UserDTO getUserByPhone(String phone);
 
     /**
      * 获取当前用户
@@ -120,5 +128,6 @@ public interface OAuth2UserService {
      * @param changePasswordForm
      */
     void changePassword(ChangePasswordForm changePasswordForm);
+
 
 }

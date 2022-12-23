@@ -9,8 +9,10 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 public class PhoneLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
         AbstractLoginFilterConfigurer<H, PhoneLoginConfigurer<H>, PhoneAuthenticationFilter> {
 
+    private final static String DEFAULT_FAILURE_URL = "/login?type=phone&error";
+
     public PhoneLoginConfigurer() {
-        super(new PhoneAuthenticationFilter(), PhoneAuthenticationFilter.DEFAULT_FILTER_PROCESSES_URI);
+        super(new PhoneAuthenticationFilter(), PhoneAuthenticationFilter.DEFAULT_FILTER_PROCESSES_URI, DEFAULT_FAILURE_URL);
     }
 
     /**

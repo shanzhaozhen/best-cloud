@@ -46,3 +46,7 @@ minio:
   # 默认的桶名称(非必须)，每个微服务有单独的默认存储桶
   bucket-name: uaa
 
+sms:
+  accessKeyId: LTAI5tLBqZSX32SJ2ZV2LZF2
+  accessKeySecret: 13DBQMms9mtuAwqNhn7QpMEcyIY9ZT
+  regionId: public

@@ -16,6 +16,8 @@ public interface OAuth2UserMapper extends BaseMapper<OAuth2UserDO> {
 
     OAuth2UserDTO getUserByUsername(@Param("username") String username);
 
+    OAuth2UserDTO getUserByPhone(@Param("phone") String phone);
+
     OAuth2UserDTO getUserByUserId(@Param("userId") String userId);
 
     Page<OAuth2UserDTO> getUserPage(Page<OAuth2UserDTO> page, @Param("keyword") String keyword);

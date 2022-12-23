@@ -36,14 +36,18 @@ public class OAuth2UserServiceImpl implements OAuth2UserService {
     }
 
     @Override
+    public OAuth2UserDTO getUserByUserId(String userId) {
+        return oauth2UserMapper.getUserByUserId(userId);
+    }
+
+    @Override
     public OAuth2UserDTO getUserByUsername(String username) {
         return oauth2UserMapper.getUserByUsername(username);
     }
 
     @Override
-    public OAuth2UserDTO getUserByUserId(String userId) {
-        OAuth2UserDTO user = oauth2UserMapper.getUserByUserId(userId);
-        return user;
+    public OAuth2UserDTO getUserByPhone(String phone) {
+        return oauth2UserMapper.getUserByPhone(phone);
     }
 
 //    @Override

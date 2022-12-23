@@ -21,6 +21,7 @@ import {useLocation, useSearchParams} from "umi";
 import React, {useEffect, useState} from 'react';
 import PublicPageComponent from "@/components/PublicPageComponent";
 import {resourcesPath} from "../../../config/constants";
+import { LoginResult } from '@/services/typings';
 
 const ActionIcons = () => {
   const langClassName = useEmotionCss(({token}) => ({
@@ -63,10 +64,11 @@ const LoginMessage: React.FC<{
   );
 };
 
+
 const Login: React.FC = () => {
-  const [userLoginState] = useState<any>({});
-  const [type, setType] = useState<string>('account');
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [userLoginState] = useState<LoginResult>({});
+  const [loginType, setLoginType] = useState<string>(searchParams.get('type') || 'account');
 
   const intl = useIntl();
 
@@ -75,6 +77,8 @@ const Login: React.FC = () => {
   useEffect(() => {
     const err = searchParams.get('error');
     const msg = searchParams.get('msg');
+
+    // setType(searchParams.get('type') || 'account')
 
     if (err !== null) {
       message.error(msg ? msg : '用户名或密码错误!');
@@ -90,16 +94,18 @@ const Login: React.FC = () => {
       loginForm.style.display = "none";
 
       for (const key in values) {
-        const input = document.createElement('input');
-        input.name = key;
-        input.value = values[key];
-        loginForm.appendChild(input);
+        if (values.hasOwnProperty(key)) {
+          const input = document.createElement('input');
+          input.name = key;
+          input.value = values[key];
+          loginForm.appendChild(input);
+        }
       }
 
-      if (type === 'account') { // 账号登陆
+      if (loginType === 'account') { // 账号登陆
         loginForm.action = '/login/account';
-      } else if (type === 'mobile') {  // 手机验证码登陆
-        loginForm.action = '/login/account';
+      } else if (loginType === 'phone') {  // 手机验证码登陆
+        loginForm.action = '/login/phone';
       }
       console.log(loginForm)
       document.body.appendChild(loginForm);
@@ -115,7 +121,7 @@ const Login: React.FC = () => {
       document.body.removeChild(loginForm);
     }
   };
-  const {status, type: loginType} = userLoginState;
+  const {status} = userLoginState;
 
   return (
     <PublicPageComponent
@@ -156,8 +162,14 @@ const Login: React.FC = () => {
           }}
         >
           <Tabs
-            activeKey={type}
-            onChange={setType}
+            activeKey={loginType}
+            onChange={(key) => {
+              setSearchParams({
+                type: key
+              });
+              setLoginType(key);
+            }}
+            centered
             items={[
               {
                 key: 'account',
@@ -167,7 +179,7 @@ const Login: React.FC = () => {
                 }),
               },
               {
-                key: 'mobile',
+                key: 'phone',
                 label: intl.formatMessage({
                   id: 'pages.login.phoneLogin.tab',
                   defaultMessage: '手机号登录',
@@ -184,7 +196,7 @@ const Login: React.FC = () => {
               })}
             />
           )}
-          {type === 'account' && (
+          {loginType === 'account' && (
             <>
               <ProFormText
                 name="username"
@@ -233,8 +245,8 @@ const Login: React.FC = () => {
             </>
           )}
 
-          {status === 'error' && loginType === 'mobile' && <LoginMessage content="验证码错误"/>}
-          {type === 'mobile' && (
+          {status === 'error' && loginType === 'phone' && <LoginMessage content="验证码错误"/>}
+          {loginType === 'phone' && (
             <>
               <ProFormText
                 fieldProps={{

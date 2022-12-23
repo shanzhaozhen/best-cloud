@@ -4,7 +4,7 @@
 
     <!-- 用户查询结果列 -->
     <sql id="User_Columns">
-        id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
+        id, username, password, phone, account_non_expired, account_non_locked, credentials_non_expired, enabled,
         created_by, created_date, last_modified_by, last_modified_date
     </sql>
 
@@ -32,7 +32,7 @@
     </resultMap>
 
     <select id="selectUserByUsername" resultType="org.shanzhaozhen.authorize.pojo.entity.OAuth2UserDO">
-        select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
+        select id, username, password, phone, account_non_expired, account_non_locked, credentials_non_expired, enabled,
                created_by, created_date, last_modified_by, last_modified_date
         from oauth2_user where username = #{username}
     </select>
@@ -42,26 +42,32 @@
     </select>
 
     <select id="getUserById" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO">
-        select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
+        select id, username, password, phone, account_non_expired, account_non_locked, credentials_non_expired, enabled,
                created_by, created_date, last_modified_by, last_modified_date
         from oauth2_user where id = #{id}
     </select>
 
     <select id="getUserAndRolesByUserId" resultMap="UserRoleMap">
-        select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
+        select id, username, password, phone, account_non_expired, account_non_locked, credentials_non_expired, enabled,
                created_by, created_date, last_modified_by, last_modified_date
         from oauth2_user where id = #{id}
     </select>
 
+    <select id="getUserByUserId" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO">
+        select id, username, password, phone, account_non_expired, account_non_locked, credentials_non_expired, enabled
+        from oauth2_user where id = #{userId}
+    </select>
+
     <select id="getUserByUsername" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO">
-        select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled
+        select id, username, password, phone, account_non_expired, account_non_locked, credentials_non_expired, enabled
         from oauth2_user where username = #{username}
     </select>
 
-    <select id="getUserByUserId" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO">
-        select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled
-        from oauth2_user where id = #{userId}
+    <select id="getUserByPhone" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO">
+        select id, username, password, phone, account_non_expired, account_non_locked, credentials_non_expired, enabled
+        from oauth2_user where phone = #{phone}
     </select>
+    
 
     <select id="getUserPage" resultMap="UserAndInfoMap">
         select u.id, u.username, u.account_non_expired, u.account_non_locked, u.credentials_non_expired, u.enabled,

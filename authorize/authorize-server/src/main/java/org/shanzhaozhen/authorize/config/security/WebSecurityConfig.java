@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.authorize.authentication.bind.Oauth2BindConfigurer;
 import org.shanzhaozhen.authorize.authentication.federated.FederatedIdentityConfigurer;
 import org.shanzhaozhen.authorize.authentication.account.AccountLoginConfigurer;
+import org.shanzhaozhen.authorize.authentication.phone.PhoneLoginConfigurer;
 import org.shanzhaozhen.authorize.service.SocialUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,8 +19,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
 
 	public final static String[] resourcesPath = {
-			"/webjars/**", "/front/**", "/static/**", "/favicon.ico",
-			"/*/*.ico", "/*/*.css", "/*/*.js", "/*/*.png", "/*/*.jpg"
+			"/webjars/**", "/front/**", "/static/**",
+			"/favicon.ico", "/*/*.css", "/*/*.js", "/*/*.png", "/*/*.jpg"
 	};
 
 	public final static String[] whiteUrl = {
@@ -35,6 +36,8 @@ public class WebSecurityConfig {
 	@Bean
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 		http
+
+//				AuthorizationManagerRequestMatcherRegistry
 
 			.authorizeHttpRequests(authorizeHttpRequests ->
 					authorizeHttpRequests
@@ -52,16 +55,12 @@ public class WebSecurityConfig {
 //				.formLogin()
 				.apply(new AccountLoginConfigurer<>(socialUserService))
 				.and()
+				.apply(new PhoneLoginConfigurer<>())
+				.and()
 				.apply(new FederatedIdentityConfigurer(socialUserService))
 				.and()
 				.apply(new Oauth2BindConfigurer(socialUserService))
 //				.loginPage("/login")
-//				.successHandler(defaultAuthenticationSuccessHandler)
-//				.failureHandler(defaultAuthenticationFailureHandler)
-//				.and()
-//				.apply(new PhoneLoginConfigurer<>())
-//				.successHandler(defaultAuthenticationSuccessHandler)
-//				.failureHandler(defaultAuthenticationFailureHandler)
 		;
 		return http.build();
 	}

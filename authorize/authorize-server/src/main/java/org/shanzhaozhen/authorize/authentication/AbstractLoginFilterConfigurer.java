@@ -61,6 +61,13 @@ public abstract class AbstractLoginFilterConfigurer<B extends HttpSecurityBuilde
         }
     }
 
+    protected AbstractLoginFilterConfigurer(F authenticationFilter, String defaultLoginProcessingUrl, String defaultFailureUrl) {
+        this(authenticationFilter, defaultLoginProcessingUrl);
+        if (defaultFailureUrl != null) {
+            failureUrl(defaultFailureUrl);
+        }
+    }
+
     public final T defaultSuccessUrl(String defaultSuccessUrl) {
         return defaultSuccessUrl(defaultSuccessUrl, false);
     }
@@ -282,9 +289,18 @@ public abstract class AbstractLoginFilterConfigurer<B extends HttpSecurityBuilde
      * Updates the default values for access.
      */
     protected final void updateAccessDefaults(B http) {
-        if (this.permitAll) {
-            PermitAllSupport.permitAll(http, this.loginPage, this.loginProcessingUrl, this.failureUrl);
-        }
+//        if (this.permitAll) {
+//            PermitAllSupport.permitAll(http, this.loginPage, this.loginProcessingUrl, this.failureUrl);
+//        }
+
+//        ((HttpSecurity) getBuilder()).authorizeHttpRequests(authorizeHttpRequests ->
+//                authorizeHttpRequests.requestMatchers(this.loginPage, this.loginProcessingUrl, this.failureUrl).permitAll()
+//        );
+
+//        if (this.permitAll) {
+//            AuthorizeHttpRequestsConfigurer<?> httpConfigurer = http.getConfigurer(AuthorizeHttpRequestsConfigurer.class);
+//            httpConfigurer.getRegistry().requestMatchers(this.loginPage, this.loginProcessingUrl, this.failureUrl).permitAll();
+//        }
     }
 
     private void setLoginPage(String loginPage) {

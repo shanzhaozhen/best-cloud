@@ -12,7 +12,8 @@ const headScripts = isProduction ? (
   [{
     'th:inline': 'javascript',
     content:
-      'window.mvcModel = [[${mvcModel}]];'
+      'window.mvcModel = [[${mvcModel}]];' +
+      'window.securityInfo = [[${SPRING_SECURITY_LAST_EXCEPTION}]];',
   }]) : [];
 
 export default defineConfig({

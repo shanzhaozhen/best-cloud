@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.shanzhaozhen.common.core.utils.JacksonUtils;
 import org.shanzhaozhen.common.sms.service.SmsService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -40,7 +41,14 @@ public class SmsServiceImpl implements SmsService {
         // Synchronously get the return value of the API request
         SendSmsResponse resp = response.get();
 
-        log.debug(JacksonUtils.toJSONString(resp));
+        if (log.isDebugEnabled()) {
+            log.debug(JacksonUtils.toJSONString(resp));
+        } else {
+            if (!"ok".equals(resp.getBody().getCode())) {
+                log.error(JacksonUtils.toJSONString(resp));
+                throw new IllegalArgumentException("消息发送失败！");
+            }
+        }
 
         // Asynchronous processing of return values
         /*response.thenAccept(resp -> {

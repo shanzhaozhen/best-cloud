@@ -14,6 +14,11 @@ type FakeCaptcha = {
   status?: string;
 };
 
+type LoginResult = {
+  status?: string;
+  type?: string;
+  currentAuthority?: string;
+}
 
 export type AccountLogin = {
   /** 用户名 */
