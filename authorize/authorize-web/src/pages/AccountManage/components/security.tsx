@@ -1,8 +1,11 @@
-import React, {useState} from 'react';
-import {Col, List, message, Row} from 'antd';
-import {ModalForm, ProFormText} from "@ant-design/pro-components";
-import {changePassword} from "@/services/user";
+import React, {Dispatch, SetStateAction, useState} from 'react';
+import {Col, List, message, Row, Skeleton} from 'antd';
+import {ModalForm, ProFormCaptcha, ProFormText} from "@ant-design/pro-components";
+import {changePassword, getSecurityInfo} from "@/services/user";
 import type {ChangePasswordForm} from "@/services/typings";
+import {FormattedMessage, useIntl, useRequest} from "@@/exports";
+import {LockOutlined, MobileOutlined} from "@ant-design/icons";
+import {getCaptcha} from "@/services/login";
 
 type Unpacked<T> = T extends (infer U)[] ? U : T;
 
@@ -12,9 +15,18 @@ const passwordStrength = {
   weak: <span className="weak">弱 Weak</span>,
 };
 
-const SecurityView: React.FC = () => {
+type PasswordChangeModalProps = {
+  changePasswordModalOpen: boolean,
+  handleChangePasswordModalOpen: Dispatch<SetStateAction<boolean>>;
+}
 
-  const [changePasswordModalVisible, handleChangePasswordModalVisible] = useState<boolean>(false);
+type BindPhoneModalProps = {
+  bindPhoneModalOpen: boolean,
+  handleBindPhoneModalOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+const PasswordChangeModal: React.FC<PasswordChangeModalProps> = (props) => {
+  const { changePasswordModalOpen, handleChangePasswordModalOpen } = props
 
   const handleChangePassword = async (fields: ChangePasswordForm) => {
     const hide = message.loading('修改中...');
@@ -30,57 +42,14 @@ const SecurityView: React.FC = () => {
     }
   };
 
-  const getData = () => [
-    {
-      title: '账户密码',
-      description: (
-        <>
-          当前密码强度：
-          {passwordStrength.strong}
-        </>
-      ),
-      actions: [<a key="Modify" onClick={() => handleChangePasswordModalVisible(true)}>修改</a>],
-    },
-    {
-      title: '密保手机',
-      description: `已绑定手机：138****8293`,
-      actions: [<a key="Modify">修改</a>],
-    },
-    {
-      title: '密保问题',
-      description: '未设置密保问题，密保问题可有效保护账户安全',
-      actions: [<a key="Set">设置</a>],
-    },
-    {
-      title: '备用邮箱',
-      description: `已绑定邮箱：ant***sign.com`,
-      actions: [<a key="Modify">修改</a>],
-    },
-    // {
-    //   title: 'MFA 设备',
-    //   description: '未绑定 MFA 设备，绑定后，可以进行二次确认',
-    //   actions: [<a key="bind">绑定</a>],
-    // },
-  ];
-
-  const data = getData();
   return (
     <>
-      <List<Unpacked<typeof data>>
-        itemLayout="horizontal"
-        dataSource={data}
-        renderItem={(item) => (
-          <List.Item actions={item.actions}>
-            <List.Item.Meta title={item.title} description={item.description} />
-          </List.Item>
-        )}
-      />
       <ModalForm
         title="密码修改"
         width="368px"
-        visible={changePasswordModalVisible}
+        open={changePasswordModalOpen}
         modalProps={{ destroyOnClose: true }}
-        onVisibleChange={handleChangePasswordModalVisible}
+        onOpenChange={handleChangePasswordModalOpen}
         onFinish={handleChangePassword}
       >
         <Row gutter={24}>
@@ -142,6 +111,199 @@ const SecurityView: React.FC = () => {
           </Col>
         </Row>
       </ModalForm>
+    </>
+  )
+}
+
+const BindPhoneModal: React.FC<BindPhoneModalProps> = (props) => {
+  const { bindPhoneModalOpen, handleBindPhoneModalOpen } = props
+
+  const intl = useIntl();
+
+  const handleBindPhone = async (fields: ChangePasswordForm) => {
+    const hide = message.loading('修改中...');
+    try {
+      await changePassword(fields);
+      hide();
+      message.success('修改密码成功！');
+      return true;
+    } catch (error) {
+      hide();
+      message.error('修改密码失败，请重试!');
+      return false;
+    }
+  };
+
+  return (
+    <>
+      <ModalForm
+        title="绑定手机"
+        width="368px"
+        open={bindPhoneModalOpen}
+        modalProps={{ destroyOnClose: true }}
+        onOpenChange={handleBindPhoneModalOpen}
+        onFinish={handleBindPhone}
+      >
+        <Row gutter={24}>
+          <Col xl={24} lg={24} md={24}>
+            <ProFormText
+              fieldProps={{
+                size: 'large',
+                prefix: <MobileOutlined/>,
+              }}
+              width="md"
+
+              name="phone"
+              placeholder={intl.formatMessage({
+                id: 'pages.login.phoneNumber.placeholder',
+                defaultMessage: '手机号',
+              })}
+              rules={[
+                {
+                  required: true,
+                  message: (
+                    <FormattedMessage
+                      id="pages.login.phoneNumber.required"
+                      defaultMessage="请输入手机号！"
+                    />
+                  ),
+                },
+                {
+                  pattern: /^1\d{10}$/,
+                  message: (
+                    <FormattedMessage
+                      id="pages.login.phoneNumber.invalid"
+                      defaultMessage="手机号格式错误！"
+                    />
+                  ),
+                },
+              ]}
+            />
+          </Col>
+          <Col xl={24} lg={24} md={24}>
+            <ProFormCaptcha
+              width="md"
+              fieldProps={{
+                size: 'large',
+                prefix: <LockOutlined/>,
+              }}
+              captchaProps={{
+                size: 'large',
+              }}
+              placeholder={intl.formatMessage({
+                id: 'pages.login.captcha.placeholder',
+                defaultMessage: '请输入验证码',
+              })}
+              captchaTextRender={(timing, count) => {
+                if (timing) {
+                  return `${count} ${intl.formatMessage({
+                    id: 'pages.getCaptchaSecondText',
+                    defaultMessage: '获取验证码',
+                  })}`;
+                }
+                return intl.formatMessage({
+                  id: 'pages.login.phoneLogin.getVerificationCode',
+                  defaultMessage: '获取验证码',
+                });
+              }}
+              phoneName="phone"
+              name="captcha"
+              rules={[
+                {
+                  required: true,
+                  message: (
+                    <FormattedMessage
+                      id="pages.login.captcha.required"
+                      defaultMessage="请输入验证码！"
+                    />
+                  ),
+                },
+              ]}
+              onGetCaptcha={async (phone) => {
+                try {
+                  await getCaptcha({phone});
+                  message.success('验证码已通过短信发送至您的手机，请查收！');
+                } catch (error) {
+                  message.error('获取验证码错误！');
+                  throw new Error("获取验证码错误")
+                }
+              }}
+            />
+          </Col>
+        </Row>
+      </ModalForm>
+    </>
+  )
+}
+
+
+const SecurityView: React.FC = () => {
+  const [changePasswordModalOpen, handleChangePasswordModalOpen] = useState<boolean>(false);
+  const [bindPhoneModalOpen, handleBindPhoneModalOpen] = useState<boolean>(false);
+
+  const {data: securityInfo, loading} = useRequest(async () => {
+    return getSecurityInfo();
+  });
+
+  const getData = () => [
+    {
+      title: '账户密码',
+      description: (
+        <>
+          当前密码强度：
+          {passwordStrength.strong}
+        </>
+      ),
+      actions: [<a key="Modify" onClick={() => handleChangePasswordModalOpen(true)}>修改</a>],
+    },
+    securityInfo?.phone ? ({
+      title: '密保手机',
+      description: `已绑定手机：${securityInfo.phone}`,
+      actions: [<a key="Modify" onClick={() => handleBindPhoneModalOpen(true)}>修改</a>],
+    }) : ({
+      title: '密保手机',
+      description: `未绑定手机`,
+      actions: [<a key="Modify" onClick={() => handleBindPhoneModalOpen(true)}>绑定</a>],
+    }),
+    // {
+    //   title: '密保问题',
+    //   description: '未设置密保问题，密保问题可有效保护账户安全',
+    //   actions: [<a key="Set">设置</a>],
+    // },
+    // {
+    //   title: '备用邮箱',
+    //   description: `已绑定邮箱：ant***sign.com`,
+    //   actions: [<a key="Modify">修改</a>],
+    // },
+    // {
+    //   title: 'MFA 设备',
+    //   description: '未绑定 MFA 设备，绑定后，可以进行二次确认',
+    //   actions: [<a key="bind">绑定</a>],
+    // },
+  ];
+
+  const data = getData();
+  return (
+    <>
+      <Skeleton loading={loading}>
+        <List<Unpacked<typeof data>>
+          itemLayout="horizontal"
+          dataSource={data}
+          renderItem={(item) => (
+            <List.Item actions={item.actions}>
+              <List.Item.Meta title={item.title} description={item.description} />
+            </List.Item>
+          )}
+        />
+        <PasswordChangeModal
+          changePasswordModalOpen={changePasswordModalOpen}
+          handleChangePasswordModalOpen={handleChangePasswordModalOpen}
+        />
+        <BindPhoneModal
+          bindPhoneModalOpen={bindPhoneModalOpen}
+          handleBindPhoneModalOpen={handleBindPhoneModalOpen}
+        />
+      </Skeleton>
     </>
   );
 };

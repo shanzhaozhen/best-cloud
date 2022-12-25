@@ -13,7 +13,8 @@ const headScripts = isProduction ? (
     'th:inline': 'javascript',
     content:
       'window.mvcModel = [[${mvcModel}]];' +
-      'window.securityInfo = [[${SPRING_SECURITY_LAST_EXCEPTION}]];',
+      'window.userInfo = [[${session?.userInfo}]];' +
+      'window.excMsg = [[${session?.SPRING_SECURITY_LAST_EXCEPTION?.message}]];',
   }]) : [];
 
 export default defineConfig({

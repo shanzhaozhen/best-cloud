@@ -27,7 +27,8 @@ public abstract class AbstractLoginFilterConfigurer<B extends HttpSecurityBuilde
 
     private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource;
 
-    private SavedRequestAwareAuthenticationSuccessHandler defaultSuccessHandler = new SavedRequestAwareAuthenticationSuccessHandler();
+//    private SavedRequestAwareAuthenticationSuccessHandler defaultSuccessHandler = new SavedRequestAwareAuthenticationSuccessHandler();
+    private SavedRequestAwareAuthenticationSuccessHandler defaultSuccessHandler = new LoginSuccessHandler();
 
     private AuthenticationSuccessHandler successHandler = this.defaultSuccessHandler;
 

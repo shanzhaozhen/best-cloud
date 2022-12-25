@@ -3,6 +3,9 @@ package org.shanzhaozhen.authorize.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO;
 import org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO;
+import org.shanzhaozhen.authorize.pojo.dto.SecurityInfo;
+import org.shanzhaozhen.authorize.pojo.entity.OAuth2UserDO;
+import org.shanzhaozhen.authorize.pojo.form.BindPhoneForm;
 import org.shanzhaozhen.authorize.pojo.form.ChangePasswordForm;
 
 import java.util.List;
@@ -41,7 +44,7 @@ public interface OAuth2UserService {
     /**
      * 获取当前用户
      */
-    OAuth2UserDTO getCurrentUser();
+    OAuth2UserDO getCurrentUser();
 
     /**
      * 注册新用户
@@ -100,24 +103,6 @@ public interface OAuth2UserService {
     List<String> batchDeleteUser(List<String> userIds);
 
     /**
-     * 通过获取角色Id获取用户
-     * @param page
-     * @param roleId
-     * @param keyword
-     * @return
-     */
-    Page<OAuth2UserDTO> getUserPageByRoleId(Page<OAuth2UserDTO> page, String roleId, String keyword);
-
-    /**
-     * 通过获取部门Id获取用户
-     * @param page
-     * @param departmentId
-     * @param keyword
-     * @return
-     */
-    Page<OAuth2UserDTO> getUserPageByDepartmentId(Page<OAuth2UserDTO> page, String departmentId, String keyword);
-
-    /**
      * 用户注销
      * @return
      */
@@ -129,5 +114,20 @@ public interface OAuth2UserService {
      */
     void changePassword(ChangePasswordForm changePasswordForm);
 
+    /**
+     * 获取用户安全信息
+     * @return
+     */
+    SecurityInfo getSecurityInfo();
 
+    /**
+     * 绑定手机
+     * @param phone
+     */
+    void bindPhone(BindPhoneForm bindPhoneForm);
+
+    /**
+     * 解绑手机
+     */
+    void unbindPhone();
 }

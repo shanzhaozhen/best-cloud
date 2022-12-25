@@ -119,3 +119,10 @@ export type GithubUserInfo = {
   /** 绑定时间 */
   bindDate?: string;
 };
+
+export type SecurityInfo = {
+  /** 密码安全等级 */
+  security?: string;
+  /** 手机号 */
+  phone?: string;
+};

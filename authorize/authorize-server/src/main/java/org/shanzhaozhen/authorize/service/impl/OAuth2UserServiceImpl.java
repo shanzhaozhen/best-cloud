@@ -4,10 +4,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.authorize.mapper.OAuth2UserMapper;
 import org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO;
+import org.shanzhaozhen.authorize.pojo.dto.SecurityInfo;
 import org.shanzhaozhen.authorize.pojo.entity.OAuth2UserDO;
+import org.shanzhaozhen.authorize.pojo.form.BindPhoneForm;
+import org.shanzhaozhen.authorize.service.CaptchaService;
 import org.shanzhaozhen.authorize.service.OAuth2UserService;
 import org.shanzhaozhen.authorize.utils.SecurityUtils;
 import org.shanzhaozhen.common.core.utils.CustomBeanUtils;
+import org.shanzhaozhen.common.core.utils.EncryptUtils;
 import org.shanzhaozhen.common.core.utils.PasswordUtils;
 import org.shanzhaozhen.authorize.pojo.form.ChangePasswordForm;
 import org.springframework.beans.BeanUtils;
@@ -27,6 +31,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService {
 
     private final OAuth2UserMapper oauth2UserMapper;
     private final PasswordEncoder passwordEncoder;
+    private final CaptchaService captchaService;
 
     @Override
     public OAuth2UserDTO getUserById(String userId) {
@@ -57,8 +62,13 @@ public class OAuth2UserServiceImpl implements OAuth2UserService {
 //    }
 
     @Override
-    public OAuth2UserDTO getCurrentUser() {
-        return null;
+    public OAuth2UserDO getCurrentUser() {
+        String userId = SecurityUtils.getCurrentUserId();
+        if (StringUtils.hasText(userId)) {
+            return null;
+        }
+
+        return oauth2UserMapper.selectById(userId);
     }
 
     @Override
@@ -134,18 +144,6 @@ public class OAuth2UserServiceImpl implements OAuth2UserService {
     }
 
     @Override
-    public Page<OAuth2UserDTO> getUserPageByRoleId(Page<OAuth2UserDTO> page, String roleId, String keyword) {
-        Assert.notNull(roleId, "没有有效的角色ID！");
-        return oauth2UserMapper.getUserPageByRoleId(page, roleId, keyword);
-    }
-
-    @Override
-    public Page<OAuth2UserDTO> getUserPageByDepartmentId(Page<OAuth2UserDTO> page, String departmentId, String keyword) {
-        Assert.notNull(departmentId, "没有有效的部门ID！");
-        return oauth2UserMapper.getUserPageByDepartmentId(page, departmentId, keyword);
-    }
-
-    @Override
     public Boolean logout() {
 //        String userId = UserDetailsUtils.getUserId();
         return true;
@@ -154,12 +152,9 @@ public class OAuth2UserServiceImpl implements OAuth2UserService {
     @Override
     @Transactional
     public void changePassword(ChangePasswordForm changePasswordForm) {
-        String userId = SecurityUtils.getCurrentUserId();
-        Assert.hasText(userId, "当前登陆状态不存在用户id");
-
         // 检验用户是否存在
-        OAuth2UserDO userDO = oauth2UserMapper.selectById(userId);
-        Assert.notNull(userDO, "用户不存在");
+        OAuth2UserDO userDO = this.getCurrentUser();
+        Assert.notNull(userDO, "当前登陆状态为匿名用户或用户不存在");
 
         String encodePassword = userDO.getPassword();
         boolean matches = passwordEncoder.matches(changePasswordForm.getOldPassword(), encodePassword);
@@ -167,6 +162,38 @@ public class OAuth2UserServiceImpl implements OAuth2UserService {
 
         encodePassword = passwordEncoder.encode(changePasswordForm.getNewPassword());
         userDO.setPassword(encodePassword);
+        oauth2UserMapper.updateById(userDO);
+    }
+
+    @Override
+    public SecurityInfo getSecurityInfo() {
+        OAuth2UserDO currentUser = this.getCurrentUser();
+        SecurityInfo securityInfo = new SecurityInfo();
+        securityInfo.setPhone(EncryptUtils.mobileEncrypt(currentUser.getPhone()));
+        return securityInfo;
+    }
+
+    @Override
+    public void bindPhone(BindPhoneForm bindPhoneForm) {
+        // 检验用户是否存在
+        OAuth2UserDO userDO = this.getCurrentUser();
+        Assert.notNull(userDO, "当前登陆状态为匿名用户或用户不存在");
+
+        // 校验手机验证码
+        boolean isVerify = captchaService.verifyCaptcha(bindPhoneForm.getPhone(), bindPhoneForm.getCode());
+        Assert.isTrue(isVerify, "验证码错误，请重试！");
+
+        userDO.setPhone(bindPhoneForm.getPhone());
+        oauth2UserMapper.updateById(userDO);
+    }
+
+    @Override
+    public void unbindPhone() {
+        // 检验用户是否存在
+        OAuth2UserDO userDO = this.getCurrentUser();
+        Assert.notNull(userDO, "当前登陆状态为匿名用户或用户不存在");
+
+        userDO.setPhone(null);
         oauth2UserMapper.updateById(userDO);
     }
 

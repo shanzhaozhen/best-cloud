@@ -6,6 +6,7 @@ import org.shanzhaozhen.authorize.converter.OAuth2UserInfoConverter;
 import org.shanzhaozhen.authorize.mapper.OAuth2UserInfoMapper;
 import org.shanzhaozhen.authorize.mapper.OAuth2UserMapper;
 import org.shanzhaozhen.authorize.pojo.dto.OAuth2UserInfoDTO;
+import org.shanzhaozhen.authorize.pojo.dto.SecurityInfo;
 import org.shanzhaozhen.authorize.pojo.entity.OAuth2UserDO;
 import org.shanzhaozhen.authorize.pojo.entity.OAuth2UserInfoDO;
 import org.shanzhaozhen.authorize.service.OAuth2UserInfoService;

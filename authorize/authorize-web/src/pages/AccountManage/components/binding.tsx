@@ -23,7 +23,7 @@ const handleUnbind = async (type: string) => {
   }
 }
 
-const BindingView: React.FC = () => {
+const BindView: React.FC = () => {
 
   const githubBadgeClassName = useEmotionCss(() => ({
     color: '#2eabff',
@@ -124,4 +124,4 @@ const BindingView: React.FC = () => {
   );
 };
 
-export default BindingView;
+export default BindView;

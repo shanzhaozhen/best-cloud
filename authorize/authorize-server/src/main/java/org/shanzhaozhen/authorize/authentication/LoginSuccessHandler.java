@@ -1,0 +1,41 @@
+package org.shanzhaozhen.authorize.authentication;
+
+import lombok.RequiredArgsConstructor;
+import org.shanzhaozhen.authorize.pojo.dto.OAuth2UserInfoDTO;
+import org.shanzhaozhen.authorize.pojo.dto.UserInfoBase;
+import org.shanzhaozhen.authorize.service.OAuth2UserInfoService;
+import org.shanzhaozhen.authorize.utils.SecurityUtils;
+import org.shanzhaozhen.common.core.utils.CustomBeanUtils;
+import org.shanzhaozhen.common.core.utils.SpringContextUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+
+public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+
+//    private final OAuth2UserInfoService oAuth2UserInfoService;
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
+        OAuth2UserInfoService oAuth2UserInfoService = (OAuth2UserInfoService) SpringContextUtils.getBean("OAuth2UserInfoServiceImpl");
+
+        // 获取用户信息记录在 session 中
+        String currentUserId = SecurityUtils.getCurrentUserId();
+        OAuth2UserInfoDTO oAuth2UserInfo = oAuth2UserInfoService.getOAuth2UserInfoByUserId(currentUserId);
+        if (oAuth2UserInfo != null) {
+            UserInfoBase userInfo = new UserInfoBase();
+            BeanUtils.copyProperties(oAuth2UserInfo, userInfo);
+            HttpSession httpSession = request.getSession();
+            httpSession.setAttribute("userInfo", userInfo);
+        }
+
+        super.onAuthenticationSuccess(request, response, authentication);
+    }
+
+}

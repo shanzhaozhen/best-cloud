@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Builder
 @Schema(description = "权限用户")
-public class AuthUser implements UserDetails {
+public class AuthUser implements UserDetails, CredentialsContainer {
 
     private static final long serialVersionUID = 172687743338426957L;
 
@@ -59,4 +60,10 @@ public class AuthUser implements UserDetails {
         this.credentialsNonExpired = user.isCredentialsNonExpired();
         this.enabled = user.isEnabled();
     }
+
+    @Override
+    public void eraseCredentials() {
+        this.password = null;
+    }
+
 }

@@ -2,7 +2,7 @@ import React, {useState, useRef, useLayoutEffect, useEffect} from 'react';
 import { GridContent } from '@ant-design/pro-layout';
 import {Menu, message} from 'antd';
 import BaseView from './components/base';
-import BindingView from './components/binding';
+import BindView from './components/binding';
 import SecurityView from './components/security';
 import type {ItemType} from "antd/lib/menu/hooks/useItems";
 import {useSearchParams} from "umi";
@@ -104,7 +104,7 @@ const Settings: React.FC = () => {
       case 'security':
         return <SecurityView />;
       case 'binding':
-        return <BindingView />;
+        return <BindView />;
       default:
         return null;
     }

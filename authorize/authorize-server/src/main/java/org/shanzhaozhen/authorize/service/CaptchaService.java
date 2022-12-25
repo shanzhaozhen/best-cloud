@@ -25,11 +25,11 @@ public interface CaptchaService {
 
     /**
      * 校验验证码
-     * @param phone
+     * @param key
      * @param rawCode
      * @return
      */
-    boolean verifyCaptcha(String phone, String rawCode) throws CaptchaErrorException;
+    boolean verifyCaptcha(String key, String rawCode) throws CaptchaErrorException;
 
     /**
      * 发送短信验证码

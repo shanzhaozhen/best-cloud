@@ -1,7 +1,7 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from '@umijs/max';
-import {R, UserInfoVO, UserInfoForm, ChangePasswordForm} from "@/services/typings";
+import {R, UserInfoVO, UserInfoForm, ChangePasswordForm, SecurityInfo} from "@/services/typings";
 
 const apiRoot = process.env.NODE_ENV === 'production' ? '' : '/api'
 
@@ -27,6 +27,14 @@ export async function changePassword(changePasswordForm: ChangePasswordForm, opt
   return request<R<UserInfoVO>>(`${apiRoot}/user/password`, {
     method: 'POST',
     data: changePasswordForm,
+    ...(options || {}),
+  });
+}
+
+/** 获取当前用户基础信息 GET /user/security */
+export async function getSecurityInfo(options?: Record<string, any>) {
+  return request<R<SecurityInfo>>(`${apiRoot}/user/security`, {
+    method: 'GET',
     ...(options || {}),
   });
 }

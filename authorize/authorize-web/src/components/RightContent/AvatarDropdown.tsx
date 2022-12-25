@@ -1,13 +1,11 @@
 import { LogoutOutlined, SettingOutlined } from '@ant-design/icons';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
 import { history } from '@umijs/max';
-import { Avatar, Spin } from 'antd';
+import { Avatar } from 'antd';
 import { setAlpha } from '@ant-design/pro-components';
 import type { MenuInfo } from 'rc-menu/lib/interface';
 import React, {useCallback} from 'react';
 import HeaderDropdown from '../HeaderDropdown';
-import {useRequest} from "@@/exports";
-import {getCurrentUserInfo} from "@/services/user";
 import {resourcesPath} from "../../../config/constants";
 
 type NameProps = {
@@ -71,9 +69,10 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   }));
 
 
-  const {data, loading} = useRequest(async () => {
-    return getCurrentUserInfo();
-  });
+  const userInfo = {
+    // @ts-ignore
+    ...window.userInfo
+  }
 
   const onMenuClick = useCallback(
     (event: MenuInfo) => {
@@ -88,18 +87,6 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
       history.push(`/`);
     },
     [],
-  );
-
-  const loadingUser = (
-    <span className={actionClassName}>
-      <Spin
-        size="small"
-        style={{
-          marginLeft: 8,
-          marginRight: 8,
-        }}
-      />
-    </span>
   );
 
   const menuItems = [
@@ -136,14 +123,8 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
       }}
     >
       <span className={actionClassName}>
-        {
-          loading ? loadingUser : (
-            <>
-              <AvatarLogo avatar={data?.avatar} />
-              <Name name={data?.name} />
-            </>
-          )
-        }
+        <AvatarLogo avatar={userInfo?.avatar} />
+        <Name name={userInfo?.name} />
       </span>
     </HeaderDropdown>
   );
