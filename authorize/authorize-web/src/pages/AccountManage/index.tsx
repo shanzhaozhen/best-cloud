@@ -110,7 +110,7 @@ const Settings: React.FC = () => {
     }
   };
 
-  useEffect(() => {
+/*  useEffect(() => {
     const biz = searchParams.get('biz');
     const msg = searchParams.get('msg');
     if (biz === '0') {
@@ -118,7 +118,21 @@ const Settings: React.FC = () => {
     } else if (biz === '-1') {
       message.error(`账号绑定失败：${msg}`)
     }
-  }, [])
+  }, [])*/
+
+  const sucMsg = window['sucMsg']
+  const excMsg = window['excMsg']
+
+  useEffect(() => {
+    if (sucMsg) {
+      message.success(sucMsg)
+      return
+    }
+    if (excMsg) {
+      message.error(excMsg);
+    }
+  }, [sucMsg, excMsg])
+
 
   return (
     <GridContent>

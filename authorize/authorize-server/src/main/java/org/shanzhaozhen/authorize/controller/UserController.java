@@ -2,6 +2,7 @@ package org.shanzhaozhen.authorize.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Insert;
 import org.shanzhaozhen.authorize.converter.OAuth2UserInfoConverter;
 import org.shanzhaozhen.authorize.pojo.dto.SecurityInfo;
 import org.shanzhaozhen.authorize.pojo.form.BindPhoneForm;
@@ -11,6 +12,7 @@ import org.shanzhaozhen.authorize.service.OAuth2UserInfoService;
 import org.shanzhaozhen.authorize.service.OAuth2UserService;
 import org.shanzhaozhen.common.core.result.R;
 import org.shanzhaozhen.authorize.pojo.form.ChangePasswordForm;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -40,7 +42,7 @@ public class UserController {
 
     @PostMapping("/user/password")
     @Operation(summary = "修改密码")
-    public R<OAuth2UserInfoVO> changePassword(@RequestBody ChangePasswordForm changePasswordForm) {
+    public R<OAuth2UserInfoVO> changePassword(@RequestBody @Validated ChangePasswordForm changePasswordForm) {
         oAuth2UserService.changePassword(changePasswordForm);
         return R.ok();
     }
@@ -51,16 +53,16 @@ public class UserController {
         return R.build(oAuth2UserService::getSecurityInfo);
     }
 
-    @GetMapping("/user/bind/phone")
+    @PostMapping("/user/bind/phone")
     @Operation(summary = "获取用户安全信息")
-    public R<?> bindingPhone(@RequestBody BindPhoneForm bindPhoneForm) {
+    public R<?> bindPhone(@RequestBody @Validated BindPhoneForm bindPhoneForm) {
         oAuth2UserService.bindPhone(bindPhoneForm);
         return R.ok();
     }
 
     @GetMapping("/user/unbind/phone")
     @Operation(summary = "获取用户安全信息")
-    public R<?> unbindingPhone() {
+    public R<?> unbindPhone() {
         oAuth2UserService.unbindPhone();
         return R.ok();
     }

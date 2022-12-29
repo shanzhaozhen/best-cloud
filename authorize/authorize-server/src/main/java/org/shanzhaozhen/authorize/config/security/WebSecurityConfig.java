@@ -5,7 +5,7 @@ import org.shanzhaozhen.authorize.authentication.bind.Oauth2BindConfigurer;
 import org.shanzhaozhen.authorize.authentication.federated.FederatedIdentityConfigurer;
 import org.shanzhaozhen.authorize.authentication.account.AccountLoginConfigurer;
 import org.shanzhaozhen.authorize.authentication.phone.PhoneLoginConfigurer;
-import org.shanzhaozhen.authorize.service.SocialUserService;
+import org.shanzhaozhen.authorize.service.OAuthUserSocialService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,7 +30,7 @@ public class WebSecurityConfig {
 	};
 
 	private final UserDetailsService userDetailsService;
-	private final SocialUserService socialUserService;
+	private final OAuthUserSocialService socialUserService;
 
 
 	@Bean

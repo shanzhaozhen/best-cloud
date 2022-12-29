@@ -3,15 +3,14 @@ package org.shanzhaozhen.authorize.service;
 
 import org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO;
 import org.shanzhaozhen.authorize.pojo.dto.SocialInfo;
-import org.shanzhaozhen.authorize.pojo.entity.GithubUser;
-import org.shanzhaozhen.authorize.pojo.form.SocialUserBindForm;
+import org.shanzhaozhen.authorize.pojo.entity.OAuth2UserSocialDO;
 
 /**
  * @Author: shanzhaozhen
  * @Date: 2022-09-02
  * @Description:
  */
-public interface SocialUserService {
+public interface OAuthUserSocialService {
 
     /**
      * 获取用户绑定信息
@@ -40,23 +39,17 @@ public interface SocialUserService {
     void unbindSocial(String type);
 
     /**
-     * 更新github用户信息
-     * @param githubUser
+     * 绑定第三方用户
+     * @param oauth2UserSocialDO
      */
-    GithubUser updateGithubUser(GithubUser githubUser);
-
-    /**
-     * 绑定github用户
-     * @param socialUserBindForm
-     */
-    void bindGithubUser(SocialUserBindForm<GithubUser> socialUserBindForm);
+    void bindSocialUser(OAuth2UserSocialDO oauth2UserSocialDO);
 
     /**
      * 第三方账号登陆
-     * @param username
-     * @param type
+     * @param identifier
+     * @param identityType
      * @return
      */
-    OAuth2UserDTO loadUserBySocial(String username, String type);
+    OAuth2UserDTO loadUserBySocial(String identityType, String identifier);
 
 }

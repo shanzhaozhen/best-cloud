@@ -101,9 +101,17 @@ export type UserInfoVO = {
 };
 
 export type ChangePasswordForm = {
+  /** 旧密码 */
   oldPassword?: string;
-  /** 个人介绍 */
+  /** 新密码 */
   newPassword?: string;
+};
+
+export type BindPhoneForm = {
+  /** 手机号 */
+  phone: string;
+  /* 验证码 */
+  captcha: string
 };
 
 export type SocialInfo = {

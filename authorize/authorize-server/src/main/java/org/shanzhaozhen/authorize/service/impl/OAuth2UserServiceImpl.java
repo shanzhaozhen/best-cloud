@@ -64,7 +64,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService {
     @Override
     public OAuth2UserDO getCurrentUser() {
         String userId = SecurityUtils.getCurrentUserId();
-        if (StringUtils.hasText(userId)) {
+        if (!StringUtils.hasText(userId)) {
             return null;
         }
 
@@ -168,8 +168,14 @@ public class OAuth2UserServiceImpl implements OAuth2UserService {
     @Override
     public SecurityInfo getSecurityInfo() {
         OAuth2UserDO currentUser = this.getCurrentUser();
+        Assert.notNull(currentUser, "当前登陆状态为匿名用户或用户不存在");
+
         SecurityInfo securityInfo = new SecurityInfo();
-        securityInfo.setPhone(EncryptUtils.mobileEncrypt(currentUser.getPhone()));
+
+        if (StringUtils.hasText(currentUser.getPhone())) {
+            securityInfo.setPhone(EncryptUtils.mobileEncrypt(currentUser.getPhone()));
+        }
+
         return securityInfo;
     }
 
@@ -179,8 +185,17 @@ public class OAuth2UserServiceImpl implements OAuth2UserService {
         OAuth2UserDO userDO = this.getCurrentUser();
         Assert.notNull(userDO, "当前登陆状态为匿名用户或用户不存在");
 
+        // 检查该手机号码是否跟当前账号已绑定号码一样
+        if (StringUtils.hasText(userDO.getPhone())) {
+            Assert.isTrue(bindPhoneForm.getPhone().equals(userDO.getPhone()), "当前号码已绑定该账号");
+        }
+
+        // 检查手机号码是否已被其他账号绑定
+        OAuth2UserDTO phoneUser = oauth2UserMapper.getUserByPhone(bindPhoneForm.getPhone());
+        Assert.isNull(phoneUser, "该手机号已绑定其他账号，请先解绑再进行绑定！");
+
         // 校验手机验证码
-        boolean isVerify = captchaService.verifyCaptcha(bindPhoneForm.getPhone(), bindPhoneForm.getCode());
+        boolean isVerify = captchaService.verifyCaptcha(bindPhoneForm.getPhone(), bindPhoneForm.getCaptcha());
         Assert.isTrue(isVerify, "验证码错误，请重试！");
 
         userDO.setPhone(bindPhoneForm.getPhone());

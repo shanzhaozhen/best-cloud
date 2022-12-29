@@ -2,7 +2,7 @@ package org.shanzhaozhen.authorize.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.shanzhaozhen.authorize.service.SocialUserService;
+import org.shanzhaozhen.authorize.service.OAuthUserSocialService;
 import org.shanzhaozhen.common.core.result.R;
 import org.shanzhaozhen.authorize.pojo.dto.SocialInfo;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ public class SocialController {
     public static final String GET_SOCIAL_INFO = "/social/info";
     public static final String UNBIND_SOCIAL_INFO = "/social/unbind";
 
-    private final SocialUserService socialUserService;
+    private final OAuthUserSocialService socialUserService;
 
     @Operation(summary = "获取用户绑定信息")
     @GetMapping(GET_SOCIAL_INFO)

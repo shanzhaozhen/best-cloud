@@ -1,6 +1,6 @@
 package org.shanzhaozhen.authorize.authentication.federated;
 
-import org.shanzhaozhen.authorize.service.SocialUserService;
+import org.shanzhaozhen.authorize.service.OAuthUserSocialService;
 import org.shanzhaozhen.authorize.utils.SecurityUtils;
 import org.shanzhaozhen.common.core.utils.HttpServletUtils;
 import org.shanzhaozhen.authorize.pojo.dto.AuthUser;
@@ -13,8 +13,6 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-import org.springframework.security.web.context.SecurityContextHolderFilter;
 import org.springframework.util.Assert;
 
 import javax.servlet.http.Cookie;
@@ -37,9 +35,9 @@ public final class FederatedIdentityConfigurer extends AbstractHttpConfigurer<Fe
 
 	private Consumer<OidcUser> oidcUserHandler;
 
-	private final SocialUserService socialUserService;
+	private final OAuthUserSocialService socialUserService;
 
-	public FederatedIdentityConfigurer(SocialUserService socialUserService) {
+	public FederatedIdentityConfigurer(OAuthUserSocialService socialUserService) {
 		this.socialUserService = socialUserService;
 	}
 
@@ -120,7 +118,7 @@ public final class FederatedIdentityConfigurer extends AbstractHttpConfigurer<Fe
 				.oauth2Login(oauth2Login -> {
 					oauth2Login
 							.successHandler(authenticationSuccessHandler)
-							.failureHandler(authenticationFailureHandler)
+//							.failureHandler(authenticationFailureHandler)
 					;
 					if (this.authorizationRequestUri != null) {
 						String baseUri = this.authorizationRequestUri.replace("/{registrationId}", "");

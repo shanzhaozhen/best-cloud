@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,9 +14,11 @@ import lombok.NoArgsConstructor;
 public class BindPhoneForm {
 
     @Schema(description = "手机号")
+    @NotEmpty(message = "手机号不能为空")
     private String phone;
 
     @Schema(description = "验证码")
-    private String code;
+    @NotEmpty(message = "验证码不能为空")
+    private String captcha;
 
 }

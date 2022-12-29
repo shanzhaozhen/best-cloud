@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.shanzhaozhen.authorize.mapper.OAuth2UserSocialMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.authorize.pojo.entity.OAuth2UserSocialDO">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="identity_type" property="identityType" />
+        <result column="identifier" property="identifier" />
+        <result column="bind_date" property="bindDate" />
+        <result column="name" property="name" />
+        <result column="avatar_url" property="avatarUrl" />
+        <result column="other" property="other" />
+        <result column="version" property="version" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+
+    <select id="getOAuth2UserSocialByUserId" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2UserSocialDTO">
+        select id, user_id, identity_type, identifier, bind_date, name, avatar_url, other, created_by,
+               created_date, last_modified_by, last_modified_date
+        from oauth2_user_social
+        where user_id = #{userId}
+    </select>
+
+    <select id="getOAuth2UserSocialByIdentityAndTypeAndIdentifier" resultType="org.shanzhaozhen.authorize.pojo.entity.OAuth2UserSocialDO">
+        select id, user_id, identity_type, identifier, bind_date, name, avatar_url, other, version, created_by,
+               created_date, last_modified_by, last_modified_date
+        from oauth2_user_social
+        where identity_type = #{identityType} and identifier = #{identifier}
+    </select>
+
+    <select id="getOAuth2UserSocialByUserIdAndIdentityType" resultType="org.shanzhaozhen.authorize.pojo.entity.OAuth2UserSocialDO">
+        select id, user_id, identity_type, identifier, bind_date, name, avatar_url, other, version, created_by,
+               created_date, last_modified_by, last_modified_date
+        from oauth2_user_social
+        where user_id = #{userId} and identity_type = #{identityType}
+    </select>
+
+
+</mapper>

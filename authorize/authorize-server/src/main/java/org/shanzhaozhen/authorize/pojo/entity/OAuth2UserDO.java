@@ -1,8 +1,6 @@
 package org.shanzhaozhen.authorize.pojo.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,6 +27,7 @@ public class OAuth2UserDO extends BaseEntity {
     private String password;
 
     @Schema(description = "手机号")
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String phone;
 
     @Schema(description = "账户是否过期,过期无法验证")

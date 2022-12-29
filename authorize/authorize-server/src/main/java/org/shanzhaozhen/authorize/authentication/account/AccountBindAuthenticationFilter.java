@@ -2,7 +2,7 @@ package org.shanzhaozhen.authorize.authentication.account;
 
 import org.shanzhaozhen.authorize.constant.SocialType;
 import org.shanzhaozhen.authorize.pojo.dto.AuthUser;
-import org.shanzhaozhen.authorize.service.SocialUserService;
+import org.shanzhaozhen.authorize.service.OAuthUserSocialService;
 import org.shanzhaozhen.common.core.result.R;
 import org.shanzhaozhen.common.core.utils.HttpServletUtils;
 import org.springframework.lang.Nullable;
@@ -43,14 +43,14 @@ public class AccountBindAuthenticationFilter extends AbstractAuthenticationProce
 
     private boolean postOnly = true;
 
-    private final SocialUserService socialUserService;
+    private final OAuthUserSocialService socialUserService;
 
-    public AccountBindAuthenticationFilter(SocialUserService socialUserService) {
+    public AccountBindAuthenticationFilter(OAuthUserSocialService socialUserService) {
         super(DEFAULT_ANT_PATH_REQUEST_MATCHER);
         this.socialUserService = socialUserService;
     }
 
-    public AccountBindAuthenticationFilter(AuthenticationManager authenticationManager, SocialUserService socialUserService) {
+    public AccountBindAuthenticationFilter(AuthenticationManager authenticationManager, OAuthUserSocialService socialUserService) {
         super(DEFAULT_ANT_PATH_REQUEST_MATCHER, authenticationManager);
         this.socialUserService = socialUserService;
     }

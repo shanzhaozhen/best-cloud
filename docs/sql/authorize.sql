@@ -14,55 +14,57 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `oauth2_user`;
 CREATE TABLE `oauth2_user`
 (
-    id                      VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
-    username                VARCHAR(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL UNIQUE COMMENT '用户名',
-    password                VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
-    phone                   VARCHAR(18) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT DEFAULT NULL COMMENT '手机号码',
-    account_non_expired     bit(1)                                                        NOT NULL COMMENT '账户是否过期,过期无法验证',
-    account_non_locked      bit(1)                                                        NOT NULL COMMENT '指定用户是否被锁定或者解锁,锁定的用户无法进行身份验证',
-    credentials_non_expired bit(1)                                                        NOT NULL COMMENT '指示是否已过期的用户的凭据(密码),过期的凭据防止认证',
-    enabled                 bit(1)                                                        NOT NULL COMMENT '是否被禁用,禁用的用户不能身份验证',
-    version                 INT NULL DEFAULT NULL COMMENT '版本号',
-    created_by              VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
-    created_date            datetime NULL DEFAULT NULL COMMENT '创建时间',
-    last_modified_by        VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
-    last_modified_date      datetime NULL DEFAULT NULL COMMENT '修改时间',
+    `id`                      VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
+    `username`                VARCHAR(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL UNIQUE COMMENT '用户名',
+    `password`                VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
+    `phone`                   VARCHAR(18) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '手机号码',
+    `account_non_expired`     bit(1)                                                        NOT NULL COMMENT '账户是否过期,过期无法验证',
+    `account_non_locked`      bit(1)                                                        NOT NULL COMMENT '指定用户是否被锁定或者解锁,锁定的用户无法进行身份验证',
+    `credentials_non_expired` bit(1)                                                        NOT NULL COMMENT '指示是否已过期的用户的凭据(密码),过期的凭据防止认证',
+    `enabled`                 bit(1)                                                        NOT NULL COMMENT '是否被禁用,禁用的用户不能身份验证',
+    `version`                 INT NULL DEFAULT NULL COMMENT '版本号',
+    `created_by`              VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
+    `created_date`            datetime NULL DEFAULT NULL COMMENT '创建时间',
+    `last_modified_by`        VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
+    `last_modified_date`      datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (id)
-);
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = 'oauth2用户表'
+  ROW_FORMAT = Dynamic;
 
 
 -- ----------------------------
 -- 用户第三方授权表
 -- ----------------------------
-DROP TABLE IF EXISTS sys_user_social;
-CREATE TABLE sys_user_social
+DROP TABLE IF EXISTS `oauth2_user_social`;
+CREATE TABLE `oauth2_user_social`
 (
-    id                 VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
-    username           VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL UNIQUE COMMENT '用户名',
-    user_id            VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户ID',
-    social_id          VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'github用户ID',
-    bind_date          datetime NULL DEFAULT NULL COMMENT '绑定时间',
-    login              VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '登陆名',
-    github_id          VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'github用户ID',
-    node_id            VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '节点ID',
-    avatar_url         VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '头像',
-    email              VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '邮箱',
-    name               VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '昵称',
-    other              json NULL DEFAULT NULL COMMENT '其他信息',
-    version            INT NULL DEFAULT NULL COMMENT '版本号',
-    created_by         VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
-    created_date       datetime NULL DEFAULT NULL COMMENT '创建时间',
-    last_modified_by   VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
-    last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
+    `id`                 VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
+    `user_id`            VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户ID',
+    `identity_type`       VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL UNIQUE COMMENT '第三方类型',
+    `identifier`         VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '第三方的唯一标识',
+    `bind_date`          datetime NULL DEFAULT NULL COMMENT '绑定时间',
+    `name`               VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '昵称',
+    `avatar_url`         VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '头像',
+    `other`              json NULL DEFAULT NULL COMMENT '其他信息',
+    `version`            INT NULL DEFAULT NULL COMMENT '版本号',
+    `created_by`         VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
+    `created_date`       datetime NULL DEFAULT NULL COMMENT '创建时间',
+    `last_modified_by`   VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
+    `last_modified_date` datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (id)
-);
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = 'oauth2用户授权记录表'
+  ROW_FORMAT = Dynamic;
 
 
 -- ----------------------------
 -- github 用户表
 -- ----------------------------
-DROP TABLE IF EXISTS sys_user_github;
-CREATE TABLE sys_user_github
+DROP TABLE IF EXISTS oauth2_user_github;
+CREATE TABLE oauth2_user_github
 (
     id                 VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
     username           VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL UNIQUE COMMENT '用户名',
@@ -81,14 +83,17 @@ CREATE TABLE sys_user_github
     last_modified_by   VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
     last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (id)
-);
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = 'oauth2绑定github信息表'
+  ROW_FORMAT = Dynamic;
 
 
 -- ----------------------------
 -- 用户信息表
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_user_info`;
-CREATE TABLE `sys_user_info`
+DROP TABLE IF EXISTS `oauth2_user_info`;
+CREATE TABLE `oauth2_user_info`
 (
     id                 VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
     pid                VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '关联的用户ID',
@@ -108,7 +113,10 @@ CREATE TABLE `sys_user_info`
     last_modified_by   VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
     last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (id)
-);
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = 'oauth2用户信息表'
+  ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for oauth2_authorization
@@ -257,10 +265,9 @@ CREATE TABLE `oauth2_token_settings`
   ROW_FORMAT = Dynamic;
 
 
-SET
-FOREIGN_KEY_CHECKS = 1;
+SET FOREIGN_KEY_CHECKS = 1;
 
-INSERT INTO `sys_user`(`id`, `username`, `password`, `account_non_expired`, `account_non_locked`,
+INSERT INTO `oauth2_user`(`id`, `username`, `password`, `account_non_expired`, `account_non_locked`,
                        `credentials_non_expired`, `enabled`, `created_by`, `created_date`,
                        `last_modified_by`, `last_modified_date`)
 VALUES (1378349825706942465, 'admin', '$2a$10$ZHloNREZMCnmeSqGlPL4tudSt4QdR4JnFwODJnVsXoWoxAkNMaqda', b'1', b'1', b'1',

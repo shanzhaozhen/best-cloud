@@ -2,7 +2,6 @@ package org.shanzhaozhen.authorize.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO;
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO;
 import org.shanzhaozhen.authorize.pojo.dto.SecurityInfo;
 import org.shanzhaozhen.authorize.pojo.entity.OAuth2UserDO;
 import org.shanzhaozhen.authorize.pojo.form.BindPhoneForm;
@@ -122,7 +121,7 @@ public interface OAuth2UserService {
 
     /**
      * 绑定手机
-     * @param phone
+     * @param bindPhoneForm
      */
     void bindPhone(BindPhoneForm bindPhoneForm);
 

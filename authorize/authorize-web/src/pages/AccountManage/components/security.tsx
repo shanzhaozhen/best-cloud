@@ -1,11 +1,12 @@
 import React, {Dispatch, SetStateAction, useState} from 'react';
 import {Col, List, message, Row, Skeleton} from 'antd';
 import {ModalForm, ProFormCaptcha, ProFormText} from "@ant-design/pro-components";
-import {changePassword, getSecurityInfo} from "@/services/user";
+import {bindPhone, changePassword, getSecurityInfo, unbindPhone} from "@/services/user";
 import type {ChangePasswordForm} from "@/services/typings";
 import {FormattedMessage, useIntl, useRequest} from "@@/exports";
 import {LockOutlined, MobileOutlined} from "@ant-design/icons";
 import {getCaptcha} from "@/services/login";
+import {BindPhoneForm} from "@/services/typings";
 
 type Unpacked<T> = T extends (infer U)[] ? U : T;
 
@@ -120,16 +121,17 @@ const BindPhoneModal: React.FC<BindPhoneModalProps> = (props) => {
 
   const intl = useIntl();
 
-  const handleBindPhone = async (fields: ChangePasswordForm) => {
-    const hide = message.loading('修改中...');
+  const handleBindPhone = async (fields: BindPhoneForm) => {
+    const hide = message.loading('绑定中...');
     try {
-      await changePassword(fields);
+      await bindPhone(fields);
       hide();
-      message.success('修改密码成功！');
+      message.success('绑定成功！');
+      window.location.reload();
       return true;
     } catch (error) {
       hide();
-      message.error('修改密码失败，请重试!');
+      message.error('绑定失败，请重试!');
       return false;
     }
   };
@@ -245,6 +247,21 @@ const SecurityView: React.FC = () => {
     return getSecurityInfo();
   });
 
+  const handleUnbindPhone = async () => {
+    const hide = message.loading('解绑中...');
+    try {
+      await unbindPhone();
+      hide();
+      message.success('解绑成功！');
+      window.location.reload();
+      return true;
+    } catch (error) {
+      hide();
+      message.error('解绑失败，请重试!');
+      return false;
+    }
+  };
+
   const getData = () => [
     {
       title: '账户密码',
@@ -259,7 +276,11 @@ const SecurityView: React.FC = () => {
     securityInfo?.phone ? ({
       title: '密保手机',
       description: `已绑定手机：${securityInfo.phone}`,
-      actions: [<a key="Modify" onClick={() => handleBindPhoneModalOpen(true)}>修改</a>],
+      actions: [
+        <a key="Modify" onClick={() => handleBindPhoneModalOpen(true)}>改绑</a>,
+        '/',
+        <a key="Modify" onClick={handleUnbindPhone}>解绑</a>
+      ],
     }) : ({
       title: '密保手机',
       description: `未绑定手机`,
@@ -309,3 +330,4 @@ const SecurityView: React.FC = () => {
 };
 
 export default SecurityView;
+

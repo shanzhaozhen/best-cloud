@@ -1,7 +1,7 @@
 package org.shanzhaozhen.authorize.authentication.bind;
 
 import org.shanzhaozhen.authorize.authentication.federated.FederatedIdentityConfigurer;
-import org.shanzhaozhen.authorize.service.SocialUserService;
+import org.shanzhaozhen.authorize.service.OAuthUserSocialService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,10 +17,10 @@ import org.springframework.util.Assert;
 
 public class Oauth2BindConfigurer extends AbstractHttpConfigurer<FederatedIdentityConfigurer, HttpSecurity> {
 
-    private final SocialUserService socialUserService;
+    private final OAuthUserSocialService socialUserService;
     private String loginProcessingUrl = OAuth2BindAuthenticationFilter.DEFAULT_FILTER_PROCESSES_URI;
 
-    public Oauth2BindConfigurer(SocialUserService socialUserService) {
+    public Oauth2BindConfigurer(OAuthUserSocialService socialUserService) {
         this.socialUserService = socialUserService;
     }
 

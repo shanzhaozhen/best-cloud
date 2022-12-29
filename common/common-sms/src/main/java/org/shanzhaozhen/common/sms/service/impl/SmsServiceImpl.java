@@ -25,7 +25,7 @@ public class SmsServiceImpl implements SmsService {
     private final AsyncClient smsClient;
 
     @Override
-    public void sendMsg(String phoneNumbers, String signName, String templateCode, String templateParam) throws Exception {
+    public void sendMsg(String phoneNumbers, String signName, String templateCode, String templateParam) {
         // Parameter settings for API request
         SendSmsRequest sendSmsRequest = SendSmsRequest.builder()
                 .signName(signName)
@@ -39,15 +39,22 @@ public class SmsServiceImpl implements SmsService {
         // Asynchronously get the return value of the API request
         CompletableFuture<SendSmsResponse> response = smsClient.sendSms(sendSmsRequest);
         // Synchronously get the return value of the API request
-        SendSmsResponse resp = response.get();
 
-        if (log.isDebugEnabled()) {
-            log.debug(JacksonUtils.toJSONString(resp));
-        } else {
-            if (!"ok".equals(resp.getBody().getCode())) {
-                log.error(JacksonUtils.toJSONString(resp));
-                throw new IllegalArgumentException("消息发送失败！");
+        try {
+            SendSmsResponse resp = response.get();
+
+            if (log.isDebugEnabled()) {
+                log.debug(JacksonUtils.toJSONString(resp));
+            } else {
+                if (!"ok".equals(resp.getBody().getCode())) {
+                    log.error(JacksonUtils.toJSONString(resp));
+                    throw new IllegalArgumentException("消息发送失败！");
+                }
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException("消息发送失败！");
         }
 
         // Asynchronous processing of return values

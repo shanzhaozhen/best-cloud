@@ -72,20 +72,14 @@ const Login: React.FC = () => {
 
   const intl = useIntl();
 
-  const location = useLocation();
+  const excMsg = window['excMsg'];
 
   useEffect(() => {
-    const err = searchParams.get('error');
-    const msg = searchParams.get('msg');
-
-    // setType(searchParams.get('type') || 'account')
-
-    if (err !== null) {
-      message.error(msg ? msg : '用户名或密码错误!');
-    } else if (location.search.indexOf('logout') > -1) {
-      message.success('登出成功！');
+    if (excMsg) {
+      message.error('Bad credentials' === excMsg ? '账号或密码错误！' : excMsg);
     }
-  }, [])
+  }, [excMsg])
+
 
   const handleSubmit = async (values: any) => {
     const loginForm = document.createElement('form');

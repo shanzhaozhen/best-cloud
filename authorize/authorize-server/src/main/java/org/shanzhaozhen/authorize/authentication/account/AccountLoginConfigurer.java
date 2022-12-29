@@ -1,7 +1,7 @@
 package org.shanzhaozhen.authorize.authentication.account;
 
 import org.shanzhaozhen.authorize.authentication.AbstractLoginFilterConfigurer;
-import org.shanzhaozhen.authorize.service.SocialUserService;
+import org.shanzhaozhen.authorize.service.OAuthUserSocialService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
 import org.springframework.security.web.authentication.ForwardAuthenticationFailureHandler;
@@ -16,9 +16,9 @@ import static org.shanzhaozhen.authorize.authentication.account.AccountAuthentic
 public class AccountLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
         AbstractLoginFilterConfigurer<H, AccountLoginConfigurer<H>, AccountAuthenticationFilter> {
 
-    private final SocialUserService socialUserService;
+    private final OAuthUserSocialService socialUserService;
 
-    public AccountLoginConfigurer(SocialUserService socialUserService) {
+    public AccountLoginConfigurer(OAuthUserSocialService socialUserService) {
         super(new AccountAuthenticationFilter(), DEFAULT_FILTER_PROCESSES_URI);
         this.socialUserService = socialUserService;
         usernameParameter("username");

@@ -15,25 +15,14 @@ spring:
         prefix: ${spring.application.name}
 #        命名空间
 #        namespace:
-    sentinel:
-      transport:
-        dashboard: 127.0.0.1:18080
-      datasource.ds2.file:
-        file: "classpath: gateway.json"
-        ruleType: gw-flow
-        datasource.ds1.file:
-          file: "classpath: api.json"
-          ruleType: gw-api-group
-        transport:
-          dashboard: localhost:8080
-        filter:
-          enabled: true
-        scg.fallback:
-          mode: response
-          response-status: 444
-          response-body: 1234
-        scg:
-          order: -100
+#    sentinel:
+#      transport:
+#        dashboard: 127.0.0.1:18080
+#      datasource.ds2.file:
+#        file: "classpath: gateway.json"
+#        ruleType: gw-flow
+#        datasource.ds1.file:
+#          file: "classpath: api.json"
 management:
   endpoints:
     web:

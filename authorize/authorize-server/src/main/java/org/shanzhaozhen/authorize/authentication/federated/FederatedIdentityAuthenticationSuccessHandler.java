@@ -1,8 +1,9 @@
 package org.shanzhaozhen.authorize.authentication.federated;
 
+import org.shanzhaozhen.authorize.authentication.LoginSuccessHandler;
 import org.shanzhaozhen.authorize.constant.SocialType;
 import org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO;
-import org.shanzhaozhen.authorize.service.SocialUserService;
+import org.shanzhaozhen.authorize.service.OAuthUserSocialService;
 import org.shanzhaozhen.authorize.pojo.dto.AuthUser;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -13,7 +14,6 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -30,15 +30,15 @@ import java.util.function.Consumer;
  */
 public final class FederatedIdentityAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-	private final AuthenticationSuccessHandler delegate = new SavedRequestAwareAuthenticationSuccessHandler();
+	private final AuthenticationSuccessHandler delegate = new LoginSuccessHandler();
 
-	private final SocialUserService socialUserService;
+	private final OAuthUserSocialService socialUserService;
 
 	private Consumer<OAuth2User> oauth2UserHandler = (user) -> {};
 
 	private Consumer<OidcUser> oidcUserHandler = (user) -> this.oauth2UserHandler.accept(user);
 
-	public FederatedIdentityAuthenticationSuccessHandler(SocialUserService socialUserService) {
+	public FederatedIdentityAuthenticationSuccessHandler(OAuthUserSocialService socialUserService) {
 		this.socialUserService = socialUserService;
 	}
 
@@ -50,7 +50,7 @@ public final class FederatedIdentityAuthenticationSuccessHandler implements Auth
 			} else if (authentication.getPrincipal() instanceof DefaultOAuth2User) {
 				DefaultOAuth2User principal = (DefaultOAuth2User) authentication.getPrincipal();
 				String registrationId = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
-				String username = principal.getName();
+				String identifier = principal.getName();
 
 				OAuth2UserDTO user;
 				SocialType socialType = null;
@@ -59,12 +59,13 @@ public final class FederatedIdentityAuthenticationSuccessHandler implements Auth
 				}
 				if (socialType == null) {
 					SecurityContextHolder.clearContext();
-					String redirectUrl = response.encodeRedirectURL("/login?error&msg=不支持该类型登陆");
-					response.sendRedirect(redirectUrl);
-					return;
+					throw new BadCredentialsException("不支持该类型登陆!");
+//					String redirectUrl = response.encodeRedirectURL("/login?error&msg=不支持该类型登陆");
+//					response.sendRedirect(redirectUrl);
+//					return;
 				}
 				try {
-					user = socialUserService.loadUserBySocial(username, socialType.getName());
+					user = socialUserService.loadUserBySocial(socialType.getName(), identifier);
 				} catch (Exception e) {
 					e.printStackTrace();
 					throw new BadCredentialsException("用户获取过程出现异常!");
