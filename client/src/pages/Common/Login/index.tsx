@@ -10,12 +10,37 @@ import {
 import { Alert, message, Tabs } from 'antd';
 import React, { useState } from 'react';
 import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
-import { useIntl, history, FormattedMessage, SelectLang, useModel } from '@umijs/max';
-import Footer from '@/components/Footer';
+import { useIntl, history, FormattedMessage, useModel } from '@umijs/max';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
-import styles from './index.less';
 import type {LoginParams, LoginResult} from '@/services/common/typings';
 import {login} from "@/services/common/login";
+import PublicPageComponent from "@/components/PublicPageComponent";
+import {useEmotionCss} from "@ant-design/use-emotion-css";
+
+
+const ActionIcons = () => {
+  const langClassName = useEmotionCss(({ token }) => ({
+    marginLeft: '8px',
+    color: 'rgba(0, 0, 0, 0.2)',
+    fontSize: '24px',
+    verticalAlign: 'middle',
+    cursor: 'pointer',
+    transition: 'color 0.3s',
+    '&:hover': {
+      color: token.colorPrimaryActive,
+    },
+  }));
+
+  return (
+    <>
+      <WeiboCircleOutlined key="WeiboCircleOutlined" className={langClassName} />
+      <GithubOutlined key="githubOutlined" className={langClassName} />
+      <WechatOutlined key="wechatOutlined" className={langClassName} />
+      <QqOutlined key="qqOutlined" className={langClassName} />
+      <WeiboCircleOutlined key="weiboCircleOutlined" className={langClassName} />
+    </>
+  );
+};
 
 const LoginMessage: React.FC<{
   content: string;
@@ -84,11 +109,20 @@ const Login: React.FC = () => {
   const { status, type: loginType } = userLoginState;
 
   return (
-    <div className={styles.container}>
-      <div className={styles.lang} data-lang>
-        {SelectLang && <SelectLang />}
-      </div>
-      <div className={styles.content}>
+    <PublicPageComponent
+      pageTitle={
+        intl.formatMessage({
+          id: 'menu.login',
+          defaultMessage: '登录页',
+        })
+      }
+    >
+      <div
+        style={{
+          flex: '1',
+          padding: '32px 0',
+        }}
+      >
         <LoginForm
           logo={<img alt="logo" src="/logo.svg" />}
           title="Best Cloud"
@@ -102,10 +136,7 @@ const Login: React.FC = () => {
               id="pages.login.loginWith"
               defaultMessage="其他登录方式"
             />,
-            <GithubOutlined key="githubOutlined" className={styles.icon} />,
-            <WechatOutlined key="wechatOutlined" className={styles.icon} />,
-            <QqOutlined key="qqOutlined" className={styles.icon} />,
-            <WeiboCircleOutlined key="weiboCircleOutlined" className={styles.icon} />,
+            <ActionIcons key="icons" />,
           ]}
           onFinish={async (values) => {
             await handleSubmit(values as LoginParams);
@@ -142,7 +173,7 @@ const Login: React.FC = () => {
                 name="username"
                 fieldProps={{
                   size: 'large',
-                  prefix: <UserOutlined className={styles.prefixIcon} />,
+                  prefix: <UserOutlined/>,
                 }}
                 placeholder={intl.formatMessage({
                   id: 'pages.login.username.placeholder',
@@ -164,7 +195,7 @@ const Login: React.FC = () => {
                 name="password"
                 fieldProps={{
                   size: 'large',
-                  prefix: <LockOutlined className={styles.prefixIcon} />,
+                  prefix: <LockOutlined/>,
                 }}
                 placeholder={intl.formatMessage({
                   id: 'pages.login.password.placeholder',
@@ -191,7 +222,7 @@ const Login: React.FC = () => {
               <ProFormText
                 fieldProps={{
                   size: 'large',
-                  prefix: <MobileOutlined className={styles.prefixIcon} />,
+                  prefix: <MobileOutlined/>,
                 }}
                 name="mobile"
                 placeholder={intl.formatMessage({
@@ -222,7 +253,7 @@ const Login: React.FC = () => {
               <ProFormCaptcha
                 fieldProps={{
                   size: 'large',
-                  prefix: <LockOutlined className={styles.prefixIcon} />,
+                  prefix: <LockOutlined/>,
                 }}
                 captchaProps={{
                   size: 'large',
@@ -259,7 +290,7 @@ const Login: React.FC = () => {
                   const result = await getFakeCaptcha({
                     phone,
                   });
-                  if (result === false) {
+                  if (!result) {
                     return;
                   }
                   message.success('获取验证码成功！验证码为：1234');
@@ -285,8 +316,7 @@ const Login: React.FC = () => {
           </div>
         </LoginForm>
       </div>
-      <Footer />
-    </div>
+    </PublicPageComponent>
   );
 };
 

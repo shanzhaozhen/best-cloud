@@ -79,7 +79,7 @@ const UserList: React.FC = () => {
                 setCurrentRow(data || {});
                 handleViewModalVisible(true);
               } else {
-                message.warn('没有选中有效的用户');
+                message.warning('没有选中有效的用户');
               }
             }}
           >
@@ -191,7 +191,7 @@ const UserList: React.FC = () => {
               handleUpdateModalVisible(true);
               // message.error(res.message || `没有获取到用户信息（id:${entity.id}）`);
             } else {
-              message.warn('没有选中有效的用户');
+              message.warning('没有选中有效的用户');
             }
           }}
         >
@@ -207,7 +207,7 @@ const UserList: React.FC = () => {
               message.success('删除成功！');
               actionRef.current?.reloadAndRest?.();
             } else {
-              message.warn('没有选中有效的用户');
+              message.warning('没有选中有效的用户');
             }
           }}
           okText="确定"

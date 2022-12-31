@@ -17,7 +17,7 @@ import {FormattedMessage, useIntl} from '@umijs/max';
 import {Alert, message, Tabs} from 'antd';
 import {useEmotionCss} from '@ant-design/use-emotion-css';
 import {getCaptcha} from '@/services/login';
-import {useLocation, useSearchParams} from "umi";
+import {useSearchParams} from "umi";
 import React, {useEffect, useState} from 'react';
 import PublicPageComponent from "@/components/PublicPageComponent";
 import {resourcesPath} from "../../../config/constants";
@@ -72,6 +72,7 @@ const Login: React.FC = () => {
 
   const intl = useIntl();
 
+  // @ts-ignore
   const excMsg = window['excMsg'];
 
   useEffect(() => {

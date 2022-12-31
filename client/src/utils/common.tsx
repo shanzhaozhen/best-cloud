@@ -15,16 +15,6 @@ export const arrayJoinToString = (values?: string[], separator = ','): string =>
   return '';
 }
 
-export const copyObject = (A: any, B: any) => {
-  const res = {};
-
-  Object.keys(A).forEach((key) => {
-    res[key] = B[key];
-  });
-
-  return res;
-};
-
 /**
  * 生成后端需要的分页查询格式
  * @param params

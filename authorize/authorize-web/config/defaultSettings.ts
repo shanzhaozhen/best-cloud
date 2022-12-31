@@ -1,4 +1,5 @@
 import { Settings as LayoutSettings } from '@ant-design/pro-components';
+import {resourcesPath} from "./constants";
 
 /**
  * @name
@@ -17,7 +18,7 @@ const Settings: LayoutSettings & {
   colorWeak: false,
   title: 'Best Oauth2',
   pwa: false,
-  logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+  logo: `${resourcesPath}logo.svg`,
   iconfontUrl: '',
   // 不展示顶栏
   // headerRender: false,

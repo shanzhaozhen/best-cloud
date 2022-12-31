@@ -3,13 +3,14 @@ package org.shanzhaozhen.authorize.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.authorize.pojo.dto.OAuth2RegisteredClientDTO;
 import org.shanzhaozhen.authorize.pojo.form.OAuth2RegisteredClientForm;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 
 /**
  * @Author: shanzhaozhen
  * @Date: 2022-06-17
  * @Description:
  */
-public interface OAuth2RegisteredClientService {
+public interface OAuth2RegisteredClientService extends RegisteredClientRepository {
 
     /**
      * 通过关键字查找 oauth2 客户端信息分页结果

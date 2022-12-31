@@ -1,5 +1,3 @@
-const fabric = require('@umijs/fabric');
-
 module.exports = {
   singleQuote: true,
   trailingComma: 'all',

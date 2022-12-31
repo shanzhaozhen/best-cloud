@@ -120,7 +120,9 @@ const Settings: React.FC = () => {
     }
   }, [])*/
 
+  // @ts-ignore
   const sucMsg = window['sucMsg']
+  // @ts-ignore
   const excMsg = window['excMsg']
 
   useEffect(() => {

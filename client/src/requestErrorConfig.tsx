@@ -3,8 +3,8 @@ import type { RequestConfig } from '@umijs/max';
 import {getToken} from "@/utils/common";
 import {message, Modal, notification} from 'antd';
 import {stringify} from "querystring";
-import {ExclamationCircleOutlined} from "@ant-design/icons";
 import {history} from "@umijs/max";
+import {ExclamationCircleOutlined} from "@ant-design/icons";
 
 
 const codeMessage = {
@@ -94,7 +94,7 @@ export const errorConfig: RequestConfig = {
       }
     },
     // 错误接收及处理
-    errorHandler: async (error: any, opts: any) => {
+    errorHandler: (error: any, opts: any) => {
       if (opts?.skipErrorHandler) throw error;
       // 我们的 errorThrower 抛出的错误。
       if (error.name === 'BizError') {
@@ -107,7 +107,7 @@ export const errorConfig: RequestConfig = {
               // do nothing
               break;
             case ErrorShowType.WARN_MESSAGE:
-              message.warn(errorMessage);
+              message.warning(errorMessage);
               break;
             case ErrorShowType.ERROR_MESSAGE:
               message.error(errorMessage);
@@ -122,8 +122,7 @@ export const errorConfig: RequestConfig = {
               // TODO: redirect
               break;
             default:
-            // TODO: 处理对应的业务
-            // message.error(errorMessage);
+              message.error(errorMessage);
           }
         }
       } else if (error.response) {
@@ -131,6 +130,7 @@ export const errorConfig: RequestConfig = {
         // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
         const { response } = error;
         if (response.status) {
+          // @ts-ignore
           const errorText = codeMessage[response.status] || response.statusText;
           const { status, url } = response;
           const res = response.data;
@@ -151,7 +151,7 @@ export const errorConfig: RequestConfig = {
                   confirmModalVisible = true;
                   Modal.confirm({
                     title: '登陆超时',
-                    icon: <ExclamationCircleOutlined />,
+                    icon: <ExclamationCircleOutlined/>,
                     content: '您已被登出，可以取消继续留在该页面，或者重新登录。',
                     okText: '重新登陆',
                     cancelText: '留在此页',
@@ -213,4 +213,3 @@ export const errorConfig: RequestConfig = {
     },*/
   ],
 };
-

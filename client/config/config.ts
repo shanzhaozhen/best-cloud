@@ -4,7 +4,7 @@ import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
 
-const { REACT_APP_ENV } = process.env;
+const { REACT_APP_ENV = 'dev' } = process.env;
 
 export default defineConfig({
   /**
@@ -53,7 +53,7 @@ export default defineConfig({
    * @doc 代理介绍 https://umijs.org/docs/guides/proxy
    * @doc 代理配置 https://umijs.org/docs/api/config#proxy
    */
-  proxy: proxy[REACT_APP_ENV || 'dev'],
+  proxy: proxy[REACT_APP_ENV as keyof typeof proxy],
   /**
    * @name 快速热更新配置
    * @description 一个不错的热更新组件，更新时可以保留 state
@@ -77,8 +77,16 @@ export default defineConfig({
    */
   layout: {
     locale: true,
-    siderWidth: 208,
     ...defaultSettings,
+  },
+  /**
+   * @name moment2dayjs 插件
+   * @description 将项目中的 moment 替换为 dayjs
+   * @doc https://umijs.org/docs/max/moment2dayjs
+   */
+  moment2dayjs: {
+    preset: 'antd',
+    plugins: ['duration'],
   },
   /**
    * @name 国际化插件
@@ -142,4 +150,8 @@ export default defineConfig({
     //   apiPrefix: '"/api/uaa"'
     // },
   ],
+  mfsu: {
+    strategy: 'normal',
+  },
+  requestRecord: {},
 });
