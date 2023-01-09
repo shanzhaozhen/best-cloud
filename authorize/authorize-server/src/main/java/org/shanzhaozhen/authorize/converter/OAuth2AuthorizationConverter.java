@@ -34,6 +34,10 @@ public class OAuth2AuthorizationConverter {
                 .authorizationGrantType(new AuthorizationGrantType(authorizationGrantType))
                 .attributes((attrs) -> attrs.putAll(attributes));
 
+        if (oauth2AuthorizationDTO.getAuthorizedScopes() != null) {
+            builder.authorizedScopes(StringUtils.commaDelimitedListToSet(oauth2AuthorizationDTO.getAuthorizedScopes()));
+        }
+
         String state = oauth2AuthorizationDTO.getState();
         if (StringUtils.hasText(state)) {
             builder.attribute(OAuth2ParameterNames.STATE, state);
@@ -110,6 +114,10 @@ public class OAuth2AuthorizationConverter {
                         .orElse(null))
                 .attributes(writeMap(oauth2Authorization.getAttributes()))
                 .state(oauth2Authorization.getAttribute(OAuth2ParameterNames.STATE));
+
+        if (!CollectionUtils.isEmpty(oauth2Authorization.getAuthorizedScopes())) {
+            builder.authorizedScopes(StringUtils.collectionToDelimitedString(oauth2Authorization.getAuthorizedScopes(), ","));
+        }
 
         OAuth2Authorization.Token<OAuth2AuthorizationCode> authorizationCode = oauth2Authorization.getToken(OAuth2AuthorizationCode.class);
 

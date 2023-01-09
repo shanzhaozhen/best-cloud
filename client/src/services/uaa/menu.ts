@@ -1,5 +1,5 @@
 // @ts-ignore
-import { request } from 'umi';
+import { request } from '@umijs/max';
 import type {R} from "@/services/common/typings";
 import type {MenuForm, MenuVO} from './type/menu';
 

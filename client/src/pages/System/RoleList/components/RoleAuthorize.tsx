@@ -66,11 +66,11 @@ const RoleAuthorize: React.FC<AuthorizeFormProps> = (props) => {
             const { data } = await getRoleAuthorizeById(currentRow?.id);
             return data;
           } else {
-            message.warn("权限id不能为空");
+            message.warning("权限id不能为空");
             handleRoleAuthorizeVisible(false);
           }
         } catch (e) {
-          message.warn("远程获取数据失败！");
+          message.warning("远程获取数据失败！");
           handleRoleAuthorizeVisible(false);
         }
         return undefined;

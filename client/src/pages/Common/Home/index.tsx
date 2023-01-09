@@ -1,7 +1,8 @@
 import { PageContainer } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
-import { Card, theme } from 'antd';
+import {Button, Card, theme} from 'antd';
 import React from 'react';
+import {getUserInfo, getUserInfo1} from "../../../../config/oidcConfig";
 
 /**
  * 每个单独的卡片，为了复用样式抽成了组件
@@ -88,6 +89,10 @@ const Home: React.FC = () => {
   const { initialState } = useModel('@@initialState');
   return (
     <PageContainer>
+      <Button onClick={async () => {
+        const userinfo = await getUserInfo1();
+        console.log(userinfo)
+      }}>获取用户信息</Button>
       <Card
         style={{
           borderRadius: 8,

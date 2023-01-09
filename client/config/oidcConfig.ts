@@ -1,20 +1,22 @@
 import {UserManager, UserManagerSettings} from "oidc-client-ts";
 import {history} from "@@/core/history";
 
+const url = window.location.origin;
+
 const OidcConfig: UserManagerSettings = {
-  authority: "http://localhost:9000",
+  authority: "http://127.0.0.1:9000",
   client_id: "efd7527b-39d0-468c-9bd6-ff945a696982",
-  // redirect_uri: 'http://127.0.0.1:8000/oidc',
-  redirect_uri: window.location.origin + "/oidc",
+  redirect_uri: url + "/oidc",
   scope: 'openid message.read message.write', // 'openid profile ' + your scopes
-  // responseType: 'code',
+  post_logout_redirect_uri: url + "/welcome",
+  response_type: "code",
+  // response_mode: "fragment",
   // silentRenew: true,
   // silentRenewUrl: window.location.origin + '/silent-renew.html',
   // renewTimeBeforeTokenExpiresInSeconds: 10,
-  // autoUserInfo: false
+  automaticSilentRenew: false,
+  // loadUserInfo: true,
 };
-
-// export default OidcConfig;
 
 export const userManager = new UserManager(OidcConfig);
 
@@ -44,6 +46,4 @@ export const clearToken = () => {
   }
   sessionStorage.clear();
 }
-
-
 

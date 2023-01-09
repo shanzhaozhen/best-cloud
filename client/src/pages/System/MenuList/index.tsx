@@ -193,7 +193,7 @@ const MenuList: React.FC = () => {
               setCurrentRow(entity);
               handleUpdateModalVisible(true);
             } else {
-              message.warn('没有选中有效的菜单');
+              message.warning('没有选中有效的菜单');
             }
           }}
         >
@@ -206,14 +206,14 @@ const MenuList: React.FC = () => {
           onConfirm={async () => {
             if (entity && entity.id) {
               if (entity.children && entity.children.length > 0) {
-                message.warn('该菜单节点存在子节点，删除已被拒绝');
+                message.warning('该菜单节点存在子节点，删除已被拒绝');
                 return;
               }
               await deleteMenu(entity.id);
               message.success('删除成功！');
               actionRef.current?.reloadAndRest?.();
             } else {
-              message.warn('没有选中有效的菜单');
+              message.warning('没有选中有效的菜单');
             }
           }}
           okText="确定"

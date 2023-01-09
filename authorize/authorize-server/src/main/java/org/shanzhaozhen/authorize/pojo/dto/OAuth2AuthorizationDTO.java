@@ -31,12 +31,13 @@ public class OAuth2AuthorizationDTO extends BaseInfo {
     private String authorizationGrantType;
 
     @Schema(description = "")
-    private String attributes;
+    private String authorizedScopes;
 
+    @Schema(description = "")
+    private String attributes;
 
     @Schema(description = "")
     private String state;
-
 
     @Schema(description = "")
     private String authorizationCodeValue;
@@ -71,19 +72,6 @@ public class OAuth2AuthorizationDTO extends BaseInfo {
 
 
     @Schema(description = "")
-    private String refreshTokenValue;
-
-    @Schema(description = "")
-    private Instant refreshTokenIssuedAt;
-
-    @Schema(description = "")
-    private Instant refreshTokenExpiresAt;
-
-    @Schema(description = "")
-    private String refreshTokenMetadata;
-
-
-    @Schema(description = "")
     private String oidcIdTokenValue;
 
     @Schema(description = "")
@@ -94,5 +82,18 @@ public class OAuth2AuthorizationDTO extends BaseInfo {
 
     @Schema(description = "")
     private String oidcIdTokenMetadata;
+
+
+    @Schema(description = "")
+    private String refreshTokenValue;
+
+    @Schema(description = "")
+    private Instant refreshTokenIssuedAt;
+
+    @Schema(description = "")
+    private Instant refreshTokenExpiresAt;
+
+    @Schema(description = "")
+    private String refreshTokenMetadata;
 
 }

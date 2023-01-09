@@ -155,7 +155,7 @@ const PermissionList: React.FC = () => {
               setCurrentRow(record);
               handleUpdateModalVisible(true);
             } else {
-              message.warn('没有选中有效的权限');
+              message.warning('没有选中有效的权限');
             }
           }}
         >
@@ -168,14 +168,14 @@ const PermissionList: React.FC = () => {
           onConfirm={async () => {
             if (record && record.id) {
               if (record.children && record.children.length > 0) {
-                message.warn('该权限节点存在子节点，删除已被拒绝');
+                message.warning('该权限节点存在子节点，删除已被拒绝');
                 return;
               }
               await deletePermission(record.id);
               message.success('删除成功！');
               actionRef.current?.reloadAndRest?.();
             } else {
-              message.warn('没有选中有效的权限');
+              message.warning('没有选中有效的权限');
             }
           }}
           okText="确定"

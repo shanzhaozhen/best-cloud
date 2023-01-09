@@ -1,5 +1,5 @@
 // @ts-ignore
-import { request } from 'umi';
+import { request } from '@umijs/max';
 import type {UserRoleForm} from "@/services/uaa/type/role";
 import type {R} from "@/services/common/typings";
 

@@ -186,7 +186,7 @@ const UserRelateList: React.FC<UserRelateListProps> = (props) => {
                 handleUpdateModalVisible(true);
                 // message.error(res.message || `没有获取到用户信息（id:${record.id}）`);
               } else {
-                message.warn('没有选中有效的用户');
+                message.warning('没有选中有效的用户');
               }
             }}
           >

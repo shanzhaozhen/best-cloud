@@ -1,5 +1,5 @@
 // @ts-ignore
-import { request } from 'umi';
+import { request } from '@umijs/max';
 import type {Page, PageParams, R} from "@/services/common/typings";
 import type {OAuth2RegisteredClientDTO, OAuth2RegisteredClientForm} from "@/services/uaa/type/registered-client";
 

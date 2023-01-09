@@ -166,7 +166,7 @@ const DepartmentList: React.FC = () => {
               setCurrentRow(record);
               handleUpdateModalVisible(true);
             } else {
-              message.warn('没有选中有效的部门');
+              message.warning('没有选中有效的部门');
             }
           }}
         >
@@ -179,14 +179,14 @@ const DepartmentList: React.FC = () => {
           onConfirm={async () => {
             if (record && record.id) {
               if (record.children && record.children.length > 0) {
-                message.warn('该部门节点存在子节点，删除已被拒绝');
+                message.warning('该部门节点存在子节点，删除已被拒绝');
                 return;
               }
               await deleteDepartment(record.id);
               message.success('删除成功！');
               actionRef.current?.reloadAndRest?.();
             } else {
-              message.warn('没有选中有效的部门');
+              message.warning('没有选中有效的部门');
             }
           }}
           okText="确定"

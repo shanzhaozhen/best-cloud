@@ -55,11 +55,11 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
             const { data } = await getMenuById(currentRow?.id);
             return data;
           } else {
-            message.warn("菜单id不能为空");
+            message.warning("菜单id不能为空");
             handleUpdateModalVisible(false);
           }
         } catch (e) {
-          message.warn("远程获取数据失败！");
+          message.warning("远程获取数据失败！");
           handleUpdateModalVisible(false);
         }
         return undefined;

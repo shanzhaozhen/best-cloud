@@ -51,11 +51,11 @@ const RegisteredClientList: React.FC = () => {
         }
         return data;
       } else {
-        message.warn("客户端id不能为空");
+        message.warning("客户端id不能为空");
         handleUpdateModalVisible(false);
       }
     } catch (e) {
-      message.warn("远程获取数据失败！");
+      message.warning("远程获取数据失败！");
       handleUpdateModalVisible(false);
     }
     return undefined;
@@ -173,7 +173,7 @@ const RegisteredClientList: React.FC = () => {
               handleUpdateModalVisible(true);
               // message.error(res.message || `没有获取到客户端信息（id:${entity.id}）`);
             } else {
-              message.warn('没有选中有效的客户端');
+              message.warning('没有选中有效的客户端');
             }
           }}
         >
@@ -192,7 +192,7 @@ const RegisteredClientList: React.FC = () => {
                   message.success('删除成功！');
                   actionRef.current?.reloadAndRest?.();
                 } else {
-                  message.warn('没有选中有效的客户端！');
+                  message.warning('没有选中有效的客户端！');
                 }
               },
               onCancel() {

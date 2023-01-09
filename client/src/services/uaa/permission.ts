@@ -1,5 +1,5 @@
 // @ts-ignore
-import { request } from 'umi';
+import { request } from '@umijs/max';
 import type {PermissionForm, PermissionVO} from './type/permission';
 import type {R} from "@/services/common/typings";
 

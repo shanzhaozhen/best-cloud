@@ -90,7 +90,7 @@ const RoleList: React.FC = () => {
       message.success('取消关联成功！');
       userRoleActionRef.current?.reloadAndRest?.();
     } else {
-      message.warn('没有选中有效的用户');
+      message.warning('没有选中有效的用户');
     }
   };
 
@@ -210,7 +210,7 @@ const RoleList: React.FC = () => {
               setCurrentRow(entity);
               handleUserRelateListVisible(true);
             } else {
-              message.warn('没有选中有效的角色');
+              message.warning('没有选中有效的角色');
             }
           }}
         >
@@ -224,7 +224,7 @@ const RoleList: React.FC = () => {
               handleRoleAuthorizeVisible(true);
               // message.error(res.message || `没有获取到角色信息（id:${entity.id}）`);
             } else {
-              message.warn('没有选中有效的角色');
+              message.warning('没有选中有效的角色');
             }
           }}
         >
@@ -240,7 +240,7 @@ const RoleList: React.FC = () => {
                 handleUpdateModalVisible(true);
                 // message.error(res.message || `没有获取到角色信息（id:${entity.id}）`);
               } else {
-                message.warn('没有选中有效的角色');
+                message.warning('没有选中有效的角色');
               }
             } else if (key === 'delete') {
               Modal.confirm({
@@ -253,7 +253,7 @@ const RoleList: React.FC = () => {
                     message.success('删除成功！');
                     actionRef.current?.reloadAndRest?.();
                   } else {
-                    message.warn('没有选中有效的角色！');
+                    message.warning('没有选中有效的角色！');
                   }
                 },
                 onCancel() {

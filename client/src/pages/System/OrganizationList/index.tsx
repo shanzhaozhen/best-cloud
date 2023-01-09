@@ -60,7 +60,7 @@ const DepartmentList: React.FC = () => {
       message.success('取消关联成功！');
       userRelateActionRef.current?.reloadAndRest?.();
     } else {
-      message.warn('没有选中有效的用户');
+      message.warning('没有选中有效的用户');
     }
   };
 

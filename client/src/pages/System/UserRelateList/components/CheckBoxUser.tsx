@@ -166,7 +166,7 @@ const CheckBoxUser: React.FC<CheckBoxUserProps> = (props) => {
                 await handleBatchAddUserRelate([record]);
                 actionRef.current?.reloadAndRest?.();
               } else {
-                message.warn('没有选中有效的用户');
+                message.warning('没有选中有效的用户');
               }
             }}
           >
