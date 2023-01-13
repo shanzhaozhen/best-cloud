@@ -10,18 +10,20 @@ import org.shanzhaozhen.authorize.pojo.dto.AuthUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
-import org.springframework.util.CollectionUtils;
 
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.*;
 import java.util.stream.Collectors;
+
 
 /**
  * JWT：指的是 JSON Web Token，由 header.payload.signture 组成。不存在签名的JWT是不安全的，存在签名的JWT是不可窜改的。
@@ -31,6 +33,8 @@ import java.util.stream.Collectors;
 @Configuration
 @RequiredArgsConstructor
 public class Jwks {
+
+	private static final OAuth2TokenType ID_TOKEN_TOKEN_TYPE = new OAuth2TokenType(OidcParameterNames.ID_TOKEN);
 
 	private final KeyPair keyPair;
 
@@ -63,15 +67,25 @@ public class Jwks {
 		return context -> {
 			JwtClaimsSet.Builder claims = context.getClaims();
 			Object principal = context.getPrincipal().getPrincipal();
-			// todo: id token 需要按照类型
+			OAuth2TokenType tokenType = context.getTokenType();
+
 			if (principal instanceof AuthUser) {
 				AuthUser authUser = (AuthUser) principal;
 				claims.claim("userId", authUser.getUserId());
 				claims.claim("username", authUser.getUsername());
-				claims.claim("authorities", Optional.ofNullable(authUser.getAuthorities())
-						.map(o -> o.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet()))
-						.orElse(Collections.emptySet()));
+
+				// access token
+				if (OAuth2TokenType.ACCESS_TOKEN.equals(tokenType)) {
+					claims.claim("authorities", Optional.ofNullable(authUser.getAuthorities())
+							.map(o -> o.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet()))
+							.orElse(Collections.emptySet()));
+
+				} else if (ID_TOKEN_TOKEN_TYPE.equals(context.getTokenType())) {			// idToken
+
+				}
+
 			}
+
 			JwtEncodingContext.with(context.getJwsHeader(), claims);
 		};
 	}

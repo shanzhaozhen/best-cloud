@@ -29,73 +29,73 @@ export default [
     icon: 'smile',
     component: './Common/Home',
   },
-  // {
-  //   path: '/system',
-  //   name: 'system',
-  //   icon: 'crown',
-  //   routes: [
-  //     {
-  //       name: 'user',
-  //       path: '/system/user',
-  //       component: './System/UserList',
-  //     },
-  //     {
-  //       name: 'role',
-  //       path: '/system/role',
-  //       component: './System/RoleList',
-  //     },
-  //     {
-  //       name: 'menu',
-  //       path: '/system/menu',
-  //       component: './System/MenuList',
-  //     },
-  //     {
-  //       name: 'permission',
-  //       path: '/system/permission',
-  //       component: './System/PermissionList',
-  //     },
-  //     {
-  //       name: 'department',
-  //       path: '/system/department',
-  //       component: './System/DepartmentList',
-  //     },
-  //     {
-  //       name: 'organization',
-  //       path: '/system/organization',
-  //       component: './System/OrganizationList',
-  //     },
-  //   ],
-  // },
-  // {
-  //   path: '/oauth',
-  //   name: 'oauth',
-  //   icon: 'crown',
-  //   routes: [
-  //     {
-  //       name: 'registeredClient',
-  //       path: '/oauth/registered-client',
-  //       component: './OAuth/RegisteredClientList',
-  //     },
-  //   ],
-  // },
-  // {
-  //   path: '/review',
-  //   name: 'review',
-  //   icon: 'crown',
-  //   routes: [
-  //     {
-  //       name: 'flow',
-  //       path: '/review/flow',
-  //       component: './Review/FlowList',
-  //     },
-  //   ],
-  // },
-  // {
-  //   name: 'flow',
-  //   path: '/flow',
-  //   layout: false,
-  //   component: './Review/FlowList',
-  // },
+  {
+    path: '/system',
+    name: 'system',
+    icon: 'crown',
+    routes: [
+      {
+        name: 'user',
+        path: '/system/user',
+        component: './System/UserList',
+      },
+      {
+        name: 'role',
+        path: '/system/role',
+        component: './System/RoleList',
+      },
+      {
+        name: 'menu',
+        path: '/system/menu',
+        component: './System/MenuList',
+      },
+      {
+        name: 'permission',
+        path: '/system/permission',
+        component: './System/PermissionList',
+      },
+      {
+        name: 'department',
+        path: '/system/department',
+        component: './System/DepartmentList',
+      },
+      {
+        name: 'organization',
+        path: '/system/organization',
+        component: './System/OrganizationList',
+      },
+    ],
+  },
+  {
+    path: '/oauth',
+    name: 'oauth',
+    icon: 'crown',
+    routes: [
+      {
+        name: 'registeredClient',
+        path: '/oauth/registered-client',
+        component: './OAuth/RegisteredClientList',
+      },
+    ],
+  },
+  {
+    path: '/review',
+    name: 'review',
+    icon: 'crown',
+    routes: [
+      {
+        name: 'flow',
+        path: '/review/flow',
+        component: './Review/FlowList',
+      },
+    ],
+  },
+  {
+    name: 'flow',
+    path: '/flow',
+    layout: false,
+    component: './Review/FlowList',
+  },
   // {
   //   path: '/admin',
   //   name: 'admin',

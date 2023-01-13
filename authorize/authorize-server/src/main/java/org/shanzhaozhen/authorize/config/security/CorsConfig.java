@@ -18,14 +18,19 @@ public class CorsConfig {
 
     @Bean
     protected CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedHeader("*");
-        configuration.addAllowedMethod("*");
-        configuration.addAllowedOrigin("*");
-        configuration.setAllowedOrigins(Collections.singletonList("*"));
-
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        // 允许全部请求头
+        corsConfiguration.addAllowedHeader("*");
+        // 允许所有请求方法
+        corsConfiguration.addAllowedMethod("*");
+        // 允许携带 Authorization 头
+        corsConfiguration.setAllowCredentials(true);
+        // 允许所有域，当请求头
+        corsConfiguration.addAllowedOriginPattern("*");
+
+        // 允许全部请求路径
+        source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
     }
 
