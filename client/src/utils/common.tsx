@@ -85,14 +85,5 @@ export const checkHasKey = (obj: any, keys: (string | number)[]): boolean => {
   return false;
 };
 
-export const getToken = () => {
-  const tokenType = localStorage.getItem('token_type') || '';
-  const accessToken = localStorage.getItem('access_token') || '';
-
-  return `${tokenType} ${accessToken}`;
-}
-
-
-
 // export const targetUrl = REACT_APP_ENV ? proxy[REACT_APP_ENV]['/hrs-api/'].target : '';
 // export const targetUrlNotDiagonal = targetUrl.substr(0, targetUrl.length - 1);

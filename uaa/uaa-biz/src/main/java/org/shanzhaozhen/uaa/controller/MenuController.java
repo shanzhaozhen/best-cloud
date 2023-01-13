@@ -27,6 +27,7 @@ public class MenuController {
     private static final String UPDATE_MENU = "/menu";
     private static final String DELETE_MENU = "/menu/{menuId}";
     private static final String BATCH_DELETE_MENU = "/menu";
+    private static final String GET_MENU_CURRENT = "/menu/current";
 
     private final MenuService menuService;
 
@@ -76,6 +77,12 @@ public class MenuController {
     @DeleteMapping(BATCH_DELETE_MENU)
     public R<List<String>> batchDeleteMenu(@Parameter(description = "菜单id", example = "[1, 2]") @RequestBody List<String> menuIds) {
         return R.build(() -> menuService.batchDeleteMenu(menuIds));
+    }
+
+    @Operation(summary = "获取当前用户允许访问菜单")
+    @GetMapping(GET_MENU_CURRENT)
+    public R<List<MenuVO>> getMenusByCurrentUser() {
+        return R.build(() -> MenuConverter.toVO(menuService.getMenusByCurrentUser()));
     }
 
 }

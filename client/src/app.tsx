@@ -2,15 +2,17 @@ import Footer from '@/components/Footer';
 import RightContent from '@/components/RightContent';
 import {LinkOutlined} from '@ant-design/icons';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
-import { SettingDrawer } from '@ant-design/pro-components';
+import {SettingDrawer} from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
 import { history, Link } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
-import {getCurrentUserInfo} from "@/services/uaa/user";
 import type {CurrentUser} from "@/services/uaa/type/user";
 import {errorConfig} from "@/requestErrorConfig";
 import {menuDataRender} from "@/dynamicMenu";
 import {refreshToken} from "../config/oidcConfig";
+import {idTokenDecode} from "@/utils/oauth";
+import {getMenusByCurrentUser} from "@/services/uaa/menu";
+import {MenuVO} from "@/services/uaa/type/menu";
 
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -30,17 +32,24 @@ const isWhiteAllow = (): boolean => whiteList.some(i => history.location.pathnam
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
   currentUser?: CurrentUser;
+  menus?: MenuVO[];
   loading?: boolean;
-  fetchUserInfo?: () => Promise<CurrentUser | undefined>;
+  getUserInfo?: () => Promise<CurrentUser | undefined>;
 }> {
-  const fetchUserInfo = async () => {
-    try {
-      const { data } = await getCurrentUserInfo();
-      return data;
-    } catch (error) {
-      history.push(loginPath);
+  const getUserInfo = async () => {
+    // 解析 id token
+    const userinfo = idTokenDecode();
+
+    if (userinfo && Object.keys(userinfo).length > 0) {
+      return {
+        userId: userinfo.userId,
+        username: userinfo.username,
+        nickname: userinfo.nickname,
+        avatar: userinfo.avatar,
+      }
+    } else {
+      return {}
     }
-    return undefined;
   };
 
   // oauth2 返回页则刷新 token
@@ -50,17 +59,25 @@ export async function getInitialState(): Promise<{
 
   // 如果不是白名单，执行
   if (!isWhiteAllow()) {
-    const currentUser = await fetchUserInfo();
+    const currentUser = await getUserInfo();
+    let menus: MenuVO[] = [];
+    try {
+      const { data } = await getMenusByCurrentUser();
+      menus = data && data.length > 0 ? data : [];
+    } catch (e) {
+
+    }
 
     return {
-      fetchUserInfo,
+      getUserInfo,
       currentUser,
+      menus: menus,
       settings: defaultSettings,
     };
   }
 
   return {
-    fetchUserInfo,
+    getUserInfo,
     settings: defaultSettings,
   };
 }
@@ -71,7 +88,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     rightContentRender: () => <RightContent />,
     // 水印
     waterMarkProps: {
-      content: initialState?.currentUser?.userInfo?.name,
+      content: initialState?.currentUser?.nickname,
     },
     footerRender: () => <Footer />,
     onPageChange: () => {
@@ -81,7 +98,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       }
     },
     // 动态菜单
-    menuDataRender: () => menuDataRender(initialState?.currentUser?.menus),
+    menuDataRender: () => menuDataRender(initialState?.menus),
     layoutBgImgList: [
       {
         src: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/D2LWSqNny4sAAAAAAAAAAAAAFl94AQBr',

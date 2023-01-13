@@ -1,4 +1,4 @@
-import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
 import { history, useModel } from '@umijs/max';
 import { Avatar, Spin } from 'antd';
@@ -7,7 +7,7 @@ import type { MenuInfo } from 'rc-menu/lib/interface';
 import React, { useCallback } from 'react';
 import { flushSync } from 'react-dom';
 import HeaderDropdown from '../HeaderDropdown';
-import {clearToken} from "../../../config/oidcConfig";
+import {clearToken, OidcConfig} from "../../../config/oidcConfig";
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -31,7 +31,7 @@ const Name = () => {
     };
   });
 
-  return <span className={`${nameClassName} anticon`}>{currentUser?.userInfo?.name || '（未命名）'}</span>;
+  return <span className={`${nameClassName} anticon`}>{currentUser?.nickname || '（未命名）'}</span>;
 };
 
 const AvatarLogo = () => {
@@ -50,7 +50,7 @@ const AvatarLogo = () => {
     };
   });
 
-  return <Avatar size="small" className={avatarClassName} src={currentUser?.userInfo?.avatar|| '/default-avatar.png'} alt="avatar" />;
+  return <Avatar size="small" className={avatarClassName} src={currentUser?.avatar|| '/default-avatar.png'} alt="avatar" />;
 };
 
 const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
@@ -90,13 +90,16 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   const { initialState, setInitialState } = useModel('@@initialState');
 
   const onMenuClick = useCallback(
-    (event: MenuInfo) => {
+    async (event: MenuInfo) => {
       const { key } = event;
-      if (key === 'logout') {
+      if (key === 'account') {
+        window.open(OidcConfig.authority + '/account');
+        return;
+      } if (key === 'logout') {
         flushSync(() => {
           setInitialState((s) => ({ ...s, currentUser: undefined }));
         });
-        loginOut();
+        await loginOut();
         return;
       }
       history.push(`/account/${key}`);
@@ -130,14 +133,9 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
     ...(menu
       ? [
           {
-            key: 'center',
+            key: 'account',
             icon: <UserOutlined />,
             label: '个人中心',
-          },
-          {
-            key: 'settings',
-            icon: <SettingOutlined />,
-            label: '个人设置',
           },
           {
             type: 'divider' as const,

@@ -81,3 +81,11 @@ export async function getMenuByPid(pid?: string, options?: Record<string, any>) 
     ...(options || {}),
   });
 }
+
+/** 获取当前登录用户允许访问菜单 GET /menu/current */
+export async function getMenusByCurrentUser(options?: Record<string, any>) {
+  return request<R<MenuVO[]>>(`/api/uaa/menu/current`, {
+    method: 'GET',
+    ...(options || {}),
+  });
+}

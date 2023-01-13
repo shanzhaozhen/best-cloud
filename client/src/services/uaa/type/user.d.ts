@@ -134,13 +134,19 @@ export type UserDTO = {
 
 export type CurrentUser = {
   /** 用户信息 */
-  userInfo?: UserInfoVO;
+  // userInfo?: UserInfoVO;
   /** 用户角色 */
-  roles?: RoleBase[];
-  /** 用户所能访问菜单 */
-  menus: MenuDataItem[];
+  // roles?: RoleBase[];
+  /** 用户id */
+  userId?: string;
+  /** 用户名 */
+  username?: string;
+  /** 用户昵称 */
+  nickname?: string;
+  /** 头像 */
+  avatar?: string;
   /** 未读数 */
-  unreadCount: number;
+  unreadCount?: number;
 };
 
 

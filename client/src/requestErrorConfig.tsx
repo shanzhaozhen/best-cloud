@@ -1,10 +1,10 @@
 import type { RequestConfig } from '@umijs/max';
 // import { message, notification } from 'antd';
-import {getToken} from "@/utils/common";
 import {message, Modal, notification} from 'antd';
 import {stringify} from "querystring";
 import {history} from "@umijs/max";
 import {ExclamationCircleOutlined} from "@ant-design/icons";
+import {getToken} from "@/utils/oauth";
 
 
 const codeMessage = {

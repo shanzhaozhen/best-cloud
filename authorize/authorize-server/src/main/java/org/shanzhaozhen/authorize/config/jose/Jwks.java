@@ -7,6 +7,8 @@ import com.nimbusds.jose.proc.SecurityContext;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.shanzhaozhen.authorize.pojo.dto.AuthUser;
+import org.shanzhaozhen.authorize.pojo.dto.OAuth2UserInfoDTO;
+import org.shanzhaozhen.authorize.service.OAuth2UserInfoService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,6 +37,8 @@ import java.util.stream.Collectors;
 public class Jwks {
 
 	private static final OAuth2TokenType ID_TOKEN_TOKEN_TYPE = new OAuth2TokenType(OidcParameterNames.ID_TOKEN);
+
+	private final OAuth2UserInfoService oAuth2UserInfoService;
 
 	private final KeyPair keyPair;
 
@@ -71,21 +75,25 @@ public class Jwks {
 
 			if (principal instanceof AuthUser) {
 				AuthUser authUser = (AuthUser) principal;
-				claims.claim("userId", authUser.getUserId());
-				claims.claim("username", authUser.getUsername());
-
-				// access token
 				if (OAuth2TokenType.ACCESS_TOKEN.equals(tokenType)) {
+					// access token
+					claims.claim("userId", authUser.getUserId());
+					claims.claim("username", authUser.getUsername());
 					claims.claim("authorities", Optional.ofNullable(authUser.getAuthorities())
 							.map(o -> o.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet()))
 							.orElse(Collections.emptySet()));
 
-				} else if (ID_TOKEN_TOKEN_TYPE.equals(context.getTokenType())) {			// idToken
-
+				} else if (ID_TOKEN_TOKEN_TYPE.equals(context.getTokenType())) {
+					// idToken
+					claims.claim("userId", authUser.getUserId());
+					claims.claim("username", authUser.getUsername());
+					OAuth2UserInfoDTO userInfo = oAuth2UserInfoService.getOAuth2UserInfoByUserId(authUser.getUserId());
+					if (userInfo != null) {
+						claims.claim("nickname", userInfo.getNickname());
+						claims.claim("avatar", userInfo.getAvatar());
+					}
 				}
-
 			}
-
 			JwtEncodingContext.with(context.getJwsHeader(), claims);
 		};
 	}
