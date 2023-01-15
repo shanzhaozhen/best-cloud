@@ -10,8 +10,6 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 import org.shanzhaozhen.uaa.converter.UserConverter;
 import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
-import org.shanzhaozhen.uaa.pojo.dto.UserInfoDTO;
-import org.shanzhaozhen.uaa.pojo.form.ChangePasswordForm;
 import org.shanzhaozhen.uaa.pojo.form.UserForm;
 import org.shanzhaozhen.uaa.pojo.form.UserPageParams;
 import org.shanzhaozhen.uaa.service.UserService;
@@ -62,12 +60,6 @@ public class UserController {
         return R.build(userService::getUserInfo);
     }
 
-    @Operation(summary = "登出用户接口")
-    @GetMapping(LOGOUT)
-    public R<Boolean> logout() {
-        return R.build(userService::logout);
-    }
-
     @Operation(summary = "获取用户信息（分页）")
     @PostMapping(GET_USER_PAGE)
     public R<Page<UserVO>> getUserPage(@RequestBody UserPageParams<UserDTO> pageParams) {
@@ -115,13 +107,6 @@ public class UserController {
     @PostMapping(GET_USER_DEPARTMENT_PAGE)
     public R<Page<UserVO>> getUserPageByDepartmentId(@RequestBody UserPageParams<UserDTO> pageParams) {
         return R.build(() -> UserConverter.toVO(userService.getUserPageByDepartmentId(pageParams.getPage(), pageParams.getDepartmentId(), pageParams.getKeyword())));
-    }
-
-    @Operation(summary = "修改密码")
-    @PostMapping(UPDATE_PASSWORD)
-    public R<?> changePassword(@RequestBody ChangePasswordForm changePasswordForm) {
-        userService.changePassword(changePasswordForm);
-        return R.ok();
     }
 
 }

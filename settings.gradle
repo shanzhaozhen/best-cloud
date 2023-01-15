@@ -17,5 +17,8 @@ include 'authorize:authorize-web'
 include 'uaa:uaa-api'
 include 'uaa:uaa-biz'
 
+include 'oauth:oauth-api'
+include 'oauth:oauth-biz'
+
 include 'gbpm'
 

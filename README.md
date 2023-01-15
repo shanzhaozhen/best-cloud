@@ -4,9 +4,6 @@
 
 这个一个基础架构项目，以目前最新的技术栈输出最好的示例，以实现拿来即用的开发框架脚手架。项目结构主要采用微服务 Spring Cloud 系的技术栈实现，是一个非常好用的轮子，欢迎大家指错，一起进步。
 
-* [~~后台项目地址~~](https://github.com/shanzhaozhen/best-server)
-* [~~Spring Cloud实现项目地址~~](https://github.com/shanzhaozhen/best-cloud)
-* [~~前端项目地址~~](https://github.com/shanzhaozhen/best-client)
 * [~~Demo站点~~](http://best.loogoos.tk)
     > 仅支持ipv6用户访问，因为demo站点是使用我私有的小服务器搭建的的ipv6的方式映射的，[详见：我另外一个仓库（暂时没完善）](https://github.com/shanzhaozhen/MyNAS)
     > 默认账号：admin

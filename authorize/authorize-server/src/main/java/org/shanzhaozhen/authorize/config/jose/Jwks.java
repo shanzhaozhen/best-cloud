@@ -7,8 +7,8 @@ import com.nimbusds.jose.proc.SecurityContext;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.shanzhaozhen.authorize.pojo.dto.AuthUser;
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2UserInfoDTO;
 import org.shanzhaozhen.authorize.service.OAuth2UserInfoService;
+import org.shanzhaozhen.oauth.pojo.dto.OAuth2UserInfoDTO;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,6 +19,7 @@ import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
+import org.springframework.util.StringUtils;
 
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
@@ -89,8 +90,12 @@ public class Jwks {
 					claims.claim("username", authUser.getUsername());
 					OAuth2UserInfoDTO userInfo = oAuth2UserInfoService.getOAuth2UserInfoByUserId(authUser.getUserId());
 					if (userInfo != null) {
-						claims.claim("nickname", userInfo.getNickname());
-						claims.claim("avatar", userInfo.getAvatar());
+						if (StringUtils.hasText(userInfo.getNickname())) {
+							claims.claim("nickname", userInfo.getNickname());
+						}
+						if (StringUtils.hasText(userInfo.getAvatar())) {
+							claims.claim("avatar", userInfo.getAvatar());
+						}
 					}
 				}
 			}

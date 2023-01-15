@@ -3,8 +3,6 @@ package org.shanzhaozhen.uaa.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.uaa.pojo.dto.JWTUser;
 import org.shanzhaozhen.uaa.pojo.dto.UserDTO;
-import org.shanzhaozhen.uaa.pojo.dto.UserInfoDTO;
-import org.shanzhaozhen.uaa.pojo.form.ChangePasswordForm;
 import org.shanzhaozhen.uaa.pojo.vo.CurrentUser;
 
 import java.util.List;
@@ -117,17 +115,5 @@ public interface UserService {
      * @return
      */
     Page<UserDTO> getUserPageByDepartmentId(Page<UserDTO> page, String departmentId, String keyword);
-
-    /**
-     * 用户注销
-     * @return
-     */
-    Boolean logout();
-
-    /**
-     * 更新密码
-     * @param changePasswordForm
-     */
-    void changePassword(ChangePasswordForm changePasswordForm);
 
 }

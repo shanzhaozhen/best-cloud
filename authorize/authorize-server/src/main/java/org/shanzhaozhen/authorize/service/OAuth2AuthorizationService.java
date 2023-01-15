@@ -1,6 +1,7 @@
 package org.shanzhaozhen.authorize.service;
 
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2AuthorizationDTO;
+
+import org.shanzhaozhen.oauth.pojo.dto.OAuth2AuthorizationDTO;
 
 /**
  * @Author: shanzhaozhen

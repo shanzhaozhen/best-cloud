@@ -1,11 +1,11 @@
 package org.shanzhaozhen.authorize.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO;
 import org.shanzhaozhen.authorize.pojo.dto.SecurityInfo;
-import org.shanzhaozhen.authorize.pojo.entity.OAuth2UserDO;
 import org.shanzhaozhen.authorize.pojo.form.BindPhoneForm;
 import org.shanzhaozhen.authorize.pojo.form.ChangePasswordForm;
+import org.shanzhaozhen.oauth.pojo.dto.OAuth2UserDTO;
+import org.shanzhaozhen.oauth.pojo.entity.OAuth2UserDO;
 
 import java.util.List;
 

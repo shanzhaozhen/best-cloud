@@ -16,14 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * An {@link AuthenticationEntryPoint} for initiating the login flow to an
- * external provider using the {@code idp} query parameter, which represents the
- * {@code registrationId} of the desired {@link ClientRegistration}.
- *
- * @author Steve Riesenberg
- * @since 0.2.3
- */
+
 public final class FederatedIdentityAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 	private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();

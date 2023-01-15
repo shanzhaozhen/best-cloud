@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.shanzhaozhen.authorize.pojo.vo.OAuth2UserSocialVO;
+import org.shanzhaozhen.oauth.pojo.vo.OAuth2UserSocialVO;
 
 /**
  * @Author: shanzhaozhen

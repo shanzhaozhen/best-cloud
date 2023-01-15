@@ -2,9 +2,9 @@ package org.shanzhaozhen.authorize.authentication.federated;
 
 import org.shanzhaozhen.authorize.authentication.LoginSuccessHandler;
 import org.shanzhaozhen.authorize.constant.SocialType;
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO;
-import org.shanzhaozhen.authorize.service.OAuthUserSocialService;
 import org.shanzhaozhen.authorize.pojo.dto.AuthUser;
+import org.shanzhaozhen.authorize.service.OAuthUserSocialService;
+import org.shanzhaozhen.oauth.pojo.dto.OAuth2UserDTO;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -21,13 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.function.Consumer;
 
-/**
- * An {@link AuthenticationSuccessHandler} for capturing the {@link OidcUser} or
- * {@link OAuth2User} for Federated Account Linking or JIT Account Provisioning.
- *
- * @author Steve Riesenberg
- * @since 0.2.3
- */
+
 public final class FederatedIdentityAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
 	private final AuthenticationSuccessHandler delegate = new LoginSuccessHandler();

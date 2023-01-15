@@ -42,26 +42,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * An implementation of an {@link OAuth2UserService} that supports standard OAuth 2.0
- * Provider's.
- * <p>
- * For standard OAuth 2.0 Provider's, the attribute name used to access the user's name
- * from the UserInfo response is required and therefore must be available via
- * {@link ClientRegistration.ProviderDetails.UserInfoEndpoint#getUserNameAttributeName()
- * UserInfoEndpoint.getUserNameAttributeName()}.
- * <p>
- * <b>NOTE:</b> Attribute names are <b>not</b> standardized between providers and
- * therefore will vary. Please consult the provider's API documentation for the set of
- * supported user attribute names.
- *
- * @author Joe Grandja
- * @since 5.0
- * @see OAuth2UserService
- * @see OAuth2UserRequest
- * @see OAuth2User
- * @see DefaultOAuth2User
- */
+
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
 	private static final String MISSING_USER_INFO_URI_ERROR_CODE = "missing_user_info_uri";

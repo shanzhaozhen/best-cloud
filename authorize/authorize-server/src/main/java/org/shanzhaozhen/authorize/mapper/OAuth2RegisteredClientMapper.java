@@ -3,8 +3,8 @@ package org.shanzhaozhen.authorize.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2RegisteredClientDTO;
-import org.shanzhaozhen.authorize.pojo.entity.OAuth2RegisteredClientDO;
+import org.shanzhaozhen.oauth.pojo.dto.OAuth2RegisteredClientDTO;
+import org.shanzhaozhen.oauth.pojo.entity.OAuth2RegisteredClientDO;
 
 /**
  * @Author: shanzhaozhen

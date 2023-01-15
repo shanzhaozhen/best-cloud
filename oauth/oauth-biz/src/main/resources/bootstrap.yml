@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: uaa
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.56.10:8848
+        group: SYSTEM #应用分组
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yaml
+        group: SYSTEM
+        prefix: ${spring.application.name}
+#        group: DEFAULT_GROUP
+#        命名空间
+#        namespace:
+    sentinel:
+      transport:
+        dashboard: 127.0.0.1:8858
+        port: 8719
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+

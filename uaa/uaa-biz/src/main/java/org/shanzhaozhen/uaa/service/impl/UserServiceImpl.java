@@ -1,14 +1,12 @@
 package org.shanzhaozhen.uaa.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.v3.oas.annotations.Operation;
 import org.shanzhaozhen.common.core.utils.CustomBeanUtils;
 import org.shanzhaozhen.common.core.utils.PasswordUtils;
 import org.shanzhaozhen.common.web.utils.JwtUtils;
 import org.shanzhaozhen.uaa.converter.MenuConverter;
 import org.shanzhaozhen.uaa.converter.UserInfoConverter;
 import org.shanzhaozhen.uaa.pojo.dto.UserInfoDTO;
-import org.shanzhaozhen.uaa.pojo.form.ChangePasswordForm;
 import org.shanzhaozhen.uaa.pojo.vo.MenuVO;
 import org.shanzhaozhen.uaa.service.*;
 import org.shanzhaozhen.uaa.pojo.entity.UserDO;
@@ -21,13 +19,11 @@ import org.shanzhaozhen.uaa.pojo.vo.CurrentUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -42,7 +38,6 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final MenuService menuService;
     private final UserRoleMapper userRoleMapper;
-    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDTO getUserById(String userId) {
@@ -204,40 +199,6 @@ public class UserServiceImpl implements UserService {
     public Page<UserDTO> getUserPageByDepartmentId(Page<UserDTO> page, String departmentId, String keyword) {
         Assert.notNull(departmentId, "没有有效的部门ID！");
         return userMapper.getUserPageByDepartmentId(page, departmentId, keyword);
-    }
-
-    @Override
-    public Boolean logout() {
-//        String userId = UserDetailsUtils.getUserId();
-        return true;
-    }
-
-    @Override
-    @Transactional
-    public void changePassword(ChangePasswordForm changePasswordForm) {
-        String userId = changePasswordForm.getUserId();
-
-        if (StringUtils.hasText(userId)) {
-            String currentUserId = JwtUtils.getUserIdWithoutError();
-            if (StringUtils.hasText(currentUserId)) {
-                Assert.isTrue(userId.equals(currentUserId), "存在篡改密码风险，请联系管理员");
-            }
-        } else {
-            userId = JwtUtils.getUserIdWithoutError();
-            Assert.hasText(userId, "当前登陆状态不存在用户id");
-        }
-
-        // 检验用户是否存在
-        UserDO userDO = userMapper.selectById(userId);
-        Assert.notNull(userDO, "用户不存在");
-
-        String encodePassword = userDO.getPassword();
-        boolean matches = passwordEncoder.matches(changePasswordForm.getOldPassword(), encodePassword);
-        Assert.isTrue(matches, "原密码不正确");
-
-        encodePassword = passwordEncoder.encode(changePasswordForm.getNewPassword());
-        userDO.setPassword(encodePassword);
-        userMapper.updateById(userDO);
     }
 
 }

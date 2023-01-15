@@ -25,7 +25,6 @@ dependencies {
             'org.springframework.boot:spring-boot-starter-actuator',
 
             'mysql:mysql-connector-java',
-            "com.alibaba:druid-spring-boot-starter:${druidVersion}",
             'org.springframework.boot:spring-boot-starter-data-redis',
 
             // minio需要

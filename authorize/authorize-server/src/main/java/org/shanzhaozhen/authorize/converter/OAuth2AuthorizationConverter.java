@@ -3,7 +3,7 @@ package org.shanzhaozhen.authorize.converter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.shanzhaozhen.authorize.jackson.SecurityJacksonConfig;
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2AuthorizationDTO;
+import org.shanzhaozhen.oauth.pojo.dto.OAuth2AuthorizationDTO;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;

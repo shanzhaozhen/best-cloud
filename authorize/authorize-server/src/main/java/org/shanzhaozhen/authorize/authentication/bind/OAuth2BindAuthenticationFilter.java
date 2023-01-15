@@ -1,10 +1,10 @@
 package org.shanzhaozhen.authorize.authentication.bind;
 
-import org.shanzhaozhen.authorize.pojo.entity.OAuth2UserSocialDO;
 import org.shanzhaozhen.authorize.service.OAuthUserSocialService;
 import org.shanzhaozhen.authorize.utils.OAuth2AuthorizationResponseUtils;
 import org.shanzhaozhen.authorize.constant.SocialType;
 import org.shanzhaozhen.common.core.utils.JacksonUtils;
+import org.shanzhaozhen.oauth.pojo.entity.OAuth2UserSocialDO;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.log.LogMessage;
 import org.springframework.security.core.Authentication;

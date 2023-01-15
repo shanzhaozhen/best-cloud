@@ -1,10 +1,10 @@
 package org.shanzhaozhen.authorize.authentication;
 
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2UserInfoDTO;
 import org.shanzhaozhen.authorize.pojo.dto.UserInfoBase;
 import org.shanzhaozhen.authorize.service.OAuth2UserInfoService;
 import org.shanzhaozhen.authorize.utils.SecurityUtils;
 import org.shanzhaozhen.common.core.utils.SpringContextUtils;
+import org.shanzhaozhen.oauth.pojo.dto.OAuth2UserInfoDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;

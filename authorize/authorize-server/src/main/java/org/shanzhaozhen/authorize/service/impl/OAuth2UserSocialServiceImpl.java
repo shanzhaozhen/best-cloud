@@ -2,22 +2,20 @@ package org.shanzhaozhen.authorize.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.authorize.constant.SocialType;
-import org.shanzhaozhen.authorize.converter.OAuth2UserSocialConverter;
+import org.shanzhaozhen.oauth.converter.OAuth2UserSocialConverter;
 import org.shanzhaozhen.authorize.mapper.OAuth2UserSocialMapper;
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO;
 import org.shanzhaozhen.authorize.pojo.dto.SocialInfo;
-import org.shanzhaozhen.authorize.pojo.entity.OAuth2UserSocialDO;
 import org.shanzhaozhen.authorize.service.OAuth2UserService;
 import org.shanzhaozhen.authorize.service.OAuthUserSocialService;
 import org.shanzhaozhen.authorize.utils.SecurityUtils;
-import org.springframework.beans.BeanUtils;
+import org.shanzhaozhen.oauth.pojo.dto.OAuth2UserDTO;
+import org.shanzhaozhen.oauth.pojo.entity.OAuth2UserSocialDO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * @Author: shanzhaozhen

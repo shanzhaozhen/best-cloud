@@ -1,6 +1,6 @@
 package org.shanzhaozhen.authorize.service;
 
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2TokenSettingsDTO;
+import org.shanzhaozhen.oauth.pojo.dto.OAuth2TokenSettingsDTO;
 
 /**
  * <p>

@@ -8,8 +8,6 @@ const Index: React.FC = () => {
   useEffect(() => {
     const redirect = localStorage.getItem('redirect');
 
-    console.log(redirect)
-
     localStorage.removeItem('redirect');
     history.replace(redirect || '/');
   }, [])

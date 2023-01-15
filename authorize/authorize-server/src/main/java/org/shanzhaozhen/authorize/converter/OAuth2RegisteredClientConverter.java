@@ -1,12 +1,11 @@
 package org.shanzhaozhen.authorize.converter;
 
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2RegisteredClientDTO;
+import org.shanzhaozhen.oauth.pojo.dto.OAuth2RegisteredClientDTO;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.util.StringUtils;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;

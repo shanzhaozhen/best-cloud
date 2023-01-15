@@ -9,7 +9,7 @@
     </sql>
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.shanzhaozhen.authorize.pojo.entity.OAuth2UserDO">
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.oauth.pojo.entity.OAuth2UserDO">
         <id column="id" property="id" />
         <result column="username" property="username" />
         <result column="password" property="password" />
@@ -23,15 +23,15 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-    <resultMap autoMapping="true" type="org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO" id="UserAndInfoMap">
+    <resultMap autoMapping="true" type="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserDTO" id="UserAndInfoMap">
         <id property="id" column="id"></id>
     </resultMap>
 
-    <resultMap autoMapping="true" type="org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO" id="UserRoleMap">
+    <resultMap autoMapping="true" type="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserDTO" id="UserRoleMap">
         <id property="id" column="id"></id>
     </resultMap>
 
-    <select id="selectUserByUsername" resultType="org.shanzhaozhen.authorize.pojo.entity.OAuth2UserDO">
+    <select id="selectUserByUsername" resultType="org.shanzhaozhen.oauth.pojo.entity.OAuth2UserDO">
         select id, username, password, phone, account_non_expired, account_non_locked, credentials_non_expired, enabled,
                created_by, created_date, last_modified_by, last_modified_date
         from oauth2_user where username = #{username}
@@ -41,7 +41,7 @@
         select count(id) from oauth2_user where username = #{username}
     </select>
 
-    <select id="getUserById" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO">
+    <select id="getUserById" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserDTO">
         select id, username, password, phone, account_non_expired, account_non_locked, credentials_non_expired, enabled,
                created_by, created_date, last_modified_by, last_modified_date
         from oauth2_user where id = #{id}
@@ -53,17 +53,17 @@
         from oauth2_user where id = #{id}
     </select>
 
-    <select id="getUserByUserId" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO">
+    <select id="getUserByUserId" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserDTO">
         select id, username, password, phone, account_non_expired, account_non_locked, credentials_non_expired, enabled
         from oauth2_user where id = #{userId}
     </select>
 
-    <select id="getUserByUsername" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO">
+    <select id="getUserByUsername" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserDTO">
         select id, username, password, phone, account_non_expired, account_non_locked, credentials_non_expired, enabled
         from oauth2_user where username = #{username}
     </select>
 
-    <select id="getUserByPhone" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO">
+    <select id="getUserByPhone" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserDTO">
         select id, username, password, phone, account_non_expired, account_non_locked, credentials_non_expired, enabled
         from oauth2_user where phone = #{phone}
     </select>

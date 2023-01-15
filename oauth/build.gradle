@@ -1,0 +1,18 @@
+description = 'oauth'
+
+subprojects {
+
+    apply plugin: 'java-library'
+    jar.enabled = true
+
+    dependencies {
+
+
+        implementation(
+                "org.springdoc:springdoc-openapi-webmvc-core:${springDocVersion}",
+        )
+
+
+    }
+
+}

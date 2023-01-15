@@ -1,9 +1,9 @@
 package org.shanzhaozhen.authorize.service;
 
 
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO;
 import org.shanzhaozhen.authorize.pojo.dto.SocialInfo;
-import org.shanzhaozhen.authorize.pojo.entity.OAuth2UserSocialDO;
+import org.shanzhaozhen.oauth.pojo.dto.OAuth2UserDTO;
+import org.shanzhaozhen.oauth.pojo.entity.OAuth2UserSocialDO;
 
 /**
  * @Author: shanzhaozhen

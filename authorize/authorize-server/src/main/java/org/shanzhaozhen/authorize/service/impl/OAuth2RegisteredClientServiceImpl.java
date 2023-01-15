@@ -1,32 +1,26 @@
 package org.shanzhaozhen.authorize.service.impl;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.authorize.converter.OAuth2RegisteredClientConverter;
 import org.shanzhaozhen.authorize.mapper.OAuth2RegisteredClientMapper;
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2ClientSettingsDTO;
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2RegisteredClientDTO;
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2TokenSettingsDTO;
-import org.shanzhaozhen.authorize.pojo.entity.OAuth2RegisteredClientDO;
-import org.shanzhaozhen.authorize.pojo.form.OAuth2ClientSettingsForm;
-import org.shanzhaozhen.authorize.pojo.form.OAuth2RegisteredClientForm;
-import org.shanzhaozhen.authorize.pojo.form.OAuth2TokenSettingsForm;
 import org.shanzhaozhen.authorize.service.OAuth2ClientSettingsService;
 import org.shanzhaozhen.authorize.service.OAuth2RegisteredClientService;
 import org.shanzhaozhen.authorize.service.OAuth2TokenSettingsService;
 import org.shanzhaozhen.common.core.utils.CustomBeanUtils;
+import org.shanzhaozhen.oauth.pojo.dto.OAuth2ClientSettingsDTO;
+import org.shanzhaozhen.oauth.pojo.dto.OAuth2RegisteredClientDTO;
+import org.shanzhaozhen.oauth.pojo.dto.OAuth2TokenSettingsDTO;
+import org.shanzhaozhen.oauth.pojo.entity.OAuth2RegisteredClientDO;
+import org.shanzhaozhen.oauth.pojo.form.OAuth2ClientSettingsForm;
+import org.shanzhaozhen.oauth.pojo.form.OAuth2RegisteredClientForm;
+import org.shanzhaozhen.oauth.pojo.form.OAuth2TokenSettingsForm;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
@@ -63,12 +57,6 @@ public class OAuth2RegisteredClientServiceImpl implements OAuth2RegisteredClient
     public RegisteredClient findByClientId(String clientId) {
         OAuth2RegisteredClientDTO oauth2RegisteredClientDTO = this.getOAuth2RegisteredClientByClientId(clientId);
         return OAuth2RegisteredClientConverter.toRegisteredClient(oauth2RegisteredClientDTO);
-    }
-
-
-    @Override
-    public Page<OAuth2RegisteredClientDTO> getOAuth2RegisteredClientPage(Page<OAuth2RegisteredClientDTO> page, String keyword) {
-        return oauth2RegisteredClientMapper.getOAuth2RegisteredClientPage(page, keyword);
     }
 
     public OAuth2RegisteredClientDTO getOAuth2RegisteredClientById(@RequestParam("id") String id) {
@@ -110,30 +98,7 @@ public class OAuth2RegisteredClientServiceImpl implements OAuth2RegisteredClient
     }
 
     @Override
-    public void addOrUpdateOAuth2RegisteredClient(OAuth2RegisteredClientForm oAuth2RegisteredClientForm) {
-        OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO = new OAuth2RegisteredClientDTO();
-        BeanUtils.copyProperties(oAuth2RegisteredClientForm, oAuth2RegisteredClientDTO);
-
-        OAuth2ClientSettingsForm clientSettings = oAuth2RegisteredClientForm.getClientSettings();
-        OAuth2TokenSettingsForm tokenSettings = oAuth2RegisteredClientForm.getTokenSettings();
-
-        oAuth2RegisteredClientDTO.setClientSettings(Optional.ofNullable(clientSettings).map(o -> {
-            OAuth2ClientSettingsDTO oAuth2ClientSettingsDTO = new OAuth2ClientSettingsDTO();
-            BeanUtils.copyProperties(clientSettings, oAuth2ClientSettingsDTO);
-            return oAuth2ClientSettingsDTO;
-        }).orElse(null));
-
-        oAuth2RegisteredClientDTO.setTokenSettings(Optional.ofNullable(tokenSettings).map(o -> {
-            OAuth2TokenSettingsDTO oAuth2TokenSettingsDTO = new OAuth2TokenSettingsDTO();
-            BeanUtils.copyProperties(tokenSettings, oAuth2TokenSettingsDTO);
-            return oAuth2TokenSettingsDTO;
-        }).orElse(null));
-
-        this.addOrUpdateOAuth2RegisteredClient(oAuth2RegisteredClientDTO);
-    }
-
-    @Override
-    public void addOrUpdateOAuth2RegisteredClient(@RequestBody OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO) {
+    public void addOrUpdateOAuth2RegisteredClient(OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO) {
         String clientId = oAuth2RegisteredClientDTO.getClientId();
         OAuth2RegisteredClientDO oAuth2RegisteredClient;
         if (StringUtils.hasText(clientId)) {
@@ -167,7 +132,6 @@ public class OAuth2RegisteredClientServiceImpl implements OAuth2RegisteredClient
         if (oAuth2RegisteredClientDTO.getTokenSettings() != null) {
             oauth2TokenSettingsService.addOrUpdateOAuth2TokenSettings(oAuth2RegisteredClient.getId(), oAuth2RegisteredClientDTO.getTokenSettings());
         }
-
     }
 
     @Override
@@ -176,15 +140,6 @@ public class OAuth2RegisteredClientServiceImpl implements OAuth2RegisteredClient
         this.oauth2RegisteredClientMapper.deleteOAuth2RegisteredClientById(id);
         oauth2ClientSettingsService.deleteOAuth2ClientSettingsByRegisteredClientId(id);
         oauth2TokenSettingsService.deleteOAuth2TokenSettingsByRegisteredClientId(id);
-    }
-
-    @Override
-    @Transactional
-    public void deleteOAuth2RegisteredClientByClientId(String clientId) {
-        OAuth2RegisteredClientDO oAuth2RegisteredClient = this.oauth2RegisteredClientMapper.getOAuth2RegisteredClientByClientId(clientId);
-        if (oAuth2RegisteredClient != null) {
-            this.deleteOAuth2RegisteredClientById(oAuth2RegisteredClient.getId());
-        }
     }
 
 }

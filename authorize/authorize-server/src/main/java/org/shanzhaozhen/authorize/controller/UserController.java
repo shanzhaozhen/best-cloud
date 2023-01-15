@@ -2,16 +2,15 @@ package org.shanzhaozhen.authorize.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Insert;
-import org.shanzhaozhen.authorize.converter.OAuth2UserInfoConverter;
 import org.shanzhaozhen.authorize.pojo.dto.SecurityInfo;
 import org.shanzhaozhen.authorize.pojo.form.BindPhoneForm;
-import org.shanzhaozhen.authorize.pojo.form.OAuth2UserInfoForm;
-import org.shanzhaozhen.authorize.pojo.vo.OAuth2UserInfoVO;
+import org.shanzhaozhen.authorize.pojo.form.ChangePasswordForm;
+import org.shanzhaozhen.oauth.converter.OAuth2UserInfoConverter;
 import org.shanzhaozhen.authorize.service.OAuth2UserInfoService;
 import org.shanzhaozhen.authorize.service.OAuth2UserService;
 import org.shanzhaozhen.common.core.result.R;
-import org.shanzhaozhen.authorize.pojo.form.ChangePasswordForm;
+import org.shanzhaozhen.oauth.pojo.form.OAuth2UserInfoForm;
+import org.shanzhaozhen.oauth.pojo.vo.OAuth2UserInfoVO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

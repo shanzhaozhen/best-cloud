@@ -26,13 +26,7 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 
 import java.util.*;
 
-/**
- * An {@link OAuth2TokenCustomizer} to map claims from a federated identity to
- * the {@code id_token} produced by this authorization server.
- *
- * @author Steve Riesenberg
- * @since 0.2.3
- */
+
 public final class FederatedIdentityIdTokenCustomizer implements OAuth2TokenCustomizer<JwtEncodingContext> {
 
 	private static final Set<String> ID_TOKEN_CLAIMS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(

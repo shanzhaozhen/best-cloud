@@ -7,9 +7,10 @@ apply plugin: 'java-library'
 
 dependencies {
     api(
+            project(':oauth:oauth-api'),
+            project(':common:common-mybatis'),
             project(':common:common-mybatis'),
             project(':common:common-redis'),
-//            project(':uaa:uaa-api'),
             project(':common:common-minio'),
             project(':common:common-sms'),
     )

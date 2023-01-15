@@ -1,6 +1,6 @@
 package org.shanzhaozhen.authorize.converter;
 
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2AuthorizationConsentDTO;
+import org.shanzhaozhen.oauth.pojo.dto.OAuth2AuthorizationConsentDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

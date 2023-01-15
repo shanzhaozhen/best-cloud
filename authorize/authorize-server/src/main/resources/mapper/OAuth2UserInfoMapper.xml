@@ -9,7 +9,7 @@
     </sql>
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.shanzhaozhen.authorize.pojo.entity.OAuth2UserInfoDO">
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.oauth.pojo.entity.OAuth2UserInfoDO">
         <id column="id" property="id" />
         <result column="pid" property="pid" />
         <result column="name" property="name" />
@@ -28,13 +28,13 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-    <select id="getOAuth2UserInfoById" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2UserInfoDTO">
+    <select id="getOAuth2UserInfoById" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserInfoDTO">
         select id, pid, name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction,
                created_by, created_date, last_modified_by, last_modified_date
         from oauth2_user_info where id = #{oauth2UserInfoId}
     </select>
 
-    <select id="getOAuth2UserInfoByUserId" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2UserInfoDTO">
+    <select id="getOAuth2UserInfoByUserId" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserInfoDTO">
         select id, pid, name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction,
                created_by, created_date, last_modified_by, last_modified_date
         from oauth2_user_info

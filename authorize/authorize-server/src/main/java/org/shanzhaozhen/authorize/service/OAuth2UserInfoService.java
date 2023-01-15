@@ -1,9 +1,7 @@
 package org.shanzhaozhen.authorize.service;
 
 
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2UserInfoDTO;
-import org.shanzhaozhen.authorize.pojo.dto.SecurityInfo;
-import org.shanzhaozhen.authorize.pojo.form.OAuth2UserInfoForm;
+import org.shanzhaozhen.oauth.pojo.dto.OAuth2UserInfoDTO;
 
 import java.util.List;
 

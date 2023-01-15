@@ -3,8 +3,8 @@ package org.shanzhaozhen.authorize.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
-import org.shanzhaozhen.authorize.pojo.dto.OAuth2UserDTO;
-import org.shanzhaozhen.authorize.pojo.entity.OAuth2UserDO;
+import org.shanzhaozhen.oauth.pojo.dto.OAuth2UserDTO;
+import org.shanzhaozhen.oauth.pojo.entity.OAuth2UserDO;
 
 public interface OAuth2UserMapper extends BaseMapper<OAuth2UserDO> {
 

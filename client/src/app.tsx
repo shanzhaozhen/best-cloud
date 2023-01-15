@@ -13,6 +13,7 @@ import {refreshToken} from "../config/oidcConfig";
 import {idTokenDecode} from "@/utils/oauth";
 import {getMenusByCurrentUser} from "@/services/uaa/menu";
 import {MenuVO} from "@/services/uaa/type/menu";
+import {Info} from "@/services/uaa/type/user";
 
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -34,22 +35,34 @@ export async function getInitialState(): Promise<{
   currentUser?: CurrentUser;
   menus?: MenuVO[];
   loading?: boolean;
-  getUserInfo?: () => Promise<CurrentUser | undefined>;
+  initializeInfo?: () => Promise<Info | undefined>;
 }> {
-  const getUserInfo = async () => {
+  const initializeInfo = async () => {
     // 解析 id token
-    const userinfo = idTokenDecode();
-
-    if (userinfo && Object.keys(userinfo).length > 0) {
-      return {
-        userId: userinfo.userId,
-        username: userinfo.username,
-        nickname: userinfo.nickname,
-        avatar: userinfo.avatar,
+    let userinfo;
+    let menus: MenuVO[] = [];
+    try {
+      const oidcUser = idTokenDecode();
+      if (oidcUser && Object.keys(oidcUser).length > 0) {
+        userinfo = {
+          userId: oidcUser.userId,
+          username: oidcUser.username,
+          nickname: oidcUser.nickname,
+          avatar: oidcUser.avatar,
+        }
       }
-    } else {
-      return {}
+      const { data } = await getMenusByCurrentUser();
+      menus = data && data.length > 0 ? data : [];
+
+      return {
+        userinfo,
+        menus
+      };
+    } catch (error) {
+      history.push(loginPath);
     }
+
+    return undefined;
   };
 
   // oauth2 返回页则刷新 token
@@ -59,25 +72,18 @@ export async function getInitialState(): Promise<{
 
   // 如果不是白名单，执行
   if (!isWhiteAllow()) {
-    const currentUser = await getUserInfo();
-    let menus: MenuVO[] = [];
-    try {
-      const { data } = await getMenusByCurrentUser();
-      menus = data && data.length > 0 ? data : [];
-    } catch (e) {
-
-    }
+    const info = await initializeInfo();
 
     return {
-      getUserInfo,
-      currentUser,
-      menus: menus,
+      initializeInfo,
+      currentUser: info?.userinfo,
+      menus: info?.menus,
       settings: defaultSettings,
     };
   }
 
   return {
-    getUserInfo,
+    initializeInfo,
     settings: defaultSettings,
   };
 }
@@ -93,7 +99,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     footerRender: () => <Footer />,
     onPageChange: () => {
       // 如果没有登录，重定向到登陆页
-      if (!isWhiteAllow() && !initialState?.currentUser) {
+      if (!isWhiteAllow() && initialState?.currentUser === undefined) {
         history.push(loginPath);
       }
     },

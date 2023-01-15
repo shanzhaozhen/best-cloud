@@ -18,8 +18,6 @@ import org.springframework.context.annotation.ComponentScan;
 public class UaaApplication {
 
     public static void main(String[] args) {
-        // 关闭druid ping 警告
-        System.setProperty("druid.mysql.usePingMethod", "false");
         SpringApplication.run(UaaApplication.class, args);
     }
 

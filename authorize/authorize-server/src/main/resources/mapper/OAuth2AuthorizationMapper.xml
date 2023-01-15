@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.shanzhaozhen.authorize.mapper.OAuth2AuthorizationMapper">
 
-    <select id="getOAuth2AuthorizationById" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2AuthorizationDTO">
+    <select id="getOAuth2AuthorizationById" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2AuthorizationDTO">
         select id,  registered_client_id,  principal_name, authorization_grant_type, authorized_scopes, attributes, state,
                authorization_code_value, authorization_code_issued_at, authorization_code_expires_at,
                authorization_code_metadata,
@@ -15,7 +15,7 @@
         where id = #{id}
     </select>
 
-    <select id="getOAuth2AuthorizationByToken" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2AuthorizationDTO">
+    <select id="getOAuth2AuthorizationByToken" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2AuthorizationDTO">
         select id,  registered_client_id,  principal_name, authorization_grant_type, authorized_scopes, attributes, state,
                authorization_code_value, authorization_code_issued_at, authorization_code_expires_at,
                authorization_code_metadata,
@@ -28,7 +28,7 @@
         where state = #{token} or authorization_code_value = #{token} or access_token_value = #{token} or refresh_token_value = #{token}
     </select>
 
-    <select id="getOAuth2AuthorizationByState" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2AuthorizationDTO">
+    <select id="getOAuth2AuthorizationByState" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2AuthorizationDTO">
         select id,  registered_client_id,  principal_name, authorization_grant_type, authorized_scopes, attributes, state,
                authorization_code_value, authorization_code_issued_at, authorization_code_expires_at,
                authorization_code_metadata,
@@ -41,7 +41,7 @@
         where state = #{state}
     </select>
 
-    <select id="getOAuth2AuthorizationByAuthorizationCode" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2AuthorizationDTO">
+    <select id="getOAuth2AuthorizationByAuthorizationCode" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2AuthorizationDTO">
         select id,  registered_client_id,  principal_name, authorization_grant_type, authorized_scopes, attributes, state,
                authorization_code_value, authorization_code_issued_at, authorization_code_expires_at,
                authorization_code_metadata,
@@ -54,7 +54,7 @@
         where authorization_code_value = #{authorizationCode}
     </select>
 
-    <select id="getOAuth2AuthorizationByAccessToken" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2AuthorizationDTO">
+    <select id="getOAuth2AuthorizationByAccessToken" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2AuthorizationDTO">
         select id, registered_client_id, principal_name, authorization_grant_type, authorized_scopes, attributes, state,
                authorization_code_value, authorization_code_issued_at, authorization_code_expires_at,
                authorization_code_metadata,
@@ -67,7 +67,7 @@
         where access_token_value = #{accessToken}
     </select>
 
-    <select id="getOAuth2AuthorizationByRefreshToken" resultType="org.shanzhaozhen.authorize.pojo.dto.OAuth2AuthorizationDTO">
+    <select id="getOAuth2AuthorizationByRefreshToken" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2AuthorizationDTO">
         select id,  registered_client_id,  principal_name, authorization_grant_type, authorized_scopes, attributes, state,
                authorization_code_value, authorization_code_issued_at, authorization_code_expires_at,
                authorization_code_metadata,

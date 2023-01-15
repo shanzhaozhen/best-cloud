@@ -19,12 +19,7 @@ import javax.servlet.http.Cookie;
 import java.util.function.Consumer;
 
 
-/**
- * A configurer for setting up Federated Identity Management.
- *
- * @author Steve Riesenberg
- * @since 0.2.3
- */
+
 public final class FederatedIdentityConfigurer extends AbstractHttpConfigurer<FederatedIdentityConfigurer, HttpSecurity> {
 
 	private String loginPageUrl = "/login";

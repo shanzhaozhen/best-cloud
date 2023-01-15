@@ -34,8 +34,7 @@ public class AccountBindAuthenticationFilter extends AbstractAuthenticationProce
 
     public static final String DEFAULT_FILTER_PROCESSES_URI = "/bind/account";
 
-    private static final AntPathRequestMatcher DEFAULT_ANT_PATH_REQUEST_MATCHER = new AntPathRequestMatcher(DEFAULT_FILTER_PROCESSES_URI,
-            "POST");
+    private static final AntPathRequestMatcher DEFAULT_ANT_PATH_REQUEST_MATCHER = new AntPathRequestMatcher(DEFAULT_FILTER_PROCESSES_URI, "POST");
 
     private String usernameParameter = SPRING_SECURITY_FORM_USERNAME_KEY;
 

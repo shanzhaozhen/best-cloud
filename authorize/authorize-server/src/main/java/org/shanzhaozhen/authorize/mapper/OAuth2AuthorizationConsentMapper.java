@@ -2,7 +2,7 @@ package org.shanzhaozhen.authorize.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
-import org.shanzhaozhen.authorize.pojo.entity.OAuth2AuthorizationConsentDO;
+import org.shanzhaozhen.oauth.pojo.entity.OAuth2AuthorizationConsentDO;
 
 /**
  * @Author: shanzhaozhen

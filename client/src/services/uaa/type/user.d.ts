@@ -3,6 +3,7 @@ import type {GrantedAuthority} from "@/services/common/typings";
 import type {UserInfoDTO, UserInfoForm, UserInfoVO} from "@/services/uaa/type/user-info";
 import type {DepartmentDTO, DepartmentVO} from "@/services/uaa/type/department";
 import {MenuDataItem} from "@ant-design/pro-components";
+import {MenuVO} from "@/services/uaa/type/menu";
 
 export type UserForm = {
   /** 主键ID */
@@ -149,6 +150,10 @@ export type CurrentUser = {
   unreadCount?: number;
 };
 
+export type Info = {
+  userinfo?: CurrentUser,
+  menus?: MenuVO[]
+};
 
 
 
