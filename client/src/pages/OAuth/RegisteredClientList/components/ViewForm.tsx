@@ -6,15 +6,15 @@ import FormBody from "@/pages/OAuth/RegisteredClientList/components/FormBody";
 import type {OAuth2RegisteredClientDTO } from "@/services/uaa/type/registered-client";
 
 interface UpdateFormProps {
-  viewModalVisible: boolean;
-  handleViewModalVisible: Dispatch<SetStateAction<boolean>>;
+  viewModalOpen: boolean;
+  handleViewModalOpen: Dispatch<SetStateAction<boolean>>;
   actionRef: MutableRefObject<ActionType | undefined>;
   setCurrentRow: Dispatch<SetStateAction<OAuth2RegisteredClientDTO | undefined>>
   loadData: () => Promise<OAuth2RegisteredClientDTO | undefined>;
 }
 
 const ViewForm: React.FC<UpdateFormProps> = (props) => {
-  const {viewModalVisible, handleViewModalVisible, setCurrentRow, loadData} = props;
+  const {viewModalOpen, handleViewModalOpen, setCurrentRow, loadData} = props;
 
   return (
     <DrawerForm
@@ -23,15 +23,15 @@ const ViewForm: React.FC<UpdateFormProps> = (props) => {
       drawerProps={{
         destroyOnClose: true,
         onClose: () => {
-          handleViewModalVisible(false);
-          if (!viewModalVisible) {
+          handleViewModalOpen(false);
+          if (!viewModalOpen) {
             setCurrentRow(undefined);
           }
         }
       }}
       request={loadData}
-      visible={viewModalVisible}
-      onVisibleChange={handleViewModalVisible}
+      open={viewModalOpen}
+      onOpenChange={handleViewModalOpen}
     >
       <FormBody formType="view" />
     </DrawerForm>

@@ -139,9 +139,9 @@ public class OAuth2BindAuthenticationFilter extends AbstractAuthenticationProces
 		try {
 			String userNameAttributeName = clientRegistration.getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
-			OAuth2UserSocialDO oAuth2UserSocialDO = new OAuth2UserSocialDO();
+			OAuth2UserSocialDO oauth2UserSocialDO = new OAuth2UserSocialDO();
 			if (SocialType.GITHUB.getRegistrationId().equals(registrationId)) {            // github 用户
-				oAuth2UserSocialDO
+				oauth2UserSocialDO
 						.setIdentityType(SocialType.GITHUB.getName())
 						.setName(attributes.getOrDefault("name", "").toString())
 						.setAvatarUrl(attributes.getOrDefault("avatar_url", "").toString())
@@ -149,11 +149,11 @@ public class OAuth2BindAuthenticationFilter extends AbstractAuthenticationProces
 			}  else {
 				throw new IllegalArgumentException("暂不支持该 " + registrationId + " 类型账号绑定");
 			}
-			oAuth2UserSocialDO
+			oauth2UserSocialDO
 					.setIdentifier(attributes.getOrDefault(userNameAttributeName, "").toString())
 					.setOther(JacksonUtils.toJSONString(attributes));
 
-			socialUserService.bindSocialUser(oAuth2UserSocialDO);
+			socialUserService.bindSocialUser(oauth2UserSocialDO);
 		} catch (Exception e) {
 			e.printStackTrace();
 			OAuth2Error oauth2Error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR, "用户绑定失败！", null);

@@ -72,7 +72,7 @@ const authHeaderInterceptor = (url: string, options: RequestConfig) => {
 };
 
 
-let confirmModalVisible = false;
+let confirmModalOpen = false;
 
 /**
  * @name 错误处理
@@ -147,8 +147,8 @@ export const errorConfig: RequestConfig = {
             if (res.code >= 4011 && res.code <= 4016) {
               const currentPath = window.location.pathname;
               if (currentPath !== '/welcome' && currentPath !== '/') {
-                if (!confirmModalVisible) {
-                  confirmModalVisible = true;
+                if (!confirmModalOpen) {
+                  confirmModalOpen = true;
                   Modal.confirm({
                     title: '登陆超时',
                     icon: <ExclamationCircleOutlined/>,
@@ -156,7 +156,7 @@ export const errorConfig: RequestConfig = {
                     okText: '重新登陆',
                     cancelText: '留在此页',
                     onOk() {
-                      confirmModalVisible = false;
+                      confirmModalOpen = false;
                       // 将跳转链接记录到 localStage 中
                       localStorage.setItem('redirect', currentPath)
                       history.replace({
@@ -167,7 +167,7 @@ export const errorConfig: RequestConfig = {
                       });
                     },
                     onCancel() {
-                      confirmModalVisible = false;
+                      confirmModalOpen = false;
                     },
                   });
                 }

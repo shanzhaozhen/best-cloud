@@ -75,8 +75,8 @@ const RoleAuthorize: React.FC<AuthorizeFormProps> = (props) => {
         }
         return undefined;
       }}
-      visible={roleAuthorizeVisible}
-      onVisibleChange={handleRoleAuthorizeVisible}
+      open={roleAuthorizeVisible}
+      onOpenChange={handleRoleAuthorizeVisible}
       onFinish={async (value) => {
         const success = await handleUpdate(value as RoleAuthorizeData);
         if (success) {

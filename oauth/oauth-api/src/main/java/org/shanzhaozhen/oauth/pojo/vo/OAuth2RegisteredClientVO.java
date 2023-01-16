@@ -25,9 +25,6 @@ public class OAuth2RegisteredClientVO extends BaseInfoVO {
     @Schema(description = "客户端到期时间")
     private Instant clientIdIssuedAt;
 
-    @Schema(description = "客户端密码")
-    private String clientSecret;
-
     @Schema(description = "客户端密码到期时间")
     private Instant clientSecretExpiresAt;
 

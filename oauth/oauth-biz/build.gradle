@@ -5,6 +5,8 @@ description = 'oauth-biz'
 dependencies {
 
     api(
+            project(':common:common-password'),
+            project(':common:common-mybatis'),
             project(':oauth:oauth-api')
     )
 

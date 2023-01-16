@@ -33,9 +33,9 @@ const handleRemove = async (selectedRows: UserVO[]) => {
 
 const UserList: React.FC = () => {
 
-  const [createModalVisible, handleCreateModalVisible] = useState<boolean>(false);
-  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
-  const [viewModalVisible, handleViewModalVisible] = useState<boolean>(false);
+  const [createModalOpen, handleCreateModalOpen] = useState<boolean>(false);
+  const [updateModalOpen, handleUpdateModalOpen] = useState<boolean>(false);
+  const [viewModalOpen, handleViewModalOpen] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<UserVO>();
@@ -77,7 +77,7 @@ const UserList: React.FC = () => {
               if (entity && entity.id) {
                 const { data } = await getUserById(entity.id);
                 setCurrentRow(data || {});
-                handleViewModalVisible(true);
+                handleViewModalOpen(true);
               } else {
                 message.warning('没有选中有效的用户');
               }
@@ -188,7 +188,7 @@ const UserList: React.FC = () => {
             if (entity && entity.id) {
               const { data } = await getUserById(entity.id);
               setCurrentRow(data || {});
-              handleUpdateModalVisible(true);
+              handleUpdateModalOpen(true);
               // message.error(res.message || `没有获取到用户信息（id:${entity.id}）`);
             } else {
               message.warning('没有选中有效的用户');
@@ -233,7 +233,7 @@ const UserList: React.FC = () => {
             type="primary"
             key="add"
             onClick={() => {
-              handleCreateModalVisible(true);
+              handleCreateModalOpen(true);
             }}
           >
             <PlusOutlined /> 新建用户
@@ -289,14 +289,14 @@ const UserList: React.FC = () => {
       )}
 
       <CreateForm
-        createModalVisible={createModalVisible}
-        handleCreateModalVisible={handleCreateModalVisible}
+        createModalOpen={createModalOpen}
+        handleCreateModalOpen={handleCreateModalOpen}
         actionRef={actionRef}
       />
 
       <UpdateForm
-        updateModalVisible={updateModalVisible}
-        handleUpdateModalVisible={handleUpdateModalVisible}
+        updateModalOpen={updateModalOpen}
+        handleUpdateModalOpen={handleUpdateModalOpen}
         actionRef={actionRef}
         setCurrentRow={setCurrentRow}
         currentRow={currentRow}
@@ -304,8 +304,8 @@ const UserList: React.FC = () => {
 
       {currentRow && Object.keys(currentRow).length ? (
         <ViewForm
-          viewModalVisible={viewModalVisible}
-          handleViewModalVisible={handleViewModalVisible}
+          viewModalOpen={viewModalOpen}
+          handleViewModalOpen={handleViewModalOpen}
           setCurrentRow={setCurrentRow}
           values={currentRow || {}}
         />

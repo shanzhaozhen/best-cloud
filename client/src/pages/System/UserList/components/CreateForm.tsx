@@ -8,14 +8,14 @@ import FormBody from "@/pages/System/UserList/components/FormBody";
 import {addUser} from "@/services/uaa/user";
 
 interface CreateFormProps {
-  createModalVisible: boolean;
-  handleCreateModalVisible: Dispatch<SetStateAction<boolean>>;
+  createModalOpen: boolean;
+  handleCreateModalOpen: Dispatch<SetStateAction<boolean>>;
   actionRef: MutableRefObject<ActionType | undefined>;
   callBackFinish?: (userId: string) => Promise<any>;
 }
 
 const CreateForm: React.FC<CreateFormProps> = (props) => {
-  const { createModalVisible, handleCreateModalVisible, actionRef, callBackFinish } = props;
+  const { createModalOpen, handleCreateModalOpen, actionRef, callBackFinish } = props;
 
   /**
    * 新建用户
@@ -32,7 +32,7 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
           await callBackFinish(data);
         }
         message.success('添加成功！');
-        handleCreateModalVisible(false);
+        handleCreateModalOpen(false);
         if (actionRef.current) {
           actionRef.current.reload();
         }
@@ -48,8 +48,8 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
       title="新建用户"
       width="748px"
       drawerProps={{ destroyOnClose: true }}
-      visible={createModalVisible}
-      onVisibleChange={handleCreateModalVisible}
+      open={createModalOpen}
+      onOpenChange={handleCreateModalOpen}
       onFinish={handleAdd}
     >
       <FormBody formType="create" />

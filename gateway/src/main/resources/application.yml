@@ -24,7 +24,7 @@ spring:
           predicates:
             - Path=/uaa/**
         - id: oauth
-          uri: lb://oauth
+          uri: lb://oauth/**
           predicates:
             - Path=/uaa/**
         - id: openapi

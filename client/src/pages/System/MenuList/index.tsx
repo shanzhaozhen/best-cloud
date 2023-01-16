@@ -38,8 +38,8 @@ const handleRemove = async (selectedRows: MenuVO[]) => {
 
 const MenuList: React.FC = () => {
 
-  const [createModalVisible, handleCreateModalVisible] = useState<boolean>(false);
-  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+  const [createModalOpen, handleCreateModalOpen] = useState<boolean>(false);
+  const [updateModalOpen, handleUpdateModalOpen] = useState<boolean>(false);
 
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
@@ -191,7 +191,7 @@ const MenuList: React.FC = () => {
               // const { data } = await getMenuById(entity.id);
               // setCurrentRow(data || {});
               setCurrentRow(entity);
-              handleUpdateModalVisible(true);
+              handleUpdateModalOpen(true);
             } else {
               message.warning('没有选中有效的菜单');
             }
@@ -225,7 +225,7 @@ const MenuList: React.FC = () => {
           key="add-sub"
           onClick={async () => {
             setCurrentRow({ pid: entity.id });
-            handleCreateModalVisible(true);
+            handleCreateModalOpen(true);
           }}
         >
           添加下级
@@ -246,7 +246,7 @@ const MenuList: React.FC = () => {
             type="primary"
             key="add"
             onClick={() => {
-              handleCreateModalVisible(true);
+              handleCreateModalOpen(true);
             }}
           >
             <PlusOutlined /> 新建菜单
@@ -314,14 +314,14 @@ const MenuList: React.FC = () => {
       )}
 
       <CreateForm
-        createModalVisible={createModalVisible}
-        handleCreateModalVisible={handleCreateModalVisible}
+        createModalOpen={createModalOpen}
+        handleCreateModalOpen={handleCreateModalOpen}
         actionRef={actionRef}
       />
 
       <UpdateForm
-        updateModalVisible={updateModalVisible}
-        handleUpdateModalVisible={handleUpdateModalVisible}
+        updateModalOpen={updateModalOpen}
+        handleUpdateModalOpen={handleUpdateModalOpen}
         actionRef={actionRef}
         setCurrentRow={setCurrentRow}
         currentRow={currentRow}
@@ -329,7 +329,7 @@ const MenuList: React.FC = () => {
 
       <Drawer
         width={600}
-        visible={showDetail}
+        open={showDetail}
         onClose={() => {
           setCurrentRow(undefined);
           setShowDetail(false);

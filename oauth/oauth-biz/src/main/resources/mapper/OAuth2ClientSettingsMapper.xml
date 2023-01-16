@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.shanzhaozhen.oauth.mapper.OAuth2ClientSettingsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.oauth.pojo.dto.OAuth2ClientSettingsDTO">
+        <id column="id" property="id" />
+        <result column="registered_client_id" property="registeredClientId" />
+        <result column="require_proof_key" property="requireProofKey" />
+        <result column="require_authorization_consent" property="requireAuthorizationConsent" />
+        <result column="jwk_set_url" property="jwkSetUrl" />
+        <result column="token_endpoint_authentication_signing_algorithm" property="tokenEndpointAuthenticationSigningAlgorithm" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+
+    <select id="getOAuth2ClientSettingsByRegisteredClientId" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2ClientSettingsDTO">
+        select id, registered_client_id, require_proof_key, require_authorization_consent, jwk_set_url, token_endpoint_authentication_signing_algorithm,
+               created_by, created_date, last_modified_by, last_modified_date
+        from oauth2_client_settings
+        where registered_client_id = #{registeredClientId}
+    </select>
+
+    <delete id="deleteOAuth2ClientSettingsByRegisteredClientId">
+        delete from oauth2_client_settings where registered_client_id = #{registeredClientId}
+    </delete>
+
+</mapper>

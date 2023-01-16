@@ -20,8 +20,8 @@ import type {SortOrder} from "antd/es/table/interface";
 import RoleAuthorize from "@/pages/System/RoleList/components/RoleAuthorize";
 
 const RoleList: React.FC = () => {
-  const [createModalVisible, handleCreateModalVisible] = useState<boolean>(false);
-  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+  const [createModalOpen, handleCreateModalOpen] = useState<boolean>(false);
+  const [updateModalOpen, handleUpdateModalOpen] = useState<boolean>(false);
   const [userRelateListVisible, handleUserRelateListVisible] = useState<boolean>(false);
   const [roleAuthorizeVisible, handleRoleAuthorizeVisible] = useState<boolean>(false);
 
@@ -237,7 +237,7 @@ const RoleList: React.FC = () => {
               setShowDetail(false);
               if (entity && entity.id) {
                 setCurrentRow(entity);
-                handleUpdateModalVisible(true);
+                handleUpdateModalOpen(true);
                 // message.error(res.message || `没有获取到角色信息（id:${entity.id}）`);
               } else {
                 message.warning('没有选中有效的角色');
@@ -287,7 +287,7 @@ const RoleList: React.FC = () => {
             type="primary"
             key="add"
             onClick={() => {
-              handleCreateModalVisible(true);
+              handleCreateModalOpen(true);
             }}
           >
             <PlusOutlined /> 新建角色
@@ -343,14 +343,14 @@ const RoleList: React.FC = () => {
       )}
 
       <CreateForm
-        createModalVisible={createModalVisible}
-        handleCreateModalVisible={handleCreateModalVisible}
+        createModalOpen={createModalOpen}
+        handleCreateModalOpen={handleCreateModalOpen}
         actionRef={actionRef}
       />
 
       <UpdateForm
-        updateModalVisible={updateModalVisible}
-        handleUpdateModalVisible={handleUpdateModalVisible}
+        updateModalOpen={updateModalOpen}
+        handleUpdateModalOpen={handleUpdateModalOpen}
         actionRef={actionRef}
         setCurrentRow={setCurrentRow}
         currentRow={currentRow}
@@ -358,7 +358,7 @@ const RoleList: React.FC = () => {
 
       <Drawer
         width={600}
-        visible={showDetail}
+        open={showDetail}
         onClose={() => {
           setCurrentRow(undefined);
           setShowDetail(false);
@@ -391,7 +391,7 @@ const RoleList: React.FC = () => {
             setCurrentRow({});
             handleUserRelateListVisible(false);
           }}
-          visible={userRelateListVisible}
+          open={userRelateListVisible}
         >
           <UserRelateList
             userRelateActionRef={userRoleActionRef}

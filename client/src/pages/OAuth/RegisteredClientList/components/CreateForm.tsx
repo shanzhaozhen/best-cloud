@@ -9,8 +9,8 @@ import FormBody from "@/pages/OAuth/RegisteredClientList/components/FormBody";
 import {convertRegisteredClient} from "@/pages/OAuth/RegisteredClientList";
 
 interface CreateFormProps {
-  createModalVisible: boolean;
-  handleCreateModalVisible: Dispatch<SetStateAction<boolean>>;
+  createModalOpen: boolean;
+  handleCreateModalOpen: Dispatch<SetStateAction<boolean>>;
   actionRef: MutableRefObject<ActionType | undefined>;
 }
 
@@ -34,19 +34,19 @@ const handleAdd = async (fields: OAuth2RegisteredClientForm) => {
 };
 
 const CreateForm: React.FC<CreateFormProps> = (props) => {
-  const { createModalVisible, handleCreateModalVisible, actionRef } = props;
+  const { createModalOpen, handleCreateModalOpen, actionRef } = props;
 
   return (
     <DrawerForm
       title="新建客户端"
       width="748px"
-      visible={createModalVisible}
+      open={createModalOpen}
       drawerProps={{ destroyOnClose: true }}
-      onVisibleChange={handleCreateModalVisible}
+      onOpenChange={handleCreateModalOpen}
       onFinish={async (value) => {
         const success = await handleAdd(value as OAuth2RegisteredClientForm);
         if (success) {
-          handleCreateModalVisible(false);
+          handleCreateModalOpen(false);
           if (actionRef.current) {
             actionRef.current.reload();
           }

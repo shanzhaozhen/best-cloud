@@ -15,6 +15,8 @@ public interface OAuth2RegisteredClientMapper extends BaseMapper<OAuth2Registere
 
     Page<OAuth2RegisteredClientDTO> getOAuth2RegisteredClientPage(Page<OAuth2RegisteredClientDTO> page, @Param("keyword") String keyword);
 
+    OAuth2RegisteredClientDTO getOAuth2RegisteredClientByRegisteredClientId(@Param("registeredClientId") String registeredClientId);
+
     OAuth2RegisteredClientDO getOAuth2RegisteredClientByClientId(@Param("clientId") String clientId);
 
     void deleteOAuth2RegisteredClientById(@Param("id") String id);

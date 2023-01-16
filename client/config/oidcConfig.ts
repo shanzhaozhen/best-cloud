@@ -7,7 +7,7 @@ export const OidcConfig: UserManagerSettings = {
   authority: "http://localhost:9000",         // 要对应后台的 issue 的设置
   client_id: "efd7527b-39d0-468c-9bd6-ff945a696982",
   redirect_uri: url + "/oidc",
-  scope: 'openid message.read message.write offline_access', // 'openid profile ' + your scopes
+  scope: 'openid message.read message.write', // 'openid profile ' + your scopes
   post_logout_redirect_uri: url + "/welcome",
   response_type: "code",
   // response_mode: "fragment",

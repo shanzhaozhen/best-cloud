@@ -38,8 +38,8 @@ const handleRemove = async (selectedRows: DepartmentVO[]) => {
 
 const DepartmentList: React.FC = () => {
 
-  const [createModalVisible, handleCreateModalVisible] = useState<boolean>(false);
-  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+  const [createModalOpen, handleCreateModalOpen] = useState<boolean>(false);
+  const [updateModalOpen, handleUpdateModalOpen] = useState<boolean>(false);
 
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
@@ -164,7 +164,7 @@ const DepartmentList: React.FC = () => {
           onClick={async () => {
             if (record && record.id) {
               setCurrentRow(record);
-              handleUpdateModalVisible(true);
+              handleUpdateModalOpen(true);
             } else {
               message.warning('没有选中有效的部门');
             }
@@ -198,7 +198,7 @@ const DepartmentList: React.FC = () => {
           key="add-sub"
           onClick={async () => {
             setCurrentRow({ pid: record.id });
-            handleCreateModalVisible(true);
+            handleCreateModalOpen(true);
           }}
         >
           添加下级
@@ -219,7 +219,7 @@ const DepartmentList: React.FC = () => {
             type="primary"
             key="add"
             onClick={() => {
-              handleCreateModalVisible(true);
+              handleCreateModalOpen(true);
             }}
           >
             <PlusOutlined /> 新建部门
@@ -295,15 +295,15 @@ const DepartmentList: React.FC = () => {
       )}
 
       <CreateForm
-        createModalVisible={createModalVisible}
-        handleCreateModalVisible={handleCreateModalVisible}
+        createModalOpen={createModalOpen}
+        handleCreateModalOpen={handleCreateModalOpen}
         actionRef={actionRef}
         values={currentRow || {}}
       />
 
       <UpdateForm
-        updateModalVisible={updateModalVisible}
-        handleUpdateModalVisible={handleUpdateModalVisible}
+        updateModalOpen={updateModalOpen}
+        handleUpdateModalOpen={handleUpdateModalOpen}
         actionRef={actionRef}
         setCurrentRow={setCurrentRow}
         currentRow={currentRow}
@@ -311,7 +311,7 @@ const DepartmentList: React.FC = () => {
 
       <Drawer
         width={600}
-        visible={showDetail}
+        open={showDetail}
         onClose={() => {
           setCurrentRow(undefined);
           setShowDetail(false);

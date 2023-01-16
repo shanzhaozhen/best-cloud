@@ -8,8 +8,8 @@ import FormBody from "@/pages/System/DepartmentList/components/FormBody";
 import {addDepartment} from "@/services/uaa/department";
 
 interface CreateFormProps {
-  createModalVisible: boolean;
-  handleCreateModalVisible: Dispatch<SetStateAction<boolean>>;
+  createModalOpen: boolean;
+  handleCreateModalOpen: Dispatch<SetStateAction<boolean>>;
   actionRef: MutableRefObject<ActionType | undefined>;
   values: Partial<DepartmentForm>;
 }
@@ -33,20 +33,20 @@ const handleAdd = async (fields: DepartmentForm) => {
 };
 
 const CreateForm: React.FC<CreateFormProps> = (props) => {
-  const { createModalVisible, handleCreateModalVisible, actionRef, values } = props;
+  const { createModalOpen, handleCreateModalOpen, actionRef, values } = props;
 
   return (
     <DrawerForm
       title="新建部门"
       width="748px"
-      visible={createModalVisible}
+      open={createModalOpen}
       initialValues={values}
       drawerProps={{ destroyOnClose: true }}
-      onVisibleChange={handleCreateModalVisible}
+      onOpenChange={handleCreateModalOpen}
       onFinish={async (value) => {
         const success = await handleAdd(value as DepartmentForm);
         if (success) {
-          handleCreateModalVisible(false);
+          handleCreateModalOpen(false);
           if (actionRef.current) {
             actionRef.current.reload();
           }

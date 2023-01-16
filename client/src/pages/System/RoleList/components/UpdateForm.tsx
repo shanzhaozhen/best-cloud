@@ -8,8 +8,8 @@ import {message} from "antd";
 import {getRoleById, updateRole} from "@/services/uaa/role";
 
 interface UpdateFormProps {
-  updateModalVisible: boolean;
-  handleUpdateModalVisible: Dispatch<SetStateAction<boolean>>;
+  updateModalOpen: boolean;
+  handleUpdateModalOpen: Dispatch<SetStateAction<boolean>>;
   actionRef: MutableRefObject<ActionType | undefined>;
   setCurrentRow: Dispatch<SetStateAction<RoleVO | undefined>>
   currentRow: Partial<RoleForm | undefined>;
@@ -34,7 +34,7 @@ const handleUpdate = async (fields: RoleForm) => {
 };
 
 const UpdateForm: React.FC<UpdateFormProps> = (props) => {
-  const {updateModalVisible, handleUpdateModalVisible, actionRef, setCurrentRow, currentRow} = props;
+  const {updateModalOpen, handleUpdateModalOpen, actionRef, setCurrentRow, currentRow} = props;
 
   return (
     <DrawerForm
@@ -43,8 +43,8 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
       drawerProps={{
         destroyOnClose: true,
         onClose: () => {
-          handleUpdateModalVisible(false);
-          if (!updateModalVisible) {
+          handleUpdateModalOpen(false);
+          if (!updateModalOpen) {
             setCurrentRow(undefined);
           }
         }
@@ -56,20 +56,20 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
             return data;
           } else {
             message.warning("角色id不能为空");
-            handleUpdateModalVisible(false);
+            handleUpdateModalOpen(false);
           }
         } catch (e) {
           message.warning("远程获取数据失败！");
-          handleUpdateModalVisible(false);
+          handleUpdateModalOpen(false);
         }
         return undefined;
       }}
-      visible={updateModalVisible}
-      onVisibleChange={handleUpdateModalVisible}
+      open={updateModalOpen}
+      onOpenChange={handleUpdateModalOpen}
       onFinish={async (value) => {
         const success = await handleUpdate(value as RoleForm);
         if (success) {
-          handleUpdateModalVisible(false);
+          handleUpdateModalOpen(false);
           setCurrentRow(undefined);
           if (actionRef.current) {
             actionRef.current.reload();

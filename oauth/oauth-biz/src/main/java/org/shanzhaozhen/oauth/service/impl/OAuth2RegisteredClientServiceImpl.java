@@ -43,15 +43,14 @@ public class OAuth2RegisteredClientServiceImpl implements OAuth2RegisteredClient
     }
 
     @Override
-    public OAuth2RegisteredClientDTO getOAuth2RegisteredClientById(@RequestParam("id") String id) {
-        OAuth2RegisteredClientDO oauth2RegisteredClientDO = oauth2RegisteredClientMapper.selectById(id);
+    public OAuth2RegisteredClientDTO getOAuth2RegisteredClientByRegisteredClientId(String registeredClientId) {
+        OAuth2RegisteredClientDTO oauth2RegisteredClientDTO = oauth2RegisteredClientMapper.getOAuth2RegisteredClientByRegisteredClientId(registeredClientId);
 
-        if (oauth2RegisteredClientDO != null) {
-            OAuth2RegisteredClientDTO oauth2RegisteredClientDTO = new OAuth2RegisteredClientDTO();
-            BeanUtils.copyProperties(oauth2RegisteredClientDO, oauth2RegisteredClientDTO);
-            return this.assembleOAuth2RegisteredClient(oauth2RegisteredClientDTO);
+        if (oauth2RegisteredClientDTO == null) {
+            return null;
         }
-        return null;
+
+        return this.assembleOAuth2RegisteredClient(oauth2RegisteredClientDTO);
     }
 
     @Override
@@ -101,7 +100,7 @@ public class OAuth2RegisteredClientServiceImpl implements OAuth2RegisteredClient
         String clientId = oauth2RegisteredClientDTO.getClientId();
         if (StringUtils.hasText(clientId)) {
             OAuth2RegisteredClientDO oauth2RegisteredClientInDB = oauth2RegisteredClientMapper.getOAuth2RegisteredClientByClientId(clientId);
-            Assert.isTrue(oauth2RegisteredClientInDB == null || oauth2RegisteredClientInDB.equals(oauth2RegisteredClientInDB.getId()), "客户端id已被占用，请更改！");
+            Assert.isTrue(oauth2RegisteredClientInDB == null || oauth2RegisteredClientInDB.getId().equals(oauth2RegisteredClientInDB.getId()), "客户端id已被占用，请更改！");
         } else {
             oauth2RegisteredClientDTO.setClientId(UUID.randomUUID().toString());
         }
@@ -128,10 +127,10 @@ public class OAuth2RegisteredClientServiceImpl implements OAuth2RegisteredClient
 
     @Override
     @Transactional
-    public void deleteOAuth2RegisteredClientById(String id) {
-        this.oauth2RegisteredClientMapper.deleteOAuth2RegisteredClientById(id);
-        oauth2ClientSettingsService.deleteOAuth2ClientSettingsByRegisteredClientId(id);
-        oauth2TokenSettingsService.deleteOAuth2TokenSettingsByRegisteredClientId(id);
+    public void deleteOAuth2RegisteredClientByRegisteredClientId(String registeredClientId) {
+        this.oauth2RegisteredClientMapper.deleteOAuth2RegisteredClientById(registeredClientId);
+        oauth2ClientSettingsService.deleteOAuth2ClientSettingsByRegisteredClientId(registeredClientId);
+        oauth2TokenSettingsService.deleteOAuth2TokenSettingsByRegisteredClientId(registeredClientId);
     }
 
 }

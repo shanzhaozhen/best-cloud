@@ -208,7 +208,7 @@ const CheckBoxUser: React.FC<CheckBoxUserProps> = (props) => {
     <Modal
       title="用户选择"
       width={820}
-      visible={checkBoxUserVisible}
+      open={checkBoxUserVisible}
       destroyOnClose
       onCancel={() => {
         handleCheckBoxUserVisible(false);
@@ -261,7 +261,7 @@ const CheckBoxUser: React.FC<CheckBoxUserProps> = (props) => {
       />
       <Drawer
         width={600}
-        visible={!!currentRow}
+        open={!!currentRow}
         onClose={() => {
           setCurrentRow(undefined);
         }}

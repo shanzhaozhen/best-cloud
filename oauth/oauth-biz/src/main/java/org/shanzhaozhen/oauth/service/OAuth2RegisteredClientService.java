@@ -20,34 +20,34 @@ public interface OAuth2RegisteredClientService {
 
     /**
      * 通过 id 获取 oauth2 客户端信息
-     * @param id
+     * @param registeredClientId
      * @return
      */
-    OAuth2RegisteredClientDTO getOAuth2RegisteredClientById(String id);
+    OAuth2RegisteredClientDTO getOAuth2RegisteredClientByRegisteredClientId(String registeredClientId);
 
     /**
      * 组装客户端信息（获得 clientSettings 及 tokenSettings）
-     * @param oAuth2RegisteredClientDTO
+     * @param oauth2RegisteredClientDTO
      * @return
      */
-    OAuth2RegisteredClientDTO assembleOAuth2RegisteredClient(OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO);
+    OAuth2RegisteredClientDTO assembleOAuth2RegisteredClient(OAuth2RegisteredClientDTO oauth2RegisteredClientDTO);
 
     /**
      * 添加 OAuth2 客户端信息
-     * @param oAuth2RegisteredClientDTO
+     * @param oauth2RegisteredClientDTO
      */
-    void addOAuth2RegisteredClient(OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO);
+    void addOAuth2RegisteredClient(OAuth2RegisteredClientDTO oauth2RegisteredClientDTO);
 
     /**
      * 更新 OAuth2 客户端信息
-     * @param oAuth2RegisteredClientDTO
+     * @param oauth2RegisteredClientDTO
      */
-    void updateOAuth2RegisteredClient(OAuth2RegisteredClientDTO oAuth2RegisteredClientDTO);
+    void updateOAuth2RegisteredClient(OAuth2RegisteredClientDTO oauth2RegisteredClientDTO);
 
     /**
      * 通过id删除客户端信息
-     * @param id
+     * @param registeredClientId
      */
-    void deleteOAuth2RegisteredClientById(String id);
+    void deleteOAuth2RegisteredClientByRegisteredClientId(String registeredClientId);
 
 }

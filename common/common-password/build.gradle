@@ -1,0 +1,9 @@
+description = 'common-web'
+
+dependencies {
+
+    api(
+            'org.springframework.security:spring-security-core',
+    )
+
+}

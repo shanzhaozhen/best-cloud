@@ -1,4 +1,4 @@
-package org.shanzhaozhen.authorize.config.security;
+package org.shanzhaozhen.common.password.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

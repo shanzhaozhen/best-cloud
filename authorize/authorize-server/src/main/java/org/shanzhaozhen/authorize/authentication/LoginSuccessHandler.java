@@ -17,18 +17,18 @@ import java.io.IOException;
 
 public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-//    private final OAuth2UserInfoService oAuth2UserInfoService;
+//    private final OAuth2UserInfoService oauth2UserInfoService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
-        OAuth2UserInfoService oAuth2UserInfoService = SpringContextUtils.getBean("OAuth2UserInfoServiceImpl", OAuth2UserInfoService.class);
+        OAuth2UserInfoService oauth2UserInfoService = SpringContextUtils.getBean("OAuth2UserInfoServiceImpl", OAuth2UserInfoService.class);
 
         // 获取用户信息记录在 session 中
         String currentUserId = SecurityUtils.getCurrentUserId();
-        OAuth2UserInfoDTO oAuth2UserInfo = oAuth2UserInfoService.getOAuth2UserInfoByUserId(currentUserId);
-        if (oAuth2UserInfo != null) {
+        OAuth2UserInfoDTO oauth2UserInfo = oauth2UserInfoService.getOAuth2UserInfoByUserId(currentUserId);
+        if (oauth2UserInfo != null) {
             UserInfoBase userInfo = new UserInfoBase();
-            BeanUtils.copyProperties(oAuth2UserInfo, userInfo);
+            BeanUtils.copyProperties(oauth2UserInfo, userInfo);
             HttpSession httpSession = request.getSession();
             httpSession.setAttribute("userInfo", userInfo);
         }

@@ -6,27 +6,27 @@ import type {UserForm} from "@/services/uaa/type/user";
 import type {UserVO} from "@/services/uaa/type/user";
 
 interface CreateFormProps {
-  viewModalVisible: boolean;
-  handleViewModalVisible: Dispatch<SetStateAction<boolean>>;
+  viewModalOpen: boolean;
+  handleViewModalOpen: Dispatch<SetStateAction<boolean>>;
   setCurrentRow: Dispatch<SetStateAction<UserVO | undefined>>
   values: Partial<UserForm | UserVO>;
 }
 
 const ViewForm: React.FC<CreateFormProps> = (props) => {
-  const { viewModalVisible, handleViewModalVisible, setCurrentRow, values } = props;
+  const { viewModalOpen, handleViewModalOpen, setCurrentRow, values } = props;
 
   return (
     <DrawerForm
       title="用户详情"
       width="748px"
-      visible={viewModalVisible}
-      onVisibleChange={handleViewModalVisible}
+      open={viewModalOpen}
+      onOpenChange={handleViewModalOpen}
       submitter={false}
       drawerProps={{
         destroyOnClose: true,
         onClose: () => {
-          handleViewModalVisible(false);
-          if (!viewModalVisible) {
+          handleViewModalOpen(false);
+          if (!viewModalOpen) {
             setCurrentRow(undefined);
           }
         }

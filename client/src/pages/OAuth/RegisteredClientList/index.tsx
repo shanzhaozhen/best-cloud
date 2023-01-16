@@ -6,7 +6,7 @@ import {Button, Input, message, Modal} from "antd";
 import {
   batchDeleteRegisteredClient,
   deleteRegisteredClient,
-  getRegisteredClientById,
+  getRegisteredClientByRegisteredClientId,
   getRegisteredClientPage
 } from "@/services/uaa/registered-client";
 import {ExclamationCircleOutlined, PlusOutlined} from "@ant-design/icons";
@@ -30,9 +30,9 @@ export const convertRegisteredClient = (fields: OAuth2RegisteredClientForm) => {
 }
 
 const RegisteredClientList: React.FC = () => {
-  const [createModalVisible, handleCreateModalVisible] = useState<boolean>(false);
-  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
-  const [viewModalVisible, handleViewModalVisible] = useState<boolean>(false);
+  const [createModalOpen, handleCreateModalOpen] = useState<boolean>(false);
+  const [updateModalOpen, handleUpdateModalOpen] = useState<boolean>(false);
+  const [viewModalOpen, handleViewModalOpen] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
 
@@ -42,7 +42,7 @@ const RegisteredClientList: React.FC = () => {
   const loadOauth2RegisteredClient = async (id?: string): Promise<OAuth2RegisteredClientDTO | undefined> => {
     try {
       if (id) {
-        const { data } = await getRegisteredClientById(id);
+        const { data } = await getRegisteredClientByRegisteredClientId(id);
         if (data) {
           data.clientAuthenticationMethodList = stringSplitToArray(data.clientAuthenticationMethods);
           data.authorizationGrantTypeList = stringSplitToArray(data.authorizationGrantTypes);
@@ -52,11 +52,11 @@ const RegisteredClientList: React.FC = () => {
         return data;
       } else {
         message.warning("客户端id不能为空");
-        handleUpdateModalVisible(false);
+        handleUpdateModalOpen(false);
       }
     } catch (e) {
       message.warning("远程获取数据失败！");
-      handleUpdateModalVisible(false);
+      handleUpdateModalOpen(false);
     }
     return undefined;
   }
@@ -115,7 +115,7 @@ const RegisteredClientList: React.FC = () => {
           <a
             onClick={() => {
               setCurrentRow(entity);
-              handleViewModalVisible(true);
+              handleViewModalOpen(true);
             }}
           >
             {dom}
@@ -167,10 +167,10 @@ const RegisteredClientList: React.FC = () => {
         <a
           key="edit"
           onClick={async () => {
-            handleViewModalVisible(false);
+            handleViewModalOpen(false);
             if (entity && entity.id) {
               setCurrentRow(entity);
-              handleUpdateModalVisible(true);
+              handleUpdateModalOpen(true);
               // message.error(res.message || `没有获取到客户端信息（id:${entity.id}）`);
             } else {
               message.warning('没有选中有效的客户端');
@@ -220,7 +220,7 @@ const RegisteredClientList: React.FC = () => {
             type="primary"
             key="add"
             onClick={() => {
-              handleCreateModalVisible(true);
+              handleCreateModalOpen(true);
             }}
           >
             <PlusOutlined /> 新建客户端
@@ -276,22 +276,22 @@ const RegisteredClientList: React.FC = () => {
       )}
 
       <CreateForm
-        createModalVisible={createModalVisible}
-        handleCreateModalVisible={handleCreateModalVisible}
+        createModalOpen={createModalOpen}
+        handleCreateModalOpen={handleCreateModalOpen}
         actionRef={actionRef}
       />
 
       <UpdateForm
-        updateModalVisible={updateModalVisible}
-        handleUpdateModalVisible={handleUpdateModalVisible}
+        updateModalOpen={updateModalOpen}
+        handleUpdateModalOpen={handleUpdateModalOpen}
         actionRef={actionRef}
         setCurrentRow={setCurrentRow}
         loadData={() => loadOauth2RegisteredClient(currentRow?.id)}
       />
 
       <ViewForm
-        viewModalVisible={viewModalVisible}
-        handleViewModalVisible={handleViewModalVisible}
+        viewModalOpen={viewModalOpen}
+        handleViewModalOpen={handleViewModalOpen}
         actionRef={actionRef}
         setCurrentRow={setCurrentRow}
         loadData={() => loadOauth2RegisteredClient(currentRow?.id)}

@@ -39,7 +39,7 @@ public class Jwks {
 
 	private static final OAuth2TokenType ID_TOKEN_TOKEN_TYPE = new OAuth2TokenType(OidcParameterNames.ID_TOKEN);
 
-	private final OAuth2UserInfoService oAuth2UserInfoService;
+	private final OAuth2UserInfoService oauth2UserInfoService;
 
 	private final KeyPair keyPair;
 
@@ -88,7 +88,7 @@ public class Jwks {
 					// idToken
 					claims.claim("userId", authUser.getUserId());
 					claims.claim("username", authUser.getUsername());
-					OAuth2UserInfoDTO userInfo = oAuth2UserInfoService.getOAuth2UserInfoByUserId(authUser.getUserId());
+					OAuth2UserInfoDTO userInfo = oauth2UserInfoService.getOAuth2UserInfoByUserId(authUser.getUserId());
 					if (userInfo != null) {
 						if (StringUtils.hasText(userInfo.getNickname())) {
 							claims.claim("nickname", userInfo.getNickname());

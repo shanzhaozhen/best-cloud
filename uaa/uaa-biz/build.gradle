@@ -5,6 +5,7 @@ description = 'uaa-biz'
 dependencies {
 
     api(
+            project(':common:common-password'),
             project(':common:common-mybatis'),
             project(':common:common-redis'),
             project(':common:common-minio'),

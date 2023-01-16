@@ -63,10 +63,10 @@ public class OAuth2UserSocialServiceImpl implements OAuthUserSocialService {
     public void unbindSocial(String type) {
         String currentUserId = SecurityUtils.getCurrentUserId();
         Assert.hasText(currentUserId, "当前没有登陆用户或为匿名用户");
-        OAuth2UserSocialDO oAuth2UserSocial = oauth2UserSocialMapper.getOAuth2UserSocialByUserIdAndIdentityType(currentUserId, type);
-        Assert.notNull(oAuth2UserSocial, "第三方账号不存在！");
-        oAuth2UserSocial.setUserId("");
-        oauth2UserSocialMapper.updateById(oAuth2UserSocial);
+        OAuth2UserSocialDO oauth2UserSocial = oauth2UserSocialMapper.getOAuth2UserSocialByUserIdAndIdentityType(currentUserId, type);
+        Assert.notNull(oauth2UserSocial, "第三方账号不存在！");
+        oauth2UserSocial.setUserId("");
+        oauth2UserSocialMapper.updateById(oauth2UserSocial);
     }
 
     @Override

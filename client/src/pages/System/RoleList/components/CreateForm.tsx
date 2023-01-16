@@ -8,8 +8,8 @@ import FormBody from "@/pages/System/RoleList/components/FormBody";
 import {addRole} from "@/services/uaa/role";
 
 interface CreateFormProps {
-  createModalVisible: boolean;
-  handleCreateModalVisible: Dispatch<SetStateAction<boolean>>;
+  createModalOpen: boolean;
+  handleCreateModalOpen: Dispatch<SetStateAction<boolean>>;
   actionRef: MutableRefObject<ActionType | undefined>;
 }
 
@@ -32,19 +32,19 @@ const handleAdd = async (fields: RoleForm) => {
 };
 
 const CreateForm: React.FC<CreateFormProps> = (props) => {
-  const { createModalVisible, handleCreateModalVisible, actionRef } = props;
+  const { createModalOpen, handleCreateModalOpen, actionRef } = props;
 
   return (
     <DrawerForm
       title="新建角色"
       width="748px"
-      visible={createModalVisible}
+      open={createModalOpen}
       drawerProps={{ destroyOnClose: true }}
-      onVisibleChange={handleCreateModalVisible}
+      onOpenChange={handleCreateModalOpen}
       onFinish={async (value) => {
         const success = await handleAdd(value as RoleForm);
         if (success) {
-          handleCreateModalVisible(false);
+          handleCreateModalOpen(false);
           if (actionRef.current) {
             actionRef.current.reload();
           }

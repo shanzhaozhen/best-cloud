@@ -36,8 +36,8 @@ const UserRelateList: React.FC<UserRelateListProps> = (props) => {
     callBackFinish,
   } = props;
 
-  const [createModalVisible, handleCreateModalVisible] = useState<boolean>(false);
-  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+  const [createModalOpen, handleCreateModalOpen] = useState<boolean>(false);
+  const [updateModalOpen, handleUpdateModalOpen] = useState<boolean>(false);
   const [checkBoxUserVisible, handleCheckBoxUserVisible] = useState<boolean>(false);
   const [currentRow, setCurrentRow] = useState<UserVO>();
   const [selectedRowsState, setSelectedRows] = useState<UserVO[]>([]);
@@ -183,7 +183,7 @@ const UserRelateList: React.FC<UserRelateListProps> = (props) => {
               if (record && record.id) {
                 const { data } = await getUserById(record.id);
                 setCurrentRow(data || {});
-                handleUpdateModalVisible(true);
+                handleUpdateModalOpen(true);
                 // message.error(res.message || `没有获取到用户信息（id:${record.id}）`);
               } else {
                 message.warning('没有选中有效的用户');
@@ -252,7 +252,7 @@ const UserRelateList: React.FC<UserRelateListProps> = (props) => {
           <Button
             key="add-new"
             type="primary"
-            onClick={() => handleCreateModalVisible(true)}
+            onClick={() => handleCreateModalOpen(true)}
           >
             <PlusOutlined /> 新建用户
           </Button>,
@@ -297,15 +297,15 @@ const UserRelateList: React.FC<UserRelateListProps> = (props) => {
         }}
       />
       <CreateForm
-        createModalVisible={createModalVisible}
-        handleCreateModalVisible={handleCreateModalVisible}
+        createModalOpen={createModalOpen}
+        handleCreateModalOpen={handleCreateModalOpen}
         actionRef={actionRef}
         callBackFinish={callBackFinish}
       />
       {currentRow && Object.keys(currentRow).length ? (
         <UpdateForm
-          updateModalVisible={updateModalVisible}
-          handleUpdateModalVisible={handleUpdateModalVisible}
+          updateModalOpen={updateModalOpen}
+          handleUpdateModalOpen={handleUpdateModalOpen}
           currentRow={currentRow}
           actionRef={actionRef}
           setCurrentRow={setCurrentRow}

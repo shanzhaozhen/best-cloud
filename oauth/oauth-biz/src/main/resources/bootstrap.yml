@@ -1,9 +1,9 @@
 server:
-  port: 8080
+  port: 9600
 
 spring:
   application:
-    name: uaa
+    name: oauth
   cloud:
     nacos:
       discovery:

@@ -10,7 +10,7 @@ import {
 import { Alert, message, Tabs } from 'antd';
 import React, { useState } from 'react';
 import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
-import { useIntl, history, FormattedMessage, useModel } from '@umijs/max';
+import { useIntl, history, FormattedMessage } from '@umijs/max';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 import type {LoginParams, LoginResult} from '@/services/common/typings';
 import {login} from "@/services/common/login";
@@ -60,19 +60,19 @@ const LoginMessage: React.FC<{
 const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<LoginResult>({});
   const [type, setType] = useState<string>('account');
-  const { initialState, setInitialState } = useModel('@@initialState');
+  // const { initialState, setInitialState } = useModel('@@initialState');
 
   const intl = useIntl();
 
-  const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.();
-    if (userInfo) {
-      await setInitialState((s) => ({
-        ...s,
-        currentUser: userInfo,
-      }));
-    }
-  };
+  // const fetchUserInfo = async () => {
+  //   const userInfo = await initialState?.fetchUserInfo?.();
+  //   if (userInfo) {
+  //     await setInitialState((s) => ({
+  //       ...s,
+  //       currentUser: userInfo,
+  //     }));
+  //   }
+  // };
 
   const handleSubmit = async (values: LoginParams) => {
     try {
@@ -89,7 +89,7 @@ const Login: React.FC = () => {
           defaultMessage: '登录成功！',
         });
         message.success(defaultLoginSuccessMessage);
-        await fetchUserInfo();
+        // await fetchUserInfo();
         const urlParams = new URL(window.location.href).searchParams;
         history.push(urlParams.get('redirect') || '/');
         return;
@@ -142,23 +142,22 @@ const Login: React.FC = () => {
             await handleSubmit(values as LoginParams);
           }}
         >
-          <Tabs activeKey={type} onChange={setType}>
-            <Tabs.TabPane
-              key="account"
-              tab={intl.formatMessage({
+          <Tabs activeKey={type} onChange={setType} items={[
+            {
+              key: 'account',
+              label: intl.formatMessage({
                 id: 'pages.login.accountLogin.tab',
                 defaultMessage: '账户密码登录',
-              })}
-            />
-            <Tabs.TabPane
-              key="mobile"
-              tab={intl.formatMessage({
+              })
+            },
+            {
+              key: 'mobile',
+              label: intl.formatMessage({
                 id: 'pages.login.phoneLogin.tab',
                 defaultMessage: '手机号登录',
-              })}
-            />
-          </Tabs>
-
+              })
+            }
+          ]} />
           {status === 'error' && loginType === 'account' && (
             <LoginMessage
               content={intl.formatMessage({

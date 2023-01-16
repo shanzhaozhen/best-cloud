@@ -8,7 +8,7 @@ apply plugin: 'java-library'
 dependencies {
     api(
             project(':oauth:oauth-api'),
-            project(':common:common-mybatis'),
+            project(':common:common-password'),
             project(':common:common-mybatis'),
             project(':common:common-redis'),
             project(':common:common-minio'),

@@ -155,40 +155,51 @@ const DepartmentList: React.FC = () => {
           layout={selectDepartment && Object.keys(selectDepartment).length > 0 ? 'default' : 'center'}
           style={{height: '100%'}}>
           { selectDepartment && Object.keys(selectDepartment).length > 0 ? (
-            <Tabs defaultActiveKey="info">
-              <Tabs.TabPane tab="部门信息" key="info" forceRender>
-                <ProDescriptions<DepartmentVO>
-                  column={2}
-                  title={selectDepartment?.name}
-                  request={async () => ({
-                    data: selectDepartment || {},
-                  })}
-                  params={{
-                    id: selectDepartment?.id,
-                  }}
-                  columns={columns as ProDescriptionsItemProps<DepartmentVO>[]}
-                />
-              </Tabs.TabPane>
-              <Tabs.TabPane tab="用户信息" key="user" forceRender>
-                <UserRelateList
-                  userRelateActionRef={userRelateActionRef}
-                  handleBatchAddUserRelate={handleBatchAddDepartmentUser}
-                  handleDeleteUserRelate={handleDeleteDepartmentUser}
-                  handleBatchDeleteUserRelate={handleBatchDeleteDepartmentUser}
-                  queryList={async (params: PageParams, sorter: Record<string, SortOrder>) =>
-                    await getUserPageByDepartmentId({
-                      ...convertPageParams(params, sorter),
-                      departmentId: selectDepartment.id
-                    })
-                  }
-                  callBackFinish={async (userId: string) => {
-                    await addDepartmentUsers({
-                      departmentId: selectDepartment?.id,
-                      userIds: [userId],
-                    });
-                  }}
-                />
-              </Tabs.TabPane>
+            <Tabs defaultActiveKey="info" items={[
+              {
+                key: 'info',
+                label: '部门信息',
+                forceRender: true,
+                children: <>
+                  <ProDescriptions<DepartmentVO>
+                    column={2}
+                    title={selectDepartment?.name}
+                    request={async () => ({
+                      data: selectDepartment || {},
+                    })}
+                    params={{
+                      id: selectDepartment?.id,
+                    }}
+                    columns={columns as ProDescriptionsItemProps<DepartmentVO>[]}
+                  />
+                </>
+              },
+              {
+                key: 'user',
+                label: '用户信息',
+                forceRender: true,
+                children: <>
+                  <UserRelateList
+                    userRelateActionRef={userRelateActionRef}
+                    handleBatchAddUserRelate={handleBatchAddDepartmentUser}
+                    handleDeleteUserRelate={handleDeleteDepartmentUser}
+                    handleBatchDeleteUserRelate={handleBatchDeleteDepartmentUser}
+                    queryList={async (params: PageParams, sorter: Record<string, SortOrder>) =>
+                      await getUserPageByDepartmentId({
+                        ...convertPageParams(params, sorter),
+                        departmentId: selectDepartment.id
+                      })
+                    }
+                    callBackFinish={async (userId: string) => {
+                      await addDepartmentUsers({
+                        departmentId: selectDepartment?.id,
+                        userIds: [userId],
+                      });
+                    }}
+                  />
+                </>
+              },
+            ]}>
             </Tabs>
           ) : <Space>请选择部门</Space> }
         </ProCard>

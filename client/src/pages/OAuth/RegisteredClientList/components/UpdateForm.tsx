@@ -9,8 +9,8 @@ import type {OAuth2RegisteredClientDTO, OAuth2RegisteredClientForm } from "@/ser
 import {convertRegisteredClient} from "@/pages/OAuth/RegisteredClientList";
 
 interface UpdateFormProps {
-  updateModalVisible: boolean;
-  handleUpdateModalVisible: Dispatch<SetStateAction<boolean>>;
+  updateModalOpen: boolean;
+  handleUpdateModalOpen: Dispatch<SetStateAction<boolean>>;
   actionRef: MutableRefObject<ActionType | undefined>;
   setCurrentRow: Dispatch<SetStateAction<OAuth2RegisteredClientDTO | undefined>>
   loadData: () => Promise<OAuth2RegisteredClientDTO | undefined>;
@@ -36,7 +36,7 @@ const handleUpdate = async (fields: OAuth2RegisteredClientForm) => {
 };
 
 const UpdateForm: React.FC<UpdateFormProps> = (props) => {
-  const {updateModalVisible, handleUpdateModalVisible, actionRef, setCurrentRow, loadData} = props;
+  const {updateModalOpen, handleUpdateModalOpen, actionRef, setCurrentRow, loadData} = props;
 
   return (
     <DrawerForm
@@ -45,19 +45,22 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
       drawerProps={{
         destroyOnClose: true,
         onClose: () => {
-          handleUpdateModalVisible(false);
-          if (!updateModalVisible) {
+          handleUpdateModalOpen(false);
+          if (!updateModalOpen) {
             setCurrentRow(undefined);
           }
         }
       }}
       request={loadData}
-      visible={updateModalVisible}
-      onVisibleChange={handleUpdateModalVisible}
+      open={updateModalOpen}
+      onOpenChange={handleUpdateModalOpen}
+      onSubmitCapture={(a) => {
+        console.log(a)
+      }}
       onFinish={async (value) => {
         const success = await handleUpdate(value as OAuth2RegisteredClientForm);
         if (success) {
-          handleUpdateModalVisible(false);
+          handleUpdateModalOpen(false);
           setCurrentRow(undefined);
           if (actionRef.current) {
             actionRef.current.reload();

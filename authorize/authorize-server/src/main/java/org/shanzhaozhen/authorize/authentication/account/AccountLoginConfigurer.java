@@ -27,7 +27,7 @@ public class AccountLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
 
 //    public AccountLoginConfigurer(HttpSecurity http, UserDetailsService userDetailsService) {
 //        this();
-//        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+//        DaoauthenticationProvider authenticationProvider = new DaoauthenticationProvider();
 //        authenticationProvider.setUserDetailsService(userDetailsService);
 //        http.authenticationProvider(authenticationProvider);
 //    }
