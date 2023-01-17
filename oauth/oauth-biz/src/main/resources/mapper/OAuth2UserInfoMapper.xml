@@ -28,21 +28,21 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-    <select id="getUserInfoById" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserInfoDTO">
+    <select id="getOAuth2UserInfoById" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserInfoDTO">
         select id, pid, name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction,
                created_by, created_date, last_modified_by, last_modified_date
-        from sys_user_info where id = #{userInfoId}
+        from oauth2_user_info where id = #{userInfoId}
     </select>
 
-    <select id="getUserInfoByUserId" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserInfoDTO">
+    <select id="getOAuth2UserInfoByUserId" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserInfoDTO">
         select id, pid, name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction,
                created_by, created_date, last_modified_by, last_modified_date
-        from sys_user_info
+        from oauth2_user_info
         where pid = #{userId}
     </select>
 
     <delete id="deleteByUserId">
-        delete from sys_user_info where user_id = #{userId}
+        delete from oauth2_user_info where pid = #{userId}
     </delete>
 
 </mapper>

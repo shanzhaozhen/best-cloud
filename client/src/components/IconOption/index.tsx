@@ -10,7 +10,7 @@ export const iconMap: any = Object.keys(icons)
   .reduce((acc, key) => ({ ...acc, [key]: icons[key] }), {});
 
 
-const IconOption: SelectProps<any>['options'] | string[] = (
+const IconOption: SelectProps['options'] | string[] = (
   Object.keys(iconMap).map((item) => ({
       value: item,
       label: (

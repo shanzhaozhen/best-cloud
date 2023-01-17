@@ -25,40 +25,40 @@
 
     <resultMap autoMapping="true" type="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserDTO" id="UserAndInfoMap">
         <id property="id" column="id"></id>
-        <association property="userInfo" column="id" select="org.shanzhaozhen.uaa.mapper.UserInfoMapper.getUserInfoByUserId" />
+        <association property="userInfo" column="id" select="org.shanzhaozhen.oauth.mapper.OAuth2UserInfoMapper.getOAuth2UserInfoByUserId" />
     </resultMap>
 
     <select id="selectUserByUsername" resultType="org.shanzhaozhen.oauth.pojo.entity.OAuth2UserDO">
         select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
                created_by, created_date, last_modified_by, last_modified_date
-        from sys_user where username = #{username}
+        from oauth2_user where username = #{username}
     </select>
 
     <select id="countByUsername" resultType="java.lang.Integer">
-        select count(id) from sys_user where username = #{username}
+        select count(id) from oauth2_user where username = #{username}
     </select>
 
     <select id="getOAuth2UserById" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserDTO">
         select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
                created_by, created_date, last_modified_by, last_modified_date
-        from sys_user where id = #{id}
+        from oauth2_user where id = #{id}
     </select>
 
     <select id="getOAuth2UserByUsername" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserDTO">
         select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled
-        from sys_user where username = #{username}
+        from oauth2_user where username = #{username}
     </select>
 
     <select id="getOAuth2UserByUserId" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserDTO">
         select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled
-        from sys_user where id = #{userId}
+        from oauth2_user where id = #{userId}
     </select>
 
     <select id="getOAuth2UserPage" resultMap="UserAndInfoMap">
         select u.id, u.username, u.account_non_expired, u.account_non_locked, u.credentials_non_expired, u.enabled,
                u.created_by, u.created_date, u.last_modified_by, u.last_modified_date
-        from sys_user u
-        left join sys_user_info ui on u.id = ui.pid
+        from oauth2_user u
+        left join oauth2_user_info ui on u.id = ui.pid
         <if test="keyword != null and keyword != ''">
             where u.username like concat ('%', #{keyword}, '%') or ui.name like concat ('%', #{keyword}, '%')
             or ui.nickName like concat ('%', #{keyword}, '%') or ui.introduction like concat ('%', #{keyword}, '%')
