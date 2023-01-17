@@ -1,21 +1,17 @@
-import * as allIcon from '@ant-design/icons';
+import * as icons from '@ant-design/icons';
 import React from 'react';
 import type {SelectProps} from 'antd';
 import {Space} from 'antd';
 
-export const iconMap = { ...allIcon };
+export const iconMap: any = Object.keys(icons)
+  // @ts-ignore
+  .filter((key) => typeof icons[key] === 'object')
+  // @ts-ignore
+  .reduce((acc, key) => ({ ...acc, [key]: icons[key] }), {});
+
 
 const IconOption: SelectProps<any>['options'] | string[] = (
-  Object.keys(iconMap)
-    .filter(
-      (item) =>
-        item !== 'IconProvider' &&
-        item !== 'createFromIconfontCN' &&
-        item !== 'default' &&
-        item !== 'getTwoToneColor' &&
-        item !== 'setTwoToneColor',
-    )
-    .map((item) => ({
+  Object.keys(iconMap).map((item) => ({
       value: item,
       label: (
         <Space>

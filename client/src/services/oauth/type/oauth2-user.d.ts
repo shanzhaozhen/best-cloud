@@ -1,10 +1,7 @@
-import type {RoleDTO} from "@/services/uaa/type/role";
 import type {GrantedAuthority} from "@/services/common/typings";
-import type {UserInfoDTO, UserInfoForm, UserInfoVO} from "@/services/uaa/type/user-info";
-import type {DepartmentDTO, DepartmentVO} from "@/services/uaa/type/department";
-import {MenuVO} from "@/services/uaa/type/menu";
+import {OAuth2UserInfoDTO, OAuth2UserInfoForm, OAuth2UserInfoVO} from "@/services/oauth/type/oauth2-user-info";
 
-export type UserForm = {
+export type OAuth2UserForm = {
   /** 主键ID */
   id?: string;
   /** 用户名 */
@@ -42,10 +39,10 @@ export type UserForm = {
   /** 关联的角色id */
   roleIds?: number[];
   /** 用户信息 */
-  userInfo?: UserInfoForm;
+  userInfo?: OAuth2UserInfoForm;
 };
 
-export type UserVO = {
+export type OAuth2UserVO = {
   /** 主键ID */
   id?: string;
   /** 用户名 */
@@ -94,12 +91,10 @@ export type UserVO = {
   /** 修改时间 */
   lastModifiedDate?: string;
   /** 用户信息 */
-  userInfo?: UserInfoVO;
-  /** 部门信息 */
-  departmentInfo?: DepartmentVO;
+  userInfo?: OAuth2UserInfoVO;
 };
 
-export type UserDTO = {
+export type OAuth2UserDTO = {
   /** 创建人 */
   createdBy?: number;
   /** 创建时间 */
@@ -122,37 +117,7 @@ export type UserDTO = {
   credentialsNonExpired?: boolean;
   /** 是否被禁用,禁用的用户不能身份验证 */
   enabled?: boolean;
-  /** 记录用户的角色 */
-  roles?: RoleDTO[];
-  /** 关联的角色ID */
-  roleIds?: number[];
   /** 用户信息 */
-  userInfo?: UserInfoDTO;
-  /** 部门信息 */
-  departmentInfo?: DepartmentDTO;
+  userInfo?: OAuth2UserInfoDTO;
 };
-
-export type CurrentUser = {
-  /** 用户信息 */
-  // userInfo?: UserInfoVO;
-  /** 用户角色 */
-  // roles?: RoleBase[];
-  /** 用户id */
-  userId?: string;
-  /** 用户名 */
-  username?: string;
-  /** 用户昵称 */
-  nickname?: string;
-  /** 头像 */
-  avatar?: string;
-  /** 未读数 */
-  unreadCount?: number;
-};
-
-export type Info = {
-  userinfo?: CurrentUser,
-  menus?: MenuVO[]
-};
-
-
 

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.shanzhaozhen.oauth.mapper.OAuth2UserMapper">
+
+    <!-- 用户查询结果列 -->
+    <sql id="User_Columns">
+        id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
+        created_by, created_date, last_modified_by, last_modified_date
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.oauth.pojo.entity.OAuth2UserDO">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="account_non_expired" property="accountNonExpired" />
+        <result column="account_non_locked" property="accountNonLocked" />
+        <result column="credentials_non_expired" property="credentialsNonExpired" />
+        <result column="enabled" property="enabled" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+
+    <resultMap autoMapping="true" type="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserDTO" id="UserAndInfoMap">
+        <id property="id" column="id"></id>
+        <association property="userInfo" column="id" select="org.shanzhaozhen.uaa.mapper.UserInfoMapper.getUserInfoByUserId" />
+    </resultMap>
+
+    <select id="selectUserByUsername" resultType="org.shanzhaozhen.oauth.pojo.entity.OAuth2UserDO">
+        select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
+               created_by, created_date, last_modified_by, last_modified_date
+        from sys_user where username = #{username}
+    </select>
+
+    <select id="countByUsername" resultType="java.lang.Integer">
+        select count(id) from sys_user where username = #{username}
+    </select>
+
+    <select id="getOAuth2UserById" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserDTO">
+        select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled,
+               created_by, created_date, last_modified_by, last_modified_date
+        from sys_user where id = #{id}
+    </select>
+
+    <select id="getOAuth2UserByUsername" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserDTO">
+        select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled
+        from sys_user where username = #{username}
+    </select>
+
+    <select id="getOAuth2UserByUserId" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserDTO">
+        select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled
+        from sys_user where id = #{userId}
+    </select>
+
+    <select id="getOAuth2UserPage" resultMap="UserAndInfoMap">
+        select u.id, u.username, u.account_non_expired, u.account_non_locked, u.credentials_non_expired, u.enabled,
+               u.created_by, u.created_date, u.last_modified_by, u.last_modified_date
+        from sys_user u
+        left join sys_user_info ui on u.id = ui.pid
+        <if test="keyword != null and keyword != ''">
+            where u.username like concat ('%', #{keyword}, '%') or ui.name like concat ('%', #{keyword}, '%')
+            or ui.nickName like concat ('%', #{keyword}, '%') or ui.introduction like concat ('%', #{keyword}, '%')
+        </if>
+    </select>
+
+</mapper>

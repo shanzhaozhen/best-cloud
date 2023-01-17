@@ -76,6 +76,11 @@ export default [
         path: '/oauth/registered-client',
         component: './OAuth/RegisteredClientList',
       },
+      {
+        name: 'oauthUser',
+        path: '/oauth/user',
+        component: './OAuth/OAuthUserList',
+      },
     ],
   },
   {

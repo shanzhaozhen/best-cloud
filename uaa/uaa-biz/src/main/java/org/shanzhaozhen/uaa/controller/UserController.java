@@ -26,8 +26,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    private static final String GET_ACCOUNT_USER = "/user/account/{username}";
-    private static final String GET_PHONE_USER = "/user/phone/{phone}";
     private static final String GET_USER_INFO = "/user/current";
     private static final String LOGOUT = "/user/logout";
     private static final String GET_USER_PAGE = "/user/page";
@@ -38,21 +36,8 @@ public class UserController {
     private static final String BATCH_DELETE_USER = "/user";
     private static final String GET_USER_ROLE_PAGE = "/user/role/page";
     private static final String GET_USER_DEPARTMENT_PAGE = "/user/department/page";
-    private static final String UPDATE_PASSWORD = "/user/password";
 
     private final UserService userService;
-
-    @GetMapping(GET_ACCOUNT_USER)
-    @Operation(summary = "获取当前登录用户的个人和权限信息接口")
-    public R<UserDTO> loadUserByUsername(@Parameter(description = "用户名", example = "username") @PathVariable("username") String username) {
-        return R.build(() -> userService.getUserByUsername(username));
-    }
-
-    @GetMapping(GET_PHONE_USER)
-    @Operation(summary = "获取当前登录用户的个人和权限信息接口")
-    public R<UserDTO> loadUserByPhone(@Parameter(description = "手机号", example = "137xxxxxxxx") @PathVariable("phone") String phone) {
-        return R.build(() -> userService.getUserByUsername(phone));
-    }
 
     @GetMapping(GET_USER_INFO)
     @Operation(summary = "获取当前登录用户的个人和权限信息接口")

@@ -5,18 +5,12 @@ import org.shanzhaozhen.oauth.pojo.dto.OAuth2ClientSettingsDTO;
 import org.shanzhaozhen.oauth.pojo.dto.OAuth2RegisteredClientDTO;
 import org.shanzhaozhen.oauth.pojo.dto.OAuth2TokenSettingsDTO;
 import org.shanzhaozhen.oauth.pojo.entity.OAuth2RegisteredClientDO;
-import org.shanzhaozhen.oauth.pojo.form.OAuth2ClientSettingsForm;
 import org.shanzhaozhen.oauth.pojo.form.OAuth2RegisteredClientForm;
-import org.shanzhaozhen.oauth.pojo.form.OAuth2TokenSettingsForm;
 import org.shanzhaozhen.oauth.pojo.vo.OAuth2RegisteredClientVO;
-import org.shanzhaozhen.uaa.pojo.dto.PermissionDTO;
-import org.shanzhaozhen.uaa.pojo.dto.RoleDTO;
-import org.shanzhaozhen.uaa.pojo.vo.RoleVO;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class OAuth2RegisteredClientConverter {
 

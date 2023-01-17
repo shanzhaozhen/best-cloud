@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @TableName("sys_user_info")
 @Schema(description = "用户DO实体")
-public class UserInfoDO implements Serializable {
+public class UserInfoDO extends BaseEntity {
 
     private static final long serialVersionUID = 239637250684871342L;
 

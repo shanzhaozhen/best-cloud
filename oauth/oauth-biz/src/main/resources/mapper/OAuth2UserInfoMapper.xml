@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.shanzhaozhen.oauth.mapper.OAuth2UserInfoMapper">
+
+    <!-- 用户查询结果列 -->
+    <sql id="User_Columns">
+        id, name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction,
+        created_by, created_date, last_modified_by, last_modified_date
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.oauth.pojo.entity.OAuth2UserInfoDO">
+        <id column="id" property="id" />
+        <result column="pid" property="pid" />
+        <result column="name" property="name" />
+        <result column="nickname" property="nickname" />
+        <result column="sex" property="sex" />
+        <result column="birthday" property="birthday" />
+        <result column="avatar" property="avatar" />
+        <result column="email" property="email" />
+        <result column="phone_number" property="phoneNumber" />
+        <result column="address_code" property="addressCode" />
+        <result column="detailed_address" property="detailedAddress" />
+        <result column="introduction" property="introduction" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+
+    <select id="getUserInfoById" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserInfoDTO">
+        select id, pid, name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction,
+               created_by, created_date, last_modified_by, last_modified_date
+        from sys_user_info where id = #{userInfoId}
+    </select>
+
+    <select id="getUserInfoByUserId" resultType="org.shanzhaozhen.oauth.pojo.dto.OAuth2UserInfoDTO">
+        select id, pid, name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction,
+               created_by, created_date, last_modified_by, last_modified_date
+        from sys_user_info
+        where pid = #{userId}
+    </select>
+
+    <delete id="deleteByUserId">
+        delete from sys_user_info where user_id = #{userId}
+    </delete>
+
+</mapper>

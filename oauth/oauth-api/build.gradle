@@ -5,12 +5,7 @@ description = 'oauth-api'
 dependencies {
 
     api(
-            project(':uaa:uaa-api')
-    )
-
-    implementation(
-            // minio需要
-            "com.squareup.okhttp3:okhttp:${okhttpVersion}",
+            project(':common:common-core')
     )
 
 }

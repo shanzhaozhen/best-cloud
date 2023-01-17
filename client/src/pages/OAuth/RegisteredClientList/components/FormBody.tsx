@@ -87,6 +87,7 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
                       width="md"
                       name="clientSecret"
                       label="客户端密码"
+                      rules={[{ required: formType === 'create', message: '请输入客户端密码' }]}
                     />
                   ) : null
                 }
@@ -97,7 +98,7 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
                   name="clientIdIssuedAt"
                   label="客户端到期时间"
                   placeholder="请选择客户端到期时间"
-                  rules={[{ required: true, message: '请选择客户端到期时间' }]}
+                  // rules={[{ required: true, message: '请选择客户端到期时间' }]}
                   readonly={formType === 'view'}
                 />
               </Col>
@@ -107,7 +108,7 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
                   name="clientSecretExpiresAt"
                   label="客户端密码到期时间"
                   placeholder="请选择客户端密码到期时间"
-                  rules={[{ required: true, message: '请选择客户端密码到期时间' }]}
+                  // rules={[{ required: true, message: '请选择客户端密码到期时间' }]}
                   readonly={formType === 'view'}
                 />
               </Col>

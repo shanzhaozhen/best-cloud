@@ -41,7 +41,8 @@ public class OAuth2UserDTO extends BaseInfo {
 
     @Schema(description = "是否被禁用,禁用的用户不能身份验证")
     private boolean enabled;
-    @Schema(description = "关联的角色ID")
-    private List<String> roleIds;
+
+    @Schema(description = "关联的用户信息")
+    private OAuth2UserInfoDTO userInfo;
 
 }
