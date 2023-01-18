@@ -48,5 +48,5 @@ spring:
 
 springdoc:
   version: '0.0.1'
-  title: 'OAUTH API'
-  description: 'OAUTH API 文档 v0.0.1'
+  title: 'GBPM API'
+  description: 'GBPM API 文档 v0.0.1'

@@ -21,5 +21,6 @@ include 'uaa:uaa-biz'
 include 'oauth:oauth-api'
 include 'oauth:oauth-biz'
 
-include 'gbpm'
+include 'gbpm:gbpm-api'
+include 'gbpm:gbpm-biz'
 

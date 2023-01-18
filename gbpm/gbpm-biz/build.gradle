@@ -1,0 +1,35 @@
+description = 'gbpm'
+
+apply plugin: 'java-library'
+
+dependencies {
+
+    api(
+            project(':common:common-mybatis'),
+            project(':gbpm:gbpm-api')
+    )
+
+    implementation(
+            'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery',
+            'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config',
+            'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel',
+            'com.alibaba.cloud:spring-cloud-alibaba-sentinel-gateway',
+
+            'org.springframework.boot:spring-boot-starter-webflux',
+            'org.springframework.boot:spring-boot-starter-actuator',
+            'org.springframework.cloud:spring-cloud-starter-bootstrap',
+            'org.springframework.cloud:spring-cloud-starter-gateway',
+            'org.springframework.cloud:spring-cloud-starter-loadbalancer',
+
+            'org.springframework.security:spring-security-config',
+            'org.springframework.boot:spring-boot-starter-oauth2-resource-server',
+
+            'org.springframework.boot:spring-boot-starter-data-redis',
+
+            "org.springdoc:springdoc-openapi-webflux-ui:${springDocVersion}",
+
+    )
+
+}
+
+

@@ -88,6 +88,12 @@ best-cloud -- 父项目,各模块分离，方便集成和微服务
 │  │─uaa -- 系统用户管理模块，主模块
 │  │  ├─uaa-api -- 系统用户管理的通用模块，供其他模块引用
 │  │  ├─uaa-biz -- 系统用户管理模块核心功能 [9500]
+│  │─oauth -- oauth 管理模块
+│  │  ├─oauth-api -- oauth 管理的通用模块，供其他模块引用
+│  │  ├─oauth-biz -- oauth 管理模块核心功能 [9600]
+│  │─glbpm -- 流程引擎模块
+│  │  ├─glbpm-api -- 流程引擎的通用模块，供其他模块引用
+│  │  ├─glbpm-biz -- 流程引擎模块核心功能 [9700]
 ```
 
 `authorize-server` 项目依赖 `authorize-web` 项目

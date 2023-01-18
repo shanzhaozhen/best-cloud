@@ -1,0 +1,18 @@
+description = 'gbpm-api'
+
+//apply plugin: 'java-library'
+
+dependencies {
+
+    api(
+            project(':common:common-core')
+    )
+
+//    implementation(
+//            'org.springframework.cloud:spring-cloud-starter-openfeign',
+//    )
+
+}
+
+
+
