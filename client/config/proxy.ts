@@ -16,6 +16,11 @@ export default {
       changeOrigin: true,
       pathRewrite: { '^/api': '' },
     },
+    '/api2/': {
+      target: 'http://localhost:9500',
+      changeOrigin: true,
+      pathRewrite: { '^/api2': '' },
+    },
   },
   /**
    * @name 详细的代理配置

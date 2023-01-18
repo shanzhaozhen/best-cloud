@@ -26,7 +26,7 @@ spring:
         - id: oauth
           uri: lb://oauth/**
           predicates:
-            - Path=/uaa/**
+            - Path=/oauth/**
         - id: openapi
           uri: http://localhost:${server.port}
           predicates:

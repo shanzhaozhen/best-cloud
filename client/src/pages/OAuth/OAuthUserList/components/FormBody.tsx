@@ -4,6 +4,7 @@ import {ProFormDatePicker, ProFormSelect, ProFormSwitch, ProFormText, ProFormTex
 import AvatarView from "@/components/AvatarView";
 import ProFormItem from '@ant-design/pro-form/lib/components/FormItem';
 import type { FormType } from '@/services/common/typings';
+import {fileUploadURL} from "../../../../../config/constants";
 
 
 interface FormBodyProps {
@@ -236,9 +237,9 @@ const FormBody: React.FC<FormBodyProps> = (props) => {
                 </Row>
               </Col>
               <Col xl={12} lg={12} md={24}>
-                {/*<ProFormText width="md" name={['userInfo', 'email']} label="头像" />*/}
+                {/*<ProFormText width="md" name={['userInfo', 'avatar']} label="头像" />*/}
                 <ProFormItem name={['userInfo', 'avatar']}>
-                  <AvatarView readonly={formType === 'view'}/>
+                  <AvatarView action={fileUploadURL} readonly={formType === 'view'}/>
                 </ProFormItem>
               </Col>
             </Row>

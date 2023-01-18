@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Input } from 'antd';
-import styles from './PhoneView.less';
 
 type PhoneViewProps = {
   value?: string;
@@ -18,7 +17,6 @@ const PhoneView: React.FC<PhoneViewProps> = (props) => {
   return (
     <>
       <Input
-        className={styles.area_code}
         value={values[0]}
         onChange={(e) => {
           if (onChange) {
@@ -27,7 +25,6 @@ const PhoneView: React.FC<PhoneViewProps> = (props) => {
         }}
       />
       <Input
-        className={styles.phone_number}
         onChange={(e) => {
           if (onChange) {
             onChange(`${values[0]}-${e.target.value}`);

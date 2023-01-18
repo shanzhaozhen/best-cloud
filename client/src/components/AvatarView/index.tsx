@@ -5,10 +5,12 @@ import {UploadOutlined} from "@ant-design/icons";
 import type {RcFile} from "antd/es/upload";
 import {useState} from "react";
 import {useEmotionCss} from "@ant-design/use-emotion-css";
+import {getToken} from "@/utils/oauth";
 
 interface AvatarViewProps {
   readonly?: boolean;
   onChange?: (value: any) => void;
+  action: string;
   value?: string;
 }
 
@@ -44,15 +46,18 @@ const AvatarView = (props: AvatarViewProps) => {
     textAlign: 'center'
   }));
 
-  const { readonly, value, onChange: onAvatarChange } = props
+  const { readonly, action, value, onChange: onAvatarChange } = props
 
   const [loading, setLoading] = useState(false);
 
   const uploadProps: UploadProps = {
     name: 'file',
     showUploadList: false,
-    action: '/files',
+    action: action,
     maxCount: 1,
+    headers: {
+      Authorization: getToken(),
+    },
     beforeUpload: async (file: RcFile) => {
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
       if (!isJpgOrPng) {
@@ -80,9 +85,6 @@ const AvatarView = (props: AvatarViewProps) => {
           message.error('上传失败！');
         }
       }
-
-      console.log(info.file)
-
       setLoading(false);
     },
   };

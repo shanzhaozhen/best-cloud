@@ -4,7 +4,7 @@ import {DrawerForm} from "@ant-design/pro-form";
 import type {ActionType} from "@ant-design/pro-table";
 import {message} from "antd";
 import type {UserForm} from "@/services/uaa/type/user";
-import FormBody from "@/pages/System/UserList/components/FormBody";
+import FormBody from "@/pages/OAuth/OAuthUserList/components/FormBody";
 import {addOAuth2User} from "@/services/oauth/oauth2-user";
 
 interface CreateFormProps {

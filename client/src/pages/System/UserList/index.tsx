@@ -186,8 +186,7 @@ const UserList: React.FC = () => {
           key="update"
           onClick={async () => {
             if (entity && entity.id) {
-              const { data } = await getUserById(entity.id);
-              setCurrentRow(data || {});
+              setCurrentRow(entity);
               handleUpdateModalOpen(true);
               // message.error(res.message || `没有获取到用户信息（id:${entity.id}）`);
             } else {

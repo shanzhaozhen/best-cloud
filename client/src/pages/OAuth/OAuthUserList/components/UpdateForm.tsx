@@ -1,7 +1,7 @@
 import type {Dispatch, MutableRefObject, SetStateAction} from "react";
 import React from "react";
 import type {OAuth2UserForm, OAuth2UserVO} from "@/services/oauth/type/oauth2-user";
-import FormBody from "@/pages/System/UserList/components/FormBody";
+import FormBody from "@/pages/OAuth/OAuthUserList/components/FormBody";
 import {DrawerForm} from "@ant-design/pro-form";
 import type {ActionType} from "@ant-design/pro-table";
 import {message} from "antd";
