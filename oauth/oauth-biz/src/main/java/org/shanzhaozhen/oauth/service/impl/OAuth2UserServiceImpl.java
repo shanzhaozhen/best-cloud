@@ -91,7 +91,9 @@ public class OAuth2UserServiceImpl implements OAuth2UserService {
         Assert.notNull(oauth2UserDTO.getId(), "用户id不能为空");
         OAuth2UserDO oauth2UserDO = oauth2UserMapper.selectById(oauth2UserDTO.getId());
         Assert.notNull(oauth2UserDO, "更新失败：没有找到该用户或已被删除");
+
         CustomBeanUtils.copyPropertiesExcludeMetaAndNull(oauth2UserDTO, oauth2UserDO, "password");
+
         // 密码不为空则更新密码
         if (StringUtils.hasText(oauth2UserDTO.getPassword())) {
             oauth2UserDO.setPassword(PasswordUtils.encryption(oauth2UserDTO.getPassword()));

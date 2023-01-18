@@ -1,4 +1,10 @@
-import {ExclamationCircleOutlined, PlusOutlined} from '@ant-design/icons';
+import {
+  ExclamationCircleOutlined,
+  LoadingOutlined,
+  PlusOutlined,
+  ReloadOutlined,
+  UploadOutlined
+} from '@ant-design/icons';
 import {Button, message, Modal, Popconfirm, Space, Tag} from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
@@ -236,6 +242,16 @@ const UserList: React.FC = () => {
             }}
           >
             <PlusOutlined /> 新建用户
+          </Button>,
+          <Button
+            type="primary"
+            // loading={true}
+            key="sync"
+            onClick={async () => {
+              message.info('待实现')
+            }}
+          >
+            <ReloadOutlined /> 同步用户
           </Button>,
         ]}
         request={async (params, sort) => {

@@ -78,13 +78,18 @@ const AvatarView = (props: AvatarViewProps) => {
       if (info.file.status === 'done') {
         const { response } = info.file;
         if (response.code === '0') {
-          console.log(response.data)
           const avatarUrl = response.data || '';
+          console.log(avatarUrl)
           onAvatarChange?.(avatarUrl);
         } else {
           message.error('上传失败！');
         }
       }
+
+      if (info.file.status === 'error') {
+        message.error('上传失败！');
+      }
+
       setLoading(false);
     },
   };
