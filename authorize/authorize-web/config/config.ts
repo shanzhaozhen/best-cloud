@@ -8,16 +8,15 @@ import {isProduction, resourcesPath} from "./constants";
 // const { REACT_APP_ENV } = process.env;
 const {REACT_APP_ENV = 'dev'} = process.env;
 
-const headScripts = isProduction ? (
-  [{
-    'th:inline': 'javascript',
-    content:
-      'window.mvcModel = [[${mvcModel}]];' +
-      'window.userInfo = [[${session?.userInfo}]];' +
-      'window.excMsg = [[${session?.SPRING_SECURITY_LAST_EXCEPTION?.message}]];' +
-      'window.sucMsg = [[${session?.SUCCESS_MESSAGE}]];' +
-      'window.exc = [[${session?.SPRING_SECURITY_LAST_EXCEPTION}]];',
-  }]) : [];
+const headScripts = isProduction ? {
+  'th:inline': 'javascript',
+  content:
+    'window.mvcModel = [[${mvcModel}]];' +
+    'window.userInfo = [[${session?.userInfo}]];' +
+    'window.excMsg = [[${session?.SPRING_SECURITY_LAST_EXCEPTION?.message}]];' +
+    'window.sucMsg = [[${session?.SUCCESS_MESSAGE}]];' +
+    'window.exc = [[${session?.SPRING_SECURITY_LAST_EXCEPTION}]];',
+} : undefined;
 
 export default defineConfig({
   publicPath: resourcesPath,
@@ -132,6 +131,12 @@ export default defineConfig({
    * @doc https://umijs.org/docs/max/access
    */
   access: {},
+  headScripts: [
+    // 解决首次加载时白屏的问题
+    { src: '/scripts/loading.js', async: true },
+    // 获取后端的model值
+    headScripts,
+  ],
   //================ pro 插件配置 =================
   presets: ['umi-presets-pro'],
   mfsu: {
@@ -146,11 +151,4 @@ export default defineConfig({
   // mpa: {
   //   getConfigFromEntryFile: true
   // },
-  /**
-   * @name openAPI 插件的配置
-   * @description 基于 openapi 的规范生成serve 和mock，能减少很多样板代码
-   * @doc https://pro.ant.design/zh-cn/docs/openapi/
-   */
-  // 获取后端的model值
-  headScripts,
 });

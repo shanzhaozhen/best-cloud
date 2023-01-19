@@ -1,8 +1,10 @@
+import component from './zh-CN/component';
+import globalHeader from './zh-CN/globalHeader';
+import menu from './zh-CN/menu';
 import pages from './zh-CN/pages';
-import globalHeader from "@/locales/zh-CN/globalHeader";
-import settings from "@/locales/zh-CN/settings";
-import menu from "@/locales/zh-CN/menu";
-import component from "@/locales/zh-CN/component";
+import pwa from './zh-CN/pwa';
+import settingDrawer from './zh-CN/settingDrawer';
+import settings from './zh-CN/settings';
 
 export default {
   'navBar.lang': '语言',
@@ -16,6 +18,8 @@ export default {
   ...pages,
   ...globalHeader,
   ...menu,
+  ...settingDrawer,
   ...settings,
+  ...pwa,
   ...component,
 };

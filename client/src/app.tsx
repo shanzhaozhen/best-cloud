@@ -78,13 +78,13 @@ export async function getInitialState(): Promise<{
       initializeInfo,
       currentUser: info?.userinfo,
       menus: info?.menus,
-      settings: defaultSettings,
+      settings: defaultSettings as Partial<LayoutSettings>,
     };
   }
 
   return {
     initializeInfo,
-    settings: defaultSettings,
+    settings: defaultSettings as Partial<LayoutSettings>,
   };
 }
 

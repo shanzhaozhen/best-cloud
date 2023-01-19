@@ -32,7 +32,7 @@ export async function getInitialState(): Promise<{
   // }
   return {
     // fetchUserInfo,
-    settings: defaultSettings,
+    settings: defaultSettings as Partial<LayoutSettings>,
   };
 }
 

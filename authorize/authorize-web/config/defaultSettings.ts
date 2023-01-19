@@ -1,10 +1,10 @@
-import { Settings as LayoutSettings } from '@ant-design/pro-components';
+import { ProLayoutProps } from '@ant-design/pro-components';
 import {resourcesPath} from "./constants";
 
 /**
  * @name
  */
-const Settings: LayoutSettings & {
+const Settings: ProLayoutProps & {
   pwa?: boolean;
   logo?: string;
 } = {
@@ -17,7 +17,7 @@ const Settings: LayoutSettings & {
   fixSiderbar: true,
   colorWeak: false,
   title: 'Best Oauth2',
-  pwa: false,
+  pwa: true,
   logo: `${resourcesPath}logo.svg`,
   iconfontUrl: '',
   // 不展示顶栏
@@ -28,6 +28,10 @@ const Settings: LayoutSettings & {
   menuRender: false,
   // 不展示菜单顶栏
   menuHeaderRender: false,
+  token: {
+    // 参见ts声明，demo 见文档，通过token 修改样式
+    //https://procomponents.ant.design/components/layout#%E9%80%9A%E8%BF%87-token-%E4%BF%AE%E6%94%B9%E6%A0%B7%E5%BC%8F
+  },
 };
 
 export default Settings;
